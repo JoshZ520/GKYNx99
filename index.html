@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <title>Getting To Know Your Neighbor</title>
     <link rel="stylesheet" href="stylesheets/style.css">
-    <script src="scripts/script.js" defer></script>
+    <script src="scripts/main.js" defer></script>
 </head>
 <body>
     <header>
@@ -17,17 +17,20 @@
         <h1 class="question">What do you like to eat on morning?</h1>
 
         <div class="group">
-            <input class="name_input" placeholder="Answer: " required>
+            <input class="name_input" id="answer" placeholder="Answer: " required>
             <span class="bar"></span>
         </div>
         <div class="group">
-            <input type="text" class="name_input" placeholder="Name: " required>
+            <input type="text" class="name_input" id="name" placeholder="Name: " required>
             <span class="bar"></span>
         </div>
         <div class="buttons">
-            <button class="submit" type="submit">Submit Answer</button>
-            <button class="fin" type="button">All Answers Finished</button>
+            <button class="submit" id="submitButton" type="submit">Submit Answer</button>
+            <button class="fin" id="final_submit" type="button">All Answers Finished</button>
         </div>
+        <div class="answers_section" >
+            <h2>Answers: </h2>
+            <ul id="answersList"></ul>
     </main>
     <footer>
         <h2>About: </h2>
