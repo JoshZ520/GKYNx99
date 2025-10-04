@@ -96,8 +96,10 @@ button{
 .fin{
     border: 2px solid #3074ea;
 }
-.answers_section h2 {
-    display: none;
+
+#answersList {
+    text-align: center;
+    padding-left: 0px;
 }
 footer{
     background-color: rgb(255, 229, 183);
