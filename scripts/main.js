@@ -1,5 +1,17 @@
 document.getElementById('submitButton').addEventListener('click', submitAnswer);
-
+document.getElementById('switchQuestion').addEventListener('click', function() {
+    const questions = [
+        "What do you like to eat in the morning?",
+        "What is your favorite color?",
+        "What is your dream vacation spot?",
+        "If you could have any superpower, what would it be?"
+    ];
+    const questionElem = document.getElementById('question');
+    let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
+    currentIndex = (currentIndex + 1) % questions.length;
+    questionElem.textContent = questions[currentIndex];
+    questionElem.setAttribute('data-index', currentIndex);
+});
 function submitAnswer() {
     const answer = document.getElementById('answer').value;
     const name = document.getElementById('name').value;
@@ -34,7 +46,7 @@ function displayAnswers() {
     });
 }
 
-// Call displayAnswers on page load to show existing answers
+// Call displayAnswers to show existing answers
 window.addEventListener('DOMContentLoaded', displayAnswers);
 document.getElementById('final_submit').addEventListener('click', function() {
      document.getElementById(`answers`).style.display = 'block';
@@ -42,7 +54,7 @@ document.getElementById('final_submit').addEventListener('click', function() {
     this.style.display = 'none';
 });
 
-// Hide answers list by default on page load
+// Hide answers list by default
 window.addEventListener('DOMContentLoaded', function() {
     document.getElementById(`answers`).style.display = 'none';
     document.getElementById('answersList').style.display = 'none';
