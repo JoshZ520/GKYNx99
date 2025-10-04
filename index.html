@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <title>Getting To Know Your Neighbor</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
     <script src="scripts/script.js" defer></script>
 </head>
 <body>
@@ -14,13 +14,20 @@
         <p>Form a group of friends. You all will be given the same question and will each answer.</p>
     </header>
     <main>
-        <h1 class="question">Placement Question</h1>
-        <label class="name_input">Username: </label>
-        <input type="text" class="name_input" placeholder="Username: ">
-        <label class="answer_input">Answer: </label>
-        <textarea class="name_input" placeholder="Answer: "></textarea>
-        <button type="submit">Submit Answer</button>
-        <button type="button">All Answers Finished</button>
+        <h1 class="question">What do you like to eat on morning?</h1>
+
+        <div class="group">
+            <input class="name_input" placeholder="Answer: " required>
+            <span class="bar"></span>
+        </div>
+        <div class="group">
+            <input type="text" class="name_input" placeholder="Name: " required>
+            <span class="bar"></span>
+        </div>
+        <div class="buttons">
+            <button class="submit" type="submit">Submit Answer</button>
+            <button class="fin" type="button">All Answers Finished</button>
+        </div>
     </main>
     <footer>
         <h2>About: </h2>
