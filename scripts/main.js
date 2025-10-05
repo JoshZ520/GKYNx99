@@ -4,7 +4,18 @@ document.getElementById('switchQuestion').addEventListener('click', function() {
         "What do you like to eat in the morning?",
         "What is your favorite color?",
         "What is your dream vacation spot?",
-        "If you could have any superpower, what would it be?"
+        "If you could have any superpower, what would it be?",
+        "What is your favorite hobby?",
+        "If you could meet any historical figure, who would it be?",
+        "What is your favorite movie or TV show?",
+        "What is one thing you can't live without?",
+        "What is your favorite book?",
+        "If you could travel anywhere in the world, where would you go?",
+        "What is your favorite season and why?",
+        "What is your favorite animal?",
+        "What is a fun fact about yourself?",
+        "What is your favorite way to relax?",
+        "If you could learn any skill instantly, what would it be?"
     ];
     const questionElem = document.getElementById('question');
     let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
