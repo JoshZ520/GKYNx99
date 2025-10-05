@@ -98,11 +98,35 @@ button{
     border: 2px solid #3074ea;
     background-color: #2EC4B6;
 }
-
-#answersList {
-    text-align: center;
-    padding-left: 0px;
+.fin.hide {
+    display: none;
 }
+#answers {
+    display: none;
+   
+}
+
+#answers.show {
+    display: block;
+}
+#answersList {
+    display: none;
+    padding-left: 0px;
+    min-height: 20px;
+    background: #fff;
+    border-radius: 10px;
+    margin: 30px auto;
+    max-width: 600px;
+    font-size: 30px;
+    grid-template-columns: auto auto;
+    grid-auto-rows: minmax(40px, auto);
+    justify-content: space-around;
+    justify-items: center;
+    
+}
+#answersList.show {
+        display: grid;
+    }
 footer{
     background-color: #FFC857;
     padding: 5px 30px;

@@ -60,14 +60,8 @@ function displayAnswers() {
 // Call displayAnswers to show existing answers
 window.addEventListener('DOMContentLoaded', displayAnswers);
 document.getElementById('final_submit').addEventListener('click', function() {
-     document.getElementById(`answers`).style.display = 'block';
-    document.getElementById('answersList').style.display = 'block';
-    this.style.display = 'none';
-});
-
-// Hide answers list by default
-window.addEventListener('DOMContentLoaded', function() {
-    document.getElementById(`answers`).style.display = 'none';
-    document.getElementById('answersList').style.display = 'none';
-    document.getElementById('final_submit').style.display = '';
+    
+    document.getElementById('answers').classList.add('show');
+    document.getElementById('answersList').classList.add('show');
+    document.getElementById('final_submit').classList.add('hide');
 });
