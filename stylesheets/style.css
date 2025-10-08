@@ -2,6 +2,8 @@ body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0;
     padding: 0;
+    /* background-color: #FF6F61; */
+
 }
 
 p{
@@ -22,6 +24,7 @@ header{
     border: 2px solid #59A8D9;
     padding: 0 10px;
     margin: 20px;
+    background-color: #FAFAF7;
 }
 
 /* form */
@@ -75,7 +78,6 @@ input:focus ~ .bar:before, input:focus ~ .bar:after{
 /* input end */
 
 button{
-    background-color: transparent;
     font-size: 20px;
     padding: 8px;
     display: block;
@@ -95,13 +97,39 @@ button{
 
 .fin{
     border: 2px solid #3074ea;
+    background-color: #2EC4B6;
+}
+.fin.hide {
+    display: none;
+}
+#answers {
+    display: none;
+   
 }
 
-#answersList {
-    text-align: center;
-    padding-left: 0px;
+#answers.show {
+    display: block;
 }
+#answersList {
+    display: none;
+    padding-left: 0px;
+    min-height: 20px;
+    background: #fff;
+    border-radius: 10px;
+    margin: 30px auto;
+    max-width: 600px;
+    font-size: 30px;
+    grid-template-columns: auto auto;
+    grid-auto-rows: minmax(40px, auto);
+    justify-content: space-around;
+    justify-items: center;
+    
+}
+#answersList.show {
+        display: grid;
+    }
 footer{
-    background-color: rgb(255, 229, 183);
+    background-color: #FFC857;
     padding: 5px 30px;
 }
+/* rgb(255, 229, 183) */
