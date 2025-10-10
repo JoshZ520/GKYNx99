@@ -16,7 +16,16 @@
     </header>
     <main>
         <h1 class="question" id="question">Press the switch question to start</h1>
-        <button class="switch_button" id="switchQuestion" type="button">Switch Question</button>
+        <div class="controls">
+            <label for="topicSelect">Topic:</label>
+            <select id="topicSelect">
+                <option value="default">General</option>
+                <option value="dnd">D&amp;D</option>
+                <option value="movies">Movies/TV</option>
+                <option value="food">Food</option>
+            </select>
+            <button class="switch_button" id="switchQuestion" type="button">Switch Question</button>
+        </div>
         <div class="group">
             <textarea class="name_input" id="answer" placeholder="Answer: " required></textarea>
             <span class="bar"></span>
