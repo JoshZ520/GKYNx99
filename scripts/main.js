@@ -18,19 +18,27 @@ let questions = [
     "What is your favorite way to relax?",
     "If you could learn any skill instantly, what would it be?"
 ];
-
-document.getElementById('submitButton').addEventListener('click', submitAnswer);
-document.getElementById('switchQuestion').addEventListener('click', function() {
-    // toggle topic and replace the questions array contents accordingly
-    if (window.currentTopic === 'default' || !window.currentTopic) {
-        window.currentTopic = 'dnd';
+// helpers to change topic and questions
+function applyQuestionsForTopic(topic) {
+    if (topic === 'dnd') {
         questions.splice(0, questions.length,
             "What is your favorite D&D class?",
             "Do you prefer roleplaying or combat in D&D sessions?",
             "What is your favorite part of D&D?"
         );
+    } else if (topic === 'movies') {
+        questions.splice(0, questions.length,
+            "What's your favorite movie of all time?",
+            "Which TV show are you currently watching?",
+            "Which movie character do you relate to the most?"
+        );
+    } else if (topic === 'food') {
+        questions.splice(0, questions.length,
+            "What's your go-to comfort food?",
+            "Do you prefer sweet or savory?",
+            "What's the best meal you've ever had?"
+        );
     } else {
-        window.currentTopic = 'default';
         questions.splice(0, questions.length,
             "What do you like to eat in the morning?",
             "What is your favorite color?",
@@ -51,10 +59,53 @@ document.getElementById('switchQuestion').addEventListener('click', function() {
     }
 
     const questionElem = document.getElementById('question');
+    if (questionElem) {
+        questionElem.setAttribute('data-index', 0);
+        questionElem.textContent = questions[0] || '';
+    }
+}
+
+function setTopic(topic) {
+    window.currentTopic = topic;
+    applyQuestionsForTopic(topic);
+    localStorage.setItem('currentTopic', topic);
+}
+
+document.getElementById('submitButton').addEventListener('click', submitAnswer);
+document.getElementById('switchQuestion').addEventListener('click', function() {
+    // Advance to the next question in the current topic (do not change the topic)
+    const questionElem = document.getElementById('question');
+    if (!questionElem) return;
+    if (!Array.isArray(questions) || questions.length === 0) {
+        // no questions available for the current topic
+        questionElem.textContent = '';
+        questionElem.setAttribute('data-index', 0);
+        return;
+    }
+
     let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
     currentIndex = (currentIndex + 1) % questions.length;
     questionElem.textContent = questions[currentIndex];
     questionElem.setAttribute('data-index', currentIndex);
+});
+
+// wire the topic dropdown and restore persisted topic
+window.addEventListener('DOMContentLoaded', function () {
+    // restore saved topic
+    const saved = localStorage.getItem('currentTopic');
+    if (saved) {
+        window.currentTopic = saved;
+        applyQuestionsForTopic(saved);
+        const select = document.getElementById('topicSelect');
+        if (select) select.value = saved;
+    }
+
+    const select = document.getElementById('topicSelect');
+    if (select) {
+        select.addEventListener('change', function (e) {
+            setTopic(e.target.value);
+        });
+    }
 });
 function submitAnswer() {
     const answer = document.getElementById('answer').value;
