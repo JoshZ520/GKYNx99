@@ -32,6 +32,48 @@ function applyQuestionsForTopic(topic) {
             "Which TV show are you currently watching?",
             "Which movie character do you relate to the most?"
         );
+    } else if (topic === 'sports') {
+        questions.splice(0, questions.length,
+            "What's your favorite sport to watch or play?",
+            "Do you have a favorite team or athlete?",
+            "What's your most memorable sports moment?"
+        );
+    } else if (topic === 'music') {
+        questions.splice(0, questions.length,
+            "What's the best concert you've ever been to?",
+            "What's your favorite music genre right now?",
+            "Which artist do you think everyone should listen to?"
+        );
+    } else if (topic === 'tech') {
+        questions.splice(0, questions.length,
+            "What's one gadget you can't live without?",
+            "Which app do you use most days?",
+            "What's a tech trend you find exciting (or annoying)?"
+        );
+    } else if (topic === 'travel') {
+        questions.splice(0, questions.length,
+            "What's the best place you've ever visited?",
+            "Do you prefer relaxing vacations or active/adventure trips?",
+            "What's one place on your travel bucket list?"
+        );
+    } else if (topic === 'history') {
+        questions.splice(0, questions.length,
+            "If you could witness one historical event, which would it be?",
+            "Which historical figure fascinates you most?",
+            "What's a lesser-known historical fact you find interesting?"
+        );
+    } else if (topic === 'books') {
+        questions.splice(0, questions.length,
+            "What's a book you think everyone should read?",
+            "Do you prefer fiction or non-fiction?",
+            "Which book character would you most like to meet?"
+        );
+    } else if (topic === 'games') {
+        questions.splice(0, questions.length,
+            "What's your favorite board or video game?",
+            "Do you prefer cooperative or competitive games?",
+            "What's a game you always recommend to friends?"
+        );
     } else if (topic === 'food') {
         questions.splice(0, questions.length,
             "What's your go-to comfort food?",
