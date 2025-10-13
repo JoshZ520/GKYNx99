@@ -117,23 +117,10 @@ button{
 #answers.show {
     display: block;
 }
-#answersList {
-    display: none;
-    padding-left: 0px;
-    min-height: 20px;
-    background: #fff;
-    border-radius: 10px;
-    margin: 30px auto;
-    max-width: 600px;
-    font-size: 30px;
-    grid-template-columns: auto auto;
-    grid-auto-rows: minmax(40px, auto);
-    justify-content: space-around;
-    justify-items: center;
-    
-}
+
 #answersList.show {
         display: grid;
+        justify-content: space-around;
     }
 footer{
     background-color: #FFC857;
@@ -141,22 +128,3 @@ footer{
 }
 
 /* rgb(255, 229, 183) */
-/* 
-@keyframes confetti {
-    0% {
-        opacity: 0;
-        transform: translateY(100vh) scale(0.5) rotate(0deg);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(-20vh) scale(1.2) rotate(180deg);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotate(360deg);
-    }
-}
-.confetti-piece {
-    color: aqua;
-    animation: confetti 2s ease-in-out;
-} */
