@@ -30,13 +30,14 @@ function renderAnswers() {
 
     const list = document.createElement('div');
     list.className = 'answers-entries';
-    entries.forEach(([name, answer]) => {
+    entries.forEach(([name, answerArr]) => {
         const item = document.createElement('div');
         item.className = 'answer-item';
         const who = document.createElement('strong');
         who.textContent = name + ': ';
         const text = document.createElement('span');
-        text.textContent = answer;
+        const answerForThisQuestion = Array.isArray(answerArr) ? answerArr[currentIndex] : answerArr;
+        text.textContent = answerForThisQuestion || '';
         item.appendChild(who);
         item.appendChild(text);
         list.appendChild(item);
@@ -116,6 +117,7 @@ function renderAnswers() {
 document.getElementById('next-btn')?.addEventListener('click', () => {
     currentIndex++;
     showQuestion(currentIndex);
+    renderAnswers();
 });
 
 // initial render

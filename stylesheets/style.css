@@ -109,19 +109,11 @@ button{
 .fin.hide {
     display: none;
 }
-#answers {
+
+.answers_section {
     display: none;
-   
 }
 
-#answers.show {
-    display: block;
-}
-
-#answersList.show {
-        display: grid;
-        justify-content: space-around;
-    }
 footer{
     background-color: #FFC857;
     padding: 5px 30px;

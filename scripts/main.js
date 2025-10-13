@@ -91,8 +91,11 @@ function submitAnswer() {
     // Retrieve existing answers from localStorage or initialize as empty object
     const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
 
-    // Add/update the answer for the current name
-    existingAnswers[name] = answer;
+    // Add/update the answer for the current name and question index
+    const questionElem = document.getElementById('question');
+    const currentIndex = parseInt(questionElem?.getAttribute('data-index')) || 0;
+    if (!existingAnswers[name] || !Array.isArray(existingAnswers[name])) existingAnswers[name] = [];
+    existingAnswers[name][currentIndex] = answer;
 
     // Save the updated answers to localStorage
     localStorage.setItem('submittedAnswers', JSON.stringify(existingAnswers));
@@ -112,12 +115,19 @@ const finalBtn = document.getElementById('final_submit');
 if (finalBtn) finalBtn.addEventListener('click', function() {
     // Save the current question and submitted answers to sessionStorage
     const questionElem = document.getElementById('question');
-    const currentQuestion = questionElem ? questionElem.textContent : '';
     const answers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
 
-    // question.js expects an array under 'questions'
-    sessionStorage.setItem('questions', JSON.stringify([currentQuestion]));
+    // Pass the full questions list to the display page so it can step through all questions
+    sessionStorage.setItem('questions', JSON.stringify(appQuestions));
     sessionStorage.setItem('currentAnswers', JSON.stringify(answers));
+    // Redirect to the display/results page
+
+    // Clear stored answers so the next run starts fresh, but keep other persisted settings (like currentTopic)
+    try {
+        localStorage.removeItem('submittedAnswers');
+    } catch (e) {
+        console.warn('Could not remove submittedAnswers from localStorage', e);
+    }
 
     // Redirect to the display/results page
     window.location.href = 'display.html';
