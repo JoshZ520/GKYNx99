@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/display.css">
+    <script src="scripts/answers.js" defer></script>
     <script src="scripts/main.js" defer></script>
     <script src="scripts/question.js" defer></script>
+
 </head>
 <body>
     <header>
@@ -14,8 +16,16 @@
         <button id="next-btn">Next</button>
     </header>
    
-    
-    <!-- <div id="confetti-container">
+    <main>
+        <section id="answers-section">
+            <h2>Submitted Answers</h2>
+            <div id="answers-list">
+                <!-- Answers will be dynamically inserted here -->
+            </div>
+        </section>
+    </main>
+
+    <div id="confetti-container">
         <div class="confetti-piece"></div>
         <div class="confetti-piece"></div>
         <div class="confetti-piece"></div>
@@ -25,7 +35,7 @@
         <div class="confetti-piece"></div>
         <div class="confetti-piece"></div>
         <div class="confetti-piece"></div>
-        <div class="confetti-piece"></div> -->
+        <div class="confetti-piece"></div>
     </div>
 </body>
 </html>
