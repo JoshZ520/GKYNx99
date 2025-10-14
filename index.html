@@ -17,30 +17,36 @@
     </header>
     <main>
         <h1 class="question" id="question">Press the switch question to start</h1>
+
         <div class="controls">
-            <label for="topicSelect">Topic:</label>
-            <select id="topicSelect">
-                <option value="default">General</option>
-                <option value="dnd">D&amp;D</option>
-                <option value="movies">Movies/TV</option>
-                <option value="food">Food</option>
-                <option value="sports">Sports</option>
-                <option value="music">Music</option>
-                <option value="tech">Tech</option>
-                <option value="travel">Travel</option>
-                <option value="history">History</option>
-                <option value="books">Books</option>
-                <option value="games">Games</option>
-            </select>
-            <button class="switch_button" id="switchQuestion" type="button">Switch Question</button>
+            <button class="switch_button" id="switchQuestion" type="button"><img src="images/sync.svg" alt="change question"></button>
+            <div class="topic">
+                <label for="topicSelect">Topic:</label>
+                <select id="topicSelect">
+                    <option value="default">General</option>
+                    <option value="dnd">D&amp;D</option>
+                    <option value="movies">Movies/TV</option>
+                    <option value="food">Food</option>
+                    <option value="sports">Sports</option>
+                    <option value="music">Music</option>
+                    <option value="tech">Tech</option>
+                    <option value="travel">Travel</option>
+                    <option value="history">History</option>
+                    <option value="books">Books</option>
+                    <option value="games">Games</option>
+                </select>
+            </div>
         </div>
-        <div class="group">
-            <textarea class="name_input" id="answer" placeholder="Answer: (shouldn't be too long)" required></textarea>
-            <span class="bar"></span>
-        </div>
-        <div class="group">
-            <input type="text" class="name_input" id="name" placeholder="First Name: " required>
-            <span class="bar"></span>
+
+        <div class="input">
+            <div class="group">
+                <input type="text" class="name_input" id="answer" placeholder="Answer: " required></textarea>
+                <span class="bar"></span>
+            </div>
+            <div class="group">
+                <input type="text" class="name_input" id="name" placeholder="First Name: " required>
+                <span class="bar"></span>
+            </div>
         </div>
         <div class="buttons">
             <button class="submit" id="submitButton" type="submit">Submit Answer</button>
