@@ -16,7 +16,7 @@ h1, h2{
 }
 
 h1.question{
-    margin: 50px 20px;
+    margin: 0 20px;
     font-size: 40px;
 }
 
@@ -24,7 +24,38 @@ header{
     border: 2px solid #59A8D9;
     padding: 0 10px;
     margin: 20px;
+    margin-bottom: 50px;
     background-color: #FAFAF7;
+}
+
+/* topic */
+.switch_button{
+    cursor: pointer;
+    border: none;
+    background-color: white;
+}
+
+.switch_button img{
+    width: 50px;
+    height: 50px;
+}
+
+.switch_button:focus{
+    outline: none;
+}
+
+.topic{
+    font-size: 20px;
+    margin-bottom: 50px;
+}
+
+.topic label{
+    margin-right: 10px;
+}
+
+select{
+    font-size: 20px;
+    padding: 5px;
 }
 
 /* form */
@@ -84,7 +115,7 @@ input:focus ~ .bar:before, input:focus ~ .bar:after{
 }
 /* input end */
 
-button{
+button.submit, button.fin{
     font-size: 20px;
     padding: 8px;
     display: block;
@@ -140,6 +171,8 @@ footer{
     padding: 5px 30px;
 }
 
+
+
 /* rgb(255, 229, 183) */
 /* 
 @keyframes confetti {
@@ -160,3 +193,16 @@ footer{
     color: aqua;
     animation: confetti 2s ease-in-out;
 } */
+
+@media (min-width: 600px) {
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+}
+
+button.submit, button.fin{
+    margin: 0;
+}
+}
