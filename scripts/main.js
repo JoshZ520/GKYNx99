@@ -41,6 +41,20 @@ function setTopic(topic) {
     localStorage.setItem('currentTopic', topic);
 }
 
+// Pick a random topic (excluding the 'default' fallback and any non-topic keys)
+function pickRandomTopic() {
+    const keys = Object.keys(topics || {}).filter(k => k && k !== 'default');
+    if (!keys || keys.length === 0) {
+        // Fall back to default if nothing else
+        setTopic('default');
+        return 'default';
+    }
+    // Choose a random topic key
+    const choice = keys[Math.floor(Math.random() * keys.length)];
+    setTopic(choice);
+    return choice;
+}
+
 // safe attach: only add listeners if elements exist
 const submitBtn = document.getElementById('submitButton');
 if (submitBtn) submitBtn.addEventListener('click', submitAnswer);
@@ -79,8 +93,20 @@ window.addEventListener('DOMContentLoaded', function () {
         const select = document.getElementById('topicSelect');
         if (select) {
             select.addEventListener('change', function (e) {
-                setTopic(e.target.value);
+                const val = e.target.value;
+                if (val === 'random') {
+                    // pick and apply a random topic
+                    pickRandomTopic();
+                } else {
+                    setTopic(val);
+                }
             });
+
+            // If the dropdown's current value is the built-in 'random' selection on load,
+            // immediately pick a random topic so the UI shows a real question set.
+            if (select.value === 'random') {
+                pickRandomTopic();
+            }
         }
     });
 });

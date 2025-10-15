@@ -1,20 +1,6 @@
 {
   "default": [
-    "What do you like to eat in the morning?",
-    "What is your favorite color?",
-    "What is your dream vacation spot?",
-    "If you could have any superpower, what would it be?",
-    "What is your favorite hobby?",
-    "If you could meet any historical figure, who would it be?",
-    "What is your favorite movie or TV show?",
-    "What is one thing you can't live without?",
-    "What is your favorite book?",
-    "If you could travel anywhere in the world, where would you go?",
-    "What is your favorite season and why?",
-    "What is your favorite animal?",
-    "What is a fun fact about yourself?",
-    "What is your favorite way to relax?",
-    "If you could learn any skill instantly, what would it be?"
+    "Welcome — enter a name and answer the question, then press Submit. Use Final Submit when everyone is done."
   ],
   "dnd": [
     "What is your favorite D&D class?",
@@ -24,7 +10,9 @@
   "movies": [
     "What's your favorite movie of all time?",
     "Which TV show are you currently watching?",
-    "Which movie character do you relate to the most?"
+    "Which movie character do you relate to the most?",
+    "If you could have any superpower, what would it be?",
+    "What is your favorite movie or TV show?"
   ],
   "sports": [
     "What's your favorite sport to watch or play?",
@@ -34,7 +22,8 @@
   "music": [
     "What's the best concert you've ever been to?",
     "What's your favorite music genre right now?",
-    "Which artist do you think everyone should listen to?"
+    "Which artist do you think everyone should listen to?",
+    "What is your favorite way to relax?"
   ],
   "tech": [
     "What's one gadget you can't live without?",
@@ -44,7 +33,10 @@
   "travel": [
     "What's the best place you've ever visited?",
     "Do you prefer relaxing vacations or active/adventure trips?",
-    "What's one place on your travel bucket list?"
+    "What's one place on your travel bucket list?",
+    "What is your dream vacation spot?",
+    "If you could travel anywhere in the world, where would you go?",
+    "What is your favorite season and why?"
   ],
   "history": [
     "If you could witness one historical event, which would it be?",
@@ -54,7 +46,8 @@
   "books": [
     "What's a book you think everyone should read?",
     "Do you prefer fiction or non-fiction?",
-    "Which book character would you most like to meet?"
+    "Which book character would you most like to meet?",
+    "What is your favorite book?"
   ],
   "games": [
     "What's your favorite board or video game?",
@@ -64,6 +57,15 @@
   "food": [
     "What's your go-to comfort food?",
     "Do you prefer sweet or savory?",
-    "What's the best meal you've ever had?"
+    "What's the best meal you've ever had?",
+    "What do you like to eat in the morning?"
+  ],
+  "personal": [
+    "What is your favorite color?",
+    "What is one thing you can't live without?",
+    "What is a fun fact about yourself?",
+    "What is your favorite way to relax?",
+    "What is your favorite hobby?",
+    "What is your favorite animal?"
   ]
 }
