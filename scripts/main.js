@@ -41,7 +41,6 @@ function setTopic(topic) {
     localStorage.setItem('currentTopic', topic);
 }
 
-<<<<<<< HEAD
 // Utility: count how many distinct players have submitted an answer for the current question index
 function getSubmittedCountForIndex(indexOverride) {
     const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
@@ -87,7 +86,7 @@ function updateSubmissionState() {
         if (answerInput) answerInput.disabled = false;
         if (nameInput) nameInput.disabled = false;
     }
-=======
+}
 // Pick a random topic (excluding the 'default' fallback and any non-topic keys)
 function pickRandomTopic() {
     const keys = Object.keys(topics || {}).filter(k => k && k !== 'default');
@@ -100,7 +99,6 @@ function pickRandomTopic() {
     const choice = keys[Math.floor(Math.random() * keys.length)];
     setTopic(choice);
     return choice;
->>>>>>> ebb7da64ab7a7335661db59ce482fbe08ec87de6
 }
 
 // safe attach: only add listeners if elements exist
