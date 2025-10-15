@@ -41,6 +41,7 @@ function setTopic(topic) {
     localStorage.setItem('currentTopic', topic);
 }
 
+<<<<<<< HEAD
 // Utility: count how many distinct players have submitted an answer for the current question index
 function getSubmittedCountForIndex(indexOverride) {
     const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
@@ -86,6 +87,20 @@ function updateSubmissionState() {
         if (answerInput) answerInput.disabled = false;
         if (nameInput) nameInput.disabled = false;
     }
+=======
+// Pick a random topic (excluding the 'default' fallback and any non-topic keys)
+function pickRandomTopic() {
+    const keys = Object.keys(topics || {}).filter(k => k && k !== 'default');
+    if (!keys || keys.length === 0) {
+        // Fall back to default if nothing else
+        setTopic('default');
+        return 'default';
+    }
+    // Choose a random topic key
+    const choice = keys[Math.floor(Math.random() * keys.length)];
+    setTopic(choice);
+    return choice;
+>>>>>>> ebb7da64ab7a7335661db59ce482fbe08ec87de6
 }
 
 // safe attach: only add listeners if elements exist
@@ -128,8 +143,20 @@ window.addEventListener('DOMContentLoaded', function () {
         const select = document.getElementById('topicSelect');
         if (select) {
             select.addEventListener('change', function (e) {
-                setTopic(e.target.value);
+                const val = e.target.value;
+                if (val === 'random') {
+                    // pick and apply a random topic
+                    pickRandomTopic();
+                } else {
+                    setTopic(val);
+                }
             });
+
+            // If the dropdown's current value is the built-in 'random' selection on load,
+            // immediately pick a random topic so the UI shows a real question set.
+            if (select.value === 'random') {
+                pickRandomTopic();
+            }
         }
 
         // Ensure submission state reflects any configured player count on initial load
