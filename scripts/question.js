@@ -1,14 +1,12 @@
-const questions = JSON.parse(sessionStorage.getItem('questions')) || [];
+const questionsInOrder = JSON.parse(sessionStorage.getItem('questionsInOrder')) || [];
+const submissionsByQuestion = JSON.parse(sessionStorage.getItem('submissionsByQuestion')) || {};
 let currentIndex = 0;
 
 function showQuestion(index) {
     const header = document.getElementById('question-header');
 
-    if (questions.length > 0 && questions[index]) {
-        // If questions are objects, use questions[index].text; if strings, use questions[index]
-        header.textContent = typeof questions[index] === 'object' && questions[index] !== null
-            ? questions[index].text || "Question text missing."
-            : questions[index];
+    if (questionsInOrder.length > 0 && questionsInOrder[index]) {
+        header.textContent = questionsInOrder[index];
     } else {
         header.textContent = "No more questions.";
         const nextBtn = document.getElementById('next-btn');
@@ -17,27 +15,35 @@ function showQuestion(index) {
 }
 
 function renderAnswers() {
-    const answers = JSON.parse(sessionStorage.getItem('currentAnswers')) || {};
     const container = document.getElementById('answers-list');
     if (!container) return;
 
     container.innerHTML = '';
-    const entries = Object.entries(answers);
-    if (entries.length === 0) {
-        container.textContent = 'No answers submitted.';
+    const currentQuestion = questionsInOrder[currentIndex];
+    if (!currentQuestion) {
+        container.textContent = 'No answers for this question.';
+        return;
+    }
+
+    const submissions = submissionsByQuestion[currentQuestion] || [];
+    if (submissions.length === 0) {
+        container.textContent = 'No answers submitted for this question.';
         return;
     }
 
     const list = document.createElement('div');
     list.className = 'answers-entries';
-    entries.forEach(([name, answerArr]) => {
+    
+    // Sort submissions by timestamp to show them in order they were submitted
+    submissions.sort((a, b) => a.timestamp - b.timestamp);
+    
+    submissions.forEach(submission => {
         const item = document.createElement('div');
         item.className = 'answer-item';
         const who = document.createElement('strong');
-        who.textContent = name + ': ';
+        who.textContent = submission.name + ': ';
         const text = document.createElement('span');
-        const answerForThisQuestion = Array.isArray(answerArr) ? answerArr[currentIndex] : answerArr;
-        text.textContent = answerForThisQuestion || '';
+        text.textContent = submission.answer;
         item.appendChild(who);
         item.appendChild(text);
         list.appendChild(item);
