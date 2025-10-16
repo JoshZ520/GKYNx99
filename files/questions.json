@@ -1,0 +1,71 @@
+{
+  "default": [
+    "Welcome — enter a name and answer the question, then press Submit. Use Final Submit when everyone is done."
+  ],
+  "dnd": [
+    "What is your favorite D&D class?",
+    "Do you prefer roleplaying or combat in D&D sessions?",
+    "What is your favorite part of D&D?"
+  ],
+  "movies": [
+    "What's your favorite movie of all time?",
+    "Which TV show are you currently watching?",
+    "Which movie character do you relate to the most?",
+    "If you could have any superpower, what would it be?",
+    "What is your favorite movie or TV show?"
+  ],
+  "sports": [
+    "What's your favorite sport to watch or play?",
+    "Do you have a favorite team or athlete?",
+    "What's your most memorable sports moment?"
+  ],
+  "music": [
+    "What's the best concert you've ever been to?",
+    "What's your favorite music genre right now?",
+    "Which artist do you think everyone should listen to?",
+    "What is your favorite way to relax?"
+  ],
+  "tech": [
+    "What's one gadget you can't live without?",
+    "Which app do you use most days?",
+    "What's a tech trend you find exciting (or annoying)?"
+  ],
+  "travel": [
+    "What's the best place you've ever visited?",
+    "Do you prefer relaxing vacations or active/adventure trips?",
+    "What's one place on your travel bucket list?",
+    "What is your dream vacation spot?",
+    "If you could travel anywhere in the world, where would you go?",
+    "What is your favorite season and why?"
+  ],
+  "history": [
+    "If you could witness one historical event, which would it be?",
+    "Which historical figure fascinates you most?",
+    "What's a lesser-known historical fact you find interesting?"
+  ],
+  "books": [
+    "What's a book you think everyone should read?",
+    "Do you prefer fiction or non-fiction?",
+    "Which book character would you most like to meet?",
+    "What is your favorite book?"
+  ],
+  "games": [
+    "What's your favorite board or video game?",
+    "Do you prefer cooperative or competitive games?",
+    "What's a game you always recommend to friends?"
+  ],
+  "food": [
+    "What's your go-to comfort food?",
+    "Do you prefer sweet or savory?",
+    "What's the best meal you've ever had?",
+    "What do you like to eat in the morning?"
+  ],
+  "personal": [
+    "What is your favorite color?",
+    "What is one thing you can't live without?",
+    "What is a fun fact about yourself?",
+    "What is your favorite way to relax?",
+    "What is your favorite hobby?",
+    "What is your favorite animal?"
+  ]
+}
