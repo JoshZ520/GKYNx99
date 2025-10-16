@@ -8,23 +8,32 @@
     <script src="scripts/main.js" defer></script>
     <script src="scripts/front.js" defer></script>
 </head>
-<header>
-    <h1>Getting To Know Your Neighbor</h1>
-    <p><a href="index.html">Click here to start the game!</a></p>
-</header>
 <body>
-    <div class='group'>
-            <label for="player_count">Number of Players:</label>
-            <select id="player_count" required>
-                <option value="" disabled selected>Select number</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-            </select>
-        </div>
+    <div class="card">
+        <header>
+            <h1>Table Talk</h1>
+            <p class="lead">Pick the number of players below, then press Start.</p>
+        </header>
+
+        <main>
+            <div class='group'>
+                <label for="player_count">Number of Players:</label>
+                <select id="player_count" required>
+                    <option value="" disabled selected>Select number</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <a class="start-btn" href="index.html">Start Game</a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
