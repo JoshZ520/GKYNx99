@@ -41,6 +41,52 @@ function setTopic(topic) {
     localStorage.setItem('currentTopic', topic);
 }
 
+// Utility: count how many distinct players have submitted an answer for the current question index
+function getSubmittedCountForIndex(indexOverride) {
+    const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
+    const questionElem = document.getElementById('question');
+    const currentIndex = typeof indexOverride === 'number' ? indexOverride : (parseInt(questionElem?.getAttribute('data-index')) || 0);
+    let count = 0;
+    Object.keys(existingAnswers).forEach(name => {
+        const arr = existingAnswers[name];
+        if (Array.isArray(arr) && arr[currentIndex]) count += 1;
+    });
+    return count;
+}
+
+// Update buttons and inputs according to the selected player count and current submission progress
+function updateSubmissionState() {
+    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
+    const submitBtn = document.getElementById('submitButton');
+    const finalBtn = document.getElementById('final_submit');
+    const answerInput = document.getElementById('answer');
+    const nameInput = document.getElementById('name');
+    if (!submitBtn || !finalBtn) return;
+
+    if (playerCount && playerCount > 0) {
+        const submitted = getSubmittedCountForIndex();
+        if (submitted >= playerCount) {
+            // hide/disable submit, show final only
+            submitBtn.style.display = 'none';
+            finalBtn.style.display = '';
+            if (answerInput) answerInput.disabled = true;
+            if (nameInput) nameInput.disabled = true;
+            return;
+        }
+
+        // not yet reached count: show submit and hide final
+        submitBtn.style.display = '';
+        finalBtn.style.display = 'none';
+        if (answerInput) answerInput.disabled = false;
+        if (nameInput) nameInput.disabled = false;
+    } else {
+        // no playerCount set -> default behavior (both visible)
+        submitBtn.style.display = '';
+        finalBtn.style.display = '';
+        if (answerInput) answerInput.disabled = false;
+        if (nameInput) nameInput.disabled = false;
+    }
+}
 // Pick a random topic (excluding the 'default' fallback and any non-topic keys)
 function pickRandomTopic() {
     const keys = Object.keys(topics || {}).filter(k => k && k !== 'default');
@@ -74,6 +120,8 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
     currentIndex = (currentIndex + 1) % appQuestions.length;
     questionElem.textContent = appQuestions[currentIndex];
     questionElem.setAttribute('data-index', currentIndex);
+    // Update submission UI state for the new question index
+    updateSubmissionState();
 });
 
 // wire the topic dropdown and restore persisted topic after loading questions
@@ -108,6 +156,9 @@ window.addEventListener('DOMContentLoaded', function () {
                 pickRandomTopic();
             }
         }
+
+        // Ensure submission state reflects any configured player count on initial load
+        updateSubmissionState();
     });
 });
 function submitAnswer() {
@@ -117,9 +168,19 @@ function submitAnswer() {
     // Retrieve existing answers from localStorage or initialize as empty object
     const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
 
-    // Add/update the answer for the current name and question index
+    // Enforce player count if set
+    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
     const questionElem = document.getElementById('question');
     const currentIndex = parseInt(questionElem?.getAttribute('data-index')) || 0;
+    const currentSubmitted = getSubmittedCountForIndex(currentIndex);
+    if (playerCount && currentSubmitted >= playerCount) {
+        // already reached the expected number of answers for this question
+        updateSubmissionState();
+        return;
+    }
+
+    // Add/update the answer for the current name and question index
+    // (questionElem and currentIndex were computed above)
     if (!existingAnswers[name] || !Array.isArray(existingAnswers[name])) existingAnswers[name] = [];
     existingAnswers[name][currentIndex] = answer;
 
@@ -132,6 +193,9 @@ function submitAnswer() {
 
     // Display all answers on the page
     displayAnswers();
+
+    // Update UI state in case we've reached the player count
+    updateSubmissionState();
 }
 
 // displayAnswers is implemented in scripts/answers.js and will be available globally
