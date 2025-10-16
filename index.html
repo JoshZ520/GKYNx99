@@ -6,13 +6,14 @@
     <meta name="description" content="">
     <title>Table Talk</title>
     <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="scripts/answers.js" defer></script>
     <script src="scripts/main.js" defer></script>
 </head>
 <body>
     <header id="header">
         <h1>Directions: </h1>
         <p>Form a group of friends. You all will be given the same question and will each answer. After everyone has answered, press the 'All answers finished' button. This will pop up with all of the answers and associated names, then it's time to discuss!</p>
-        <!-- <p><a href="front.html">opening page</a></p> link to front page testing purposes only -->
+        <p><a href="front.html">opening page</a></p> link to front page testing purposes only
     </header>
     <main>
         <h1 class="question" id="question">Press the switch question to start</h1>
@@ -22,7 +23,9 @@
             <div class="topic">
                 <label for="topicSelect">Topic:</label>
                 <select id="topicSelect">
-                    <option value="default">General</option>
+                    <option value="default">Start</option>
+                    <option value="random" selected>Random</option>
+                    <option value="personal">Personal</option>
                     <option value="dnd">D&amp;D</option>
                     <option value="movies">Movies/TV</option>
                     <option value="food">Food</option>
@@ -39,7 +42,7 @@
 
         <div class="input">
             <div class="group">
-                <input type="text" class="name_input" id="answer" placeholder="Answer: " required></textarea>
+                <textarea type="text" class="name_input" id="answer" placeholder="Answer: " required></textarea>
                 <span class="bar"></span>
             </div>
             <div class="group">
