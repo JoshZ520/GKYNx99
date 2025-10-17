@@ -39,19 +39,16 @@ function setTopic(topic) {
     window.currentTopic = topic;
     applyQuestionsForTopic(topic);
     localStorage.setItem('currentTopic', topic);
+    // Update UI state after topic change (with small delay to ensure DOM is updated)
+    setTimeout(() => updateSubmissionState(), 0);
 }
 
-// Utility: count how many distinct players have submitted an answer for the current question index
-function getSubmittedCountForIndex(indexOverride) {
-    const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
+// Utility: count how many answers have been submitted for the current question
+function getSubmittedCountForCurrentQuestion() {
     const questionElem = document.getElementById('question');
-    const currentIndex = typeof indexOverride === 'number' ? indexOverride : (parseInt(questionElem?.getAttribute('data-index')) || 0);
-    let count = 0;
-    Object.keys(existingAnswers).forEach(name => {
-        const arr = existingAnswers[name];
-        if (Array.isArray(arr) && arr[currentIndex]) count += 1;
-    });
-    return count;
+    const currentQuestion = questionElem?.textContent || '';
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    return submissions.filter(sub => sub.question === currentQuestion).length;
 }
 
 // Update buttons and inputs according to the selected player count and current submission progress
@@ -64,7 +61,8 @@ function updateSubmissionState() {
     if (!submitBtn || !finalBtn) return;
 
     if (playerCount && playerCount > 0) {
-        const submitted = getSubmittedCountForIndex();
+        const submitted = getSubmittedCountForCurrentQuestion();
+        console.log('updateSubmissionState:', { playerCount, submitted }); // Debug
         if (submitted >= playerCount) {
             // hide/disable submit, show final only
             submitBtn.style.display = 'none';
@@ -164,28 +162,44 @@ window.addEventListener('DOMContentLoaded', function () {
 function submitAnswer() {
     const answer = document.getElementById('answer').value;
     const name = document.getElementById('name').value;
-
-    // Retrieve existing answers from localStorage or initialize as empty object
-    const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
-
-    // Enforce player count if set
-    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
     const questionElem = document.getElementById('question');
-    const currentIndex = parseInt(questionElem?.getAttribute('data-index')) || 0;
-    const currentSubmitted = getSubmittedCountForIndex(currentIndex);
-    if (playerCount && currentSubmitted >= playerCount) {
-        // already reached the expected number of answers for this question
-        updateSubmissionState();
-        return;
+    const currentQuestion = questionElem?.textContent || '';
+
+    console.log('submitAnswer called:', { answer, name, currentQuestion }); // Debug
+
+    if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
+        console.log('Submission blocked: empty fields'); // Debug
+        return; // Don't submit empty answers
     }
 
-    // Add/update the answer for the current name and question index
-    // (questionElem and currentIndex were computed above)
-    if (!existingAnswers[name] || !Array.isArray(existingAnswers[name])) existingAnswers[name] = [];
-    existingAnswers[name][currentIndex] = answer;
+    // Get chronological submissions list
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    
+    // Check if this question already has enough answers (if player count is set)
+    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
+    if (playerCount) {
+        const answersForThisQuestion = submissions.filter(sub => sub.question === currentQuestion).length;
+        console.log('Player count check:', { playerCount, answersForThisQuestion }); // Debug
+        if (answersForThisQuestion >= playerCount) {
+            console.log('Submission blocked: player count reached'); // Debug
+            updateSubmissionState();
+            return;
+        }
+    }
 
-    // Save the updated answers to localStorage
-    localStorage.setItem('submittedAnswers', JSON.stringify(existingAnswers));
+    // Add new submission with timestamp
+    const submission = {
+        question: currentQuestion,
+        answer: answer.trim(),
+        name: name.trim(),
+        timestamp: Date.now(),
+        topic: window.currentTopic || 'unknown'
+    };
+    
+    submissions.push(submission);
+
+    // Save chronological submissions
+    localStorage.setItem('chronologicalSubmissions', JSON.stringify(submissions));
 
     // Clear the input boxes for the next player
     document.getElementById('answer').value = '';
@@ -203,20 +217,36 @@ function submitAnswer() {
 // displayAnswers will register itself on DOMContentLoaded from scripts/answers.js
 const finalBtn = document.getElementById('final_submit');
 if (finalBtn) finalBtn.addEventListener('click', function() {
-    // Save the current question and submitted answers to sessionStorage
-    const questionElem = document.getElementById('question');
-    const answers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
+    // Get chronological submissions
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    
+    if (submissions.length === 0) {
+        alert('No answers submitted yet!');
+        return;
+    }
 
-    // Pass the full questions list to the display page so it can step through all questions
-    sessionStorage.setItem('questions', JSON.stringify(appQuestions));
-    sessionStorage.setItem('currentAnswers', JSON.stringify(answers));
+    // Group submissions by question (in order they were first answered)
+    const questionOrder = [];
+    const submissionsByQuestion = {};
+    
+    submissions.forEach(submission => {
+        if (!submissionsByQuestion[submission.question]) {
+            submissionsByQuestion[submission.question] = [];
+            questionOrder.push(submission.question);
+        }
+        submissionsByQuestion[submission.question].push(submission);
+    });
+
+    // Pass chronological data to display page
+    sessionStorage.setItem('questionsInOrder', JSON.stringify(questionOrder));
+    sessionStorage.setItem('submissionsByQuestion', JSON.stringify(submissionsByQuestion));
     // Redirect to the display/results page
 
-    // Clear stored answers so the next run starts fresh, but keep other persisted settings (like currentTopic)
+    // Clear stored submissions so the next run starts fresh, but keep other persisted settings (like currentTopic)
     try {
-        localStorage.removeItem('submittedAnswers');
+        localStorage.removeItem('chronologicalSubmissions');
     } catch (e) {
-        console.warn('Could not remove submittedAnswers from localStorage', e);
+        console.warn('Could not remove chronologicalSubmissions from localStorage', e);
     }
 
     // Redirect to the display/results page
