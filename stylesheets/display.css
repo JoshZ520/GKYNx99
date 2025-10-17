@@ -127,4 +127,10 @@ button{
     align-items: center;
     justify-self: center;
     gap: 5px;
+    transition: transform 0.2s ease-out;
+    transform: translateX(0);
+}
+
+.swiped {
+    transform: translateX(10px);
 }

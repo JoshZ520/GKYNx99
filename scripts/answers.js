@@ -71,3 +71,16 @@ window.addEventListener('DOMContentLoaded', function () {
         console.warn('displayAnswers failed on DOMContentLoaded', e);
     }
 });
+
+
+const swipeTarget = document.querySelector('#next-btn');
+
+function swipeRightAndReturn(){
+    swipeTarget.classList.add('swipe-right');
+    const swipeDuration = 200;
+    setTimeout(() => {
+        swipeTarget.classList.remove('swipe-right');
+    }, swipeDuration);
+}
+
+swipeTarget.addEventListener('click', swipeRightAndReturn);
