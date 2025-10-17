@@ -2,7 +2,7 @@ body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0;
     padding: 0;
-    /* background-color: #FF6F61; */
+    background-color: #fff7d1;
 
 }
 
@@ -10,6 +10,28 @@ p{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
 }
+
+.direction{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+#open_page{
+    border: none;
+    background-color: transparent;
+}
+
+#open_page img{
+    width: 40px;
+    height: 40px;
+    padding-top: 10px;
+}
+
+.hide{
+    display: none;
+}
+
 
 h1, h2{
     text-align: center;
@@ -32,7 +54,7 @@ header{
 .switch_button{
     cursor: pointer;
     border: none;
-    background-color: white;
+    background-color: #fff7d1;
 }
 
 .switch_button img{
@@ -65,7 +87,7 @@ select{
     text-align: center;
 }
 
-input{
+input, textarea{
     font-size: 20px;
     width: 300px;
     padding: 5px;
@@ -73,7 +95,7 @@ input{
     border-bottom: 1px solid #757575;
 }
 
-input:focus{
+input:focus, textarea:focus{
     outline: none;
 }
 
@@ -102,7 +124,8 @@ input:focus{
     right: 50%;
 }
 
-input:focus ~ .bar:before, input:focus ~ .bar:after{
+input:focus ~ .bar:before, input:focus ~ .bar:after,
+textarea:focus ~ .bar:before, textarea:focus ~ .bar:after{
     width: 50%;
 }
 .controls {
@@ -196,4 +219,5 @@ footer{
 button.submit, button.fin{
     margin: 0;
 }
+
 }
