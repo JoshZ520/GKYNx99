@@ -168,6 +168,18 @@ button.submit, button.fin{
     display: none;
 }
 
+.submission-question {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.submission-answer {
+    margin-bottom: 12px;
+    padding-left: 8px;
+}
+
 footer{
     background-color: #FFC857;
     padding: 5px 30px;
