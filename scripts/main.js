@@ -252,3 +252,12 @@ if (finalBtn) finalBtn.addEventListener('click', function() {
     // Redirect to the display/results page
     window.location.href = 'display.html';
 });
+
+ const dropdownBtn = document.querySelector('#open_page');
+ const directions = document.querySelector('#directions');
+
+ function dropdown(){
+     directions.classList.toggle('hide');
+ }
+
+ dropdownBtn.addEventListener('click', dropdown);
