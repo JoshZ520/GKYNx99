@@ -11,21 +11,18 @@ p{
     font-size: 20px;
 }
 
-.direction{
-    display: flex;
-    align-items:center;
-    justify-content: center;
-}
-
 #open_page{
     border: none;
     background-color: transparent;
+    display: flex;
+    align-items:center;
+    justify-self: center;
 }
 
 #open_page img{
     width: 40px;
     height: 40px;
-    padding-top: 10px;
+    padding-top: 5px;
 }
 
 .hide{
@@ -33,13 +30,16 @@ p{
 }
 
 
-h1, h2{
+h2{
     text-align: center;
+    font-size: 30px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 h1.question{
     margin: 0 20px;
     font-size: 40px;
+    text-align: center;
 }
 
 header{
@@ -68,7 +68,7 @@ header{
 
 .topic{
     font-size: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .topic label{
@@ -137,6 +137,26 @@ textarea:focus ~ .bar:before, textarea:focus ~ .bar:after{
     justify-items: center;
 }
 /* input end */
+
+.input{
+    text-align: center;
+    padding-top: 40px;
+    position: relative;
+}
+
+.topic{
+    margin-left: 120px;
+}
+
+/* .background{
+    background-color: blue;
+    position: absolute;
+    width: 500px;
+    height: 400px;
+    top: -120px;
+    right: -150px;
+    z-index: -1;
+} */
 
 button.submit, button.fin{
     font-size: 20px;
