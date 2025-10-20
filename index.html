@@ -9,23 +9,38 @@
     <script src="scripts/script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Directions: </h1>
-        <p>Form a group of friends. You all will be given the same question and will each answer.</p>
+    <header id="header">
+        <div class="direction">
+            <button id="open_page" type="button"><img src="images/chevron-down.svg" alt="open page"></button>
+            <h1>Directions: </h1>
+        </div>
+        <div id="directions" class="hide">
+            <p>Form a group of friends. You all will be given the same question and will each answer. After everyone has answered, press the 'All answers finished' button. This will pop up with all of the answers and associated names, then it's time to discuss!</p>
+            <p><a href="front.html">opening page</a></p> link to front page testing purposes only
+        </div>
     </header>
     <main>
-        <h1 class="question">Placement Question</h1>
-        <label class="name_input">Username: </label>
-        <input type="text" class="name_input" placeholder="Username: ">
-        <label class="answer_input">Answer: </label>
-        <textarea class="name_input" placeholder="Answer: "></textarea>
-        <button type="submit">Submit Answer</button>
-        <button type="button">All Answers Finished</button>
-    </main>
-    <footer>
-        <h2>About: </h2>
-        <p>The purpose of this game is to get to know people.</p>
-        <p>Ask Away</p>
-    </footer>
+        <h1 class="question" id="question">Press the switch question to start</h1>
+
+        <main>
+            <div class='group'>
+                <label for="player_count">Number of Players:</label>
+                <select id="player_count" required>
+                    <option value="" disabled selected>Select number</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <a class="start-btn" href="game.html">Start Game</a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>
