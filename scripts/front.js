@@ -22,7 +22,30 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // Load the current topic's color scheme if stored
     loadTopicColorScheme();
+    
+    // Load and display the front page instruction
+    loadFrontPageInstruction();
 });
+
+// Function to load and display the front page instruction
+function loadFrontPageInstruction() {
+    fetch('files/questions.json')
+        .then(res => res.json())
+        .then(data => {
+            const defaultData = data['default'];
+            if (defaultData && defaultData.questions && defaultData.questions.length > 0) {
+                // Use the first question as the front page instruction
+                const frontInstruction = defaultData.questions[0];
+                const instructionElement = document.getElementById('front-instruction');
+                if (instructionElement) {
+                    instructionElement.textContent = frontInstruction;
+                }
+            }
+        })
+        .catch(err => {
+            console.warn('Could not load front page instruction:', err);
+        });
+}
 
 // Function to load and apply color scheme from the currently selected topic
 function loadTopicColorScheme() {

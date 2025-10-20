@@ -56,7 +56,14 @@ function loadQuestions() {
 // helpers to change topic and questions
 function applyQuestionsForTopic(topic) {
     const topicData = (topics && topics[topic]) || topics['default'] || {};
-    const list = topicData.questions || [];
+    let list = topicData.questions || [];
+    
+    // For the default topic, use only the second question (index 1) for the game page
+    // The first question (index 0) is displayed on the front page
+    if (topic === 'default' && list.length > 1) {
+        list = [list[1]]; // Use only the second question
+    }
+    
     appQuestions.splice(0, appQuestions.length, ...list);
 
     const questionElem = document.getElementById('question');

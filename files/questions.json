@@ -1,6 +1,7 @@
 {
   "default": {
     "questions": [
+      "Select how many people are in the group and then press submit.",
       "Welcome — enter a name and answer the question, then press Submit. Use Final Submit when everyone is done."
     ],
     "colorScheme": {
