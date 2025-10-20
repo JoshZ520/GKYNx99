@@ -125,19 +125,13 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
 // wire the topic dropdown and restore persisted topic after loading questions
 window.addEventListener('DOMContentLoaded', function () {
     loadQuestions().then(() => {
-        const saved = localStorage.getItem('currentTopic');
-        if (saved && topics[saved]) {
-            window.currentTopic = saved;
-            applyQuestionsForTopic(saved);
-            const select = document.getElementById('topicSelect');
-            if (select) select.value = saved;
-        } else {
-            // apply default topic
-            applyQuestionsForTopic(window.currentTopic || 'default');
-        }
-
+        // Always start with the default topic (instructions) on page load
+        window.currentTopic = 'default';
+        applyQuestionsForTopic('default');
         const select = document.getElementById('topicSelect');
         if (select) {
+            select.value = 'default';
+            
             select.addEventListener('change', function (e) {
                 const val = e.target.value;
                 if (val === 'random') {
