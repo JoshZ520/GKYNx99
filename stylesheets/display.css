@@ -1,3 +1,13 @@
+:root {
+ --background-dark: #2D1B21;
+ --background-light: #EADCE1;
+ --accent-dark: #66353C;
+ --accent-light: #E09dA6;
+ --text-light: #EADCE1;
+ --text-dark: #5F3A48;
+ --dark: #1d1216;
+ --light: #ffeff5;
+ }
 
 #answers-list {
     display: grid;
