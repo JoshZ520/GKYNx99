@@ -13,25 +13,127 @@ function loadQuestions() {
         })
         .then(data => {
             topics = data || {};
-            // ensure default exists
-            if (!topics.default) topics.default = [];
+            // ensure default exists with proper structure
+            if (!topics.default) {
+                topics.default = {
+                    questions: [],
+                    colorScheme: {
+                        background: "#fff7d1",
+                        headerBackground: "#FAFAF7",
+                        headerBorder: "#59A8D9",
+                        primaryButton: "#f0a23b",
+                        secondaryButton: "#2EC4B6",
+                        accent: "#FFC857",
+                        focusColor: "#307eea",
+                        textColor: "#333333",
+                        headerTextColor: "#333333"
+                    }
+                };
+            }
             return topics;
         })
         .catch(err => {
             console.error('Error loading questions.json:', err);
-            topics = { default: [] };
+            topics = { 
+                default: {
+                    questions: [],
+                    colorScheme: {
+                        background: "#fff7d1",
+                        headerBackground: "#FAFAF7",
+                        headerBorder: "#59A8D9",
+                        primaryButton: "#f0a23b",
+                        secondaryButton: "#2EC4B6",
+                        accent: "#FFC857",
+                        focusColor: "#307eea",
+                        textColor: "#333333",
+                        headerTextColor: "#333333"
+                    }
+                }
+            };
             return topics;
         });
 }
 // helpers to change topic and questions
 function applyQuestionsForTopic(topic) {
-    const list = (topics && topics[topic]) || topics['default'] || [];
+    const topicData = (topics && topics[topic]) || topics['default'] || {};
+    let list = topicData.questions || [];
+    
+    // For the default topic, use only the second question (index 1) for the game page
+    // The first question (index 0) is displayed on the front page
+    if (topic === 'default' && list.length > 1) {
+        list = [list[1]]; // Use only the second question
+    }
+    
     appQuestions.splice(0, appQuestions.length, ...list);
 
     const questionElem = document.getElementById('question');
     if (questionElem) {
         questionElem.setAttribute('data-index', 0);
         questionElem.textContent = appQuestions[0] || '';
+    }
+    
+    // Apply color scheme if available
+    if (topicData.colorScheme) {
+        applyColorScheme(topicData.colorScheme);
+    }
+}
+
+// Function to apply color scheme to the page
+function applyColorScheme(colorScheme) {
+    const root = document.documentElement;
+    
+    // Set CSS custom properties for the color scheme
+    root.style.setProperty('--bg-color', colorScheme.background);
+    root.style.setProperty('--header-bg', colorScheme.headerBackground);
+    root.style.setProperty('--header-border', colorScheme.headerBorder);
+    root.style.setProperty('--primary-btn', colorScheme.primaryButton);
+    root.style.setProperty('--secondary-btn', colorScheme.secondaryButton);
+    root.style.setProperty('--accent-color', colorScheme.accent);
+    root.style.setProperty('--focus-color', colorScheme.focusColor);
+    root.style.setProperty('--text-color', colorScheme.textColor || '#333333');
+    root.style.setProperty('--header-text-color', colorScheme.headerTextColor || '#333333');
+    
+    // Apply colors directly to elements for immediate effect
+    document.body.style.backgroundColor = colorScheme.background;
+    document.body.style.color = colorScheme.textColor || '#333333';
+    
+    const header = document.querySelector('header');
+    if (header) {
+        header.style.backgroundColor = colorScheme.headerBackground;
+        header.style.borderColor = colorScheme.headerBorder;
+    }
+    
+    // Update all headings
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    headings.forEach(heading => {
+        heading.style.color = colorScheme.headerTextColor || '#333333';
+    });
+    
+    // Update all paragraphs and text elements
+    const textElements = document.querySelectorAll('p, label, .topic');
+    textElements.forEach(element => {
+        element.style.color = colorScheme.textColor || '#333333';
+    });
+    
+    const submitBtn = document.querySelector('.submit');
+    if (submitBtn) {
+        submitBtn.style.backgroundColor = colorScheme.primaryButton;
+    }
+    
+    const finBtn = document.querySelector('.fin');
+    if (finBtn) {
+        finBtn.style.backgroundColor = colorScheme.secondaryButton;
+    }
+    
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.backgroundColor = colorScheme.accent;
+    }
+    
+    // Update switch button background to match body
+    const switchBtn = document.querySelector('.switch_button');
+    if (switchBtn) {
+        switchBtn.style.backgroundColor = colorScheme.background;
     }
 }
 
@@ -125,19 +227,13 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
 // wire the topic dropdown and restore persisted topic after loading questions
 window.addEventListener('DOMContentLoaded', function () {
     loadQuestions().then(() => {
-        const saved = localStorage.getItem('currentTopic');
-        if (saved && topics[saved]) {
-            window.currentTopic = saved;
-            applyQuestionsForTopic(saved);
-            const select = document.getElementById('topicSelect');
-            if (select) select.value = saved;
-        } else {
-            // apply default topic
-            applyQuestionsForTopic(window.currentTopic || 'default');
-        }
-
+        // Always start with the default topic (instructions) on page load
+        window.currentTopic = 'default';
+        applyQuestionsForTopic('default');
         const select = document.getElementById('topicSelect');
         if (select) {
+            select.value = 'default';
+            
             select.addEventListener('change', function (e) {
                 const val = e.target.value;
                 if (val === 'random') {
@@ -252,3 +348,12 @@ if (finalBtn) finalBtn.addEventListener('click', function() {
     // Redirect to the display/results page
     window.location.href = 'display.html';
 });
+
+ const dropdownBtn = document.querySelector('#open_page');
+ const directions = document.querySelector('#directions');
+
+ function dropdown(){
+     directions.classList.toggle('hide');
+ }
+
+ dropdownBtn.addEventListener('click', dropdown);

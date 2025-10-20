@@ -61,6 +61,8 @@ p{
 label{
 	font-size: 18px;
 	margin-right: 8px;
+	color: var(--text-color);
+	transition: color 0.3s ease;
 }
 
 select#player_count{
@@ -78,12 +80,46 @@ select#player_count{
 	border-radius: 8px;
 	text-decoration: none;
 	font-weight: 600;
+	transition: background-color 0.3s ease;
 }
 
 .start-btn:hover{ opacity: 0.95; }
 
 .group select{
 	min-width: 160px;
+}
+
+/* Direction header styling */
+.direction{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.direction h1{
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Direction toggle button */
+#open_page{
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+#open_page img{
+    width: 40px;
+    height: 40px;
+}
+
+/* Hide class for toggling directions */
+#directions.hide{
+    display: none;
 }
 
 /* Buttons (if any) */
@@ -102,10 +138,11 @@ button{
 }
 
 footer{
-	background-color: #FFC857;
+	background-color: var(--accent-color);
 	padding: 12px 20px;
 	text-align: center;
 	margin-top: 40px;
+	transition: background-color 0.3s ease;
 }
 
 @media (min-width: 600px){
