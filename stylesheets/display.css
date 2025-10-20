@@ -1,4 +1,14 @@
 
+:root {
+    --bg-color: #fff7d1;
+    --header-bg: #FAFAF7;
+    --header-border: #59A8D9;
+    --primary-btn: #f0a23b;
+    --secondary-btn: #2EC4B6;
+    --accent-color: #FFC857;
+    --focus-color: #307eea;
+}
+
 #answers-list {
     display: grid;
     padding: 12px;

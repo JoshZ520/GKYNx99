@@ -13,25 +13,101 @@ function loadQuestions() {
         })
         .then(data => {
             topics = data || {};
-            // ensure default exists
-            if (!topics.default) topics.default = [];
+            // ensure default exists with proper structure
+            if (!topics.default) {
+                topics.default = {
+                    questions: [],
+                    colorScheme: {
+                        background: "#fff7d1",
+                        headerBackground: "#FAFAF7",
+                        headerBorder: "#59A8D9",
+                        primaryButton: "#f0a23b",
+                        secondaryButton: "#2EC4B6",
+                        accent: "#FFC857",
+                        focusColor: "#307eea"
+                    }
+                };
+            }
             return topics;
         })
         .catch(err => {
             console.error('Error loading questions.json:', err);
-            topics = { default: [] };
+            topics = { 
+                default: {
+                    questions: [],
+                    colorScheme: {
+                        background: "#fff7d1",
+                        headerBackground: "#FAFAF7",
+                        headerBorder: "#59A8D9",
+                        primaryButton: "#f0a23b",
+                        secondaryButton: "#2EC4B6",
+                        accent: "#FFC857",
+                        focusColor: "#307eea"
+                    }
+                }
+            };
             return topics;
         });
 }
 // helpers to change topic and questions
 function applyQuestionsForTopic(topic) {
-    const list = (topics && topics[topic]) || topics['default'] || [];
+    const topicData = (topics && topics[topic]) || topics['default'] || {};
+    const list = topicData.questions || [];
     appQuestions.splice(0, appQuestions.length, ...list);
 
     const questionElem = document.getElementById('question');
     if (questionElem) {
         questionElem.setAttribute('data-index', 0);
         questionElem.textContent = appQuestions[0] || '';
+    }
+    
+    // Apply color scheme if available
+    if (topicData.colorScheme) {
+        applyColorScheme(topicData.colorScheme);
+    }
+}
+
+// Function to apply color scheme to the page
+function applyColorScheme(colorScheme) {
+    const root = document.documentElement;
+    
+    // Set CSS custom properties for the color scheme
+    root.style.setProperty('--bg-color', colorScheme.background);
+    root.style.setProperty('--header-bg', colorScheme.headerBackground);
+    root.style.setProperty('--header-border', colorScheme.headerBorder);
+    root.style.setProperty('--primary-btn', colorScheme.primaryButton);
+    root.style.setProperty('--secondary-btn', colorScheme.secondaryButton);
+    root.style.setProperty('--accent-color', colorScheme.accent);
+    root.style.setProperty('--focus-color', colorScheme.focusColor);
+    
+    // Apply colors directly to elements for immediate effect
+    document.body.style.backgroundColor = colorScheme.background;
+    
+    const header = document.querySelector('header');
+    if (header) {
+        header.style.backgroundColor = colorScheme.headerBackground;
+        header.style.borderColor = colorScheme.headerBorder;
+    }
+    
+    const submitBtn = document.querySelector('.submit');
+    if (submitBtn) {
+        submitBtn.style.backgroundColor = colorScheme.primaryButton;
+    }
+    
+    const finBtn = document.querySelector('.fin');
+    if (finBtn) {
+        finBtn.style.backgroundColor = colorScheme.secondaryButton;
+    }
+    
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.backgroundColor = colorScheme.accent;
+    }
+    
+    // Update switch button background to match body
+    const switchBtn = document.querySelector('.switch_button');
+    if (switchBtn) {
+        switchBtn.style.backgroundColor = colorScheme.background;
     }
 }
 

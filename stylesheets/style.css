@@ -1,9 +1,19 @@
+:root {
+    --bg-color: #fff7d1;
+    --header-bg: #FAFAF7;
+    --header-border: #59A8D9;
+    --primary-btn: #f0a23b;
+    --secondary-btn: #2EC4B6;
+    --accent-color: #FFC857;
+    --focus-color: #307eea;
+}
+
 body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fff7d1;
-
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease;
 }
 
 p{
@@ -52,18 +62,20 @@ h1.question{
 }
 
 header{
-    border: 2px solid #59A8D9;
+    border: 2px solid var(--header-border);
     padding: 0 10px;
     margin: 20px;
     margin-bottom: 50px;
-    background-color: #FAFAF7;
+    background-color: var(--header-bg);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* topic */
 .switch_button{
     cursor: pointer;
     border: none;
-    background-color: #fff7d1;
+    background-color: var(--bg-color);
+    transition: background-color 0.3s ease;
 }
 
 .switch_button img{
@@ -120,7 +132,7 @@ input:focus, textarea:focus{
     height: 3px;
     position: absolute;
     width: 0;
-    background: #307eea;
+    background: var(--focus-color);
     transition: 0.2s ease all;
     bottom: -1px;
 }
@@ -160,14 +172,16 @@ button.submit, button.fin{
 }
 
 .submit{
-    background-color: #f0a23b;
+    background-color: var(--primary-btn);
     color: white;
     border: none;
+    transition: background-color 0.3s ease;
 }
 
 .fin{
-    border: 2px solid #3074ea;
-    background-color: #2EC4B6;
+    border: 2px solid var(--focus-color);
+    background-color: var(--secondary-btn);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 .fin.hide {
     display: none;
@@ -190,8 +204,9 @@ button.submit, button.fin{
 }
 
 footer{
-    background-color: #FFC857;
+    background-color: var(--accent-color);
     padding: 5px 30px;
+    transition: background-color 0.3s ease;
 }
 
 
