@@ -54,15 +54,30 @@ function applyColorScheme(colorScheme) {
     root.style.setProperty('--secondary-btn', colorScheme.secondaryButton);
     root.style.setProperty('--accent-color', colorScheme.accent);
     root.style.setProperty('--focus-color', colorScheme.focusColor);
+    root.style.setProperty('--text-color', colorScheme.textColor || '#333333');
+    root.style.setProperty('--header-text-color', colorScheme.headerTextColor || '#333333');
     
     // Apply colors directly to elements for immediate effect
     document.body.style.backgroundColor = colorScheme.background;
+    document.body.style.color = colorScheme.textColor || '#333333';
     
     const header = document.querySelector('header');
     if (header) {
         header.style.backgroundColor = colorScheme.headerBackground;
         header.style.borderColor = colorScheme.headerBorder;
     }
+    
+    // Update all headings
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    headings.forEach(heading => {
+        heading.style.color = colorScheme.headerTextColor || '#333333';
+    });
+    
+    // Update all paragraphs and text elements
+    const textElements = document.querySelectorAll('p, label');
+    textElements.forEach(element => {
+        element.style.color = colorScheme.textColor || '#333333';
+    });
     
     const startBtn = document.querySelector('.start-btn');
     if (startBtn) {

@@ -10,7 +10,9 @@
       "primaryButton": "#f0a23b",
       "secondaryButton": "#2EC4B6",
       "accent": "#FFC857",
-      "focusColor": "#307eea"
+      "focusColor": "#307eea",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
     }
   },
   "dnd": {
@@ -26,7 +28,9 @@
       "primaryButton": "#8b4513",
       "secondaryButton": "#daa520",
       "accent": "#cd853f",
-      "focusColor": "#ffd700"
+      "focusColor": "#ffd700",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "movies": {
@@ -44,7 +48,9 @@
       "primaryButton": "#dc143c",
       "secondaryButton": "#ff6347",
       "accent": "#ffa500",
-      "focusColor": "#00bfff"
+      "focusColor": "#00bfff",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "sports": {
@@ -60,7 +66,9 @@
       "primaryButton": "#228b22",
       "secondaryButton": "#32cd32",
       "accent": "#7cfc00",
-      "focusColor": "#00ff00"
+      "focusColor": "#00ff00",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "music": {
@@ -77,7 +85,9 @@
       "primaryButton": "#9932cc",
       "secondaryButton": "#ba55d3",
       "accent": "#dda0dd",
-      "focusColor": "#ff69b4"
+      "focusColor": "#ff69b4",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "tech": {
@@ -93,7 +103,9 @@
       "primaryButton": "#0066cc",
       "secondaryButton": "#0099ff",
       "accent": "#66ccff",
-      "focusColor": "#00ffff"
+      "focusColor": "#00ffff",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "travel": {
@@ -112,7 +124,9 @@
       "primaryButton": "#ff7f50",
       "secondaryButton": "#20b2aa",
       "accent": "#ffd700",
-      "focusColor": "#ff6347"
+      "focusColor": "#ff6347",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
     }
   },
   "history": {
@@ -128,7 +142,9 @@
       "primaryButton": "#cd853f",
       "secondaryButton": "#d2691e",
       "accent": "#f4a460",
-      "focusColor": "#ffd700"
+      "focusColor": "#ffd700",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "books": {
@@ -145,7 +161,9 @@
       "primaryButton": "#6b8e23",
       "secondaryButton": "#8fbc8f",
       "accent": "#adff2f",
-      "focusColor": "#98fb98"
+      "focusColor": "#98fb98",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "games": {
@@ -161,7 +179,9 @@
       "primaryButton": "#8a2be2",
       "secondaryButton": "#9370db",
       "accent": "#da70d6",
-      "focusColor": "#ff1493"
+      "focusColor": "#ff1493",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
     }
   },
   "food": {
@@ -178,7 +198,9 @@
       "primaryButton": "#ff8c00",
       "secondaryButton": "#ffd700",
       "accent": "#ffffe0",
-      "focusColor": "#ff69b4"
+      "focusColor": "#ff69b4",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
     }
   },
   "personal": {
@@ -197,7 +219,9 @@
       "primaryButton": "#da70d6",
       "secondaryButton": "#dda0dd",
       "accent": "#ffc0cb",
-      "focusColor": "#ff69b4"
+      "focusColor": "#ff69b4",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
     }
   }
 }

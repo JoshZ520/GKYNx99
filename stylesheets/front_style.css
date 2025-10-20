@@ -7,6 +7,8 @@
     --secondary-btn: #2EC4B6;
     --accent-color: #FFC857;
     --focus-color: #307eea;
+    --text-color: #333333;
+    --header-text-color: #333333;
 }
 
 body{
@@ -14,7 +16,8 @@ body{
 	margin: 0;
 	padding: 0;
 	background-color: var(--bg-color);
-	transition: background-color 0.3s ease;
+	color: var(--text-color);
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header{
@@ -29,11 +32,15 @@ header{
 h1{
 	margin: 0;
 	font-size: 32px;
+	color: var(--header-text-color);
+	transition: color 0.3s ease;
 }
 
 p{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-size: 18px;
+	color: var(--text-color);
+	transition: color 0.3s ease;
 }
 
 .group{
@@ -59,6 +66,8 @@ p{
 label{
 	font-size: 18px;
 	margin-right: 8px;
+	color: var(--text-color);
+	transition: color 0.3s ease;
 }
 
 select#player_count{

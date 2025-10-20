@@ -6,6 +6,8 @@
     --secondary-btn: #2EC4B6;
     --accent-color: #FFC857;
     --focus-color: #307eea;
+    --text-color: #333333;
+    --header-text-color: #333333;
 }
 
 body{
@@ -13,12 +15,15 @@ body{
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
-    transition: background-color 0.3s ease;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 p{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .direction{
@@ -54,11 +59,15 @@ p{
 
 h1, h2{
     text-align: center;
+    color: var(--header-text-color);
+    transition: color 0.3s ease;
 }
 
 h1.question{
     margin: 0 20px;
     font-size: 40px;
+    color: var(--header-text-color);
+    transition: color 0.3s ease;
 }
 
 header{
@@ -90,10 +99,14 @@ header{
 .topic{
     font-size: 20px;
     margin-bottom: 50px;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 .topic label{
     margin-right: 10px;
+    color: var(--text-color);
+    transition: color 0.3s ease;
 }
 
 select{
