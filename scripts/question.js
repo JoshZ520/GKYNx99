@@ -2,6 +2,72 @@ const questionsInOrder = JSON.parse(sessionStorage.getItem('questionsInOrder')) 
 const submissionsByQuestion = JSON.parse(sessionStorage.getItem('submissionsByQuestion')) || {};
 let currentIndex = 0;
 
+// Load color scheme on page load
+window.addEventListener('DOMContentLoaded', function() {
+    loadTopicColorScheme();
+});
+
+// Function to load and apply color scheme from the currently selected topic
+function loadTopicColorScheme() {
+    const currentTopic = localStorage.getItem('currentTopic') || 'default';
+    
+    // Fetch questions.json to get color scheme
+    fetch('files/questions.json')
+        .then(res => res.json())
+        .then(data => {
+            const topicData = data[currentTopic] || data['default'];
+            if (topicData && topicData.colorScheme) {
+                applyColorScheme(topicData.colorScheme);
+            }
+        })
+        .catch(err => {
+            console.warn('Could not load color scheme for display page:', err);
+        });
+}
+
+// Function to apply color scheme to the display page
+function applyColorScheme(colorScheme) {
+    const root = document.documentElement;
+    
+    // Set CSS custom properties for the color scheme
+    root.style.setProperty('--bg-color', colorScheme.background);
+    root.style.setProperty('--header-bg', colorScheme.headerBackground);
+    root.style.setProperty('--header-border', colorScheme.headerBorder);
+    root.style.setProperty('--primary-btn', colorScheme.primaryButton);
+    root.style.setProperty('--secondary-btn', colorScheme.secondaryButton);
+    root.style.setProperty('--accent-color', colorScheme.accent);
+    root.style.setProperty('--focus-color', colorScheme.focusColor);
+    root.style.setProperty('--text-color', colorScheme.textColor || '#333333');
+    root.style.setProperty('--header-text-color', colorScheme.headerTextColor || '#333333');
+    
+    // Apply colors directly to elements for immediate effect
+    document.body.style.backgroundColor = colorScheme.background;
+    document.body.style.color = colorScheme.textColor || '#333333';
+    
+    const header = document.querySelector('header');
+    if (header) {
+        header.style.backgroundColor = colorScheme.headerBackground;
+        header.style.borderColor = colorScheme.headerBorder;
+    }
+    
+    // Update all headings
+    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    headings.forEach(heading => {
+        heading.style.color = colorScheme.headerTextColor || '#333333';
+    });
+    
+    // Update all paragraphs and text elements
+    const textElements = document.querySelectorAll('p, label');
+    textElements.forEach(element => {
+        element.style.color = colorScheme.textColor || '#333333';
+    });
+    
+    const footer = document.querySelector('footer');
+    if (footer) {
+        footer.style.backgroundColor = colorScheme.accent;
+    }
+}
+
 function showQuestion(index) {
     const header = document.getElementById('question-header');
 
@@ -52,7 +118,7 @@ function renderAnswers() {
     container.appendChild(list);
 
     // simple confetti reveal if there are answers
-    if (entries.length > 0) {
+    if (submissions.length > 0) {
         const confettiContainer = document.getElementById('confetti-container');
         if (confettiContainer) {
             // assign random horizontal offsets to each piece so the animation spreads from center

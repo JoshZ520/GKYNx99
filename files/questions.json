@@ -1,71 +1,228 @@
 {
-  "default": [
-    "Welcome — enter a name and answer the question, then press Submit. Use Final Submit when everyone is done."
-  ],
-  "dnd": [
-    "What is your favorite D&D class?",
-    "Do you prefer roleplaying or combat in D&D sessions?",
-    "What is your favorite part of D&D?"
-  ],
-  "movies": [
-    "What's your favorite movie of all time?",
-    "Which TV show are you currently watching?",
-    "Which movie character do you relate to the most?",
-    "If you could have any superpower, what would it be?",
-    "What is your favorite movie or TV show?"
-  ],
-  "sports": [
-    "What's your favorite sport to watch or play?",
-    "Do you have a favorite team or athlete?",
-    "What's your most memorable sports moment?"
-  ],
-  "music": [
-    "What's the best concert you've ever been to?",
-    "What's your favorite music genre right now?",
-    "Which artist do you think everyone should listen to?",
-    "What is your favorite way to relax?"
-  ],
-  "tech": [
-    "What's one gadget you can't live without?",
-    "Which app do you use most days?",
-    "What's a tech trend you find exciting (or annoying)?"
-  ],
-  "travel": [
-    "What's the best place you've ever visited?",
-    "Do you prefer relaxing vacations or active/adventure trips?",
-    "What's one place on your travel bucket list?",
-    "What is your dream vacation spot?",
-    "If you could travel anywhere in the world, where would you go?",
-    "What is your favorite season and why?"
-  ],
-  "history": [
-    "If you could witness one historical event, which would it be?",
-    "Which historical figure fascinates you most?",
-    "What's a lesser-known historical fact you find interesting?"
-  ],
-  "books": [
-    "What's a book you think everyone should read?",
-    "Do you prefer fiction or non-fiction?",
-    "Which book character would you most like to meet?",
-    "What is your favorite book?"
-  ],
-  "games": [
-    "What's your favorite board or video game?",
-    "Do you prefer cooperative or competitive games?",
-    "What's a game you always recommend to friends?"
-  ],
-  "food": [
-    "What's your go-to comfort food?",
-    "Do you prefer sweet or savory?",
-    "What's the best meal you've ever had?",
-    "What do you like to eat in the morning?"
-  ],
-  "personal": [
-    "What is your favorite color?",
-    "What is one thing you can't live without?",
-    "What is a fun fact about yourself?",
-    "What is your favorite way to relax?",
-    "What is your favorite hobby?",
-    "What is your favorite animal?"
-  ]
+  "default": {
+    "questions": [
+      "Select how many people are in the group and then press submit.",
+      "Welcome — enter a name and answer the question, then press Submit. Use Final Submit when everyone is done."
+    ],
+    "colorScheme": {
+      "background": "#fff7d1",
+      "headerBackground": "#FAFAF7",
+      "headerBorder": "#59A8D9",
+      "primaryButton": "#f0a23b",
+      "secondaryButton": "#2EC4B6",
+      "accent": "#FFC857",
+      "focusColor": "#307eea",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
+    }
+  },
+  "dnd": {
+    "questions": [
+      "What is your favorite D&D class?",
+      "Do you prefer roleplaying or combat in D&D sessions?",
+      "What is your favorite part of D&D?"
+    ],
+    "colorScheme": {
+      "background": "#2a1810",
+      "headerBackground": "#3d2817",
+      "headerBorder": "#d4af37",
+      "primaryButton": "#8b4513",
+      "secondaryButton": "#daa520",
+      "accent": "#cd853f",
+      "focusColor": "#ffd700",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "movies": {
+    "questions": [
+      "What's your favorite movie of all time?",
+      "Which TV show are you currently watching?",
+      "Which movie character do you relate to the most?",
+      "If you could have any superpower, what would it be?",
+      "What is your favorite movie or TV show?"
+    ],
+    "colorScheme": {
+      "background": "#0f0f23",
+      "headerBackground": "#1a1a3a",
+      "headerBorder": "#ffd700",
+      "primaryButton": "#dc143c",
+      "secondaryButton": "#ff6347",
+      "accent": "#ffa500",
+      "focusColor": "#00bfff",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "sports": {
+    "questions": [
+      "What's your favorite sport to watch or play?",
+      "Do you have a favorite team or athlete?",
+      "What's your most memorable sports moment?"
+    ],
+    "colorScheme": {
+      "background": "#004225",
+      "headerBackground": "#006837",
+      "headerBorder": "#ffffff",
+      "primaryButton": "#228b22",
+      "secondaryButton": "#32cd32",
+      "accent": "#7cfc00",
+      "focusColor": "#00ff00",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "music": {
+    "questions": [
+      "What's the best concert you've ever been to?",
+      "What's your favorite music genre right now?",
+      "Which artist do you think everyone should listen to?",
+      "What is your favorite way to relax?"
+    ],
+    "colorScheme": {
+      "background": "#2d1b69",
+      "headerBackground": "#4b0082",
+      "headerBorder": "#da70d6",
+      "primaryButton": "#9932cc",
+      "secondaryButton": "#ba55d3",
+      "accent": "#dda0dd",
+      "focusColor": "#ff69b4",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "tech": {
+    "questions": [
+      "What's one gadget you can't live without?",
+      "Which app do you use most days?",
+      "What's a tech trend you find exciting (or annoying)?"
+    ],
+    "colorScheme": {
+      "background": "#001122",
+      "headerBackground": "#003366",
+      "headerBorder": "#00ccff",
+      "primaryButton": "#0066cc",
+      "secondaryButton": "#0099ff",
+      "accent": "#66ccff",
+      "focusColor": "#00ffff",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "travel": {
+    "questions": [
+      "What's the best place you've ever visited?",
+      "Do you prefer relaxing vacations or active/adventure trips?",
+      "What's one place on your travel bucket list?",
+      "What is your dream vacation spot?",
+      "If you could travel anywhere in the world, where would you go?",
+      "What is your favorite season and why?"
+    ],
+    "colorScheme": {
+      "background": "#87ceeb",
+      "headerBackground": "#b0e0e6",
+      "headerBorder": "#4682b4",
+      "primaryButton": "#ff7f50",
+      "secondaryButton": "#20b2aa",
+      "accent": "#ffd700",
+      "focusColor": "#ff6347",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
+    }
+  },
+  "history": {
+    "questions": [
+      "If you could witness one historical event, which would it be?",
+      "Which historical figure fascinates you most?",
+      "What's a lesser-known historical fact you find interesting?"
+    ],
+    "colorScheme": {
+      "background": "#8b4513",
+      "headerBackground": "#a0522d",
+      "headerBorder": "#daa520",
+      "primaryButton": "#cd853f",
+      "secondaryButton": "#d2691e",
+      "accent": "#f4a460",
+      "focusColor": "#ffd700",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "books": {
+    "questions": [
+      "What's a book you think everyone should read?",
+      "Do you prefer fiction or non-fiction?",
+      "Which book character would you most like to meet?",
+      "What is your favorite book?"
+    ],
+    "colorScheme": {
+      "background": "#2f4f2f",
+      "headerBackground": "#556b2f",
+      "headerBorder": "#9acd32",
+      "primaryButton": "#6b8e23",
+      "secondaryButton": "#8fbc8f",
+      "accent": "#adff2f",
+      "focusColor": "#98fb98",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "games": {
+    "questions": [
+      "What's your favorite board or video game?",
+      "Do you prefer cooperative or competitive games?",
+      "What's a game you always recommend to friends?"
+    ],
+    "colorScheme": {
+      "background": "#4b0082",
+      "headerBackground": "#663399",
+      "headerBorder": "#ff00ff",
+      "primaryButton": "#8a2be2",
+      "secondaryButton": "#9370db",
+      "accent": "#da70d6",
+      "focusColor": "#ff1493",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  },
+  "food": {
+    "questions": [
+      "What's your go-to comfort food?",
+      "Do you prefer sweet or savory?",
+      "What's the best meal you've ever had?",
+      "What do you like to eat in the morning?"
+    ],
+    "colorScheme": {
+      "background": "#ff6347",
+      "headerBackground": "#ffa07a",
+      "headerBorder": "#ff4500",
+      "primaryButton": "#ff8c00",
+      "secondaryButton": "#ffd700",
+      "accent": "#ffffe0",
+      "focusColor": "#ff69b4",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
+    }
+  },
+  "personal": {
+    "questions": [
+      "What is your favorite color?",
+      "What is one thing you can't live without?",
+      "What is a fun fact about yourself?",
+      "What is your favorite way to relax?",
+      "What is your favorite hobby?",
+      "What is your favorite animal?"
+    ],
+    "colorScheme": {
+      "background": "#e6e6fa",
+      "headerBackground": "#f0f8ff",
+      "headerBorder": "#9370db",
+      "primaryButton": "#da70d6",
+      "secondaryButton": "#dda0dd",
+      "accent": "#ffc0cb",
+      "focusColor": "#ff69b4",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
+    }
+  }
 }

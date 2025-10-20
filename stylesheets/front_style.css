@@ -1,27 +1,46 @@
 /* Front page styles — adapted from stylesheets/style.css */
+:root {
+    --bg-color: #FAFAF7;
+    --header-bg: #FAFAF7;
+    --header-border: #59A8D9;
+    --primary-btn: #f0a23b;
+    --secondary-btn: #2EC4B6;
+    --accent-color: #FFC857;
+    --focus-color: #307eea;
+    --text-color: #333333;
+    --header-text-color: #333333;
+}
+
 body{
 	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	margin: 0;
 	padding: 0;
-	background-color: #FAFAF7;
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header{
-	border: 2px solid #59A8D9;
+	border: 2px solid var(--header-border);
 	padding: 10px 20px;
 	margin: 20px;
-	background-color: #ffffff;
-	text-align: center;
+	margin-bottom: 50px;
+	background-color: var(--header-bg);
+	transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 h1{
 	margin: 0;
 	font-size: 32px;
+	color: var(--header-text-color);
+	transition: color 0.3s ease;
 }
 
 p{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-size: 18px;
+	color: var(--text-color);
+	transition: color 0.3s ease;
 }
 
 .group{
@@ -47,6 +66,8 @@ p{
 label{
 	font-size: 18px;
 	margin-right: 8px;
+	color: var(--text-color);
+	transition: color 0.3s ease;
 }
 
 select#player_count{
@@ -58,18 +79,52 @@ select#player_count{
 
 .start-btn{
 	display: inline-block;
-	background-color: #2EC4B6;
+	background-color: var(--secondary-btn);
 	color: white;
 	padding: 12px 20px;
 	border-radius: 8px;
 	text-decoration: none;
 	font-weight: 600;
+	transition: background-color 0.3s ease;
 }
 
 .start-btn:hover{ opacity: 0.95; }
 
 .group select{
 	min-width: 160px;
+}
+
+/* Direction header styling */
+.direction{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.direction h1{
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+/* Direction toggle button */
+#open_page{
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+#open_page img{
+    width: 40px;
+    height: 40px;
+}
+
+/* Hide class for toggling directions */
+#directions.hide{
+    display: none;
 }
 
 /* Buttons (if any) */
@@ -88,10 +143,11 @@ button{
 }
 
 footer{
-	background-color: #FFC857;
+	background-color: var(--accent-color);
 	padding: 12px 20px;
 	text-align: center;
 	margin-top: 40px;
+	transition: background-color 0.3s ease;
 }
 
 @media (min-width: 600px){
