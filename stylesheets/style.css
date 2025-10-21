@@ -14,7 +14,6 @@ body{
     margin: 0;
     padding: 0;
     background-color: var(--background-light);
-    background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -23,7 +22,6 @@ body{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
     color: var(--text-dark);
-    color: var(--text-color);
     transition: color 0.3s ease;
 }
 

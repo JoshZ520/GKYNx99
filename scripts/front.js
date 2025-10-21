@@ -69,16 +69,29 @@ function loadTopicColorScheme() {
 function applyColorScheme(colorScheme) {
     const root = document.documentElement;
     
-    // Set CSS custom properties for the color scheme
-    root.style.setProperty('--bg-color', colorScheme.background);
-    root.style.setProperty('--header-bg', colorScheme.headerBackground);
-    root.style.setProperty('--header-border', colorScheme.headerBorder);
-    root.style.setProperty('--primary-btn', colorScheme.primaryButton);
-    root.style.setProperty('--secondary-btn', colorScheme.secondaryButton);
-    root.style.setProperty('--accent-color', colorScheme.accent);
-    root.style.setProperty('--focus-color', colorScheme.focusColor);
-    root.style.setProperty('--text-color', colorScheme.textColor || '#333333');
-    root.style.setProperty('--header-text-color', colorScheme.headerTextColor || '#333333');
+    // Determine if this is a dark theme based on background color
+    const isDarkTheme = colorScheme.textColor === '#ffffff';
+    
+    // Set CSS custom properties using the new variable names
+    if (isDarkTheme) {
+        root.style.setProperty('--background-dark', colorScheme.background);
+        root.style.setProperty('--background-light', colorScheme.headerBackground);
+        root.style.setProperty('--accent-dark', colorScheme.headerBorder);
+        root.style.setProperty('--accent-light', colorScheme.accent);
+        root.style.setProperty('--text-light', colorScheme.textColor);
+        root.style.setProperty('--text-dark', colorScheme.headerTextColor);
+        root.style.setProperty('--dark', colorScheme.background);
+        root.style.setProperty('--light', colorScheme.headerBackground);
+    } else {
+        root.style.setProperty('--background-light', colorScheme.background);
+        root.style.setProperty('--background-dark', colorScheme.headerBackground);
+        root.style.setProperty('--accent-light', colorScheme.accent);
+        root.style.setProperty('--accent-dark', colorScheme.headerBorder);
+        root.style.setProperty('--text-dark', colorScheme.textColor);
+        root.style.setProperty('--text-light', colorScheme.headerTextColor);
+        root.style.setProperty('--light', colorScheme.background);
+        root.style.setProperty('--dark', colorScheme.textColor);
+    }
     
     // Apply colors directly to elements for immediate effect
     document.body.style.backgroundColor = colorScheme.background;
@@ -88,6 +101,7 @@ function applyColorScheme(colorScheme) {
     if (header) {
         header.style.backgroundColor = colorScheme.headerBackground;
         header.style.borderColor = colorScheme.headerBorder;
+        header.style.color = colorScheme.textColor || '#333333';
     }
     
     // Update all headings
@@ -105,10 +119,12 @@ function applyColorScheme(colorScheme) {
     const startBtn = document.querySelector('.start-btn');
     if (startBtn) {
         startBtn.style.backgroundColor = colorScheme.secondaryButton;
+        startBtn.style.color = colorScheme.headerTextColor || '#ffffff';
     }
     
     const footer = document.querySelector('footer');
     if (footer) {
         footer.style.backgroundColor = colorScheme.accent;
+        footer.style.color = colorScheme.headerTextColor || '#ffffff';
     }
 }

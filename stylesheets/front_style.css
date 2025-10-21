@@ -1,45 +1,44 @@
 /* Front page styles — adapted from stylesheets/style.css */
 :root {
-    --bg-color: #FAFAF7;
-    --header-bg: #FAFAF7;
-    --header-border: #59A8D9;
-    --primary-btn: #f0a23b;
-    --secondary-btn: #2EC4B6;
-    --accent-color: #FFC857;
-    --focus-color: #307eea;
-    --text-color: #333333;
-    --header-text-color: #333333;
+    --background-dark: #2D1B21;
+    --background-light: #EADCE1;
+    --accent-dark: #66353C;
+    --accent-light: #e9b7bd;
+    --text-light: #EADCE1;
+    --text-dark: #5F3A48;
+    --dark: #1d1216;
+    --light: #ffeff5;
 }
 
 body{
 	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	margin: 0;
 	padding: 0;
-	background-color: var(--bg-color);
-	color: var(--text-color);
+	background-color: var(--background-light);
+	color: var(--text-dark);
 	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 header{
-	border: 2px solid var(--header-border);
+	border: 2px solid var(--accent-dark);
 	padding: 10px 20px;
 	margin: 20px;
 	margin-bottom: 50px;
-	background-color: var(--header-bg);
+	background-color: var(--light);
 	transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 h1{
 	margin: 0;
 	font-size: 32px;
-	color: var(--header-text-color);
+	color: var(--dark);
 	transition: color 0.3s ease;
 }
 
 p{
 	font-family: Verdana, Geneva, Tahoma, sans-serif;
 	font-size: 18px;
-	color: var(--text-color);
+	color: var(--text-dark);
 	transition: color 0.3s ease;
 }
 
@@ -66,7 +65,7 @@ p{
 label{
 	font-size: 18px;
 	margin-right: 8px;
-	color: var(--text-color);
+	color: var(--text-dark);
 	transition: color 0.3s ease;
 }
 
@@ -79,7 +78,7 @@ select#player_count{
 
 .start-btn{
 	display: inline-block;
-	background-color: var(--secondary-btn);
+	background-color: var(--background-dark);
 	color: white;
 	padding: 12px 20px;
 	border-radius: 8px;
@@ -143,7 +142,7 @@ button{
 }
 
 footer{
-	background-color: var(--accent-color);
+	background-color: var(--accent-dark);
 	padding: 12px 20px;
 	text-align: center;
 	margin-top: 40px;
