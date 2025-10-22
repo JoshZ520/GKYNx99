@@ -89,139 +89,9 @@ function applyQuestionsForTopic(topic) {
     }
 }
 
-// Function to display question options
-function displayQuestionOptions(question) {
-    if (question.option1 && question.option2) {
-        // Show preference UI and hide text input
-        const preferenceContainer = document.getElementById('preferenceContainer');
-        const textInput = document.getElementById('textInput');
-        const answerElem = document.getElementById('answer');
-        
-        if (preferenceContainer && textInput) {
-            preferenceContainer.style.display = 'block';
-            textInput.style.display = 'none';
-        }
-        
-        // Update option labels and placeholder images
-        const option1Label = document.getElementById('option1Label');
-        const option2Label = document.getElementById('option2Label');
-        const option1Image = document.getElementById('option1Image');
-        const option2Image = document.getElementById('option2Image');
-        
-        if (option1Label) option1Label.textContent = question.option1;
-        if (option2Label) option2Label.textContent = question.option2;
-        
-        // Add placeholder content to images (contributors can replace with real images)
-        if (option1Image) {
-            option1Image.textContent = question.option1;
-            option1Image.setAttribute('data-option', question.option1.toLowerCase().replace(/\s+/g, '-'));
-        }
-        if (option2Image) {
-            option2Image.textContent = question.option2;
-            option2Image.setAttribute('data-option', question.option2.toLowerCase().replace(/\s+/g, '-'));
-        }
-        
-        // Set up click handlers for preferences
-        setupPreferenceClickHandlers(question);
-    } else {
-        // Fallback to text input for backward compatibility
-        showTextInput(question);
-    }
-}
 
-// Function to show text input (fallback)
-function showTextInput(question) {
-    const preferenceContainer = document.getElementById('preferenceContainer');
-    const textInput = document.getElementById('textInput');
-    const answerElem = document.getElementById('answer');
-    
-    if (preferenceContainer) preferenceContainer.style.display = 'none';
-    if (textInput) textInput.style.display = 'block';
-    
-    if (answerElem && question) {
-        if (typeof question === 'string') {
-            answerElem.placeholder = 'Answer: ';
-        } else if (question.option1 && question.option2) {
-            answerElem.placeholder = `Choose: ${question.option1} or ${question.option2}`;
-        }
-    }
-}
 
-// Function to apply color scheme to the page
-function applyColorScheme(colorScheme) {
-    const root = document.documentElement;
-    
-    // Determine if this is a dark theme based on background color
-    const isDarkTheme = colorScheme.textColor === '#ffffff';
-    
-    // Set CSS custom properties using the new variable names
-    if (isDarkTheme) {
-        root.style.setProperty('--background-dark', colorScheme.background);
-        root.style.setProperty('--background-light', colorScheme.headerBackground);
-        root.style.setProperty('--accent-dark', colorScheme.headerBorder);
-        root.style.setProperty('--accent-light', colorScheme.accent);
-        root.style.setProperty('--text-light', colorScheme.textColor);
-        root.style.setProperty('--text-dark', colorScheme.headerTextColor);
-        root.style.setProperty('--dark', colorScheme.background);
-        root.style.setProperty('--light', colorScheme.headerBackground);
-    } else {
-        root.style.setProperty('--background-light', colorScheme.background);
-        root.style.setProperty('--background-dark', colorScheme.headerBackground);
-        root.style.setProperty('--accent-light', colorScheme.accent);
-        root.style.setProperty('--accent-dark', colorScheme.headerBorder);
-        root.style.setProperty('--text-dark', colorScheme.textColor);
-        root.style.setProperty('--text-light', colorScheme.headerTextColor);
-        root.style.setProperty('--light', colorScheme.background);
-        root.style.setProperty('--dark', colorScheme.textColor);
-    }
-    
-    // Apply colors directly to elements for immediate effect
-    document.body.style.backgroundColor = colorScheme.background;
-    document.body.style.color = colorScheme.textColor || '#333333';
-    
-    const header = document.querySelector('header');
-    if (header) {
-        header.style.backgroundColor = colorScheme.headerBackground;
-        header.style.borderColor = colorScheme.headerBorder;
-        header.style.color = colorScheme.textColor || '#333333';
-    }
-    
-    // Update all headings
-    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    headings.forEach(heading => {
-        heading.style.color = colorScheme.headerTextColor || '#333333';
-    });
-    
-    // Update all paragraphs and text elements
-    const textElements = document.querySelectorAll('p, label, .topic');
-    textElements.forEach(element => {
-        element.style.color = colorScheme.textColor || '#333333';
-    });
-    
-    const submitBtn = document.querySelector('.submit');
-    if (submitBtn) {
-        submitBtn.style.backgroundColor = colorScheme.primaryButton;
-        submitBtn.style.color = colorScheme.headerTextColor || '#ffffff';
-    }
-    
-    const finBtn = document.querySelector('.fin');
-    if (finBtn) {
-        finBtn.style.backgroundColor = colorScheme.secondaryButton;
-        finBtn.style.color = colorScheme.headerTextColor || '#ffffff';
-    }
-    
-    const footer = document.querySelector('footer');
-    if (footer) {
-        footer.style.backgroundColor = colorScheme.accent;
-        footer.style.color = colorScheme.headerTextColor || '#ffffff';
-    }
-    
-    // Update switch button background to match body
-    const switchBtn = document.querySelector('.switch_button');
-    if (switchBtn) {
-        switchBtn.style.backgroundColor = colorScheme.background;
-    }
-}
+
 
 function setTopic(topic) {
     window.currentTopic = topic;
@@ -285,49 +155,6 @@ function pickRandomTopic() {
     const choice = keys[Math.floor(Math.random() * keys.length)];
     setTopic(choice);
     return choice;
-}
-
-// Function to set up click handlers for preference options
-function setupPreferenceClickHandlers(question) {
-    const option1Elem = document.getElementById('option1');
-    const option2Elem = document.getElementById('option2');
-    
-    // Remove any existing listeners
-    const option1Clone = option1Elem?.cloneNode(true);
-    const option2Clone = option2Elem?.cloneNode(true);
-    
-    if (option1Elem && option1Clone) {
-        option1Elem.parentNode.replaceChild(option1Clone, option1Elem);
-        option1Clone.addEventListener('click', () => selectPreference(question.option1));
-    }
-    
-    if (option2Elem && option2Clone) {
-        option2Elem.parentNode.replaceChild(option2Clone, option2Elem);
-        option2Clone.addEventListener('click', () => selectPreference(question.option2));
-    }
-}
-
-// Function to handle preference selection
-function selectPreference(choice) {
-    // Visual feedback - highlight selected option
-    const option1 = document.getElementById('option1');
-    const option2 = document.getElementById('option2');
-    
-    if (option1) option1.classList.remove('selected');
-    if (option2) option2.classList.remove('selected');
-    
-    const selectedOption = choice === document.getElementById('option1Label')?.textContent 
-        ? option1 : option2;
-    
-    if (selectedOption) selectedOption.classList.add('selected');
-    
-    // Store the choice in the hidden answer field for submission
-    const answerElem = document.getElementById('answer');
-    if (answerElem) {
-        answerElem.value = choice;
-    }
-    
-    console.log('Selected preference:', choice);
 }
 
 // safe attach: only add listeners if elements exist
@@ -449,9 +276,7 @@ function submitAnswer() {
     updateSubmissionState();
 }
 
-// displayAnswers is implemented in scripts/answers.js and will be available globally
 
-// displayAnswers will register itself on DOMContentLoaded from scripts/answers.js
 const finalBtn = document.getElementById('final_submit');
 if (finalBtn) finalBtn.addEventListener('click', function() {
     // Get chronological submissions
