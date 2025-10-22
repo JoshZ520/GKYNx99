@@ -89,10 +89,6 @@ function applyQuestionsForTopic(topic) {
     }
 }
 
-
-
-
-
 function setTopic(topic) {
     window.currentTopic = topic;
     applyQuestionsForTopic(topic);
@@ -275,7 +271,6 @@ function submitAnswer() {
     // Update UI state in case we've reached the player count
     updateSubmissionState();
 }
-
 
 const finalBtn = document.getElementById('final_submit');
 if (finalBtn) finalBtn.addEventListener('click', function() {
