@@ -69,12 +69,81 @@ function applyQuestionsForTopic(topic) {
     const questionElem = document.getElementById('question');
     if (questionElem) {
         questionElem.setAttribute('data-index', 0);
-        questionElem.textContent = appQuestions[0] || '';
+        
+        // Handle both old string format and new object format
+        const currentQuestion = appQuestions[0];
+        if (typeof currentQuestion === 'string') {
+            questionElem.textContent = currentQuestion;
+        } else if (currentQuestion && currentQuestion.prompt) {
+            questionElem.textContent = currentQuestion.prompt;
+            // Display the options as well
+            displayQuestionOptions(currentQuestion);
+        } else {
+            questionElem.textContent = '';
+        }
     }
     
     // Apply color scheme if available
     if (topicData.colorScheme) {
         applyColorScheme(topicData.colorScheme);
+    }
+}
+
+// Function to display question options
+function displayQuestionOptions(question) {
+    if (question.option1 && question.option2) {
+        // Show preference UI and hide text input
+        const preferenceContainer = document.getElementById('preferenceContainer');
+        const textInput = document.getElementById('textInput');
+        const answerElem = document.getElementById('answer');
+        
+        if (preferenceContainer && textInput) {
+            preferenceContainer.style.display = 'block';
+            textInput.style.display = 'none';
+        }
+        
+        // Update option labels and placeholder images
+        const option1Label = document.getElementById('option1Label');
+        const option2Label = document.getElementById('option2Label');
+        const option1Image = document.getElementById('option1Image');
+        const option2Image = document.getElementById('option2Image');
+        
+        if (option1Label) option1Label.textContent = question.option1;
+        if (option2Label) option2Label.textContent = question.option2;
+        
+        // Add placeholder content to images (contributors can replace with real images)
+        if (option1Image) {
+            option1Image.textContent = question.option1;
+            option1Image.setAttribute('data-option', question.option1.toLowerCase().replace(/\s+/g, '-'));
+        }
+        if (option2Image) {
+            option2Image.textContent = question.option2;
+            option2Image.setAttribute('data-option', question.option2.toLowerCase().replace(/\s+/g, '-'));
+        }
+        
+        // Set up click handlers for preferences
+        setupPreferenceClickHandlers(question);
+    } else {
+        // Fallback to text input for backward compatibility
+        showTextInput(question);
+    }
+}
+
+// Function to show text input (fallback)
+function showTextInput(question) {
+    const preferenceContainer = document.getElementById('preferenceContainer');
+    const textInput = document.getElementById('textInput');
+    const answerElem = document.getElementById('answer');
+    
+    if (preferenceContainer) preferenceContainer.style.display = 'none';
+    if (textInput) textInput.style.display = 'block';
+    
+    if (answerElem && question) {
+        if (typeof question === 'string') {
+            answerElem.placeholder = 'Answer: ';
+        } else if (question.option1 && question.option2) {
+            answerElem.placeholder = `Choose: ${question.option1} or ${question.option2}`;
+        }
     }
 }
 
@@ -218,6 +287,49 @@ function pickRandomTopic() {
     return choice;
 }
 
+// Function to set up click handlers for preference options
+function setupPreferenceClickHandlers(question) {
+    const option1Elem = document.getElementById('option1');
+    const option2Elem = document.getElementById('option2');
+    
+    // Remove any existing listeners
+    const option1Clone = option1Elem?.cloneNode(true);
+    const option2Clone = option2Elem?.cloneNode(true);
+    
+    if (option1Elem && option1Clone) {
+        option1Elem.parentNode.replaceChild(option1Clone, option1Elem);
+        option1Clone.addEventListener('click', () => selectPreference(question.option1));
+    }
+    
+    if (option2Elem && option2Clone) {
+        option2Elem.parentNode.replaceChild(option2Clone, option2Elem);
+        option2Clone.addEventListener('click', () => selectPreference(question.option2));
+    }
+}
+
+// Function to handle preference selection
+function selectPreference(choice) {
+    // Visual feedback - highlight selected option
+    const option1 = document.getElementById('option1');
+    const option2 = document.getElementById('option2');
+    
+    if (option1) option1.classList.remove('selected');
+    if (option2) option2.classList.remove('selected');
+    
+    const selectedOption = choice === document.getElementById('option1Label')?.textContent 
+        ? option1 : option2;
+    
+    if (selectedOption) selectedOption.classList.add('selected');
+    
+    // Store the choice in the hidden answer field for submission
+    const answerElem = document.getElementById('answer');
+    if (answerElem) {
+        answerElem.value = choice;
+    }
+    
+    console.log('Selected preference:', choice);
+}
+
 // safe attach: only add listeners if elements exist
 const submitBtn = document.getElementById('submitButton');
 if (submitBtn) submitBtn.addEventListener('click', submitAnswer);
@@ -235,7 +347,19 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
 
     let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
     currentIndex = (currentIndex + 1) % appQuestions.length;
-    questionElem.textContent = appQuestions[currentIndex];
+    
+    // Handle both old string format and new object format
+    const currentQuestion = appQuestions[currentIndex];
+    if (typeof currentQuestion === 'string') {
+        questionElem.textContent = currentQuestion;
+    } else if (currentQuestion && currentQuestion.prompt) {
+        questionElem.textContent = currentQuestion.prompt;
+        // Display the options as well
+        displayQuestionOptions(currentQuestion);
+    } else {
+        questionElem.textContent = '';
+    }
+    
     questionElem.setAttribute('data-index', currentIndex);
     // Update submission UI state for the new question index
     updateSubmissionState();

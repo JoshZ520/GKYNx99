@@ -18,9 +18,21 @@
   },
   "dnd": {
     "questions": [
-      "What is your favorite D&D class?",
-      "Do you prefer roleplaying or combat in D&D sessions?",
-      "What is your favorite part of D&D?"
+      {
+        "prompt": "Which do you prefer in D&D?",
+        "option1": "Roleplaying",
+        "option2": "Combat"
+      },
+      {
+        "prompt": "What's your favorite character type?",
+        "option1": "Spellcaster",
+        "option2": "Warrior"
+      },
+      {
+        "prompt": "Which D&D setting appeals to you?",
+        "option1": "Fantasy Medieval",
+        "option2": "Modern Magic"
+      }
     ],
     "colorScheme": {
       "background": "#2a1810",
@@ -36,11 +48,26 @@
   },
   "movies": {
     "questions": [
-      "What's your favorite movie of all time?",
-      "Which TV show are you currently watching?",
-      "Which movie character do you relate to the most?",
-      "If you could have any superpower, what would it be?",
-      "What is your favorite movie or TV show?"
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "Movies",
+        "option2": "TV Shows"
+      },
+      {
+        "prompt": "What's your favorite genre?",
+        "option1": "Action",
+        "option2": "Comedy"
+      },
+      {
+        "prompt": "Where do you prefer to watch?",
+        "option1": "Theater",
+        "option2": "Home"
+      },
+      {
+        "prompt": "Which superpower would you choose?",
+        "option1": "Flying",
+        "option2": "Invisibility"
+      }
     ],
     "colorScheme": {
       "background": "#0f0f23",
@@ -56,9 +83,26 @@
   },
   "sports": {
     "questions": [
-      "What's your favorite sport to watch or play?",
-      "Do you have a favorite team or athlete?",
-      "What's your most memorable sports moment?"
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "Team Sports",
+        "option2": "Individual Sports"
+      },
+      {
+        "prompt": "How do you like to watch sports?",
+        "option1": "At the Stadium",
+        "option2": "At Home"
+      },
+      {
+        "prompt": "What's your sports preference?",
+        "option1": "Outdoor Sports",
+        "option2": "Indoor Sports"
+      },
+      {
+        "prompt": "Which season sports do you prefer?",
+        "option1": "Summer Sports",
+        "option2": "Winter Sports"
+      }
     ],
     "colorScheme": {
       "background": "#004225",
@@ -74,10 +118,26 @@
   },
   "music": {
     "questions": [
-      "What's the best concert you've ever been to?",
-      "What's your favorite music genre right now?",
-      "Which artist do you think everyone should listen to?",
-      "What is your favorite way to relax?"
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "Live Concerts",
+        "option2": "Recorded Music"
+      },
+      {
+        "prompt": "What's your music preference?",
+        "option1": "Old Classics",
+        "option2": "New Releases"
+      },
+      {
+        "prompt": "How do you discover music?",
+        "option1": "Radio/Streaming",
+        "option2": "Friends/Social"
+      },
+      {
+        "prompt": "Which music experience?",
+        "option1": "Headphones",
+        "option2": "Speakers"
+      }
     ],
     "colorScheme": {
       "background": "#2d1b69",
@@ -93,9 +153,26 @@
   },
   "tech": {
     "questions": [
-      "What's one gadget you can't live without?",
-      "Which app do you use most days?",
-      "What's a tech trend you find exciting (or annoying)?"
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "iPhone",
+        "option2": "Android"
+      },
+      {
+        "prompt": "Your computing preference?",
+        "option1": "Mac",
+        "option2": "PC"
+      },
+      {
+        "prompt": "How do you stay connected?",
+        "option1": "Social Media",
+        "option2": "Messaging Apps"
+      },
+      {
+        "prompt": "Which tech trend excites you?",
+        "option1": "AI/Machine Learning",
+        "option2": "Virtual Reality"
+      }
     ],
     "colorScheme": {
       "background": "#001122",
@@ -111,12 +188,26 @@
   },
   "travel": {
     "questions": [
-      "What's the best place you've ever visited?",
-      "Do you prefer relaxing vacations or active/adventure trips?",
-      "What's one place on your travel bucket list?",
-      "What is your dream vacation spot?",
-      "If you could travel anywhere in the world, where would you go?",
-      "What is your favorite season and why?"
+      {
+        "prompt": "What type of vacation do you prefer?",
+        "option1": "Beach",
+        "option2": "Mountains"
+      },
+      {
+        "prompt": "How do you like to travel?",
+        "option1": "Road Trip",
+        "option2": "Flying"
+      },
+      {
+        "prompt": "What's your vacation style?",
+        "option1": "Relaxing",
+        "option2": "Adventure"
+      },
+      {
+        "prompt": "Which season for travel?",
+        "option1": "Summer",
+        "option2": "Winter"
+      }
     ],
     "colorScheme": {
       "background": "#87ceeb",
@@ -132,9 +223,26 @@
   },
   "history": {
     "questions": [
-      "If you could witness one historical event, which would it be?",
-      "Which historical figure fascinates you most?",
-      "What's a lesser-known historical fact you find interesting?"
+      {
+        "prompt": "Which time period interests you more?",
+        "option1": "Ancient History",
+        "option2": "Modern History"
+      },
+      {
+        "prompt": "What fascinates you about history?",
+        "option1": "Great Leaders",
+        "option2": "Cultural Movements"
+      },
+      {
+        "prompt": "How do you learn history?",
+        "option1": "Books/Documents",
+        "option2": "Movies/Shows"
+      },
+      {
+        "prompt": "Which historical focus?",
+        "option1": "Wars/Conflicts",
+        "option2": "Art/Science"
+      }
     ],
     "colorScheme": {
       "background": "#8b4513",
@@ -150,10 +258,26 @@
   },
   "books": {
     "questions": [
-      "What's a book you think everyone should read?",
-      "Do you prefer fiction or non-fiction?",
-      "Which book character would you most like to meet?",
-      "What is your favorite book?"
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "Fiction",
+        "option2": "Non-Fiction"
+      },
+      {
+        "prompt": "How do you like to read?",
+        "option1": "Physical Books",
+        "option2": "E-books/Digital"
+      },
+      {
+        "prompt": "What's your reading preference?",
+        "option1": "Series/Sequels",
+        "option2": "Standalone Books"
+      },
+      {
+        "prompt": "Which genre appeals to you?",
+        "option1": "Mystery/Thriller",
+        "option2": "Romance/Drama"
+      }
     ],
     "colorScheme": {
       "background": "#2f4f2f",
@@ -169,9 +293,26 @@
   },
   "games": {
     "questions": [
-      "What's your favorite board or video game?",
-      "Do you prefer cooperative or competitive games?",
-      "What's a game you always recommend to friends?"
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "Board Games",
+        "option2": "Video Games"
+      },
+      {
+        "prompt": "What's your gaming style?",
+        "option1": "Cooperative",
+        "option2": "Competitive"
+      },
+      {
+        "prompt": "How do you like to game?",
+        "option1": "Solo Gaming",
+        "option2": "Multiplayer"
+      },
+      {
+        "prompt": "Which gaming experience?",
+        "option1": "Quick Games",
+        "option2": "Long Campaigns"
+      }
     ],
     "colorScheme": {
       "background": "#4b0082",
@@ -187,10 +328,26 @@
   },
   "food": {
     "questions": [
-      "What's your go-to comfort food?",
-      "Do you prefer sweet or savory?",
-      "What's the best meal you've ever had?",
-      "What do you like to eat in the morning?"
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "Sweet",
+        "option2": "Savory"
+      },
+      {
+        "prompt": "What's your ideal meal time?",
+        "option1": "Breakfast",
+        "option2": "Dinner"
+      },
+      {
+        "prompt": "Which cooking method?",
+        "option1": "Grilled",
+        "option2": "Fried"
+      },
+      {
+        "prompt": "What's your preference?",
+        "option1": "Spicy",
+        "option2": "Mild"
+      }
     ],
     "colorScheme": {
       "background": "#ff6347",
@@ -206,12 +363,26 @@
   },
   "personal": {
     "questions": [
-      "What is your favorite color?",
-      "What is one thing you can't live without?",
-      "What is a fun fact about yourself?",
-      "What is your favorite way to relax?",
-      "What is your favorite hobby?",
-      "What is your favorite animal?"
+      {
+        "prompt": "What's your preferred color theme?",
+        "option1": "Warm Colors",
+        "option2": "Cool Colors"
+      },
+      {
+        "prompt": "How do you like to relax?",
+        "option1": "Reading",
+        "option2": "Music"
+      },
+      {
+        "prompt": "What's your ideal weekend?",
+        "option1": "Outdoors",
+        "option2": "Indoors"
+      },
+      {
+        "prompt": "Which animal do you prefer?",
+        "option1": "Dogs",
+        "option2": "Cats"
+      }
     ],
     "colorScheme": {
       "background": "#e6e6fa",
