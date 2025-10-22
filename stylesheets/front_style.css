@@ -1,4 +1,4 @@
-/* Front page styles — adapted from stylesheets/style.css */
+/* Enhanced Front page styles for test version */
 :root {
     --background-dark: #2D1B21;
     --background-light: #EADCE1;
@@ -8,6 +8,8 @@
     --text-dark: #5F3A48;
     --dark: #1d1216;
     --light: #ffeff5;
+    --test-primary: #667eea;
+    --test-secondary: #764ba2;
 }
 
 body{
@@ -20,18 +22,19 @@ body{
 }
 
 header{
-	border: 2px solid var(--accent-dark);
+	border: 2px solid var(--test-primary);
 	padding: 10px 20px;
 	margin: 20px;
 	margin-bottom: 50px;
 	background-color: var(--light);
 	transition: background-color 0.3s ease, border-color 0.3s ease;
+	border-radius: 8px;
 }
 
 h1{
 	margin: 0;
 	font-size: 32px;
-	color: var(--dark);
+	color: var(--test-primary);
 	transition: color 0.3s ease;
 }
 
@@ -51,11 +54,11 @@ p{
 	box-sizing: border-box;
 	max-width: 720px;
 	width: calc(100% - 40px);
-	margin: 6vh auto; /* center vertically with some top/bottom spacing */
+	margin: 6vh auto;
 	padding: 24px;
 	background: #ffffff;
-	border-radius: 10px;
-	box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(102, 126, 234, 0.12);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -71,26 +74,119 @@ label{
 
 select#player_count{
 	font-size: 18px;
-	padding: 6px 10px;
-	border-radius: 4px;
-	border: 1px solid #ccc;
+	padding: 8px 12px;
+	border-radius: 6px;
+	border: 2px solid var(--test-primary);
+	background: white;
+	color: var(--text-dark);
+	transition: border-color 0.3s ease;
+}
+
+select#player_count:focus {
+	outline: none;
+	border-color: var(--test-secondary);
+	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .start-btn{
 	display: inline-block;
-	background-color: var(--background-dark);
+	background: linear-gradient(135deg, var(--test-primary) 0%, var(--test-secondary) 100%);
 	color: white;
-	padding: 12px 20px;
+	padding: 14px 28px;
 	border-radius: 8px;
 	text-decoration: none;
 	font-weight: 600;
-	transition: background-color 0.3s ease;
+	font-size: 18px;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
 }
 
-.start-btn:hover{ opacity: 0.95; }
+.start-btn:hover{ 
+	transform: translateY(-2px);
+	box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
 
 .group select{
-	min-width: 160px;
+	min-width: 180px;
+}
+
+/* Enhanced test version features */
+.test-badge {
+	background: linear-gradient(135deg, var(--test-primary) 0%, var(--test-secondary) 100%);
+	color: white;
+	padding: 12px;
+	border-radius: 8px;
+	margin: 16px 0;
+	text-align: center;
+	animation: subtle-pulse 3s ease-in-out infinite;
+}
+
+.test-badge span {
+	font-weight: bold;
+	font-size: 1.1em;
+	display: block;
+	margin-bottom: 4px;
+}
+
+.test-badge p {
+	margin: 0;
+	font-size: 0.9em;
+	opacity: 0.9;
+}
+
+.demo-features {
+	background: rgba(102, 126, 234, 0.08);
+	padding: 20px;
+	border-radius: 8px;
+	border-left: 4px solid var(--test-primary);
+	text-align: left;
+}
+
+.demo-features h3 {
+	margin-top: 0;
+	color: var(--test-primary);
+	font-size: 1.2em;
+}
+
+.demo-features ul {
+	list-style: none;
+	padding: 0;
+	margin: 12px 0 0 0;
+}
+
+.demo-features li {
+	padding: 6px 0;
+	font-size: 0.95em;
+	position: relative;
+	padding-left: 8px;
+}
+
+.demo-features li::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 4px;
+	height: 4px;
+	background: var(--test-primary);
+	border-radius: 50%;
+}
+
+footer {
+	background: linear-gradient(135deg, var(--test-primary) 0%, var(--test-secondary) 100%);
+	color: white;
+	padding: 16px 20px;
+	text-align: center;
+	margin-top: 40px;
+	border-radius: 8px 8px 0 0;
+}
+
+footer p {
+	color: white;
+	margin: 8px 0;
 }
 
 /* Direction header styling */
@@ -113,12 +209,19 @@ select#player_count{
     background-color: transparent;
     display: flex;
     align-items: center;
-    padding: 0;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+#open_page:hover {
+	background-color: rgba(102, 126, 234, 0.1);
 }
 
 #open_page img{
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
+    filter: hue-rotate(200deg);
 }
 
 /* Hide class for toggling directions */
@@ -126,12 +229,37 @@ select#player_count{
     display: none;
 }
 
-/* Buttons (if any) */
+#directions {
+	margin-top: 16px;
+	padding-top: 16px;
+	border-top: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+#directions a {
+	color: var(--test-primary);
+	text-decoration: none;
+	font-weight: 600;
+}
+
+#directions a:hover {
+	text-decoration: underline;
+}
+
+/* Buttons */
 button{
 	font-size: 16px;
-	padding: 8px 12px;
+	padding: 8px 16px;
 	border-radius: 6px;
 	cursor: pointer;
+	border: 2px solid var(--test-primary);
+	background: white;
+	color: var(--test-primary);
+	transition: all 0.3s ease;
+}
+
+button:hover {
+	background: var(--test-primary);
+	color: white;
 }
 
 /* Layout helpers */
@@ -141,20 +269,35 @@ button{
 	padding: 0 16px;
 }
 
-footer{
-	background-color: var(--accent-dark);
-	padding: 12px 20px;
-	text-align: center;
-	margin-top: 40px;
-	transition: background-color 0.3s ease;
+/* Animations */
+@keyframes subtle-pulse {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.95; }
 }
 
+/* Responsive design */
 @media (min-width: 600px){
 	h1{ font-size: 40px; }
 	.group{ margin-bottom: 60px; }
 }
 
-@media (max-height: 520px){
-	.card{ margin: 20px 12px; padding: 16px; }
+@media (max-width: 768px) {
+	.card {
+		margin: 4vh 16px;
+		padding: 20px;
+	}
+	
+	.demo-features {
+		padding: 16px;
+	}
+	
+	.start-btn {
+		padding: 12px 24px;
+		font-size: 16px;
+	}
 }
 
+@media (max-height: 520px){
+	.card{ margin: 20px 12px; padding: 16px; }
+	.test-badge { padding: 8px; margin: 12px 0; }
+}
