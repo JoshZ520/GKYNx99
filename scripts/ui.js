@@ -48,7 +48,7 @@ function applyColorScheme(colorScheme) {
     });
     
     // Update all paragraphs and text elements
-    const textElements = document.querySelectorAll('p, label, .topic');
+    const textElements = document.querySelectorAll('p, label, .topic, .preference-label');
     textElements.forEach(element => {
         element.style.color = colorScheme.textColor || '#333333';
     });
@@ -126,6 +126,17 @@ function displayQuestionOptions(question) {
         }
         if (option2Image) {
             option2Image.setAttribute('data-option', question.option2.toLowerCase().replace(/\s+/g, '-'));
+        }
+        
+        // Set the text labels above the images
+        const option1Label = document.getElementById('option1Label');
+        const option2Label = document.getElementById('option2Label');
+        
+        if (option1Label) {
+            option1Label.textContent = question.option1;
+        }
+        if (option2Label) {
+            option2Label.textContent = question.option2;
         }
         
         // Set up click handlers for preferences

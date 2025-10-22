@@ -9,7 +9,7 @@
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-    height: 360px; /* Adjusted for 320px boxes + margin */
+    height: 400px; /* Increased for 360px boxes + margin */
 }
 
 .preference-options {
@@ -26,13 +26,26 @@
 
 .preference-option {
     width: 320px; /* 300px + 20px padding (10px each side) */
-    height: 320px; /* 300px + 20px padding - no header needed */
+    height: 360px; /* Increased height to accommodate label */
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     border-radius: 12px;
     overflow: hidden;
     background: var(--background-light);
     border: 3px solid var(--accent-light);
+    display: flex;
+    flex-direction: column;
+}
+
+.preference-label {
+    background: var(--background-light);
+    color: var(--text-dark);
+    padding: 12px 15px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1em;
+    border-bottom: 2px solid var(--accent-light);
+    flex-shrink: 0;
 }
 
 .preference-option:hover {
@@ -47,24 +60,17 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-
-
 .preference-image {
     width: 300px;
-    height: 300px;
+    height: 260px; /* Reduced to make room for label */
     margin: 10px;
     background-image: url(https://placekittens.com/200/300);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-color: var(--background-light);
-    border-radius: 12px; /* Full rounded corners since no header */
-    
-    /* CONTRIBUTOR NOTE: Replace this section with:
-     * background-image: url('path/to/your/image.jpg');
-     * background-size: cover;
-     * background-position: center;
-     */
+    flex-grow: 1;
+    border-radius: 12px;
 }
 
 /* Mobile responsiveness */
@@ -75,69 +81,43 @@
         margin-left: 0;
         margin-right: 0;
         height: auto;
-        max-height: 70vh; /* Limit height to prevent footer overlap */
-        overflow-y: auto; /* Allow scrolling if needed */
+        max-height: 70vh;
+        overflow-y: auto;
     }
     
     .preference-options {
         flex-direction: column;
         gap: 15px;
         align-items: center;
-        justify-content: flex-start;
-        padding: 10px;
         position: static;
-    }
-    
-    .preference-container {
-        height: auto;
+        padding: 10px;
     }
     
     .preference-option {
         width: 300px;
-        height: 200px; /* Adjusted for mobile without header */
+        height: 250px;
         margin-bottom: 10px;
-        flex-shrink: 0;
     }
     
     .preference-image {
-        width: 280px; /* Wider for mobile screens */
-        height: 180px; /* Shorter height for mobile */
-        margin: 10px;
-    }
-}
-
-/* Large screen enhancement */
-@media (min-width: 1200px) {
-    .preference-container {
-        height: 480px; /* Adjusted for taller boxes without headers */
-    }
-    
-    .preference-option {
-        width: 340px;
-        height: 440px; /* Taller for large screens without header */
-    }
-    
-    .preference-image {
-        width: 320px; /* Narrower for large screens */
-        height: 420px; /* Much taller for large screens */
-        margin: 10px;
+        width: 280px;
+        height: 180px;
     }
 }
 
 /* Extra small screens */
 @media (max-width: 480px) {
     .preference-container {
-        max-height: 60vh; /* Even more constrained on tiny screens */
+        max-height: 60vh;
     }
     
     .preference-option {
         width: 280px;
-        height: 165px; /* Shorter height without header */
+        height: 220px;
     }
     
     .preference-image {
-        width: 260px; /* Much wider for tiny screens */
-        height: 145px; /* Much shorter height */
-        margin: 10px;
+        width: 260px;
+        height: 150px;
     }
 }
