@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Table Talk Test Version with Enhanced Setup Configuration">
+    <title>Table Talk - Test Game</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/options.css">
+    <script src="scripts/ui.js" defer></script>
+    <script src="scripts/main.js" defer></script>
+</head>
+<body>
+    <header id="header">
+        <div class="direction">
+            <h1>Directions: </h1>            
+        </div>
+        <button id="open_page" type="button"><img src="images/chevron-down.svg" alt="open page"></button>
+        <div id="directions" class="hide">
+            <p>Form a group of friends. You all will be given the same question and will each answer. After everyone has answered, press the 'All answers finished' button. This will pop up with all of the answers and associated names, then it's time to discuss!</p>
+            <p><strong>🧪 Test Features:</strong> This version includes enhanced setup configuration system with timer options, persistent settings, and improved feedback.</p>
+            <p><a href="index.html">Back to start page</a></p>
+        </div>
+    </header>
+
+    <!-- Configuration Status Panel (new feature for demonstration) -->
+    <div class="config-status" id="configStatus" style="display: none;">
+        <div class="config-header">
+            <h3>🎮 Game Configuration Active</h3>
+            <button class="config-toggle" id="configToggle">Hide</button>
+        </div>
+        <div class="config-details" id="configDetails">
+            <!-- Configuration details will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Timer Display (new feature) -->
+    <div class="timer-display" id="timerDisplay" style="display: none;">
+        <div class="timer-label">⏰ Time Remaining:</div>
+        <div class="timer-value" id="timerValue">--:--</div>
+        <div class="timer-progress">
+            <div class="timer-bar" id="timerBar"></div>
+        </div>
+    </div>
+
+    <main>
+        <h1 class="question" id="question">Press the switch question to start</h1>
+
+        <!-- Setup Instructions Panel (enhanced) -->
+        <div class="instruction-panel" id="instructionPanel" style="display: none;">
+            <div class="instruction-header">
+                <h3>📋 Current Instructions</h3>
+            </div>
+            <div class="instruction-content" id="instructionContent">
+                <!-- Instructions will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="switch_button" id="switchQuestion" type="button"><img src="images/sync.svg" alt="change question"></button>
+            <div class="topic">
+                <label for="topicSelect">Topic:</label>
+                <select id="topicSelect">
+                    <option value="setup">Game Setup ✨</option>
+                    <option value="random" selected>Random</option>
+                    <option value="personal">Personal</option>
+                    <option value="games">Games</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Image-based preference selection (enhanced) -->
+        <div class="preference-container" id="preferenceContainer" style="display: none;">
+            <div class="preference-options">
+                <div class="preference-option" id="option1" data-choice="option1">
+                    <div class="preference-label" id="option1Label">Option 1</div>
+                    <div class="preference-image" id="option1Image">
+                        <!-- Image will be loaded here -->
+                    </div>
+                </div>
+                <div class="preference-option" id="option2" data-choice="option2">
+                    <div class="preference-label" id="option2Label">Option 2</div>
+                    <div class="preference-image" id="option2Image">
+                        <!-- Image will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fallback text input (for backward compatibility) -->
+        <div class="input" id="textInput">
+            <div class="group">
+                <textarea type="text" class="name_input" id="answer" placeholder="Answer: " required></textarea>
+                <span class="bar"></span>
+            </div>
+            <div class="group">
+                <input type="text" class="name_input" id="name" placeholder="First Name: " required>
+                <span class="bar"></span>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="submit" id="submitButton" type="submit">Submit Answer</button>
+            <button class="fin" id="final_submit" type="button">All Answers Finished</button>
+        </div>
+
+        <!-- Enhanced Answer Display -->
+        <div class="answers_section">
+            <h2 id="answers">Answers: </h2>
+            <div class="answer-stats" id="answerStats" style="display: none;">
+                <span class="stat">Submitted: <strong id="submittedCount">0</strong></span>
+                <span class="stat">Required: <strong id="requiredCount">0</strong></span>
+            </div>
+            <ul id="answersList"></ul>
+        </div>
+    </main>
+
+    <footer>
+        <h2>About: </h2>
+        <p>🧪 <strong>Test Version:</strong> This enhanced version includes setup configuration system, timer functionality, and improved user feedback for team evaluation.</p>
+        <p><strong>Purpose:</strong> Get to know people through engaging conversation starters.</p>
+        <p>Ask Away!</p>
+    </footer>
+
+    <!-- Additional CSS for new features -->
+    <style>
+        .config-status {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .config-header h3 {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .config-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        .config-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            font-size: 0.85em;
+        }
+
+        .timer-display {
+            background: #2ecc71;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            text-align: center;
+        }
+
+        .timer-display.warning {
+            background: #f39c12;
+        }
+
+        .timer-display.danger {
+            background: #e74c3c;
+            animation: pulse 1s infinite;
+        }
+
+        .timer-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 4px 0;
+        }
+
+        .timer-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .timer-bar {
+            height: 100%;
+            background: white;
+            transition: width 1s linear;
+        }
+
+        .instruction-panel {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .instruction-header h3 {
+            margin: 0 0 8px 0;
+            color: #3498db;
+        }
+
+        .answer-stats {
+            display: flex;
+            gap: 16px;
+            margin: 8px 0;
+            font-size: 0.9em;
+        }
+
+        .stat {
+            color: #666;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Enhanced preference options */
+        .preference-option.selected {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            border: 2px solid #667eea;
+        }
+
+        /* Test version indicators */
+        select option[value="setup"]::after {
+            content: " ✨";
+        }
+    </style>
+</body>
+</html>

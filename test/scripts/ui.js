@@ -1,4 +1,4 @@
-// UI Components - themes, preferences, and front page functionality
+// Enhanced UI Components - with setup configuration demonstrations
 // This module handles all user interface components and interactions
 
 // === COLOR THEME SYSTEM ===

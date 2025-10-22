@@ -1,0 +1,102 @@
+{
+  "setup": {
+    "questions": [
+      {
+        "prompt": "How would you like to start this session?",
+        "option1": "Learn the Rules First",
+        "option2": "Jump Right Into Playing"
+      },
+      {
+        "prompt": "What's your group's preferred style?",
+        "option1": "Structured & Organized",
+        "option2": "Casual & Free-flowing"
+      },
+      {
+        "prompt": "How should players approach questions?",
+        "option1": "Quick Gut Reactions",
+        "option2": "Thoughtful Responses"
+      },
+      {
+        "prompt": "What kind of discussion do you want?",
+        "option1": "Light & Fun",
+        "option2": "Deep & Meaningful"
+      },
+      {
+        "prompt": "How should the group handle disagreements?",
+        "option1": "Move On Quickly",
+        "option2": "Explore Different Views"
+      },
+      {
+        "prompt": "What's the goal for this session?",
+        "option1": "Getting to Know Each Other",
+        "option2": "Having Fun Together"
+      }
+    ],
+    "colorScheme": {
+      "background": "#f8f9fa",
+      "headerBackground": "#e9ecef",
+      "headerBorder": "#6c757d",
+      "primaryButton": "#007bff",
+      "secondaryButton": "#28a745",
+      "accent": "#17a2b8",
+      "focusColor": "#fd7e14",
+      "textColor": "#212529",
+      "headerTextColor": "#495057"
+    }
+  },
+  "personal": {
+    "questions": [
+      {
+        "prompt": "What's your preferred color theme?",
+        "option1": "Warm Colors",
+        "option2": "Cool Colors"
+      },
+      {
+        "prompt": "How do you like to relax?",
+        "option1": "Reading",
+        "option2": "Music"
+      },
+      {
+        "prompt": "What's your ideal weekend?",
+        "option1": "Outdoors",
+        "option2": "Indoors"
+      }
+    ],
+    "colorScheme": {
+      "background": "#e6e6fa",
+      "headerBackground": "#f0f8ff",
+      "headerBorder": "#9370db",
+      "primaryButton": "#da70d6",
+      "secondaryButton": "#dda0dd",
+      "accent": "#ffc0cb",
+      "focusColor": "#ff69b4",
+      "textColor": "#333333",
+      "headerTextColor": "#333333"
+    }
+  },
+  "games": {
+    "questions": [
+      {
+        "prompt": "Which do you prefer?",
+        "option1": "Board Games",
+        "option2": "Video Games"
+      },
+      {
+        "prompt": "What's your gaming style?",
+        "option1": "Cooperative",
+        "option2": "Competitive"
+      }
+    ],
+    "colorScheme": {
+      "background": "#4b0082",
+      "headerBackground": "#663399",
+      "headerBorder": "#ff00ff",
+      "primaryButton": "#8a2be2",
+      "secondaryButton": "#9370db",
+      "accent": "#da70d6",
+      "focusColor": "#ff1493",
+      "textColor": "#ffffff",
+      "headerTextColor": "#ffffff"
+    }
+  }
+}

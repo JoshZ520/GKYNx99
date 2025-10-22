@@ -32,10 +32,10 @@ function loadFrontPageInstruction() {
     fetch('files/questions.json')
         .then(res => res.json())
         .then(data => {
-            const defaultData = data['default'];
-            if (defaultData && defaultData.questions && defaultData.questions.length > 0) {
+            const setupData = data['setup'];
+            if (setupData && setupData.questions && setupData.questions.length > 0) {
                 // Use the first question as the front page instruction
-                const frontInstruction = defaultData.questions[0];
+                const frontInstruction = setupData.questions[0].prompt;
                 const instructionElement = document.getElementById('front-instruction');
                 if (instructionElement) {
                     instructionElement.textContent = frontInstruction;

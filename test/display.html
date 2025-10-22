@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - Test Version</title>
+    <link rel="stylesheet" href="stylesheets/display.css">
+    <script src="scripts/ui.js" defer></script>
+    <script src="scripts/display.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>🧪 Test Results Display</h1>
+            <div class="question-info">
+                <h2 id="currentQuestion">Loading question...</h2>
+                <p id="questionCounter" class="question-counter">Question 1 of 1</p>
+            </div>
+        </div>
+        <div class="navigation-controls">
+            <button id="prevBtn" class="nav-btn">← Previous</button>
+            <button id="nextBtn" class="nav-btn">Next →</button>
+            <button id="backBtn" class="back-btn">Back to Game</button>
+        </div>
+    </header>
+
+    <!-- Configuration Summary (new feature) -->
+    <div class="config-summary-display" id="configSummaryDisplay" style="display: none;">
+        <h3>🎮 Game Configuration Used</h3>
+        <div class="config-grid" id="configGrid">
+            <!-- Configuration details will be populated by JavaScript -->
+        </div>
+    </div>
+   
+    <main>
+        <section class="display-container">
+            <div class="answers-header">
+                <h2>📝 Player Responses</h2>
+                <div class="test-features-note">
+                    <span class="test-badge">🧪 Enhanced Display</span>
+                    <p>This test version includes improved navigation, configuration tracking, and better answer organization.</p>
+                </div>
+            </div>
+            
+            <div id="playerAnswers" class="player-answers-container">
+                <!-- Player answers will be dynamically inserted here -->
+            </div>
+
+            <div class="display-stats" id="displayStats">
+                <div class="stat-item">
+                    <span class="stat-label">Total Questions:</span>
+                    <span class="stat-value" id="totalQuestions">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Players:</span>
+                    <span class="stat-value" id="totalPlayers">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Current Position:</span>
+                    <span class="stat-value" id="currentPosition">1</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="test-footer">
+        <div class="footer-content">
+            <h3>🧪 Test Version Features</h3>
+            <div class="feature-highlights">
+                <div class="feature">
+                    <strong>Enhanced Navigation:</strong> Previous/Next buttons to review all answered questions
+                </div>
+                <div class="feature">
+                    <strong>Configuration Tracking:</strong> Shows game settings used during play
+                </div>
+                <div class="feature">
+                    <strong>Better Organization:</strong> Improved player answer display with statistics
+                </div>
+                <div class="feature">
+                    <strong>Responsive Design:</strong> Works better on different screen sizes
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Confetti Animation (enhanced) -->
+    <div id="confetti-container">
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+        <div class="confetti-piece"></div>
+    </div>
+
+    <!-- Additional CSS for test enhancements -->
+    <style>
+        .header-content {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .header-content h1 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .question-info h2 {
+            margin: 8px 0 4px 0;
+            font-size: 1.3em;
+        }
+
+        .question-counter {
+            color: #666;
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+        .navigation-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .nav-btn, .back-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: #7f8c8d;
+        }
+
+        .config-summary-display {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid #667eea;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .config-summary-display h3 {
+            margin: 0 0 12px 0;
+            color: #667eea;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            font-size: 0.9em;
+        }
+
+        .answers-header {
+            margin-bottom: 24px;
+        }
+
+        .test-features-note {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .test-badge {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .test-features-note p {
+            margin: 4px 0 0 0;
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .player-answers-container {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .player-answer {
+            background: white;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .player-answer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .player-name {
+            color: #667eea;
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .answer-text {
+            margin: 0;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .display-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            background: rgba(102, 126, 234, 0.05);
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.8em;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .test-footer {
+            background: rgba(149, 165, 166, 0.1);
+            padding: 24px;
+            margin-top: 32px;
+            border-radius: 8px;
+        }
+
+        .footer-content h3 {
+            color: #667eea;
+            margin: 0 0 16px 0;
+            text-align: center;
+        }
+
+        .feature-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+
+        .feature {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+            font-size: 0.9em;
+        }
+
+        .feature strong {
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .navigation-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .display-stats {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .feature-highlights {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

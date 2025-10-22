@@ -1,19 +1,47 @@
 {
-  "default": {
+  "setup": {
     "questions": [
-      "Select how many people are in the group and then press submit.",
-      "Welcome — enter a name and answer the question, then press Submit. Use Final Submit when everyone is done."
+      {
+        "prompt": "How would you like to start this session?",
+        "option1": "Learn the Rules First",
+        "option2": "Jump Right Into Playing"
+      },
+      {
+        "prompt": "What's your group's preferred style?",
+        "option1": "Structured & Organized",
+        "option2": "Casual & Free-flowing"
+      },
+      {
+        "prompt": "How should players approach questions?",
+        "option1": "Quick Gut Reactions",
+        "option2": "Thoughtful Responses"
+      },
+      {
+        "prompt": "What kind of discussion do you want?",
+        "option1": "Light & Fun",
+        "option2": "Deep & Meaningful"
+      },
+      {
+        "prompt": "How should the group handle disagreements?",
+        "option1": "Move On Quickly",
+        "option2": "Explore Different Views"
+      },
+      {
+        "prompt": "What's the goal for this session?",
+        "option1": "Getting to Know Each Other",
+        "option2": "Having Fun Together"
+      }
     ],
     "colorScheme": {
-      "background": "#fff7d1",
-      "headerBackground": "#FAFAF7",
-      "headerBorder": "#59A8D9",
-      "primaryButton": "#f0a23b",
-      "secondaryButton": "#2EC4B6",
-      "accent": "#FFC857",
-      "focusColor": "#307eea",
-      "textColor": "#333333",
-      "headerTextColor": "#333333"
+      "background": "#f8f9fa",
+      "headerBackground": "#e9ecef",
+      "headerBorder": "#6c757d",
+      "primaryButton": "#007bff",
+      "secondaryButton": "#28a745",
+      "accent": "#17a2b8",
+      "focusColor": "#fd7e14",
+      "textColor": "#212529",
+      "headerTextColor": "#495057"
     }
   },
   "dnd": {
