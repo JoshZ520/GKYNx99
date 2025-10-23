@@ -1,0 +1,142 @@
+/* ==========================================================================
+   FORM STYLES - Input fields, selects, form controls, and validation
+   ========================================================================== */
+
+/* === FORM GROUPS === */
+.group {
+    margin: 40px auto;
+    text-align: center;
+    position: relative;
+}
+
+.input {
+    margin: 20px 0;
+}
+
+/* === TEXT INPUTS === */
+.name_input {
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 300px;
+    border: none;
+    border-bottom: 1px solid #757575;
+    background: transparent;
+    outline: none;
+    color: var(--text-primary);
+    transition: border-color 0.3s ease;
+}
+
+.name_input:focus {
+    border-bottom-color: var(--accent-primary);
+}
+
+/* === ANIMATED UNDERLINE === */
+.bar {
+    position: relative;
+    display: block;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.bar:before,
+.bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: var(--accent-primary);
+    transition: 0.2s ease all;
+}
+
+.bar:before {
+    left: 50%;
+}
+
+.bar:after {
+    right: 50%;
+}
+
+.name_input:focus ~ .bar:before,
+.name_input:focus ~ .bar:after {
+    width: 50%;
+}
+
+/* === SELECT DROPDOWNS === */
+.topic select,
+.card select {
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 2px solid var(--accent-primary);
+    background: white;
+    color: var(--text-primary);
+    transition: border-color 0.3s ease;
+}
+
+.card select {
+    font-size: 18px;
+    min-width: 180px;
+}
+
+.topic select:focus,
+.card select:focus {
+    outline: none;
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* === NAME INPUT SECTION === */
+.name-input-section {
+    margin: 16px 0;
+}
+
+.name-input-section .group {
+    margin: 20px auto;
+    text-align: center;
+}
+
+#nameInputSection {
+    display: block !important;
+}
+
+.name-instruction {
+    text-align: center;
+    margin-bottom: 12px;
+    padding: 8px 16px;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 6px;
+    border-left: 3px solid var(--accent-primary);
+}
+
+.name-instruction p {
+    margin: 0;
+    color: var(--accent-primary);
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+/* === RESPONSIVE FORM DESIGN === */
+@media (min-width: 600px) {
+    .group { 
+        margin-bottom: 60px; 
+    }
+}
+
+@media (max-width: 768px) {
+    .name_input {
+        width: 250px;
+        font-size: 16px;
+    }
+    
+    .bar {
+        width: 250px;
+    }
+    
+    .topic select,
+    .card select {
+        font-size: 16px;
+        min-width: 150px;
+    }
+}

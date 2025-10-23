@@ -1,0 +1,38 @@
+/* ==========================================================================
+   CSS VARIABLES - Global theme colors, spacing, and design tokens
+   ========================================================================== */
+
+:root {
+    /* Core theme colors */
+    --bg-primary: #EADCE1;
+    --bg-secondary: #ffeff5;
+    --text-primary: #5F3A48;
+    --text-secondary: #333333;
+    --accent-primary: #667eea;
+    --accent-secondary: #764ba2;
+    --accent-tertiary: #66353C;
+    
+    /* UI colors */
+    --border-color: #e1e5e9;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+    
+    /* Status colors */
+    --success: #2ecc71;
+    --warning: #f39c12;
+    --danger: #e74c3c;
+    
+    /* Display-specific colors */
+    --display-bg: #fff7d1;
+    --display-header-bg: #FAFAF7;
+    --display-header-border: #59A8D9;
+    --display-primary-btn: #f0a23b;
+    --display-secondary-btn: #2EC4B6;
+    --display-accent: #FFC857;
+    
+    /* Legacy support (gradually remove these) */
+    --background-light: var(--bg-primary);
+    --text-dark: var(--text-primary);
+    --test-primary: var(--accent-primary);
+    --test-secondary: var(--accent-secondary);
+}

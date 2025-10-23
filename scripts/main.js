@@ -140,7 +140,14 @@ function setTopic(topic) {
     applyQuestionsForTopic(topic);
     localStorage.setItem('currentTopic', topic);
     // Update UI state after topic change
-    setTimeout(() => updateSubmissionState(), 0);
+    setTimeout(() => {
+        updateSubmissionState();
+        displayAnswers();
+        
+        // Clear any existing feedback messages when changing topics
+        const existingFeedback = document.querySelectorAll('#submissionSuccess, #validationErrors, #completionStatus, #submissionProgress');
+        existingFeedback.forEach(element => element.remove());
+    }, 0);
 }
 
 // Utility: count how many answers have been submitted for the current question
@@ -294,30 +301,126 @@ function updateSubmissionState() {
     const finalBtn = document.getElementById('final_submit');
     const answerInput = document.getElementById('answer');
     const nameInput = document.getElementById('name');
+    const answerStats = document.getElementById('answerStats');
+    
     if (!submitBtn || !finalBtn) return;
 
+    const submitted = getSubmittedCountForCurrentQuestion();
+    
+    // Update button text with progress information
     if (playerCount && playerCount > 0) {
-        const submitted = getSubmittedCountForCurrentQuestion();
+        submitBtn.textContent = `Submit Answer (${submitted}/${playerCount})`;
+        
         if (submitted >= playerCount) {
-            // hide/disable submit, show final only
+            // All players have submitted - hide submit, show final only
             submitBtn.style.display = 'none';
             finalBtn.style.display = '';
-            if (answerInput) answerInput.disabled = true;
-            if (nameInput) nameInput.disabled = true;
+            finalBtn.textContent = 'All Answers Complete - View Results';
+            if (answerInput) {
+                answerInput.disabled = true;
+                answerInput.placeholder = 'All players have answered this question';
+            }
+            if (nameInput) {
+                nameInput.disabled = true;
+                nameInput.placeholder = 'All players have answered';
+            }
+            
+            // Show completion message
+            showCompletionStatus(submitted, playerCount);
             return;
         }
 
-        // not yet reached count: show submit and hide final
+        // Not yet reached count: show submit and hide final
         submitBtn.style.display = '';
         finalBtn.style.display = 'none';
-        if (answerInput) answerInput.disabled = false;
-        if (nameInput) nameInput.disabled = false;
+        if (answerInput) {
+            answerInput.disabled = false;
+            answerInput.placeholder = 'Answer: ';
+        }
+        if (nameInput) {
+            nameInput.disabled = false;
+            nameInput.placeholder = 'First Name: ';
+        }
     } else {
-        // no playerCount set -> default behavior (both visible)
+        // No playerCount set -> default behavior (both visible)
+        submitBtn.textContent = submitted > 0 ? `Submit Answer (${submitted} submitted)` : 'Submit Answer';
         submitBtn.style.display = '';
         finalBtn.style.display = '';
-        if (answerInput) answerInput.disabled = false;
-        if (nameInput) nameInput.disabled = false;
+        finalBtn.textContent = 'All Answers Finished';
+        if (answerInput) {
+            answerInput.disabled = false;
+            answerInput.placeholder = 'Answer: ';
+        }
+        if (nameInput) {
+            nameInput.disabled = false;
+            nameInput.placeholder = 'First Name: ';
+        }
+    }
+    
+    // Update progress indicator
+    updateProgressIndicator(submitted, playerCount);
+}
+
+// Show completion status when all players have answered
+function showCompletionStatus(submitted, required) {
+    let completionMsg = document.getElementById('completionStatus');
+    if (!completionMsg) {
+        completionMsg = document.createElement('div');
+        completionMsg.id = 'completionStatus';
+        completionMsg.className = 'completion-status';
+        
+        // Insert after the buttons
+        const buttonsContainer = document.querySelector('.buttons');
+        if (buttonsContainer) {
+            buttonsContainer.insertAdjacentElement('afterend', completionMsg);
+        }
+    }
+    
+    completionMsg.innerHTML = `
+        <div class="completion-content">
+            <span class="completion-icon">🎉</span>
+            <div class="completion-text">
+                <strong>All ${required} players have answered!</strong>
+                <p>Click "View Results" to see everyone's responses.</p>
+            </div>
+        </div>
+    `;
+    
+    completionMsg.style.display = 'block';
+}
+
+// Update progress indicator
+function updateProgressIndicator(submitted, required) {
+    const progressElement = document.getElementById('submissionProgress');
+    
+    // Create progress indicator if it doesn't exist
+    if (!progressElement && required && required > 0) {
+        const progressDiv = document.createElement('div');
+        progressDiv.id = 'submissionProgress';
+        progressDiv.className = 'submission-progress';
+        
+        // Insert before the buttons
+        const buttonsContainer = document.querySelector('.buttons');
+        if (buttonsContainer) {
+            buttonsContainer.insertAdjacentElement('beforebegin', progressDiv);
+        }
+    }
+    
+    const progressDiv = document.getElementById('submissionProgress');
+    if (progressDiv && required && required > 0) {
+        const percentage = Math.round((submitted / required) * 100);
+        progressDiv.innerHTML = `
+            <div class="progress-header">
+                <span>Submission Progress</span>
+                <span>${submitted}/${required} (${percentage}%)</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${percentage}%"></div>
+            </div>
+        `;
+        progressDiv.style.display = 'block';
+    } else if (progressDiv) {
+        progressDiv.style.display = 'none';
     }
 }
 
@@ -365,6 +468,11 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
     
     questionElem.setAttribute('data-index', currentIndex);
     updateSubmissionState();
+    displayAnswers(); // Refresh answers display for the new question
+    
+    // Clear any existing feedback messages
+    const existingFeedback = document.querySelectorAll('#submissionSuccess, #validationErrors, #completionStatus');
+    existingFeedback.forEach(element => element.remove());
 });
 
 // Wire the topic dropdown and restore persisted topic after loading questions
@@ -401,6 +509,7 @@ window.addEventListener('DOMContentLoaded', function () {
         }
 
         updateSubmissionState();
+        displayAnswers(); // Show any existing answers for the current question
     });
 });
 
@@ -410,7 +519,10 @@ function submitAnswer() {
     const questionElem = document.getElementById('question');
     const currentQuestion = questionElem?.textContent || '';
 
-    if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
+    // Enhanced validation
+    const validationErrors = validateSubmission(answer, name, currentQuestion);
+    if (validationErrors.length > 0) {
+        showValidationErrors(validationErrors);
         return;
     }
 
@@ -452,6 +564,9 @@ function submitAnswer() {
     // Display all answers on the page
     displayAnswers();
     updateSubmissionState();
+    
+    // Show success feedback
+    showSubmissionSuccess(name.trim());
 }
 
 // Final submit button handler
@@ -489,6 +604,183 @@ if (finalBtn) finalBtn.addEventListener('click', function() {
 
     window.location.href = 'display.html';
 });
+// ===== ANSWER DISPLAY AND FEEDBACK FUNCTIONS =====
+
+// Display all submitted answers for the current question
+function displayAnswers() {
+    const answersList = document.getElementById('answersList');
+    const answerStats = document.getElementById('answerStats');
+    const submittedCountElem = document.getElementById('submittedCount');
+    const requiredCountElem = document.getElementById('requiredCount');
+    
+    if (!answersList) return;
+    
+    const questionElem = document.getElementById('question');
+    const currentQuestion = questionElem?.textContent || '';
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    
+    // Filter submissions for current question
+    const currentQuestionSubmissions = submissions.filter(sub => sub.question === currentQuestion);
+    
+    // Clear and rebuild the answers list
+    answersList.innerHTML = '';
+    
+    if (currentQuestionSubmissions.length === 0) {
+        answersList.innerHTML = '<li class="no-answers">No answers submitted yet for this question.</li>';
+        if (answerStats) answerStats.style.display = 'none';
+        return;
+    }
+    
+    // Display each answer
+    currentQuestionSubmissions.forEach((submission, index) => {
+        const listItem = document.createElement('li');
+        listItem.className = 'answer-item';
+        listItem.innerHTML = `
+            <div class="answer-header">
+                <strong class="answer-name">${escapeHtml(submission.name)}</strong>
+                <span class="answer-time">${formatTimeAgo(submission.timestamp)}</span>
+            </div>
+            <div class="answer-text">${escapeHtml(submission.answer)}</div>
+        `;
+        answersList.appendChild(listItem);
+    });
+    
+    // Update statistics
+    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || 0;
+    if (answerStats && submittedCountElem && requiredCountElem) {
+        submittedCountElem.textContent = currentQuestionSubmissions.length;
+        requiredCountElem.textContent = playerCount || '∞';
+        answerStats.style.display = 'flex';
+    }
+}
+
+// Show success feedback when an answer is submitted
+function showSubmissionSuccess(playerName) {
+    // Create or update success message
+    let successMsg = document.getElementById('submissionSuccess');
+    if (!successMsg) {
+        successMsg = document.createElement('div');
+        successMsg.id = 'submissionSuccess';
+        successMsg.className = 'submission-success';
+        
+        // Insert after the buttons
+        const buttonsContainer = document.querySelector('.buttons');
+        if (buttonsContainer) {
+            buttonsContainer.insertAdjacentElement('afterend', successMsg);
+        }
+    }
+    
+    successMsg.innerHTML = `
+        <div class="success-content">
+            <span class="success-icon">✅</span>
+            <span class="success-text">Answer submitted by <strong>${escapeHtml(playerName)}</strong>!</span>
+        </div>
+    `;
+    
+    successMsg.style.display = 'block';
+    
+    // Hide after 3 seconds
+    setTimeout(() => {
+        if (successMsg) {
+            successMsg.style.display = 'none';
+        }
+    }, 3000);
+}
+
+// Enhanced validation for answer submission
+function validateSubmission(answer, name, currentQuestion) {
+    const errors = [];
+    
+    // Check for empty fields
+    if (!answer.trim()) {
+        errors.push('Please provide an answer.');
+    }
+    if (!name.trim()) {
+        errors.push('Please enter your name.');
+    }
+    if (!currentQuestion.trim()) {
+        errors.push('No question is currently selected.');
+    }
+    
+    // Check answer length (reasonable limits)
+    if (answer.trim().length > 1000) {
+        errors.push('Answer is too long (maximum 1000 characters).');
+    }
+    if (name.trim().length > 50) {
+        errors.push('Name is too long (maximum 50 characters).');
+    }
+    
+    // Check for duplicate submissions from same player for same question
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    const duplicateSubmission = submissions.find(sub => 
+        sub.question === currentQuestion && 
+        sub.name.toLowerCase() === name.trim().toLowerCase()
+    );
+    
+    if (duplicateSubmission) {
+        errors.push(`${name.trim()} has already answered this question.`);
+    }
+    
+    return errors;
+}
+
+// Show validation errors to user
+function showValidationErrors(errors) {
+    // Remove any existing error display
+    const existingErrors = document.getElementById('validationErrors');
+    if (existingErrors) {
+        existingErrors.remove();
+    }
+    
+    if (errors.length === 0) return;
+    
+    // Create error display
+    const errorDiv = document.createElement('div');
+    errorDiv.id = 'validationErrors';
+    errorDiv.className = 'validation-errors';
+    
+    const errorList = errors.map(error => `<li>${escapeHtml(error)}</li>`).join('');
+    errorDiv.innerHTML = `
+        <div class="error-header">
+            <span class="error-icon">⚠️</span>
+            <strong>Please fix the following:</strong>
+        </div>
+        <ul class="error-list">${errorList}</ul>
+    `;
+    
+    // Insert before the input section
+    const inputSection = document.getElementById('textInput');
+    if (inputSection) {
+        inputSection.insertAdjacentElement('beforebegin', errorDiv);
+    }
+    
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+    }, 5000);
+}
+
+// Utility functions
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function formatTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = now - timestamp;
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    
+    if (seconds < 60) return 'just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return new Date(timestamp).toLocaleDateString();
+}
 
 // Dropdown functionality
 const dropdownBtn = document.querySelector('#open_page');

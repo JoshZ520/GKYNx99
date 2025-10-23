@@ -114,6 +114,12 @@ function displayQuestionOptions(question) {
         if (preferenceContainer && textInput) {
             preferenceContainer.style.display = 'block';
             textInput.style.display = 'none';
+            
+            // Hide name instruction initially
+            const nameInstruction = document.getElementById('nameInstruction');
+            if (nameInstruction) {
+                nameInstruction.style.display = 'none';
+            }
         }
         
         // Set up image containers for contributors to add images
@@ -155,6 +161,12 @@ function showTextInput(question) {
     
     if (preferenceContainer) preferenceContainer.style.display = 'none';
     if (textInput) textInput.style.display = 'block';
+    
+    // Hide name instruction for regular text input
+    const nameInstruction = document.getElementById('nameInstruction');
+    if (nameInstruction) {
+        nameInstruction.style.display = 'none';
+    }
     
     if (answerElem && question) {
         if (typeof question === 'string') {
@@ -211,6 +223,18 @@ function selectPreference(choice) {
     const answerElem = document.getElementById('answer');
     if (answerElem) {
         answerElem.value = choice;
+    }
+    
+    // Show name instruction when preference is selected
+    const nameInstruction = document.getElementById('nameInstruction');
+    if (nameInstruction) {
+        nameInstruction.style.display = 'block';
+    }
+    
+    // Focus on name input to guide user
+    const nameInput = document.getElementById('name');
+    if (nameInput) {
+        setTimeout(() => nameInput.focus(), 100);
     }
     
     console.log('Selected preference:', choice);
