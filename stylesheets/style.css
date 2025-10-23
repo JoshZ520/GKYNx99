@@ -96,7 +96,7 @@ header {
 
 .topic label {
     margin-right: 10px;
-    color: var(--text-color);
+    color: var(--text-dark);
     transition: color 0.3s ease;
 }
 
