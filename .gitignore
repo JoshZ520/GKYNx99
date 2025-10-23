@@ -1,0 +1,24 @@
+# Node.js dependencies (you have node_modules/)
+node_modules/
+
+# macOS system files
+.DS_Store
+.DS_Store?
+
+# Windows system files
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
