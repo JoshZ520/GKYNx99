@@ -102,13 +102,21 @@ function getSubmittedCountForCurrentQuestion() {
     const questionElem = document.getElementById('question');
     const currentQuestion = questionElem?.textContent || '';
     const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
-    return submissions.filter(sub => sub.question === currentQuestion).length;
+    const filteredSubmissions = submissions.filter(sub => sub.question === currentQuestion);
+    console.log('getSubmittedCountForCurrentQuestion:', { 
+        currentQuestion: currentQuestion.substring(0, 50) + '...', 
+        totalSubmissions: submissions.length, 
+        filteredCount: filteredSubmissions.length,
+        filteredSubmissions: filteredSubmissions.map(s => ({name: s.name, answer: s.answer}))
+    }); // Debug
+    return filteredSubmissions.length;
 }
 
 // Update buttons and inputs according to the selected player count and current submission progress
 function updateSubmissionState() {
-    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
-    console.log('updateSubmissionState - playerCount from sessionStorage:', playerCount); // Debug
+    const playerCountString = sessionStorage.getItem('playerCount');
+    const playerCount = parseInt(playerCountString) || null;
+    console.log('updateSubmissionState - raw sessionStorage value:', playerCountString, 'parsed as:', playerCount); // Debug
     const submitBtn = document.getElementById('submitButton');
     const finalBtn = document.getElementById('final_submit');
     const answerInput = document.getElementById('answer');
@@ -262,7 +270,12 @@ function submitAnswer() {
     const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
     if (playerCount) {
         const answersForThisQuestion = submissions.filter(sub => sub.question === currentQuestion).length;
-        console.log('Player count check:', { playerCount, answersForThisQuestion }); // Debug
+        console.log('Player count check:', { 
+            playerCount, 
+            answersForThisQuestion, 
+            currentQuestion: currentQuestion.substring(0, 50) + '...',
+            allSubmissions: submissions.map(s => ({question: s.question.substring(0, 30) + '...', name: s.name}))
+        }); // Debug
         if (answersForThisQuestion >= playerCount) {
             console.log('Submission blocked: player count reached'); // Debug
             updateSubmissionState();
@@ -362,11 +375,15 @@ function handleFrontPageFunctionality() {
     
     // When the selection changes, store the value as an integer in sessionStorage
     select.addEventListener('change', function (e) {
-        const val = parseInt(e.target.value, 10);
-        console.log('Player count selected:', val); // Debug
+        const rawValue = e.target.value;
+        const val = parseInt(rawValue, 10);
+        console.log('Player count selection:', { rawValue, parsedValue: val, optionText: e.target.options[e.target.selectedIndex].text }); // Debug
         if (!Number.isNaN(val) && val > 0) {
             sessionStorage.setItem('playerCount', String(val));
-            console.log('Player count stored in sessionStorage:', val); // Debug
+            console.log('Player count stored in sessionStorage as string:', String(val)); // Debug
+            // Verify what we actually stored
+            const verification = sessionStorage.getItem('playerCount');
+            console.log('Verification - what was actually stored:', verification, 'parsed back:', parseInt(verification)); // Debug
         } else {
             sessionStorage.removeItem('playerCount');
             console.log('Player count removed from sessionStorage'); // Debug
