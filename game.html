@@ -62,7 +62,17 @@
                     </div>
                 </div>
             </div>
+            <!-- Name input for preference system -->
+            <div class="preference-name-input">
+                <div class="group">
+                    <input type="text" class="name_input" id="preferenceName" placeholder="First Name: " required>
+                    <span class="bar"></span>
+                </div>
+            </div>
         </div>
+
+        <!-- Hidden field to store the selected preference -->
+        <input type="hidden" id="selectedPreference" value="">
 
         <!-- Fallback text input (for backward compatibility) -->
         <div class="input" id="textInput">

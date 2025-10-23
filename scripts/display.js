@@ -13,13 +13,19 @@ window.addEventListener('DOMContentLoaded', function() {
 
 function showQuestion(index) {
     const header = document.getElementById('question-header');
+    const nextBtn = document.getElementById('next-btn');
+    const backHomeBtn = document.getElementById('back-home-btn');
 
     if (questionsInOrder.length > 0 && questionsInOrder[index]) {
         header.textContent = questionsInOrder[index];
+        // Show next button, hide back home button
+        if (nextBtn) nextBtn.style.display = '';
+        if (backHomeBtn) backHomeBtn.style.display = 'none';
     } else {
-        header.textContent = "No more questions.";
-        const nextBtn = document.getElementById('next-btn');
-        if (nextBtn) nextBtn.disabled = true;
+        header.textContent = "All questions completed!";
+        // Hide next button, show back home button
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (backHomeBtn) backHomeBtn.style.display = '';
     }
 }
 
@@ -133,6 +139,15 @@ document.getElementById('next-btn')?.addEventListener('click', () => {
     currentIndex++;
     showQuestion(currentIndex);
     renderAnswers();
+});
+
+document.getElementById('back-home-btn')?.addEventListener('click', () => {
+    // Clear session data for a fresh start
+    sessionStorage.removeItem('playerCount');
+    sessionStorage.removeItem('questionsInOrder');
+    sessionStorage.removeItem('submissionsByQuestion');
+    // Go back to home
+    window.location.href = 'index.html';
 });
 
 // initial render

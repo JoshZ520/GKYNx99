@@ -105,6 +105,32 @@
     }
 }
 
+/* Name input styling for preference system */
+.preference-name-input {
+    margin: 20px auto;
+    text-align: center;
+    max-width: 320px;
+}
+
+.preference-name-input .group {
+    margin-bottom: 20px;
+}
+
+.preference-name-input input {
+    font-size: 18px;
+    width: 280px;
+    padding: 8px;
+    border: none;
+    border-bottom: 2px solid var(--accent-light);
+    background: transparent;
+    color: var(--text-dark);
+}
+
+.preference-name-input input:focus {
+    outline: none;
+    border-bottom-color: var(--accent-dark);
+}
+
 /* Extra small screens */
 @media (max-width: 480px) {
     .preference-container {
@@ -119,5 +145,9 @@
     .preference-image {
         width: 260px;
         height: 150px;
+    }
+    
+    .preference-name-input input {
+        width: 260px;
     }
 }

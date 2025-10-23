@@ -7,7 +7,16 @@ function applyColorScheme(colorScheme) {
     const root = document.documentElement;
     
     // Determine if this is a dark theme based on background color
-    const isDarkTheme = colorScheme.textColor === '#ffffff';
+    const isDarkTheme = colorScheme.textColor === '#ffffff' || isColorDark(colorScheme.background);
+    
+    // Add or remove dark theme class on body
+    if (isDarkTheme) {
+        document.body.classList.add('dark-theme');
+        document.body.classList.remove('light-theme');
+    } else {
+        document.body.classList.add('light-theme');
+        document.body.classList.remove('dark-theme');
+    }
     
     // Set CSS custom properties using the new variable names
     if (isDarkTheme) {
@@ -82,6 +91,21 @@ function applyColorScheme(colorScheme) {
     if (switchBtn) {
         switchBtn.style.backgroundColor = colorScheme.background;
     }
+}
+
+// Helper function to determine if a color is dark
+function isColorDark(color) {
+    // Convert hex color to RGB
+    const hex = color.replace('#', '');
+    const r = parseInt(hex.substr(0, 2), 16);
+    const g = parseInt(hex.substr(2, 2), 16);
+    const b = parseInt(hex.substr(4, 2), 16);
+    
+    // Calculate luminance using the relative luminance formula
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    
+    // Return true if luminance is less than 0.5 (dark color)
+    return luminance < 0.5;
 }
 
 // Function to load and apply color scheme from the currently selected topic
@@ -207,8 +231,13 @@ function selectPreference(choice) {
         }
     }
     
-    // Store the choice in the hidden answer field for submission
+    // Store the choice in both the hidden preference field and the answer field for submission
+    const selectedPreferenceField = document.getElementById('selectedPreference');
     const answerElem = document.getElementById('answer');
+    
+    if (selectedPreferenceField) {
+        selectedPreferenceField.value = choice;
+    }
     if (answerElem) {
         answerElem.value = choice;
     }
@@ -216,52 +245,9 @@ function selectPreference(choice) {
     console.log('Selected preference:', choice);
 }
 
-// === FRONT PAGE FUNCTIONALITY ===
-// Save selected player count to sessionStorage so the main page can enforce submission limits
+// === COLOR SCHEME LOADING ===
+// Load color scheme for all pages
 window.addEventListener('DOMContentLoaded', function () {
-    const select = document.getElementById('player_count');
-    if (select) {
-        // When the selection changes, store the value as an integer in sessionStorage
-        select.addEventListener('change', function (e) {
-            const val = parseInt(e.target.value, 10);
-            if (!Number.isNaN(val) && val > 0) {
-                sessionStorage.setItem('playerCount', String(val));
-            } else {
-                sessionStorage.removeItem('playerCount');
-            }
-        });
-
-        // If the user navigates to this page and then back, pre-select the stored value
-        const stored = parseInt(sessionStorage.getItem('playerCount'), 10);
-        if (!Number.isNaN(stored) && stored > 0) {
-            const opt = Array.from(select.options).find(o => parseInt(o.value, 10) === stored);
-            if (opt) select.value = String(stored);
-        }
-    }
-
     // Load the current topic's color scheme if stored
     loadTopicColorScheme();
-    
-    // Load and display the front page instruction
-    loadFrontPageInstruction();
 });
-
-// Function to load and display the front page instruction
-function loadFrontPageInstruction() {
-    fetch('files/questions.json')
-        .then(res => res.json())
-        .then(data => {
-            const defaultData = data['default'];
-            if (defaultData && defaultData.questions && defaultData.questions.length > 0) {
-                // Use the first question as the front page instruction
-                const frontInstruction = defaultData.questions[0];
-                const instructionElement = document.getElementById('front-instruction');
-                if (instructionElement) {
-                    instructionElement.textContent = frontInstruction;
-                }
-            }
-        })
-        .catch(err => {
-            console.warn('Could not load front page instruction:', err);
-        });
-}
