@@ -2,24 +2,12 @@
  --background-dark: #2D1B21;
  --background-light: #EADCE1;
  --accent-dark: #66353C;
- --accent-light: #E09dA6;
+ --accent-light: #e9b7bd;
  --text-light: #EADCE1;
  --text-dark: #5F3A48;
  --dark: #1d1216;
  --light: #ffeff5;
  }
-
-:root {
-    --bg-color: #fff7d1;
-    --header-bg: #FAFAF7;
-    --header-border: #59A8D9;
-    --primary-btn: #f0a23b;
-    --secondary-btn: #2EC4B6;
-    --accent-color: #FFC857;
-    --focus-color: #307eea;
-    --text-color: #333333;
-    --header-text-color: #333333;
-}
 
 #answers-list {
     display: grid;
