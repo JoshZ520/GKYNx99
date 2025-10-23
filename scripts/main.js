@@ -108,6 +108,7 @@ function getSubmittedCountForCurrentQuestion() {
 // Update buttons and inputs according to the selected player count and current submission progress
 function updateSubmissionState() {
     const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
+    console.log('updateSubmissionState - playerCount from sessionStorage:', playerCount); // Debug
     const submitBtn = document.getElementById('submitButton');
     const finalBtn = document.getElementById('final_submit');
     const answerInput = document.getElementById('answer');
@@ -190,6 +191,9 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
 
 // wire the topic dropdown and restore persisted topic after loading questions
 window.addEventListener('DOMContentLoaded', function () {
+    // Handle front page functionality (player count selection)
+    handleFrontPageFunctionality();
+    
     loadQuestions().then(() => {
         // Always start with the default topic (instructions) on page load
         window.currentTopic = 'default';
@@ -217,18 +221,37 @@ window.addEventListener('DOMContentLoaded', function () {
 
         // Ensure submission state reflects any configured player count on initial load
         updateSubmissionState();
+        
+        // Load front page instruction if we're on the front page
+        loadFrontPageInstruction();
     });
 });
 function submitAnswer() {
-    const answer = document.getElementById('answer').value;
-    const name = document.getElementById('name').value;
+    // Check if we're using preference system or text input system
+    const preferenceContainer = document.getElementById('preferenceContainer');
+    const textInput = document.getElementById('textInput');
+    const isPreferenceMode = preferenceContainer && preferenceContainer.style.display !== 'none';
+    
+    let answer, name;
+    
+    if (isPreferenceMode) {
+        // Get answer from preference selection
+        answer = document.getElementById('selectedPreference').value;
+        name = document.getElementById('preferenceName').value;
+    } else {
+        // Get answer from text input system
+        answer = document.getElementById('answer').value;
+        name = document.getElementById('name').value;
+    }
+    
     const questionElem = document.getElementById('question');
     const currentQuestion = questionElem?.textContent || '';
 
-    console.log('submitAnswer called:', { answer, name, currentQuestion }); // Debug
+    console.log('submitAnswer called:', { answer, name, currentQuestion, isPreferenceMode }); // Debug
 
     if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
         console.log('Submission blocked: empty fields'); // Debug
+        alert('Please make a selection and enter your name before submitting.');
         return; // Don't submit empty answers
     }
 
@@ -262,8 +285,20 @@ function submitAnswer() {
     localStorage.setItem('chronologicalSubmissions', JSON.stringify(submissions));
 
     // Clear the input boxes for the next player
-    document.getElementById('answer').value = '';
-    document.getElementById('name').value = '';
+    if (isPreferenceMode) {
+        // Clear preference system
+        document.getElementById('selectedPreference').value = '';
+        document.getElementById('preferenceName').value = '';
+        // Remove visual selection
+        const option1 = document.getElementById('option1');
+        const option2 = document.getElementById('option2');
+        if (option1) option1.classList.remove('selected');
+        if (option2) option2.classList.remove('selected');
+    } else {
+        // Clear text input system
+        document.getElementById('answer').value = '';
+        document.getElementById('name').value = '';
+    }
 
     // Display all answers on the page
     displayAnswers();
@@ -317,4 +352,51 @@ if (finalBtn) finalBtn.addEventListener('click', function() {
      directions.classList.toggle('hide');
  }
 
- dropdownBtn.addEventListener('click', dropdown);
+ if (dropdownBtn) dropdownBtn.addEventListener('click', dropdown);
+
+// === FRONT PAGE FUNCTIONALITY ===
+// Handle player count selection and storage
+function handleFrontPageFunctionality() {
+    const select = document.getElementById('player_count');
+    if (!select) return; // Not on front page
+    
+    // When the selection changes, store the value as an integer in sessionStorage
+    select.addEventListener('change', function (e) {
+        const val = parseInt(e.target.value, 10);
+        console.log('Player count selected:', val); // Debug
+        if (!Number.isNaN(val) && val > 0) {
+            sessionStorage.setItem('playerCount', String(val));
+            console.log('Player count stored in sessionStorage:', val); // Debug
+        } else {
+            sessionStorage.removeItem('playerCount');
+            console.log('Player count removed from sessionStorage'); // Debug
+        }
+    });
+
+    // If the user navigates to this page and then back, pre-select the stored value
+    const stored = parseInt(sessionStorage.getItem('playerCount'), 10);
+    if (!Number.isNaN(stored) && stored > 0) {
+        const opt = Array.from(select.options).find(o => parseInt(o.value, 10) === stored);
+        if (opt) select.value = String(stored);
+    }
+}
+
+// Function to load and display the front page instruction
+function loadFrontPageInstruction() {
+    const instructionElement = document.getElementById('front-instruction');
+    if (!instructionElement) return; // Not on front page
+    
+    fetch('files/questions.json')
+        .then(res => res.json())
+        .then(data => {
+            const defaultData = data['default'];
+            if (defaultData && defaultData.questions && defaultData.questions.length > 0) {
+                // Use the first question as the front page instruction
+                const frontInstruction = defaultData.questions[0];
+                instructionElement.textContent = frontInstruction;
+            }
+        })
+        .catch(err => {
+            console.warn('Could not load front page instruction:', err);
+        });
+}

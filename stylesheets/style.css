@@ -16,10 +16,14 @@ body {
     background-color: var(--background-light);
 }
 
-#header p {
+p, #header p {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     color: var(--text-dark);
+}
+
+#header p {
+    font-size: 20px;
 }
 
 .direction {
@@ -66,10 +70,18 @@ h1.question {
 
 header {
     border: 2px solid var(--accent-dark);
-    padding: 0 10px;
-    margin: 20px 20px 50px 20px;
+    padding: 10px 20px;
+    margin: 20px;
     background-color: var(--light);
     color: var(--text-dark);
+    text-align: center;
+}
+
+/* Game page specific header adjustments */
+body:not(.front-page) header {
+    margin: 20px 20px 50px 20px;
+    padding: 0 10px;
+    text-align: left;
 }
 
 /* Topic controls */
@@ -94,10 +106,15 @@ header {
     color: var(--dark);
 }
 
-.topic label {
-    margin-right: 10px;
+label, .topic label {
+    font-size: 18px;
+    margin-right: 8px;
     color: var(--text-dark);
     transition: color 0.3s ease;
+}
+
+.topic label {
+    margin-right: 10px;
 }
 
 select {
@@ -111,6 +128,16 @@ select {
     position: relative;
     margin-bottom: 45px;
     text-align: center;
+    color: var(--text-dark);
+}
+
+/* Front page group styling */
+.card .group {
+    margin: 40px auto;
+}
+
+.group select {
+    min-width: 160px;
 }
 
 input, textarea {
@@ -163,7 +190,16 @@ textarea:focus ~ .bar:before, textarea:focus ~ .bar:after {
     justify-items: center;
 }
 
-/* Buttons */
+/* General button styling */
+button {
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+/* Specific buttons */
 button.submit, button.fin {
     font-size: 20px;
     padding: 8px;
@@ -210,10 +246,18 @@ button.submit, button.fin {
 
 footer {
     background-color: var(--accent-dark);
-    padding: 5px 30px;
+    padding: 12px 20px;
     color: var(--text-light);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
+    text-align: center;
+    margin-top: 40px;
+    transition: background-color 0.3s ease;
+}
+
+/* Game page specific footer adjustments */
+body:not(.front-page) footer {
+    padding: 5px 30px;
 }
 
 footer h2 {
@@ -221,24 +265,62 @@ footer h2 {
     color: var(--text-light);
 }
 
-
-/* rgb(255, 229, 183) */
-/* 
-@keyframes confetti {
-    0% {
-        opacity: 0;
-        transform: translateY(100vh) scale(0.5) rotate(0deg);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(-20vh) scale(1.2) rotate(180deg);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotate(360deg);
-    }
+/* === FRONT PAGE STYLES === */
+/* Card container for front page */
+.card {
+    box-sizing: border-box;
+    max-width: 720px;
+    width: calc(100% - 40px);
+    margin: 6vh auto; /* center vertically with some top/bottom spacing */
+    padding: 24px;
+    background: var(--light);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px var(--dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Front page specific body background */
+body.front-page {
+    background-color: var(--accent-light);
+}
+
+/* Start button styling */
+.start-btn {
+    display: inline-block;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.start-btn:hover { 
+    opacity: 0.95; 
+}
+
+/* Player count select styling */
+select#player_count {
+    font-size: 18px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--accent-light);
+    background: var(--light);
+    color: var(--text-dark);
+}
+
+/* Layout helpers */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* === RESPONSIVE STYLES === */
 @media (min-width: 600px) {
     .buttons {
         display: flex;
@@ -249,6 +331,22 @@ footer h2 {
     button.submit, button.fin {
         margin: 0;
     }
+    
+    /* Front page responsive adjustments */
+    h1 { 
+        font-size: 40px; 
+    }
+    
+    .card .group { 
+        margin-bottom: 60px; 
+    }
 }
 
+@media (max-height: 520px) {
+    .card { 
+        margin: 20px 12px; 
+        padding: 16px; 
+    }
+}
 
+/* rgb(255, 229, 183) */
