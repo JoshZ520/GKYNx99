@@ -1,0 +1,143 @@
+// ==========================================================================
+// VARIABLES.SCSS - All CSS variables converted to SCSS variables and maps
+// ==========================================================================
+
+// Core theme colors
+$bg-primary: #EADCE1;
+$bg-secondary: #ffeff5;
+$text-primary: #5F3A48;
+$text-secondary: #333333;
+$accent-primary: #667eea;
+$accent-secondary: #764ba2;
+$accent-tertiary: #66353C;
+
+// UI colors
+$border-color: #e1e5e9;
+$shadow-light: rgba(0, 0, 0, 0.1);
+$shadow-medium: rgba(0, 0, 0, 0.15);
+
+// Status colors
+$success: #2ecc71;
+$warning: #f39c12;
+$danger: #e74c3c;
+
+// Display-specific colors
+$display-bg: #fff7d1;
+$display-header-bg: #FAFAF7;
+$display-header-border: #59A8D9;
+$display-primary-btn: #f0a23b;
+$display-secondary-btn: #2EC4B6;
+$display-accent: #FFC857;
+
+// Color maps for easy theming
+$theme-colors: (
+  'primary': $accent-primary,
+  'secondary': $accent-secondary,
+  'success': $success,
+  'warning': $warning,
+  'danger': $danger
+);
+
+$display-colors: (
+  'bg': $display-bg,
+  'header-bg': $display-header-bg,
+  'header-border': $display-header-border,
+  'primary-btn': $display-primary-btn,
+  'secondary-btn': $display-secondary-btn,
+  'accent': $display-accent
+);
+
+// Spacing system
+$spacing: (
+  'xs': 4px,
+  'sm': 8px,
+  'md': 16px,
+  'lg': 24px,
+  'xl': 32px,
+  'xxl': 48px
+);
+
+// Breakpoints
+$breakpoints: (
+  'mobile': 480px,
+  'tablet': 768px,
+  'desktop': 1024px,
+  'wide': 1200px
+);
+
+// SCSS Mixins for common patterns
+@mixin button-base {
+  padding: map-get($spacing, 'md') map-get($spacing, 'lg');
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+@mixin button-variant($bg-color, $hover-color: null) {
+  @include button-base;
+  background: $bg-color;
+  color: white;
+  
+  @if $hover-color {
+    &:hover {
+      background: $hover-color;
+      transform: translateY(-2px);
+    }
+  } @else {
+    &:hover {
+      background: darken($bg-color, 10%);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@mixin card-shadow($level: 'light') {
+  @if $level == 'light' {
+    box-shadow: 0 2px 4px $shadow-light;
+  } @else if $level == 'medium' {
+    box-shadow: 0 4px 8px $shadow-medium;
+  } @else {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+// CSS Custom Properties for runtime theming (keep these for JavaScript access)
+:root {
+  --bg-primary: #{$bg-primary};
+  --bg-secondary: #{$bg-secondary};
+  --text-primary: #{$text-primary};
+  --text-secondary: #{$text-secondary};
+  --accent-primary: #{$accent-primary};
+  --accent-secondary: #{$accent-secondary};
+  --accent-tertiary: #{$accent-tertiary};
+  
+  --border-color: #{$border-color};
+  --shadow-light: #{$shadow-light};
+  --shadow-medium: #{$shadow-medium};
+  
+  --success: #{$success};
+  --warning: #{$warning};
+  --danger: #{$danger};
+  
+  --display-bg: #{$display-bg};
+  --display-header-bg: #{$display-header-bg};
+  --display-header-border: #{$display-header-border};
+  --display-primary-btn: #{$display-primary-btn};
+  --display-secondary-btn: #{$display-secondary-btn};
+  --display-accent: #{$display-accent};
+}

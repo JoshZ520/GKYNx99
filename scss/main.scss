@@ -1,0 +1,26 @@
+// ==========================================================================
+// MAIN.SCSS - Entry point that imports all other SCSS files
+// ==========================================================================
+
+// Variables first (so they're available everywhere else)
+@import 'variables';
+
+// Base styles
+@import 'base';
+
+// Layout and structural components
+@import 'layout';
+
+// Interactive components
+@import 'buttons';
+@import 'forms';
+
+// Game-specific modules
+@import 'game-preferences';
+@import 'game-features';
+
+// Page-specific styles
+@import 'display';
+
+// Utilities and responsive design
+@import 'responsive';

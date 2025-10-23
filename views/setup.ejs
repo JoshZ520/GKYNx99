@@ -1,0 +1,175 @@
+<link rel="stylesheet" href="/stylesheets/setup.css">
+
+<div class="setup-container">
+    <header>
+        <h1>🎮 Game Setup</h1>
+        <div class="setup-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: <%= progress %>%;"></div>
+            </div>
+            <p class="progress-text">Step <%= step %> of <%= totalSteps %> (<%= progress %>%)</p>
+        </div>
+    </header>
+
+    <main class="setup-main">
+        <div class="setup-question">
+            <h2><%= question.prompt %></h2>
+            
+            <form action="/setup/answer" method="POST" class="setup-form">
+                <input type="hidden" name="step" value="<%= step %>">
+                
+                <div class="setup-options">
+                    <button type="submit" name="answer" value="<%= question.option1 %>" class="setup-option option1">
+                        <%= question.option1 %>
+                    </button>
+                    
+                    <div class="vs-divider">VS</div>
+                    
+                    <button type="submit" name="answer" value="<%= question.option2 %>" class="setup-option option2">
+                        <%= question.option2 %>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <% if (step > 1) { %>
+        <div class="setup-navigation">
+            <a href="/setup/<%= step - 1 %>" class="nav-btn secondary">← Previous</a>
+        </div>
+        <% } %>
+
+        <% if (typeof session.setupAnswers !== 'undefined' && Object.keys(session.setupAnswers).length > 0) { %>
+        <div class="setup-summary">
+            <h3>Configuration So Far:</h3>
+            <div class="config-preview">
+                <% Object.entries(session.setupAnswers).forEach(function([stepNum, answer]) { %>
+                    <div class="config-item">
+                        <strong>Step <%= parseInt(stepNum) + 1 %>:</strong> <%= answer %>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+        <% } %>
+    </main>
+</div>
+
+<style>
+.setup-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.setup-progress {
+    margin: 20px 0;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    text-align: center;
+    margin: 10px 0;
+    color: #666;
+}
+
+.setup-question {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.setup-question h2 {
+    font-size: 1.8em;
+    margin-bottom: 40px;
+    color: var(--text-primary);
+}
+
+.setup-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.setup-option {
+    background: white;
+    border: 3px solid var(--accent-primary);
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.setup-option:hover {
+    background: var(--accent-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.setup-option.option2 {
+    border-color: var(--accent-secondary);
+}
+
+.setup-option.option2:hover {
+    background: var(--accent-secondary);
+    box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+}
+
+.vs-divider {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.setup-navigation {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.setup-summary {
+    background: rgba(102, 126, 234, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 40px;
+}
+
+.config-preview {
+    display: grid;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.config-item {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+    .setup-options {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .setup-option {
+        min-width: 250px;
+    }
+}
+</style>

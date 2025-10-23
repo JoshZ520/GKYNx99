@@ -1,0 +1,121 @@
+// ==========================================================================
+// RESPONSIVE.SCSS - Centralized responsive design system
+// ==========================================================================
+
+// Mobile-first responsive utilities
+@include respond-to('mobile') {
+  .hide-mobile { display: none !important; }
+  .show-mobile { display: block !important; }
+  
+  // Typography adjustments
+  h1 { font-size: 1.8em; }
+  h2 { font-size: 1.4em; }
+  h3 { font-size: 1.2em; }
+  
+  // Spacing adjustments
+  .card {
+    margin: map-get($spacing, 'md');
+    padding: map-get($spacing, 'md');
+  }
+  
+  // Navigation adjustments
+  .navigation-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: map-get($spacing, 'md');
+  }
+}
+
+@include respond-to('tablet') {
+  .hide-tablet { display: none !important; }
+  .show-tablet { display: block !important; }
+  
+  // Grid adjustments
+  .config-grid {
+    grid-template-columns: 1fr;
+    gap: map-get($spacing, 'md');
+  }
+  
+  .feature-highlights {
+    grid-template-columns: 1fr;
+  }
+  
+  // Display page adjustments
+  .display-stats {
+    flex-direction: column;
+    gap: map-get($spacing, 'md');
+  }
+  
+  // Setup page adjustments
+  .setup-options {
+    flex-direction: column;
+    gap: map-get($spacing, 'lg');
+  }
+}
+
+// Desktop and up
+@media (min-width: map-get($breakpoints, 'desktop')) {
+  .hide-desktop { display: none !important; }
+  .show-desktop { display: block !important; }
+  
+  // Enhanced layouts for larger screens
+  .setup-container {
+    max-width: 900px;
+  }
+  
+  .display-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}
+
+// High-resolution displays
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  // Optimize for high-DPI displays
+  .confetti-piece {
+    transform: scale(0.5);
+  }
+  
+  img {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+// Print styles
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .navigation-controls,
+  .setup-navigation,
+  button {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
+
+// Reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .confetti-piece {
+    animation: none;
+  }
+}

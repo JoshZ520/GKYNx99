@@ -30,32 +30,42 @@ async function loadQuestionsData() {
 function displayData() {
     console.log('Starting display process...');
     
-    // Load current session data from localStorage
-    const storedData = localStorage.getItem('gameSession');
-    if (!storedData) {
-        console.log('No game session data found. Redirecting to game page...');
-        window.location.href = 'game.html';
+    // Load data from sessionStorage (data passed from main.js)
+    const questionsInOrder = sessionStorage.getItem('questionsInOrder');
+    const submissionsByQuestion = sessionStorage.getItem('submissionsByQuestion');
+    
+    // If no data, create demo data or show empty state
+    if (!questionsInOrder || !submissionsByQuestion) {
+        console.log('No game session data found. Creating demo data for testing...');
+        createDemoData();
         return;
     }
 
     try {
-        currentSessionData = JSON.parse(storedData);
+        const questions = JSON.parse(questionsInOrder);
+        const submissions = JSON.parse(submissionsByQuestion);
+        
+        // Convert to our expected format
+        currentSessionData = {
+            questions: questions.map(q => ({ prompt: q })),
+            submissionsByQuestion: submissions
+        };
+        
+        // Extract unique players
+        currentPlayers = [];
+        Object.values(submissions).forEach(questionSubmissions => {
+            questionSubmissions.forEach(sub => {
+                if (!currentPlayers.includes(sub.name)) {
+                    currentPlayers.push(sub.name);
+                }
+            });
+        });
+        
         console.log('Session data loaded:', currentSessionData);
+        console.log('Players found:', currentPlayers);
     } catch (error) {
         console.error('Error parsing session data:', error);
-        alert('Error loading session data. Please start a new game.');
-        window.location.href = 'index.html';
-        return;
-    }
-
-    // Extract players from session data
-    currentPlayers = Object.keys(currentSessionData.answers || {});
-    console.log('Players found:', currentPlayers);
-
-    if (currentPlayers.length === 0) {
-        console.log('No players found in session data');
-        alert('No player data found. Please start a new game.');
-        window.location.href = 'index.html';
+        createDemoData();
         return;
     }
 
@@ -64,6 +74,7 @@ function displayData() {
         if (data) {
             setupDisplayInterface();
             showCurrentQuestion();
+            updateDisplayStats();
         }
     });
 }
@@ -108,6 +119,17 @@ function setupDisplayInterface() {
 
     if (backBtn) {
         backBtn.addEventListener('click', () => {
+            // Clear all game session data to restart fresh
+            sessionStorage.removeItem('questionsInOrder');
+            sessionStorage.removeItem('submissionsByQuestion');
+            sessionStorage.removeItem('playerCount');
+            
+            // Also clear any localStorage game data
+            localStorage.removeItem('chronologicalSubmissions');
+            localStorage.removeItem('setupAnswers');
+            localStorage.removeItem('gameConfig');
+            
+            console.log('Game data cleared - restarting fresh');
             window.location.href = 'game.html';
         });
     }
@@ -119,6 +141,80 @@ function setupDisplayInterface() {
 function getTotalQuestions() {
     if (!currentSessionData.questions) return 0;
     return currentSessionData.questions.length;
+}
+
+// Create demo data for testing when no game data is available
+function createDemoData() {
+    console.log('Creating demo data for display testing...');
+    
+    currentSessionData = {
+        questions: [
+            { prompt: "What's your preferred color theme?", option1: "Warm Colors", option2: "Cool Colors" },
+            { prompt: "How do you like to relax?", option1: "Reading", option2: "Music" },
+            { prompt: "What's your ideal weekend?", option1: "Outdoors", option2: "Indoors" },
+            { prompt: "Which do you prefer?", option1: "Board Games", option2: "Video Games" },
+            { prompt: "What's your gaming style?", option1: "Cooperative", option2: "Competitive" }
+        ],
+        submissionsByQuestion: {
+            "What's your preferred color theme?": [
+                { name: "Alice", answer: "Warm Colors", timestamp: Date.now() - 300000 },
+                { name: "Bob", answer: "Cool Colors", timestamp: Date.now() - 240000 },
+                { name: "Charlie", answer: "Warm Colors", timestamp: Date.now() - 180000 }
+            ],
+            "How do you like to relax?": [
+                { name: "Alice", answer: "Reading", timestamp: Date.now() - 120000 },
+                { name: "Bob", answer: "Music", timestamp: Date.now() - 60000 },
+                { name: "Charlie", answer: "Reading", timestamp: Date.now() - 30000 }
+            ],
+            "What's your ideal weekend?": [
+                { name: "Alice", answer: "Outdoors", timestamp: Date.now() - 10000 },
+                { name: "Bob", answer: "Indoors", timestamp: Date.now() - 5000 },
+                { name: "Charlie", answer: "Outdoors", timestamp: Date.now() - 1000 }
+            ],
+            "Which do you prefer?": [
+                { name: "Alice", answer: "Board Games", timestamp: Date.now() - 8000 },
+                { name: "Bob", answer: "Video Games", timestamp: Date.now() - 4000 },
+                { name: "Charlie", answer: "Board Games", timestamp: Date.now() - 2000 }
+            ],
+            "What's your gaming style?": [
+                { name: "Alice", answer: "Cooperative", timestamp: Date.now() - 6000 },
+                { name: "Bob", answer: "Competitive", timestamp: Date.now() - 3000 },
+                { name: "Charlie", answer: "Cooperative", timestamp: Date.now() - 500 }
+            ]
+        }
+    };
+    
+    currentPlayers = ["Alice", "Bob", "Charlie"];
+    
+    // Load questions data and start display
+    loadQuestionsData().then(data => {
+        if (data) {
+            setupDisplayInterface();
+            showCurrentQuestion();
+            updateDisplayStats();
+            
+            // Show demo notice
+            showDemoNotice();
+        }
+    });
+}
+
+// Show demo notice when using test data
+function showDemoNotice() {
+    const demoNotice = document.createElement('div');
+    demoNotice.className = 'demo-notice';
+    demoNotice.innerHTML = `
+        <div class="demo-content">
+            <strong>🧪 Demo Mode</strong>
+            <p>No game data found, showing demo answers for testing. <a href="game.html">Start a real game</a> to see actual results.</p>
+        </div>
+    `;
+    
+    // Insert before the header (at the very top)
+    const header = document.querySelector('header');
+    if (header) {
+        header.insertAdjacentElement('beforebegin', demoNotice);
+    }
 }
 
 // Function to show the current question and answers
@@ -143,9 +239,21 @@ function showCurrentQuestion() {
     }
 
     const currentQuestionData = sessionQuestions[currentIndex];
+    const currentQuestionText = currentQuestionData.prompt || 'Question not available';
     
-    // Display the question
-    questionElement.textContent = currentQuestionData.prompt || 'Question not available';
+    // Display the question with options if available
+    if (currentQuestionData.option1 && currentQuestionData.option2) {
+        questionElement.innerHTML = `
+            ${currentQuestionText}
+            <div class="question-options">
+                <span class="option-badge option1">${currentQuestionData.option1}</span>
+                <span class="vs-divider">vs</span>
+                <span class="option-badge option2">${currentQuestionData.option2}</span>
+            </div>
+        `;
+    } else {
+        questionElement.textContent = currentQuestionText;
+    }
     
     // Update question counter
     if (counterElement) {
@@ -155,27 +263,141 @@ function showCurrentQuestion() {
     // Display all player answers for this question
     answersElement.innerHTML = '';
     
-    currentPlayers.forEach((playerName, playerIndex) => {
-        const playerAnswers = currentSessionData.answers[playerName] || [];
-        const answer = playerAnswers[currentIndex] || 'No answer provided';
-        
+    // Get submissions for this specific question
+    const questionSubmissions = currentSessionData.submissionsByQuestion[currentQuestionText] || [];
+    
+    if (questionSubmissions.length === 0) {
+        answersElement.innerHTML = '<div class="no-answers">No answers submitted for this question.</div>';
+        return;
+    }
+    
+    // Add vote summary for choice questions
+    const questionData = currentSessionData.questions[currentIndex];
+    if (questionData.option1 && questionData.option2) {
+        const voteSummary = createVoteSummary(questionSubmissions, questionData);
+        answersElement.appendChild(voteSummary);
+    }
+    
+    // Display each player's answer
+    questionSubmissions.forEach((submission, index) => {
         const answerDiv = document.createElement('div');
-        answerDiv.className = 'player-answer';
+        answerDiv.className = 'answer-item';
         
-        const playerLabel = document.createElement('h3');
-        playerLabel.className = 'player-name';
-        playerLabel.textContent = playerName;
+        const answerHeader = document.createElement('div');
+        answerHeader.className = 'answer-header';
         
-        const answerText = document.createElement('p');
-        answerText.className = 'answer-text';
-        answerText.textContent = answer;
+        const playerLabel = document.createElement('strong');
+        playerLabel.className = 'player-answer';
+        playerLabel.textContent = submission.name;
         
-        answerDiv.appendChild(playerLabel);
+        const timeLabel = document.createElement('span');
+        timeLabel.className = 'answer-time';
+        timeLabel.textContent = formatTimeAgo(submission.timestamp);
+        
+        answerHeader.appendChild(playerLabel);
+        answerHeader.appendChild(timeLabel);
+        
+        const answerText = document.createElement('div');
+        answerText.className = 'answer-entry';
+        
+        // Check if this is a choice-based answer and style accordingly
+        const questionData = currentSessionData.questions[currentIndex];
+        if (questionData.option1 && questionData.option2) {
+            // This is a choice question - style the answer as a choice badge
+            const choiceBadge = document.createElement('span');
+            choiceBadge.className = 'choice-badge';
+            
+            if (submission.answer === questionData.option1) {
+                choiceBadge.classList.add('option1-choice');
+            } else if (submission.answer === questionData.option2) {
+                choiceBadge.classList.add('option2-choice');
+            }
+            
+            choiceBadge.textContent = submission.answer;
+            answerText.appendChild(choiceBadge);
+        } else {
+            // Regular text answer
+            answerText.textContent = submission.answer;
+        }
+        
+        answerDiv.appendChild(answerHeader);
         answerDiv.appendChild(answerText);
         answersElement.appendChild(answerDiv);
     });
 
     console.log('Question displayed successfully');
+    updateNavigationButtons();
+}
+
+// Format timestamp to human readable time
+function formatTimeAgo(timestamp) {
+    const now = Date.now();
+    const diff = now - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(minutes / 60);
+    
+    if (minutes < 1) return 'just now';
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return new Date(timestamp).toLocaleDateString();
+}
+
+// Create vote summary for choice questions
+function createVoteSummary(submissions, questionData) {
+    const option1Count = submissions.filter(s => s.answer === questionData.option1).length;
+    const option2Count = submissions.filter(s => s.answer === questionData.option2).length;
+    const totalVotes = option1Count + option2Count;
+    
+    const summaryDiv = document.createElement('div');
+    summaryDiv.className = 'vote-summary';
+    
+    const option1Percentage = totalVotes > 0 ? Math.round((option1Count / totalVotes) * 100) : 0;
+    const option2Percentage = totalVotes > 0 ? Math.round((option2Count / totalVotes) * 100) : 0;
+    
+    summaryDiv.innerHTML = `
+        <h3>Vote Results</h3>
+        <div class="vote-bars">
+            <div class="vote-bar">
+                <div class="vote-label">
+                    <span class="option-name">${questionData.option1}</span>
+                    <span class="vote-count">${option1Count} vote${option1Count !== 1 ? 's' : ''} (${option1Percentage}%)</span>
+                </div>
+                <div class="vote-progress">
+                    <div class="vote-fill option1-fill" style="width: ${option1Percentage}%"></div>
+                </div>
+            </div>
+            <div class="vote-bar">
+                <div class="vote-label">
+                    <span class="option-name">${questionData.option2}</span>
+                    <span class="vote-count">${option2Count} vote${option2Count !== 1 ? 's' : ''} (${option2Percentage}%)</span>
+                </div>
+                <div class="vote-progress">
+                    <div class="vote-fill option2-fill" style="width: ${option2Percentage}%"></div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return summaryDiv;
+}
+
+// Update display statistics
+function updateDisplayStats() {
+    const totalQuestionsEl = document.getElementById('totalQuestions');
+    const totalPlayersEl = document.getElementById('totalPlayers');
+    const currentPositionEl = document.getElementById('currentPosition');
+    
+    if (totalQuestionsEl) {
+        totalQuestionsEl.textContent = getTotalQuestions();
+    }
+    
+    if (totalPlayersEl) {
+        totalPlayersEl.textContent = currentPlayers.length;
+    }
+    
+    if (currentPositionEl) {
+        currentPositionEl.textContent = currentIndex + 1;
+    }
 }
 
 // Function to update navigation button states

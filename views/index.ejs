@@ -1,0 +1,62 @@
+<div class="card">
+    <header>
+        <h1>Table Talk - Test Version</h1>
+        <p class="lead" id="front-instruction">This is a test version with enhanced setup configuration. Pick the number of players below, then press Start.</p>
+        <div class="test-badge">
+            <span>🧪 TEST VERSION</span>
+            <p>Enhanced with setup configuration system for team evaluation</p>
+        </div>
+    </header>
+
+    <main>
+        <div class='group'>
+            <label for="player_count">Number of Players:</label>
+            <select id="player_count" required>
+                <option value="" disabled selected>Select number</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+            </select>
+        </div>
+
+        <div class="group">
+            <div class="demo-features">
+                <h3>New Features in This Test:</h3>
+                <ul>
+                    <li>✨ Setup configuration system</li>
+                    <li>⏰ Optional timer functionality</li>
+                    <li>🎨 Enhanced theming system</li>
+                    <li>📊 Configuration feedback</li>
+                    <li>💾 Persistent game settings</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="group">
+            <a class="start-btn" href="/setup/1" onclick="savePlayerCount()">Start Game Setup</a>
+            <a class="start-btn secondary" href="/display" style="background: var(--accent-secondary); margin-top: 10px;">🧪 Preview Display Page</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>Test environment for team evaluation - decide which features to keep!</p>
+    </footer>
+</div>
+
+<script>
+function savePlayerCount() {
+    const playerCount = document.getElementById('player_count').value;
+    if (playerCount) {
+        // Send player count to server
+        fetch('/api/set-player-count', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ playerCount: parseInt(playerCount) })
+        });
+    }
+}
+</script>
