@@ -14,15 +14,12 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--background-light);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #header p {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
     color: var(--text-dark);
-    transition: color 0.3s ease;
 }
 
 .direction {
@@ -58,8 +55,7 @@ body {
 
 h1, h2 {
     text-align: center;
-    color: var(--header-text-color);
-    transition: color 0.3s ease;
+    color: var(--dark);
 }
 
 h1.question {
@@ -223,6 +219,24 @@ footer {
 footer h2 {
     text-align: center;
     color: var(--text-light);
+}
+
+
+/* rgb(255, 229, 183) */
+/* 
+@keyframes confetti {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0.5) rotate(0deg);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-20vh) scale(1.2) rotate(180deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(360deg);
+    }
 }
 
 @media (min-width: 600px) {
