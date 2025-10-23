@@ -1,41 +1,41 @@
 :root {
- --background-dark: #2D1B21;
- --background-light: #EADCE1;
- --accent-dark: #66353C;
- --accent-light: #e9b7bd;
- --text-light: #EADCE1;
- --text-dark: #5F3A48;
- --dark: #1d1216;
- --light: #ffeff5;
- }
+    --background-dark: #2D1B21;
+    --background-light: #EADCE1;
+    --accent-dark: #66353C;
+    --accent-light: #e9b7bd;
+    --text-light: #EADCE1;
+    --text-dark: #5F3A48;
+    --dark: #1d1216;
+    --light: #ffeff5;
+}
 
-body{
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--background-light);
 }
 
-#header p{
+#header p {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
     color: var(--text-dark);
 }
 
-.direction{
+.direction {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
 
-.direction h1{
+.direction h1 {
     margin: 0;
     flex-grow: 1;
     text-align: center;
 }
 
-#open_page{
+#open_page {
     border: none;
     background-color: transparent;
     display: flex;
@@ -43,78 +43,77 @@ body{
     padding: 0;
 }
 
-#open_page img{
+#open_page img {
     width: 40px;
     height: 40px;
 }
 
-#directions.hide{
+#directions.hide {
     display: none;
 }
 
 
-h1, h2{
+h1, h2 {
     text-align: center;
     color: var(--dark);
 }
 
-h1.question{
+h1.question {
     margin: 0 20px;
     font-size: 40px;
     color: var(--dark);
 }
 
-header{
+header {
     border: 2px solid var(--accent-dark);
     padding: 0 10px;
-    margin: 20px;
-    margin-bottom: 50px;
+    margin: 20px 20px 50px 20px;
     background-color: var(--light);
     color: var(--text-dark);
 }
 
-/* topic */
-.switch_button{
+/* Topic controls */
+.switch_button {
     cursor: pointer;
     border: none;
     background-color: var(--background-light);
 }
 
-.switch_button img{
+.switch_button img {
     width: 50px;
     height: 50px;
 }
 
-.switch_button:focus{
+.switch_button:focus {
     outline: none;
 }
 
-.topic{
+.topic {
     font-size: 20px;
     margin-bottom: 50px;
     color: var(--dark);
 }
 
-.topic label{
+.topic label {
     margin-right: 10px;
     color: var(--text-color);
     transition: color 0.3s ease;
 }
 
-select{
+select {
     font-size: 20px;
     padding: 5px;
     color: var(--dark);
 }
 
-/* form */
-.group{
+/* Form styles */
+.group {
     position: relative;
     margin-bottom: 45px;
     text-align: center;
 }
 
-input, textarea{
+input, textarea {
     font-size: 20px;
     width: 300px;
     padding: 5px;
@@ -122,18 +121,18 @@ input, textarea{
     border-bottom: 1px solid #757575;
 }
 
-input:focus, textarea:focus{
+input:focus, textarea:focus {
     outline: none;
 }
 
-.bar{
+.bar {
     position: relative;
     display: block;
     width: 310px;
     margin: 0 auto;
 }
 
-.bar:before, .bar:after{
+.bar:before, .bar:after {
     content: '';
     height: 3px;
     position: absolute;
@@ -143,16 +142,16 @@ input:focus, textarea:focus{
     bottom: -1px;
 }
 
-.bar:before{
+.bar:before {
     left: 50%;
 }
 
-.bar:after{
+.bar:after {
     right: 50%;
 }
 
 input:focus ~ .bar:before, input:focus ~ .bar:after,
-textarea:focus ~ .bar:before, textarea:focus ~ .bar:after{
+textarea:focus ~ .bar:before, textarea:focus ~ .bar:after {
     width: 50%;
 }
 .controls {
@@ -163,31 +162,32 @@ textarea:focus ~ .bar:before, textarea:focus ~ .bar:after{
     align-items: center;
     justify-items: center;
 }
-/* input end */
 
-button.submit, button.fin{
+/* Buttons */
+button.submit, button.fin {
     font-size: 20px;
     padding: 8px;
     display: block;
     margin: 0 auto 40px auto;
-    border-radius: 5px;;
+    border-radius: 5px;
 }
 
-.buttons{
+.buttons {
     margin: 60px 0;
 }
 
-.submit{
+.submit {
     background-color: var(--background-dark);
     color: var(--text-light);
     border: 2px solid var(--accent-light);
 }
 
-.fin{
+.fin {
     border: 2px solid var(--accent-light);
     background-color: var(--background-dark);
     color: var(--text-light);
 }
+
 .fin.hide {
     display: none;
 }
@@ -208,7 +208,7 @@ button.submit, button.fin{
     padding-left: 8px;
 }
 
-footer{
+footer {
     background-color: var(--accent-dark);
     padding: 5px 30px;
     color: var(--text-light);
@@ -216,7 +216,7 @@ footer{
     font-size: 20px;
 }
 
-footer h2{
+footer h2 {
     text-align: center;
     color: var(--text-light);
 }
@@ -240,15 +240,15 @@ footer h2{
 }
 
 @media (min-width: 600px) {
+    .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+    }
 
-.buttons{
-    display: flex;
-    justify-content: center;
-    gap: 50px;
+    button.submit, button.fin {
+        margin: 0;
+    }
 }
 
-button.submit, button.fin{
-    margin: 0;
-}
 
-}

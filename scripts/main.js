@@ -69,71 +69,23 @@ function applyQuestionsForTopic(topic) {
     const questionElem = document.getElementById('question');
     if (questionElem) {
         questionElem.setAttribute('data-index', 0);
-        questionElem.textContent = appQuestions[0] || '';
+        
+        // Handle both old string format and new object format
+        const currentQuestion = appQuestions[0];
+        if (typeof currentQuestion === 'string') {
+            questionElem.textContent = currentQuestion;
+        } else if (currentQuestion && currentQuestion.prompt) {
+            questionElem.textContent = currentQuestion.prompt;
+            // Display the options as well
+            displayQuestionOptions(currentQuestion);
+        } else {
+            questionElem.textContent = '';
+        }
     }
     
     // Apply color scheme if available
     if (topicData.colorScheme) {
         applyColorScheme(topicData.colorScheme);
-    }
-}
-
-// Function to apply color scheme to the page
-function applyColorScheme(colorScheme) {
-    const root = document.documentElement;
-    
-    // Set CSS custom properties for the color scheme
-    root.style.setProperty('--bg-color', colorScheme.background);
-    root.style.setProperty('--header-bg', colorScheme.headerBackground);
-    root.style.setProperty('--header-border', colorScheme.headerBorder);
-    root.style.setProperty('--primary-btn', colorScheme.primaryButton);
-    root.style.setProperty('--secondary-btn', colorScheme.secondaryButton);
-    root.style.setProperty('--accent-color', colorScheme.accent);
-    root.style.setProperty('--focus-color', colorScheme.focusColor);
-    root.style.setProperty('--text-color', colorScheme.textColor || '#333333');
-    root.style.setProperty('--header-text-color', colorScheme.headerTextColor || '#333333');
-    
-    // Apply colors directly to elements for immediate effect
-    document.body.style.backgroundColor = colorScheme.background;
-    document.body.style.color = colorScheme.textColor || '#333333';
-    
-    const header = document.querySelector('header');
-    if (header) {
-        header.style.backgroundColor = colorScheme.headerBackground;
-        header.style.borderColor = colorScheme.headerBorder;
-    }
-    
-    // Update all headings
-    const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    headings.forEach(heading => {
-        heading.style.color = colorScheme.headerTextColor || '#333333';
-    });
-    
-    // Update all paragraphs and text elements
-    const textElements = document.querySelectorAll('p, label, .topic');
-    textElements.forEach(element => {
-        element.style.color = colorScheme.textColor || '#333333';
-    });
-    
-    const submitBtn = document.querySelector('.submit');
-    if (submitBtn) {
-        submitBtn.style.backgroundColor = colorScheme.primaryButton;
-    }
-    
-    const finBtn = document.querySelector('.fin');
-    if (finBtn) {
-        finBtn.style.backgroundColor = colorScheme.secondaryButton;
-    }
-    
-    const footer = document.querySelector('footer');
-    if (footer) {
-        footer.style.backgroundColor = colorScheme.accent;
-    }
-    
-    // Update switch button background to match body
-    const switchBtn = document.querySelector('.switch_button');
-    if (switchBtn) {
-        switchBtn.style.backgroundColor = colorScheme.background;
     }
 }
 
@@ -218,7 +170,19 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
 
     let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
     currentIndex = (currentIndex + 1) % appQuestions.length;
-    questionElem.textContent = appQuestions[currentIndex];
+    
+    // Handle both old string format and new object format
+    const currentQuestion = appQuestions[currentIndex];
+    if (typeof currentQuestion === 'string') {
+        questionElem.textContent = currentQuestion;
+    } else if (currentQuestion && currentQuestion.prompt) {
+        questionElem.textContent = currentQuestion.prompt;
+        // Display the options as well
+        displayQuestionOptions(currentQuestion);
+    } else {
+        questionElem.textContent = '';
+    }
+    
     questionElem.setAttribute('data-index', currentIndex);
     // Update submission UI state for the new question index
     updateSubmissionState();
@@ -308,9 +272,6 @@ function submitAnswer() {
     updateSubmissionState();
 }
 
-// displayAnswers is implemented in scripts/answers.js and will be available globally
-
-// displayAnswers will register itself on DOMContentLoaded from scripts/answers.js
 const finalBtn = document.getElementById('final_submit');
 if (finalBtn) finalBtn.addEventListener('click', function() {
     // Get chronological submissions
