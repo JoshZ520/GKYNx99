@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "prompt": "How do you handle stress?",
+      "option1": "Active/Physical",
+      "option2": "Calm/Reflective"
+    },
+    {
+      "prompt": "What's your social energy preference?",
+      "option1": "Outgoing/Social",
+      "option2": "Reserved/Private"
+    },
+    {
+      "prompt": "How do you make decisions?",
+      "option1": "Logical/Analytical",
+      "option2": "Intuitive/Emotional"
+    },
+    {
+      "prompt": "What's your approach to change?",
+      "option1": "Embrace/Adapt",
+      "option2": "Cautious/Steady"
+    },
+    {
+      "prompt": "How do you prefer to spend free time?",
+      "option1": "Productive/Active",
+      "option2": "Relaxing/Restful"
+    },
+    {
+      "prompt": "What motivates you most?",
+      "option1": "Achievement/Success",
+      "option2": "Connection/Meaning"
+    }
+  ]
+}

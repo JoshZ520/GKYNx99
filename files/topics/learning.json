@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "prompt": "How do you prefer to learn new things?",
+      "option1": "Structured/Formal",
+      "option2": "Self-Directed/Informal"
+    },
+    {
+      "prompt": "What type of learning content interests you?",
+      "option1": "Practical/Applied",
+      "option2": "Theoretical/Academic"
+    },
+    {
+      "prompt": "How do you best absorb information?",
+      "option1": "Visual/Reading",
+      "option2": "Audio/Discussion"
+    },
+    {
+      "prompt": "What's your learning pace preference?",
+      "option1": "Quick/Intensive",
+      "option2": "Gradual/Steady"
+    },
+    {
+      "prompt": "How do you prefer educational content?",
+      "option1": "Interactive/Hands-on",
+      "option2": "Observational/Lecture"
+    },
+    {
+      "prompt": "What motivates your learning?",
+      "option1": "Career/Professional",
+      "option2": "Personal Interest"
+    }
+  ]
+}

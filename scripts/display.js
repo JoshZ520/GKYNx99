@@ -214,9 +214,5 @@ window.displayAnswers = displayAnswers;
 
 // Run displayAnswers when DOM is ready
 window.addEventListener('DOMContentLoaded', function () {
-    try {
-        displayAnswers();
-    } catch (e) {
-        console.warn('displayAnswers failed on DOMContentLoaded', e);
-    }
+    displayAnswers();
 });

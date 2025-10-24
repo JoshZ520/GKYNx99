@@ -180,52 +180,32 @@ function isColorDark(color) {
 function loadTopicColorScheme() {
     const currentTopic = localStorage.getItem('currentTopic') || 'default';
     
-    // Fetch questions.json to get color scheme
-    fetch('files/questions.json')
-        .then(res => res.json())
-        .then(data => {
-            let topicData, colorSchemes;
-            
-            // Handle new structure with separated colorSchemes and topics
-            if (data.colorSchemes && data.topics) {
-                colorSchemes = data.colorSchemes;
-                topicData = data.topics[currentTopic] || data.topics['default'];
-            } else {
-                // Fallback for old structure
-                topicData = data[currentTopic] || data['default'];
-                colorSchemes = {};
-            }
-            
-            if (topicData && topicData.colorScheme) {
-                let colorScheme;
-                if (typeof topicData.colorScheme === 'string') {
-                    // Resolve color scheme reference
-                    colorScheme = colorSchemes[topicData.colorScheme] || colorSchemes['light'] || {};
-                } else {
-                    // Direct color scheme object (fallback for old format)
-                    colorScheme = topicData.colorScheme;
-                }
-                applyColorScheme(colorScheme);
-            }
-        })
-        .catch(err => {
-            console.warn('Could not load color scheme:', err);
-        });
+    // Load color schemes and topic index to get color scheme for current topic
+    Promise.all([
+        fetch('files/color-schemes.json').then(res => res.json()),
+        fetch('files/topics/index.json').then(res => res.json())
+    ])
+    .then(([colorSchemes, topicsIndex]) => {
+        const topicInfo = topicsIndex[currentTopic] || topicsIndex['default'];
+        if (topicInfo && topicInfo.colorScheme) {
+            const colorScheme = colorSchemes[topicInfo.colorScheme] || colorSchemes['light'] || {};
+            applyColorScheme(colorScheme);
+        }
+    })
+    .catch(err => {
+        console.warn('Could not load color scheme:', err);
+    });
 }
 
 // === PREFERENCE SYSTEM ===
 // Function to display question options
 function displayQuestionOptions(question) {
-    if (question.option1 && question.option2) {
-        // Show preference UI and hide text input
-        const preferenceContainer = document.getElementById('preferenceContainer');
-        const textInput = document.getElementById('textInput');
-        const answerElem = document.getElementById('answer');
-        
-        if (preferenceContainer && textInput) {
-            preferenceContainer.style.display = 'block';
-            textInput.style.display = 'none';
-        }
+    // Show preference UI (all questions now have option1 and option2)
+    const preferenceContainer = document.getElementById('preferenceContainer');
+    
+    if (preferenceContainer) {
+        preferenceContainer.style.display = 'block';
+    }
         
         // Set up image containers for contributors to add images
         const option1Image = document.getElementById('option1Image');
@@ -252,29 +232,9 @@ function displayQuestionOptions(question) {
         
         // Set up click handlers for preferences
         setupPreferenceClickHandlers(question);
-    } else {
-        // Fallback to text input for backward compatibility
-        showTextInput(question);
-    }
 }
 
-// Function to show text input (fallback)
-function showTextInput(question) {
-    const preferenceContainer = document.getElementById('preferenceContainer');
-    const textInput = document.getElementById('textInput');
-    const answerElem = document.getElementById('answer');
-    
-    if (preferenceContainer) preferenceContainer.style.display = 'none';
-    if (textInput) textInput.style.display = 'block';
-    
-    if (answerElem && question) {
-        if (typeof question === 'string') {
-            answerElem.placeholder = 'Answer: ';
-        } else if (question.option1 && question.option2) {
-            answerElem.placeholder = `Choose: ${question.option1} or ${question.option2}`;
-        }
-    }
-}
+
 
 // Function to set up preference click handlers
 function setupPreferenceClickHandlers(question) {
@@ -328,8 +288,7 @@ function selectPreference(choice) {
     if (answerElem) {
         answerElem.value = choice;
     }
-    
-    console.log('Selected preference:', choice);
+
 }
 
 // === COLOR SCHEME LOADING ===

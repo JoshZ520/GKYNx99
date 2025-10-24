@@ -1,80 +1,100 @@
 // initialize global topic and appQuestions so they are available everywhere in this script
 window.currentTopic = window.currentTopic || 'default';
 
-// topics and color schemes will be loaded from files/questions.json
+// topics and color schemes will be loaded from modular files structure
 let topics = {};
 let colorSchemes = {};
 let appQuestions = [];
 
 function loadQuestions() {
-    return fetch('files/questions.json')
-        .then(res => {
-            if (!res.ok) throw new Error('Failed to load questions.json');
+    // Load color schemes and topic index first
+    return Promise.all([
+        fetch('files/color-schemes.json').then(res => {
+            if (!res.ok) throw new Error('Failed to load color-schemes.json');
+            return res.json();
+        }),
+        fetch('files/topics/index.json').then(res => {
+            if (!res.ok) throw new Error('Failed to load topics/index.json');
             return res.json();
         })
-        .then(data => {
-            // Handle new structure with separated colorSchemes and topics
-            if (data.colorSchemes && data.topics) {
-                colorSchemes = data.colorSchemes || {};
-                topics = data.topics || {};
-            } else {
-                // Fallback for old structure
-                topics = data || {};
-                colorSchemes = {};
-            }
-            
-            // ensure default exists with proper structure
-            if (!topics.default) {
-                topics.default = {
-                    questions: [],
-                    colorScheme: "light"
-                };
-            }
-            
-            // ensure light color scheme exists
-            if (!colorSchemes.light) {
-                colorSchemes.light = {
-                    background: "#f8f9fa",
-                    headerBackground: "#ffffff",
-                    headerBorder: "#6c757d",
-                    primaryButton: "#4169E1",
-                    secondaryButton: "#28a745",
-                    accent: "#17a2b8",
-                    focusColor: "#4169E1",
-                    textColor: "#212529",
-                    headerTextColor: "#212529",
-                    svgColor: "#495057",
-                    svgHoverColor: "#6c757d"
-                };
-            }
-            
-            return { topics, colorSchemes };
-        })
-        .catch(err => {
-            console.error('Error loading questions.json:', err);
-            topics = { 
-                default: {
-                    questions: [],
-                    colorScheme: "light"
-                }
-            };
-            colorSchemes = {
-                light: {
-                    background: "#f8f9fa",
-                    headerBackground: "#ffffff",
-                    headerBorder: "#6c757d",
-                    primaryButton: "#4169E1",
-                    secondaryButton: "#28a745",
-                    accent: "#17a2b8",
-                    focusColor: "#4169E1",
-                    textColor: "#212529",
-                    headerTextColor: "#212529",
-                    svgColor: "#495057",
-                    svgHoverColor: "#6c757d"
-                }
-            };
-            return { topics, colorSchemes };
+    ])
+    .then(([colorSchemesData, topicsIndex]) => {
+        // Store color schemes
+        colorSchemes = colorSchemesData || {};
+        
+        // Load individual topic files
+        const topicPromises = Object.keys(topicsIndex).map(topicName => {
+            const topicInfo = topicsIndex[topicName];
+            return fetch(`files/topics/${topicInfo.file}`)
+                .then(res => {
+                    if (!res.ok) throw new Error(`Failed to load ${topicInfo.file}`);
+                    return res.json();
+                })
+                .then(topicData => {
+                    // Create topic structure with color scheme reference
+                    topics[topicName] = {
+                        questions: topicData.questions || [],
+                        colorScheme: topicInfo.colorScheme || "light"
+                    };
+                });
         });
+        
+        return Promise.all(topicPromises);
+    })
+    .then(() => {
+        // Ensure default exists with proper structure
+        if (!topics.default) {
+            topics.default = {
+                questions: [],
+                colorScheme: "light"
+            };
+        }
+        
+        // Ensure light color scheme exists as fallback
+        if (!colorSchemes.light) {
+            colorSchemes.light = {
+                background: "#f8f9fa",
+                headerBackground: "#ffffff",
+                headerBorder: "#6c757d",
+                primaryButton: "#4169E1",
+                secondaryButton: "#28a745",
+                accent: "#17a2b8",
+                focusColor: "#4169E1",
+                textColor: "#212529",
+                headerTextColor: "#212529",
+                svgColor: "#495057",
+                svgHoverColor: "#6c757d"
+            };
+        }
+        
+        return { topics, colorSchemes };
+    })
+    .catch(err => {
+        console.error('Error loading questions from modular files:', err);
+        // Final fallback with empty data
+        topics = { 
+            default: {
+                questions: [],
+                colorScheme: "light"
+            }
+        };
+        colorSchemes = {
+            light: {
+                background: "#f8f9fa",
+                headerBackground: "#ffffff",
+                headerBorder: "#6c757d",
+                primaryButton: "#4169E1",
+                secondaryButton: "#28a745",
+                accent: "#17a2b8",
+                focusColor: "#4169E1",
+                textColor: "#212529",
+                headerTextColor: "#212529",
+                svgColor: "#495057",
+                svgHoverColor: "#6c757d"
+            }
+        };
+        return { topics, colorSchemes };
+    });
 }
 // helpers to change topic and questions
 function applyQuestionsForTopic(topic) {
@@ -135,12 +155,6 @@ function getSubmittedCountForCurrentQuestion() {
     const currentQuestion = questionElem?.textContent || '';
     const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
     const filteredSubmissions = submissions.filter(sub => sub.question === currentQuestion);
-    console.log('getSubmittedCountForCurrentQuestion:', { 
-        currentQuestion: currentQuestion.substring(0, 50) + '...', 
-        totalSubmissions: submissions.length, 
-        filteredCount: filteredSubmissions.length,
-        filteredSubmissions: filteredSubmissions.map(s => ({name: s.name, answer: s.answer}))
-    }); // Debug
     return filteredSubmissions.length;
 }
 
@@ -148,7 +162,6 @@ function getSubmittedCountForCurrentQuestion() {
 function updateSubmissionState() {
     const playerCountString = sessionStorage.getItem('playerCount');
     const playerCount = parseInt(playerCountString) || null;
-    console.log('updateSubmissionState - raw sessionStorage value:', playerCountString, 'parsed as:', playerCount); // Debug
     const submitBtn = document.getElementById('submitButton');
     const finalBtn = document.getElementById('final_submit');
     const answerInput = document.getElementById('answer');
@@ -157,7 +170,6 @@ function updateSubmissionState() {
 
     if (playerCount && playerCount > 0) {
         const submitted = getSubmittedCountForCurrentQuestion();
-        console.log('updateSubmissionState:', { playerCount, submitted }); // Debug
         if (submitted >= playerCount) {
             // hide/disable submit, show final only
             submitBtn.style.display = 'none';
@@ -182,14 +194,32 @@ function updateSubmissionState() {
 }
 // Pick a random topic (excluding the 'default' fallback and any non-topic keys)
 function pickRandomTopic() {
-    const keys = Object.keys(topics || {}).filter(k => k && k !== 'default');
-    if (!keys || keys.length === 0) {
-        // Fall back to default if nothing else
+    const select = document.getElementById('topicSelect');
+    if (!select) {
+        console.warn('Topic select dropdown not found');
+        return 'default';
+    }
+    
+    // Get all topic options except 'default' and 'random'
+    const topicOptions = Array.from(select.options).filter(option => 
+        option.value !== 'default' && option.value !== 'random'
+    );
+    
+    if (topicOptions.length === 0) {
+        // Fall back to default if no topics available
+        select.value = 'default';
         setTopic('default');
         return 'default';
     }
-    // Choose a random topic key
-    const choice = keys[Math.floor(Math.random() * keys.length)];
+    
+    // Choose a random topic option
+    const randomOption = topicOptions[Math.floor(Math.random() * topicOptions.length)];
+    const choice = randomOption.value;
+    
+    // Update the dropdown to show the selected topic
+    select.value = choice;
+    
+    // Apply the topic
     setTopic(choice);
     return choice;
 }
@@ -245,7 +275,7 @@ window.addEventListener('DOMContentLoaded', function () {
             select.addEventListener('change', function (e) {
                 const val = e.target.value;
                 if (val === 'random') {
-                    // pick and apply a random topic
+                    // pick and apply a random topic, which will update the dropdown
                     pickRandomTopic();
                 } else {
                     setTopic(val);
@@ -267,30 +297,14 @@ window.addEventListener('DOMContentLoaded', function () {
     });
 });
 function submitAnswer() {
-    // Check if we're using preference system or text input system
-    const preferenceContainer = document.getElementById('preferenceContainer');
-    const textInput = document.getElementById('textInput');
-    const isPreferenceMode = preferenceContainer && preferenceContainer.style.display !== 'none';
-    
-    let answer, name;
-    
-    if (isPreferenceMode) {
-        // Get answer from preference selection
-        answer = document.getElementById('selectedPreference').value;
-        name = document.getElementById('preferenceName').value;
-    } else {
-        // Get answer from text input system
-        answer = document.getElementById('answer').value;
-        name = document.getElementById('name').value;
-    }
+    // Get answer from preference selection
+    const answer = document.getElementById('selectedPreference').value;
+    const name = document.getElementById('preferenceName').value;
     
     const questionElem = document.getElementById('question');
     const currentQuestion = questionElem?.textContent || '';
 
-    console.log('submitAnswer called:', { answer, name, currentQuestion, isPreferenceMode }); // Debug
-
     if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
-        console.log('Submission blocked: empty fields'); // Debug
         alert('Please make a selection and enter your name before submitting.');
         return; // Don't submit empty answers
     }
@@ -302,14 +316,7 @@ function submitAnswer() {
     const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
     if (playerCount) {
         const answersForThisQuestion = submissions.filter(sub => sub.question === currentQuestion).length;
-        console.log('Player count check:', { 
-            playerCount, 
-            answersForThisQuestion, 
-            currentQuestion: currentQuestion.substring(0, 50) + '...',
-            allSubmissions: submissions.map(s => ({question: s.question.substring(0, 30) + '...', name: s.name}))
-        }); // Debug
         if (answersForThisQuestion >= playerCount) {
-            console.log('Submission blocked: player count reached'); // Debug
             updateSubmissionState();
             return;
         }
@@ -329,21 +336,14 @@ function submitAnswer() {
     // Save chronological submissions
     localStorage.setItem('chronologicalSubmissions', JSON.stringify(submissions));
 
-    // Clear the input boxes for the next player
-    if (isPreferenceMode) {
-        // Clear preference system
-        document.getElementById('selectedPreference').value = '';
-        document.getElementById('preferenceName').value = '';
-        // Remove visual selection
-        const option1 = document.getElementById('option1');
-        const option2 = document.getElementById('option2');
-        if (option1) option1.classList.remove('selected');
-        if (option2) option2.classList.remove('selected');
-    } else {
-        // Clear text input system
-        document.getElementById('answer').value = '';
-        document.getElementById('name').value = '';
-    }
+    // Clear the preference system for the next player
+    document.getElementById('selectedPreference').value = '';
+    document.getElementById('preferenceName').value = '';
+    // Remove visual selection
+    const option1 = document.getElementById('option1');
+    const option2 = document.getElementById('option2');
+    if (option1) option1.classList.remove('selected');
+    if (option2) option2.classList.remove('selected');
 
     // Display all answers on the page
     displayAnswers();
@@ -409,16 +409,10 @@ function handleFrontPageFunctionality() {
     select.addEventListener('change', function (e) {
         const rawValue = e.target.value;
         const val = parseInt(rawValue, 10);
-        console.log('Player count selection:', { rawValue, parsedValue: val, optionText: e.target.options[e.target.selectedIndex].text }); // Debug
         if (!Number.isNaN(val) && val > 0) {
             sessionStorage.setItem('playerCount', String(val));
-            console.log('Player count stored in sessionStorage as string:', String(val)); // Debug
-            // Verify what we actually stored
-            const verification = sessionStorage.getItem('playerCount');
-            console.log('Verification - what was actually stored:', verification, 'parsed back:', parseInt(verification)); // Debug
         } else {
             sessionStorage.removeItem('playerCount');
-            console.log('Player count removed from sessionStorage'); // Debug
         }
     });
 
@@ -435,13 +429,15 @@ function loadFrontPageInstruction() {
     const instructionElement = document.getElementById('front-instruction');
     if (!instructionElement) return; // Not on front page
     
-    fetch('files/questions.json')
-        .then(res => res.json())
+    fetch('files/topics/default.json')
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to load default.json');
+            return res.json();
+        })
         .then(data => {
-            const defaultData = data['default'];
-            if (defaultData && defaultData.questions && defaultData.questions.length > 0) {
+            if (data.questions && data.questions.length > 0) {
                 // Use the first question as the front page instruction
-                const frontInstruction = defaultData.questions[0];
+                const frontInstruction = data.questions[0];
                 instructionElement.textContent = frontInstruction;
             }
         })
