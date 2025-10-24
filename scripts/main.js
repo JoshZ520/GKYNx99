@@ -253,7 +253,7 @@ function submitAnswer() {
     if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
         console.log('Submission blocked: empty fields'); // Debug
         alert('Please make a selection and enter your name before submitting.');
-        return; // Don't submit empty answers
+            return; // Don't submit empty answers
     }
 
     // Get chronological submissions list
