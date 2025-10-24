@@ -2,6 +2,59 @@
 // This module handles all user interface components and interactions
 
 // === COLOR THEME SYSTEM ===
+
+// Helper function to convert hex colors to CSS filter for SVG icons
+function hexToFilter(hex) {
+    // Simple conversion for common colors
+    // For precise conversion, a more complex algorithm would be needed
+    // but this handles the basic light/dark cases we need
+    
+    if (hex === '#ffffff') {
+        // White
+        return 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)';
+    }
+    
+    if (hex === '#cccccc') {
+        // Light gray
+        return 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(85%) contrast(100%)';
+    }
+    
+    if (hex === '#495057') {
+        // Dark gray for light themes
+        return 'brightness(0) saturate(100%) invert(24%) sepia(37%) saturate(1015%) hue-rotate(319deg) brightness(94%) contrast(90%)';
+    }
+    
+    if (hex === '#6c757d') {
+        // Lighter gray for light theme hover
+        return 'brightness(0) saturate(100%) invert(51%) sepia(21%) saturate(1343%) hue-rotate(316deg) brightness(96%) contrast(89%)';
+    }
+    
+    // For other colors, use a basic filter based on lightness
+    const rgb = hexToRgb(hex);
+    if (rgb) {
+        const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+        if (luminance > 0.7) {
+            // Light color - use dark filter
+            return 'brightness(0) saturate(100%) invert(24%) sepia(37%) saturate(1015%) hue-rotate(319deg) brightness(94%) contrast(90%)';
+        } else {
+            // Dark color - use white filter
+            return 'brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)';
+        }
+    }
+    
+    // Fallback
+    return 'brightness(0) saturate(100%) invert(24%) sepia(37%) saturate(1015%) hue-rotate(319deg) brightness(94%) contrast(90%)';
+}
+
+// Helper function to convert hex to RGB
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
 // Function to apply color scheme to any page
 function applyColorScheme(colorScheme) {
     const root = document.documentElement;
@@ -37,6 +90,21 @@ function applyColorScheme(colorScheme) {
         root.style.setProperty('--text-light', colorScheme.headerTextColor);
         root.style.setProperty('--light', colorScheme.background);
         root.style.setProperty('--dark', colorScheme.textColor);
+    }
+    
+    // Set SVG filter properties based on colorScheme
+    if (colorScheme.svgColor && colorScheme.svgHoverColor) {
+        root.style.setProperty('--svg-filter', hexToFilter(colorScheme.svgColor));
+        root.style.setProperty('--svg-hover-filter', hexToFilter(colorScheme.svgHoverColor));
+    } else {
+        // Fallback for themes without SVG colors defined
+        if (isDarkTheme) {
+            root.style.setProperty('--svg-filter', hexToFilter('#ffffff'));
+            root.style.setProperty('--svg-hover-filter', hexToFilter('#cccccc'));
+        } else {
+            root.style.setProperty('--svg-filter', hexToFilter('#495057'));
+            root.style.setProperty('--svg-hover-filter', hexToFilter('#6c757d'));
+        }
     }
     
     // Apply colors directly to elements for immediate effect
@@ -116,9 +184,28 @@ function loadTopicColorScheme() {
     fetch('files/questions.json')
         .then(res => res.json())
         .then(data => {
-            const topicData = data[currentTopic] || data['default'];
+            let topicData, colorSchemes;
+            
+            // Handle new structure with separated colorSchemes and topics
+            if (data.colorSchemes && data.topics) {
+                colorSchemes = data.colorSchemes;
+                topicData = data.topics[currentTopic] || data.topics['default'];
+            } else {
+                // Fallback for old structure
+                topicData = data[currentTopic] || data['default'];
+                colorSchemes = {};
+            }
+            
             if (topicData && topicData.colorScheme) {
-                applyColorScheme(topicData.colorScheme);
+                let colorScheme;
+                if (typeof topicData.colorScheme === 'string') {
+                    // Resolve color scheme reference
+                    colorScheme = colorSchemes[topicData.colorScheme] || colorSchemes['light'] || {};
+                } else {
+                    // Direct color scheme object (fallback for old format)
+                    colorScheme = topicData.colorScheme;
+                }
+                applyColorScheme(colorScheme);
             }
         })
         .catch(err => {

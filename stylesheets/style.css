@@ -29,7 +29,7 @@ p, #header p {
 .direction {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
 }
 
@@ -91,9 +91,24 @@ body:not(.front-page) header {
     background-color: var(--background-light);
 }
 
-#changeQ{
+.switch_button img {
     width: 50px;
-    height: auto;
+    height: 50px;
+    transition: filter 0.3s ease;
+}
+
+/* Theme-aware SVG colors using CSS variables */
+.switch_button img,
+#open_page img {
+    /* Apply theme-specific color using CSS variable */
+    filter: var(--svg-filter);
+    transition: filter 0.3s ease;
+}
+
+.switch_button:hover img,
+#open_page:hover img {
+    /* Apply theme-specific hover color using CSS variable */
+    filter: var(--svg-hover-filter);
 }
 
 .switch_button:focus {
@@ -319,7 +334,6 @@ select#player_count {
     margin: 0 auto;
     padding: 0 16px;
 }
-
 
 /* === RESPONSIVE STYLES === */
 @media (min-width: 600px) {

@@ -2,8 +2,9 @@
 // initialize global topic and appQuestions so they are available everywhere in this script
 window.currentTopic = window.currentTopic || 'default';
 
-// topics will be loaded from files/questions.json
+// topics and color schemes will be loaded from files/questions.json
 let topics = {};
+let colorSchemes = {};
 let appQuestions = [];
 
 function loadQuestions() {
@@ -13,45 +14,67 @@ function loadQuestions() {
             return res.json();
         })
         .then(data => {
-            topics = data || {};
+            // Handle new structure with separated colorSchemes and topics
+            if (data.colorSchemes && data.topics) {
+                colorSchemes = data.colorSchemes || {};
+                topics = data.topics || {};
+            } else {
+                // Fallback for old structure
+                topics = data || {};
+                colorSchemes = {};
+            }
+            
             // ensure default exists with proper structure
             if (!topics.default) {
                 topics.default = {
                     questions: [],
-                    colorScheme: {
-                        background: "#fff7d1",
-                        headerBackground: "#FAFAF7",
-                        headerBorder: "#59A8D9",
-                        primaryButton: "#f0a23b",
-                        secondaryButton: "#2EC4B6",
-                        accent: "#FFC857",
-                        focusColor: "#307eea",
-                        textColor: "#333333",
-                        headerTextColor: "#333333"
-                    }
+                    colorScheme: "light"
                 };
             }
-            return topics;
+            
+            // ensure light color scheme exists
+            if (!colorSchemes.light) {
+                colorSchemes.light = {
+                    background: "#f8f9fa",
+                    headerBackground: "#ffffff",
+                    headerBorder: "#6c757d",
+                    primaryButton: "#4169E1",
+                    secondaryButton: "#28a745",
+                    accent: "#17a2b8",
+                    focusColor: "#4169E1",
+                    textColor: "#212529",
+                    headerTextColor: "#212529",
+                    svgColor: "#495057",
+                    svgHoverColor: "#6c757d"
+                };
+            }
+            
+            return { topics, colorSchemes };
         })
         .catch(err => {
             console.error('Error loading questions.json:', err);
             topics = { 
                 default: {
                     questions: [],
-                    colorScheme: {
-                        background: "#fff7d1",
-                        headerBackground: "#FAFAF7",
-                        headerBorder: "#59A8D9",
-                        primaryButton: "#f0a23b",
-                        secondaryButton: "#2EC4B6",
-                        accent: "#FFC857",
-                        focusColor: "#307eea",
-                        textColor: "#333333",
-                        headerTextColor: "#333333"
-                    }
+                    colorScheme: "light"
                 }
             };
-            return topics;
+            colorSchemes = {
+                light: {
+                    background: "#f8f9fa",
+                    headerBackground: "#ffffff",
+                    headerBorder: "#6c757d",
+                    primaryButton: "#4169E1",
+                    secondaryButton: "#28a745",
+                    accent: "#17a2b8",
+                    focusColor: "#4169E1",
+                    textColor: "#212529",
+                    headerTextColor: "#212529",
+                    svgColor: "#495057",
+                    svgHoverColor: "#6c757d"
+                }
+            };
+            return { topics, colorSchemes };
         });
 }
 // helpers to change topic and questions
@@ -86,7 +109,16 @@ function applyQuestionsForTopic(topic) {
     
     // Apply color scheme if available
     if (topicData.colorScheme) {
-        applyColorScheme(topicData.colorScheme);
+        // Handle both string reference and direct object
+        let colorScheme;
+        if (typeof topicData.colorScheme === 'string') {
+            // Resolve color scheme reference
+            colorScheme = colorSchemes[topicData.colorScheme] || colorSchemes['light'] || {};
+        } else {
+            // Direct color scheme object (fallback for old format)
+            colorScheme = topicData.colorScheme;
+        }
+        applyColorScheme(colorScheme);
     }
 }
 
@@ -103,13 +135,21 @@ function getSubmittedCountForCurrentQuestion() {
     const questionElem = document.getElementById('question');
     const currentQuestion = questionElem?.textContent || '';
     const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
-    return submissions.filter(sub => sub.question === currentQuestion).length;
+    const filteredSubmissions = submissions.filter(sub => sub.question === currentQuestion);
+    console.log('getSubmittedCountForCurrentQuestion:', { 
+        currentQuestion: currentQuestion.substring(0, 50) + '...', 
+        totalSubmissions: submissions.length, 
+        filteredCount: filteredSubmissions.length,
+        filteredSubmissions: filteredSubmissions.map(s => ({name: s.name, answer: s.answer}))
+    }); // Debug
+    return filteredSubmissions.length;
 }
 
 // Update buttons and inputs according to the selected player count and current submission progress
 function updateSubmissionState() {
-    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
-    console.log('updateSubmissionState - playerCount from sessionStorage:', playerCount); // Debug
+    const playerCountString = sessionStorage.getItem('playerCount');
+    const playerCount = parseInt(playerCountString) || null;
+    console.log('updateSubmissionState - raw sessionStorage value:', playerCountString, 'parsed as:', playerCount); // Debug
     const submitBtn = document.getElementById('submitButton');
     const finalBtn = document.getElementById('final_submit');
     const answerInput = document.getElementById('answer');
@@ -253,7 +293,7 @@ function submitAnswer() {
     if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
         console.log('Submission blocked: empty fields'); // Debug
         alert('Please make a selection and enter your name before submitting.');
-            return; // Don't submit empty answers
+        return; // Don't submit empty answers
     }
 
     // Get chronological submissions list
@@ -263,7 +303,12 @@ function submitAnswer() {
     const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
     if (playerCount) {
         const answersForThisQuestion = submissions.filter(sub => sub.question === currentQuestion).length;
-        console.log('Player count check:', { playerCount, answersForThisQuestion }); // Debug
+        console.log('Player count check:', { 
+            playerCount, 
+            answersForThisQuestion, 
+            currentQuestion: currentQuestion.substring(0, 50) + '...',
+            allSubmissions: submissions.map(s => ({question: s.question.substring(0, 30) + '...', name: s.name}))
+        }); // Debug
         if (answersForThisQuestion >= playerCount) {
             console.log('Submission blocked: player count reached'); // Debug
             updateSubmissionState();
@@ -363,11 +408,15 @@ function handleFrontPageFunctionality() {
     
     // When the selection changes, store the value as an integer in sessionStorage
     select.addEventListener('change', function (e) {
-        const val = parseInt(e.target.value, 10);
-        console.log('Player count selected:', val); // Debug
+        const rawValue = e.target.value;
+        const val = parseInt(rawValue, 10);
+        console.log('Player count selection:', { rawValue, parsedValue: val, optionText: e.target.options[e.target.selectedIndex].text }); // Debug
         if (!Number.isNaN(val) && val > 0) {
             sessionStorage.setItem('playerCount', String(val));
-            console.log('Player count stored in sessionStorage:', val); // Debug
+            console.log('Player count stored in sessionStorage as string:', String(val)); // Debug
+            // Verify what we actually stored
+            const verification = sessionStorage.getItem('playerCount');
+            console.log('Verification - what was actually stored:', verification, 'parsed back:', parseInt(verification)); // Debug
         } else {
             sessionStorage.removeItem('playerCount');
             console.log('Player count removed from sessionStorage'); // Debug

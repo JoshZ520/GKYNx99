@@ -1,0 +1,182 @@
+ORIGINAL COLOR SCHEMES BACKUP
+=====================================
+Created: October 24, 2025
+These are the original color schemes that were replaced with the 2-theme alternating system.
+
+DEFAULT THEME:
+--------------
+"colorScheme": {
+  "background": "#fff7d1",
+  "headerBackground": "#FAFAF7",
+  "headerBorder": "#59A8D9",
+  "primaryButton": "#f0a23b",
+  "secondaryButton": "#2EC4B6",
+  "accent": "#FFC857",
+  "focusColor": "#307eea",
+  "textColor": "#333333",
+  "headerTextColor": "#333333"
+}
+
+DND THEME:
+----------
+"colorScheme": {
+  "background": "#2a1810",
+  "headerBackground": "#3d2817",
+  "headerBorder": "#d4af37",
+  "primaryButton": "#8b4513",
+  "secondaryButton": "#daa520",
+  "accent": "#cd853f",
+  "focusColor": "#ffd700",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+MOVIES THEME:
+-------------
+"colorScheme": {
+  "background": "#0f0f23",
+  "headerBackground": "#1a1a3a",
+  "headerBorder": "#ffd700",
+  "primaryButton": "#dc143c",
+  "secondaryButton": "#ff6347",
+  "accent": "#ffa500",
+  "focusColor": "#00bfff",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+SPORTS THEME:
+-------------
+"colorScheme": {
+  "background": "#004225",
+  "headerBackground": "#006837",
+  "headerBorder": "#ffffff",
+  "primaryButton": "#228b22",
+  "secondaryButton": "#32cd32",
+  "accent": "#7cfc00",
+  "focusColor": "#00ff00",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+MUSIC THEME:
+------------
+"colorScheme": {
+  "background": "#2d1b69",
+  "headerBackground": "#4b0082",
+  "headerBorder": "#da70d6",
+  "primaryButton": "#9932cc",
+  "secondaryButton": "#ba55d3",
+  "accent": "#dda0dd",
+  "focusColor": "#ff69b4",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+TECH THEME:
+-----------
+"colorScheme": {
+  "background": "#001122",
+  "headerBackground": "#003366",
+  "headerBorder": "#00ccff",
+  "primaryButton": "#0066cc",
+  "secondaryButton": "#0099ff",
+  "accent": "#66ccff",
+  "focusColor": "#00ffff",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+TRAVEL THEME:
+-------------
+"colorScheme": {
+  "background": "#87ceeb",
+  "headerBackground": "#b0e0e6",
+  "headerBorder": "#4682b4",
+  "primaryButton": "#ff7f50",
+  "secondaryButton": "#20b2aa",
+  "accent": "#ffd700",
+  "focusColor": "#ff6347",
+  "textColor": "#333333",
+  "headerTextColor": "#333333"
+}
+
+HISTORY THEME:
+--------------
+"colorScheme": {
+  "background": "#8b4513",
+  "headerBackground": "#a0522d",
+  "headerBorder": "#daa520",
+  "primaryButton": "#cd853f",
+  "secondaryButton": "#d2691e",
+  "accent": "#f4a460",
+  "focusColor": "#ffd700",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+BOOKS THEME:
+------------
+"colorScheme": {
+  "background": "#2f4f2f",
+  "headerBackground": "#556b2f",
+  "headerBorder": "#9acd32",
+  "primaryButton": "#6b8e23",
+  "secondaryButton": "#8fbc8f",
+  "accent": "#adff2f",
+  "focusColor": "#98fb98",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+GAMES THEME:
+------------
+"colorScheme": {
+  "background": "#4b0082",
+  "headerBackground": "#663399",
+  "headerBorder": "#ff00ff",
+  "primaryButton": "#8a2be2",
+  "secondaryButton": "#9370db",
+  "accent": "#da70d6",
+  "focusColor": "#ff1493",
+  "textColor": "#ffffff",
+  "headerTextColor": "#ffffff"
+}
+
+FOOD THEME:
+-----------
+"colorScheme": {
+  "background": "#ff6347",
+  "headerBackground": "#ffa07a",
+  "headerBorder": "#ff4500",
+  "primaryButton": "#ff8c00",
+  "secondaryButton": "#ffd700",
+  "accent": "#ffffe0",
+  "focusColor": "#ff69b4",
+  "textColor": "#333333",
+  "headerTextColor": "#333333"
+}
+
+PERSONAL THEME:
+---------------
+"colorScheme": {
+  "background": "#e6e6fa",
+  "headerBackground": "#f0f8ff",
+  "headerBorder": "#9370db",
+  "primaryButton": "#da70d6",
+  "secondaryButton": "#dda0dd",
+  "accent": "#ffc0cb",
+  "focusColor": "#ff69b4",
+  "textColor": "#333333",
+  "headerTextColor": "#333333"
+}
+
+NOTES:
+------
+- These themes were each unique with their own color personalities
+- Some had interesting theme-specific color choices (like green for sports, purple for music)
+- Light themes: default, travel, food, personal
+- Dark themes: dnd, movies, sports, music, tech, history, books, games
+- Many had creative color combinations that matched their topic themes
+
+To restore any of these, simply copy the colorScheme object back into questions.json
