@@ -1,14 +1,3 @@
-:root {
- --background-dark: #2D1B21;
- --background-light: #EADCE1;
- --accent-dark: #66353C;
- --accent-light: #e9b7bd;
- --text-light: #EADCE1;
- --text-dark: #5F3A48;
- --dark: #1d1216;
- --light: #ffeff5;
- }
-
 #answers-list {
     display: grid;
     padding: 12px;
@@ -170,74 +159,4 @@ body.dark-theme {
 body.light-theme {
     background-color: var(--background-light);
     color: var(--text-dark);
-}
-
-@keyframes confetti {
-    0% {
-        opacity: 0;
-        transform: translateY(100vh) translateX(0) scale(0.5) rotate(0deg);
-    }
-    30% {
-        opacity: 1;
-        transform: translateY(40vh) translateX(var(--confetti-x, 0px)) scale(1) rotate(120deg);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(-20vh) translateX(var(--confetti-x, 0px)) scale(1.2) rotate(180deg);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) translateX(var(--confetti-x, 0px)) scale(1) rotate(360deg);
-    }
-    /* 0% {
-        opacity: 0;
-        transform: translateY(100vh) scale(0.5) rotate(0deg);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(-20vh) scale(1.2) rotate(180deg);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotate(360deg);
-    } */
-}
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-.confetti-piece {
-    width: 12px;
-    height: 18px;
-    background-image: linear-gradient(90deg, aqua, yellow, pink);
-    background-size: 200% 200%;
-    animation: confetti 2s ease-in-out, gradientShift 2s linear infinite;
-    background-color: aqua;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: center;
-}
-
-/* center confetti container and place on top */
-#confetti-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    pointer-events: none; /* so it doesn't block clicks */
-    z-index: 9999;
-}
-
-/* give each piece a random horizontal offset using CSS variable if set inline */
-.confetti-piece[data-x] {
-    --confetti-x: var(--x, 0px);
 }
