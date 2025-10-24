@@ -45,11 +45,14 @@ p, #header p {
     display: flex;
     align-items: center;
     padding: 0;
+    /* Default color for SVGs with currentColor */
+    color: #333333;
 }
 
 #open_page img {
     width: 40px;
     height: 40px;
+    transition: color 0.3s ease;
 }
 
 #directions.hide {
@@ -89,26 +92,41 @@ body:not(.front-page) header {
     cursor: pointer;
     border: none;
     background-color: var(--background-light);
+    /* Default color for SVGs with currentColor */
+    color: #333333;
 }
 
 .switch_button img {
     width: 50px;
     height: 50px;
-    transition: filter 0.3s ease;
+    transition: color 0.3s ease;
 }
 
-/* Theme-aware SVG colors using CSS variables */
-.switch_button img,
-#open_page img {
-    /* Apply theme-specific color using CSS variable */
-    filter: var(--svg-filter);
-    transition: filter 0.3s ease;
+
+
+/* Theme-aware SVG colors using currentColor */
+.light-theme .switch_button,
+.light-theme #open_page {
+    /* Black SVG for light themes */
+    color: #333333;
 }
 
-.switch_button:hover img,
-#open_page:hover img {
-    /* Apply theme-specific hover color using CSS variable */
-    filter: var(--svg-hover-filter);
+.dark-theme .switch_button,
+.dark-theme #open_page {
+    /* White SVG for dark themes */
+    color: #ffffff;
+}
+
+.light-theme .switch_button:hover,
+.light-theme #open_page:hover {
+    /* Slightly lighter for hover on light themes */
+    color: #666666;
+}
+
+.dark-theme .switch_button:hover,
+.dark-theme #open_page:hover {
+    /* Slightly dimmed for hover on dark themes */
+    color: #cccccc;
 }
 
 .switch_button:focus {
