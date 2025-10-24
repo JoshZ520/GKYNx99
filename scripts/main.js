@@ -1,8 +1,9 @@
 // initialize global topic and appQuestions so they are available everywhere in this script
 window.currentTopic = window.currentTopic || 'default';
 
-// topics will be loaded from files/questions.json
+// topics and color schemes will be loaded from files/questions.json
 let topics = {};
+let colorSchemes = {};
 let appQuestions = [];
 
 function loadQuestions() {
@@ -12,49 +13,67 @@ function loadQuestions() {
             return res.json();
         })
         .then(data => {
-            topics = data || {};
+            // Handle new structure with separated colorSchemes and topics
+            if (data.colorSchemes && data.topics) {
+                colorSchemes = data.colorSchemes || {};
+                topics = data.topics || {};
+            } else {
+                // Fallback for old structure
+                topics = data || {};
+                colorSchemes = {};
+            }
+            
             // ensure default exists with proper structure
             if (!topics.default) {
                 topics.default = {
                     questions: [],
-                    colorScheme: {
-                        background: "#f8f9fa",
-                        headerBackground: "#ffffff",
-                        headerBorder: "#6c757d",
-                        primaryButton: "#007bff",
-                        secondaryButton: "#28a745",
-                        accent: "#17a2b8",
-                        focusColor: "#007bff",
-                        textColor: "#212529",
-                        headerTextColor: "#212529",
-                        svgColor: "#495057",
-                        svgHoverColor: "#6c757d"
-                    }
+                    colorScheme: "light"
                 };
             }
-            return topics;
+            
+            // ensure light color scheme exists
+            if (!colorSchemes.light) {
+                colorSchemes.light = {
+                    background: "#f8f9fa",
+                    headerBackground: "#ffffff",
+                    headerBorder: "#6c757d",
+                    primaryButton: "#4169E1",
+                    secondaryButton: "#28a745",
+                    accent: "#17a2b8",
+                    focusColor: "#4169E1",
+                    textColor: "#212529",
+                    headerTextColor: "#212529",
+                    svgColor: "#495057",
+                    svgHoverColor: "#6c757d"
+                };
+            }
+            
+            return { topics, colorSchemes };
         })
         .catch(err => {
             console.error('Error loading questions.json:', err);
             topics = { 
                 default: {
                     questions: [],
-                    colorScheme: {
-                        background: "#f8f9fa",
-                        headerBackground: "#ffffff",
-                        headerBorder: "#6c757d",
-                        primaryButton: "#007bff",
-                        secondaryButton: "#28a745",
-                        accent: "#17a2b8",
-                        focusColor: "#007bff",
-                        textColor: "#212529",
-                        headerTextColor: "#212529",
-                        svgColor: "#495057",
-                        svgHoverColor: "#6c757d"
-                    }
+                    colorScheme: "light"
                 }
             };
-            return topics;
+            colorSchemes = {
+                light: {
+                    background: "#f8f9fa",
+                    headerBackground: "#ffffff",
+                    headerBorder: "#6c757d",
+                    primaryButton: "#4169E1",
+                    secondaryButton: "#28a745",
+                    accent: "#17a2b8",
+                    focusColor: "#4169E1",
+                    textColor: "#212529",
+                    headerTextColor: "#212529",
+                    svgColor: "#495057",
+                    svgHoverColor: "#6c757d"
+                }
+            };
+            return { topics, colorSchemes };
         });
 }
 // helpers to change topic and questions
@@ -89,7 +108,16 @@ function applyQuestionsForTopic(topic) {
     
     // Apply color scheme if available
     if (topicData.colorScheme) {
-        applyColorScheme(topicData.colorScheme);
+        // Handle both string reference and direct object
+        let colorScheme;
+        if (typeof topicData.colorScheme === 'string') {
+            // Resolve color scheme reference
+            colorScheme = colorSchemes[topicData.colorScheme] || colorSchemes['light'] || {};
+        } else {
+            // Direct color scheme object (fallback for old format)
+            colorScheme = topicData.colorScheme;
+        }
+        applyColorScheme(colorScheme);
     }
 }
 

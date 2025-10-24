@@ -184,9 +184,28 @@ function loadTopicColorScheme() {
     fetch('files/questions.json')
         .then(res => res.json())
         .then(data => {
-            const topicData = data[currentTopic] || data['default'];
+            let topicData, colorSchemes;
+            
+            // Handle new structure with separated colorSchemes and topics
+            if (data.colorSchemes && data.topics) {
+                colorSchemes = data.colorSchemes;
+                topicData = data.topics[currentTopic] || data.topics['default'];
+            } else {
+                // Fallback for old structure
+                topicData = data[currentTopic] || data['default'];
+                colorSchemes = {};
+            }
+            
             if (topicData && topicData.colorScheme) {
-                applyColorScheme(topicData.colorScheme);
+                let colorScheme;
+                if (typeof topicData.colorScheme === 'string') {
+                    // Resolve color scheme reference
+                    colorScheme = colorSchemes[topicData.colorScheme] || colorSchemes['light'] || {};
+                } else {
+                    // Direct color scheme object (fallback for old format)
+                    colorScheme = topicData.colorScheme;
+                }
+                applyColorScheme(colorScheme);
             }
         })
         .catch(err => {
