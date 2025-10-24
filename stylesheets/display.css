@@ -104,6 +104,9 @@ header {
     padding: 20px;
     text-align: center;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #question-header {
@@ -117,6 +120,9 @@ header {
     font-size: 16px;
     cursor: pointer;
     margin: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 #back-home-btn {

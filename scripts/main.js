@@ -1,3 +1,4 @@
+
 // initialize global topic and appQuestions so they are available everywhere in this script
 window.currentTopic = window.currentTopic || 'default';
 
