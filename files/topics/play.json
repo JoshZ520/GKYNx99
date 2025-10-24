@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "prompt": "What type of games do you enjoy?",
+      "option1": "Digital/Video Games",
+      "option2": "Physical/Board Games"
+    },
+    {
+      "prompt": "How do you prefer to play games?",
+      "option1": "Competitive/Challenging",
+      "option2": "Casual/Relaxing"
+    },
+    {
+      "prompt": "What's your gaming social preference?",
+      "option1": "Solo/Single Player",
+      "option2": "Multiplayer/Social"
+    },
+    {
+      "prompt": "What type of game experience appeals to you?",
+      "option1": "Strategy/Thinking",
+      "option2": "Action/Reaction"
+    },
+    {
+      "prompt": "How much time do you prefer for gaming sessions?",
+      "option1": "Quick/Short Sessions",
+      "option2": "Extended/Long Sessions"
+    },
+    {
+      "prompt": "What motivates your game choices?",
+      "option1": "Achievement/Progress",
+      "option2": "Fun/Entertainment"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "prompt": "What aspect of fantasy stories appeals to you most?",
+      "option1": "Character Development",
+      "option2": "Action/Adventure"
+    },
+    {
+      "prompt": "What type of fantasy character do you prefer?",
+      "option1": "Magic Users",
+      "option2": "Physical Heroes"
+    },
+    {
+      "prompt": "What fantasy world type appeals to you?",
+      "option1": "Traditional Fantasy",
+      "option2": "Contemporary Fantasy"
+    },
+    {
+      "prompt": "What fantasy setting appeals to you most?",
+      "option1": "High Fantasy",
+      "option2": "Urban Fantasy"
+    },
+    {
+      "prompt": "How do you prefer to engage with fantasy?",
+      "option1": "Creating Stories",
+      "option2": "Consuming Stories"
+    },
+    {
+      "prompt": "What draws you to fantasy content?",
+      "option1": "Escapism",
+      "option2": "Adventure"
+    }
+  ]
+}

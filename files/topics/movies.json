@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "prompt": "What's your preferred movie format?",
+      "option1": "Movies",
+      "option2": "TV Shows"
+    },
+    {
+      "prompt": "What's your favorite movie genre?",
+      "option1": "Action",
+      "option2": "Comedy"
+    },
+    {
+      "prompt": "Where do you prefer to watch movies?",
+      "option1": "Theater",
+      "option2": "Home"
+    },
+    {
+      "prompt": "What movie length do you prefer?",
+      "option1": "Short Films",
+      "option2": "Epic Movies"
+    },
+    {
+      "prompt": "What movie era do you prefer?",
+      "option1": "Classic Films",
+      "option2": "Modern Cinema"
+    },
+    {
+      "prompt": "What movie mood do you prefer?",
+      "option1": "Feel-good",
+      "option2": "Thought-provoking"
+    }
+  ]
+}

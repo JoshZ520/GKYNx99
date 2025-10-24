@@ -87,32 +87,10 @@
 
         <!-- Hidden field to store the selected preference -->
         <input type="hidden" id="selectedPreference" value="">
-
-        <!-- Fallback text input (for backward compatibility) -->
-        <div class="input" id="textInput">
-            <div class="group">
-                <textarea type="text" class="name_input" id="answer" placeholder="Answer: " required></textarea>
-                <span class="bar"></span>
-            </div>
-        </div>
-
-        <!-- Hidden field to store the selected preference -->
-        <input type="hidden" id="selectedPreference" value="">
-
-        <!-- Fallback text input (for backward compatibility) -->
-        <div class="input" id="textInput">
-            <div class="group">
-                <input type="text" class="name_input" id="name" placeholder="First Name: " required>
-                <span class="bar"></span>
-            </div>
-        </div>
         <div class="buttons">
             <button class="submit" id="submitButton" type="submit">Submit Answer</button>
             <button class="fin" id="final_submit" type="button">All Answers Finished</button>
         </div>
-        <div class="answers_section" >
-            <h2 id="answers">Answers: </h2>
-            <ul id="answersList"></ul>
     </main>
     <footer>
         <h2>About: </h2>
