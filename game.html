@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <title>Table Talk</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/options.css">
+    <script src="scripts/ui.js" defer></script>
+    <script src="scripts/main.js" defer></script>
+</head>
+<body>
+    <header id="header">
+            <p><a href="index.html">Back to the Top</a></p> link to front page testing purposes only
+    </header>
+    <main>
+        <h1 class="question" id="question">Press the switch question to start</h1>
+
+        <div class="controls">
+            <button class="switch_button" id="switchQuestion" type="button"><svg id="changeQ"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M4.56079 10.6418L6.35394 3.94971L8.25402 5.84979C11.7312 3.6588 16.3814 4.07764 19.41 7.1063L17.9958 8.52052C15.7536 6.27827 12.3686 5.87519 9.71551 7.31128L11.2529 8.84869L4.56079 10.6418Z"
+    fill="currentColor"
+  />
+  <path
+    d="M19.4392 13.3581L17.646 20.0502L15.7459 18.1501C12.2688 20.3411 7.61857 19.9223 4.58991 16.8936L6.00413 15.4794C8.24638 17.7217 11.6313 18.1247 14.2844 16.6887L12.747 15.1512L19.4392 13.3581Z"
+    fill="currentColor"
+  />
+</svg></button>
+            <div class="topic">
+                <label for="topicSelect">Topic:</label>
+                <select id="topicSelect">
+                    <option value="default">Start</option>
+                    <option value="random" selected>Random</option>
+                    <option value="personal">Personal</option>
+                    <option value="dnd">D&amp;D</option>
+                    <option value="movies">Movies/TV</option>
+                    <option value="food">Food</option>
+                    <option value="sports">Sports</option>
+                    <option value="music">Music</option>
+                    <option value="tech">Tech</option>
+                    <option value="travel">Travel</option>
+                    <option value="history">History</option>
+                    <option value="books">Books</option>
+                    <option value="games">Games</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Image-based preference selection -->
+        <div class="preference-container" id="preferenceContainer" style="display: none;">
+            <div class="preference-options">
+                <div class="preference-option" id="option1" data-choice="option1">
+                    <div class="preference-label" id="option1Label">Option 1</div>
+                    <div class="preference-image" id="option1Image">
+                        <!-- Image will be loaded here -->
+                    </div>
+                </div>
+                <div class="preference-option" id="option2" data-choice="option2">
+                    <div class="preference-label" id="option2Label">Option 2</div>
+                    <div class="preference-image" id="option2Image">
+                        <!-- Image will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Name input for preference system -->
+            <div class="preference-name-input">
+                <div class="group">
+                    <input type="text" class="name_input" id="preferenceName" placeholder="First Name: " required>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden field to store the selected preference -->
+        <input type="hidden" id="selectedPreference" value="">
+
+        <!-- Fallback text input (for backward compatibility) -->
+        <div class="input" id="textInput">
+            <div class="group">
+                <input type="text" class="name_input" id="name" placeholder="First Name: " required>
+                <span class="bar"></span>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="submit" id="submitButton" type="submit">Submit Answer</button>
+            <button class="fin" id="final_submit" type="button">All Answers Finished</button>
+        </div>
+        <div class="answers_section" >
+            <h2 id="answers">Answers: </h2>
+            <ul id="answersList"></ul>
+    </main>
+    <footer>
+        <h2>About: </h2>
+        <p>The purpose of this game is to get to know people.</p>
+        <p>Ask Away</p>
+    </footer>
+</body>
+</html>

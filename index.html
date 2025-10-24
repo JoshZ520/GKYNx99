@@ -3,87 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <title>Table Talk</title>
+    <title>Table Talk - Start</title>
     <link rel="stylesheet" href="stylesheets/style.css">
-    <script src="scripts/answers.js" defer></script>
+    <script src="scripts/ui.js" defer></script>
     <script src="scripts/main.js" defer></script>
 </head>
-<body>
-    <header id="header">
-        <button id="open_page" type="button"><img src="images/chevron-down.svg" alt="open page"><h2>Directions: </h2></button>
-            <!-- <h2>Directions: </h2> -->
-        <div id="directions" class="hide">
-            <p>Form a group of friends. You all will be given the same question and will each answer. After everyone has answered, press the 'All answers finished' button. This will pop up with all of the answers and associated names, then it's time to discuss!</p>
-            <p><a href="front.html">opening page</a></p> link to front page testing purposes only
-        </div>
-    </header>
-    <main>
-        <h1 class="question" id="question">Press the switch question to start</h1>
+<body class="front-page">
+    <div class="card">
+        <header>
+            <h1>Table Talk</h1>
+            <p class="lead">Pick the number of players below, then press Start.</p>
+            <div class="direction">
+                <button id="open_page" type="button"><img src="images/chevron-down.svg" alt="open page"><h2>Directions: </h2></button>            
+            </div>
+            <div id="directions" class="hide">
+                <p>Form a group of friends. You all will be given the same question and will each answer. After everyone has answered, press the 'All answers finished' button. This will pop up with all of the answers and associated names, then it's time to discuss!</p>
+            </div>
+        </header>
 
-        <div class="controls">
-            <button class="switch_button" id="switchQuestion" type="button"><img src="images/sync.svg" alt="change question"></button>
-            <!-- <div class="topic">
-                <label for="topicSelect">Topic:</label>
-                <select id="topicSelect">
-                    <option value="default">Start</option>
-                    <option value="random" selected>Random</option>
-                    <option value="personal">Personal</option>
-                    <option value="dnd">D&amp;D</option>
-                    <option value="movies">Movies/TV</option>
-                    <option value="food">Food</option>
-                    <option value="sports">Sports</option>
-                    <option value="music">Music</option>
-                    <option value="tech">Tech</option>
-                    <option value="travel">Travel</option>
-                    <option value="history">History</option>
-                    <option value="books">Books</option>
-                    <option value="games">Games</option>
-                </select>
-            </div> -->
-        </div>
-
-        <div class="input">
-            <div class="background"></div>
-            <div class="topic">
-                <label for="topicSelect">Topic:</label>
-                <select id="topicSelect">
-                    <option value="default">Start</option>
-                    <option value="random" selected>Random</option>
-                    <option value="personal">Personal</option>
-                    <option value="dnd">D&amp;D</option>
-                    <option value="movies">Movies/TV</option>
-                    <option value="food">Food</option>
-                    <option value="sports">Sports</option>
-                    <option value="music">Music</option>
-                    <option value="tech">Tech</option>
-                    <option value="travel">Travel</option>
-                    <option value="history">History</option>
-                    <option value="books">Books</option>
-                    <option value="games">Games</option>
+        <main>
+            <div class='group'>
+                <label for="player_count">Number of Players:</label>
+                <select id="player_count" required>
+                    <option value="" disabled selected>Select number</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
                 </select>
             </div>
+
             <div class="group">
-                <textarea type="text" class="name_input" id="answer" placeholder="Answer: " required></textarea>
-                <span class="bar"></span>
+                <a class="start-btn" href="game.html" id="start-game-btn">Start Game</a>
             </div>
-            <div class="group">
-                <input type="text" class="name_input" id="name" placeholder="First Name: " required>
-                <span class="bar"></span>
-            </div>
-        </div>
-        <div class="buttons">
-            <button class="submit" id="submitButton" type="submit">Submit Answer</button>
-            <button class="fin" id="final_submit" type="button">All Answers Finished</button>
-        </div>
-        <div class="answers_section" >
-            <h2 id="answers">Answers: </h2>
-            <ul id="answersList"></ul>
-    </main>
-    <footer>
-        <h2>About: </h2>
-        <p>The purpose of this game is to get to know people.</p>
-        <p>Ask Away</p>
-    </footer>
+        </main>
+    </div>
 </body>
 </html>

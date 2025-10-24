@@ -1,0 +1,155 @@
+/* === PREFERENCE-BASED IMAGE SYSTEM === */
+/* This system allows easy image replacement by contributors */
+
+.preference-container {
+    margin: 20px auto;
+    width: 100%; 
+    position: relative;
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.preference-options {
+    display: flex;
+    justify-content: center;
+    gap: 160px; 
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    position: static;
+    margin-bottom: 40px; 
+}
+
+.preference-option {
+    width: 320px; /* 300px + 20px padding (10px each side) */
+    height: 360px; /* Increased height to accommodate label */
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--background-light);
+    border: 3px solid var(--accent-light);
+    display: flex;
+    flex-direction: column;
+}
+
+.preference-label {
+    background: var(--background-light);
+    color: var(--text-dark);
+    padding: 12px 15px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1em;
+    border-bottom: 2px solid var(--accent-light);
+    flex-shrink: 0;
+}
+
+.preference-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.preference-option:active,
+.preference-option.selected {
+    border-color: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.preference-image {
+    width: 300px;
+    height: 260px; /* Reduced to make room for label */
+    margin: 10px;
+    background-image: url(https://placekittens.com/200/300);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--background-light);
+    flex-grow: 1;
+    border-radius: 12px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .preference-container {
+        position: static;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        height: auto;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .preference-options {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        position: static;
+        padding: 10px;
+    }
+    
+    .preference-option {
+        width: 300px;
+        height: 250px;
+        margin-bottom: 10px;
+    }
+    
+    .preference-image {
+        width: 280px;
+        height: 180px;
+    }
+}
+
+/* Name input styling for preference system */
+.preference-name-input {
+    margin: 20px auto;
+    text-align: center;
+    max-width: 320px;
+    /* REMOVED: absolute positioning for desktop */
+    position: static;
+    transform: none;
+    width: 100%;
+}
+
+.preference-name-input .group {
+    margin-bottom: 20px;
+}
+
+.preference-name-input input {
+    font-size: 18px;
+    width: 280px;
+    padding: 8px;
+    border: none;
+    border-bottom: 2px solid var(--accent-light);
+    background: transparent;
+    color: var(--text-dark);
+}
+
+.preference-name-input input:focus {
+    outline: none;
+    border-bottom-color: var(--accent-dark);
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .preference-container {
+        max-height: 60vh;
+    }
+    
+    .preference-option {
+        width: 280px;
+        height: 220px;
+    }
+    
+    .preference-image {
+        width: 260px;
+        height: 150px;
+    }
+    
+    .preference-name-input input {
+        width: 260px;
+    }
+}

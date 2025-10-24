@@ -1,9 +1,21 @@
+:root {
+ --background-dark: #2D1B21;
+ --background-light: #EADCE1;
+ --accent-dark: #66353C;
+ --accent-light: #e9b7bd;
+ --text-light: #EADCE1;
+ --text-dark: #5F3A48;
+ --dark: #1d1216;
+ --light: #ffeff5;
+ }
 
 #answers-list {
     display: grid;
     padding: 12px;
     min-height: 20px;
-    background: #fff;
+    background: var(--light);
+    color: var(--text-dark);
+    border: 2px solid var(--accent-light);
     border-radius: 10px;
     margin: 20px auto;
     max-width: 800px;
@@ -21,14 +33,149 @@
 
 .answer-item {
     padding: 10px 12px;
-    background: #f7f7fb;
+    background: var(--background-light);
+    color: var(--text-dark);
+    border: 1px solid var(--accent-light);
     border-radius: 6px;
     width: 100%;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .answer-item strong {
     margin-right: 6px;
+    color: var(--accent-dark);
+}
+
+/* Dark theme adaptations */
+body.dark-theme #answers-list {
+    background: var(--dark);
+    color: var(--text-light);
+    border-color: var(--accent-dark);
+}
+
+body.dark-theme .answer-item {
+    background: var(--background-dark);
+    color: var(--text-light);
+    border-color: var(--accent-dark);
+    box-shadow: 0 1px 2px rgba(255,255,255,0.1);
+}
+
+body.dark-theme .answer-item strong {
+    color: var(--accent-light);
+}
+
+/* Ensure all text elements have proper contrast */
+body.dark-theme h1, 
+body.dark-theme h2, 
+body.dark-theme h3 {
+    color: var(--text-light);
+}
+
+body.light-theme h1, 
+body.light-theme h2, 
+body.light-theme h3 {
+    color: var(--text-dark);
+}
+
+/* Header styling for different themes */
+body.dark-theme header {
+    background: var(--background-dark);
+    color: var(--text-light);
+    border-bottom: 2px solid var(--accent-dark);
+}
+
+body.light-theme header {
+    background: var(--background-light);
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--accent-light);
+}
+
+/* Button styling for different themes */
+body.dark-theme button {
+    background: var(--accent-dark);
+    color: var(--text-light);
+    border: 1px solid var(--accent-light);
+}
+
+body.light-theme button {
+    background: var(--accent-light);
+    color: var(--text-dark);
+    border: 1px solid var(--accent-dark);
+}
+
+button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* Basic layout styling */
+header {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#question-header {
+    margin: 0 0 15px 0;
+    font-size: 24px;
+}
+
+#next-btn, #back-home-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#back-home-btn {
+    background: var(--accent-dark);
+    color: var(--text-light);
+    border: 2px solid var(--accent-light);
+}
+
+body.dark-theme #back-home-btn {
+    background: var(--accent-light);
+    color: var(--text-dark);
+    border: 2px solid var(--accent-dark);
+}
+
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+#answers-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Body theme styling */
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+
+body.light-theme {
+    background-color: var(--background-light);
+    color: var(--text-dark);
 }
 
 @keyframes confetti {
@@ -99,38 +246,4 @@
 /* give each piece a random horizontal offset using CSS variable if set inline */
 .confetti-piece[data-x] {
     --confetti-x: var(--x, 0px);
-}
-
-body{
-    text-align: center;
-}
-
-h1{
-    margin: 40px 0;
-    font-size: 40px;
-}
-
-h1, h2{
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-div{
-    text-align: left;
-}
-
-button{
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    justify-self: center;
-    gap: 5px;
-    transition: transform 0.2s ease-out;
-    transform: translateX(0);
-}
-
-.swiped {
-    transform: translateX(10px);
 }

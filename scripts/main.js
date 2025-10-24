@@ -1,3 +1,4 @@
+
 // initialize global topic and appQuestions so they are available everywhere in this script
 window.currentTopic = window.currentTopic || 'default';
 
@@ -13,25 +14,79 @@ function loadQuestions() {
         })
         .then(data => {
             topics = data || {};
-            // ensure default exists
-            if (!topics.default) topics.default = [];
+            // ensure default exists with proper structure
+            if (!topics.default) {
+                topics.default = {
+                    questions: [],
+                    colorScheme: {
+                        background: "#fff7d1",
+                        headerBackground: "#FAFAF7",
+                        headerBorder: "#59A8D9",
+                        primaryButton: "#f0a23b",
+                        secondaryButton: "#2EC4B6",
+                        accent: "#FFC857",
+                        focusColor: "#307eea",
+                        textColor: "#333333",
+                        headerTextColor: "#333333"
+                    }
+                };
+            }
             return topics;
         })
         .catch(err => {
             console.error('Error loading questions.json:', err);
-            topics = { default: [] };
+            topics = { 
+                default: {
+                    questions: [],
+                    colorScheme: {
+                        background: "#fff7d1",
+                        headerBackground: "#FAFAF7",
+                        headerBorder: "#59A8D9",
+                        primaryButton: "#f0a23b",
+                        secondaryButton: "#2EC4B6",
+                        accent: "#FFC857",
+                        focusColor: "#307eea",
+                        textColor: "#333333",
+                        headerTextColor: "#333333"
+                    }
+                }
+            };
             return topics;
         });
 }
 // helpers to change topic and questions
 function applyQuestionsForTopic(topic) {
-    const list = (topics && topics[topic]) || topics['default'] || [];
+    const topicData = (topics && topics[topic]) || topics['default'] || {};
+    let list = topicData.questions || [];
+    
+    // For the default topic, use only the second question (index 1) for the game page
+    // The first question (index 0) is displayed on the front page
+    if (topic === 'default' && list.length > 1) {
+        list = [list[1]]; // Use only the second question
+    }
+    
     appQuestions.splice(0, appQuestions.length, ...list);
 
     const questionElem = document.getElementById('question');
     if (questionElem) {
         questionElem.setAttribute('data-index', 0);
-        questionElem.textContent = appQuestions[0] || '';
+        
+        // Handle both old string format and new object format
+        const currentQuestion = appQuestions[0];
+        if (typeof currentQuestion === 'string') {
+            questionElem.textContent = currentQuestion;
+        } else if (currentQuestion && currentQuestion.prompt) {
+            questionElem.textContent = currentQuestion.prompt;
+            // Display the options as well
+            displayQuestionOptions(currentQuestion);
+        } else {
+            questionElem.textContent = '';
+        }
+    }
+    
+    // Apply color scheme if available
+    if (topicData.colorScheme) {
+        applyColorScheme(topicData.colorScheme);
     }
 }
 
@@ -39,24 +94,22 @@ function setTopic(topic) {
     window.currentTopic = topic;
     applyQuestionsForTopic(topic);
     localStorage.setItem('currentTopic', topic);
+    // Update UI state after topic change (with small delay to ensure DOM is updated)
+    setTimeout(() => updateSubmissionState(), 0);
 }
 
-// Utility: count how many distinct players have submitted an answer for the current question index
-function getSubmittedCountForIndex(indexOverride) {
-    const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
+// Utility: count how many answers have been submitted for the current question
+function getSubmittedCountForCurrentQuestion() {
     const questionElem = document.getElementById('question');
-    const currentIndex = typeof indexOverride === 'number' ? indexOverride : (parseInt(questionElem?.getAttribute('data-index')) || 0);
-    let count = 0;
-    Object.keys(existingAnswers).forEach(name => {
-        const arr = existingAnswers[name];
-        if (Array.isArray(arr) && arr[currentIndex]) count += 1;
-    });
-    return count;
+    const currentQuestion = questionElem?.textContent || '';
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    return submissions.filter(sub => sub.question === currentQuestion).length;
 }
 
 // Update buttons and inputs according to the selected player count and current submission progress
 function updateSubmissionState() {
     const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
+    console.log('updateSubmissionState - playerCount from sessionStorage:', playerCount); // Debug
     const submitBtn = document.getElementById('submitButton');
     const finalBtn = document.getElementById('final_submit');
     const answerInput = document.getElementById('answer');
@@ -64,7 +117,8 @@ function updateSubmissionState() {
     if (!submitBtn || !finalBtn) return;
 
     if (playerCount && playerCount > 0) {
-        const submitted = getSubmittedCountForIndex();
+        const submitted = getSubmittedCountForCurrentQuestion();
+        console.log('updateSubmissionState:', { playerCount, submitted }); // Debug
         if (submitted >= playerCount) {
             // hide/disable submit, show final only
             submitBtn.style.display = 'none';
@@ -118,7 +172,19 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
 
     let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
     currentIndex = (currentIndex + 1) % appQuestions.length;
-    questionElem.textContent = appQuestions[currentIndex];
+    
+    // Handle both old string format and new object format
+    const currentQuestion = appQuestions[currentIndex];
+    if (typeof currentQuestion === 'string') {
+        questionElem.textContent = currentQuestion;
+    } else if (currentQuestion && currentQuestion.prompt) {
+        questionElem.textContent = currentQuestion.prompt;
+        // Display the options as well
+        displayQuestionOptions(currentQuestion);
+    } else {
+        questionElem.textContent = '';
+    }
+    
     questionElem.setAttribute('data-index', currentIndex);
     // Update submission UI state for the new question index
     updateSubmissionState();
@@ -126,20 +192,17 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
 
 // wire the topic dropdown and restore persisted topic after loading questions
 window.addEventListener('DOMContentLoaded', function () {
+    // Handle front page functionality (player count selection)
+    handleFrontPageFunctionality();
+    
     loadQuestions().then(() => {
-        const saved = localStorage.getItem('currentTopic');
-        if (saved && topics[saved]) {
-            window.currentTopic = saved;
-            applyQuestionsForTopic(saved);
-            const select = document.getElementById('topicSelect');
-            if (select) select.value = saved;
-        } else {
-            // apply default topic
-            applyQuestionsForTopic(window.currentTopic || 'default');
-        }
-
+        // Always start with the default topic (instructions) on page load
+        window.currentTopic = 'default';
+        applyQuestionsForTopic('default');
         const select = document.getElementById('topicSelect');
         if (select) {
+            select.value = 'default';
+            
             select.addEventListener('change', function (e) {
                 const val = e.target.value;
                 if (val === 'random') {
@@ -159,37 +222,84 @@ window.addEventListener('DOMContentLoaded', function () {
 
         // Ensure submission state reflects any configured player count on initial load
         updateSubmissionState();
+        
+        // Load front page instruction if we're on the front page
+        loadFrontPageInstruction();
     });
 });
 function submitAnswer() {
-    const answer = document.getElementById('answer').value;
-    const name = document.getElementById('name').value;
-
-    // Retrieve existing answers from localStorage or initialize as empty object
-    const existingAnswers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
-
-    // Enforce player count if set
-    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
+    // Check if we're using preference system or text input system
+    const preferenceContainer = document.getElementById('preferenceContainer');
+    const textInput = document.getElementById('textInput');
+    const isPreferenceMode = preferenceContainer && preferenceContainer.style.display !== 'none';
+    
+    let answer, name;
+    
+    if (isPreferenceMode) {
+        // Get answer from preference selection
+        answer = document.getElementById('selectedPreference').value;
+        name = document.getElementById('preferenceName').value;
+    } else {
+        // Get answer from text input system
+        answer = document.getElementById('answer').value;
+        name = document.getElementById('name').value;
+    }
+    
     const questionElem = document.getElementById('question');
-    const currentIndex = parseInt(questionElem?.getAttribute('data-index')) || 0;
-    const currentSubmitted = getSubmittedCountForIndex(currentIndex);
-    if (playerCount && currentSubmitted >= playerCount) {
-        // already reached the expected number of answers for this question
-        updateSubmissionState();
-        return;
+    const currentQuestion = questionElem?.textContent || '';
+
+    console.log('submitAnswer called:', { answer, name, currentQuestion, isPreferenceMode }); // Debug
+
+    if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
+        console.log('Submission blocked: empty fields'); // Debug
+        alert('Please make a selection and enter your name before submitting.');
+        return; // Don't submit empty answers
     }
 
-    // Add/update the answer for the current name and question index
-    // (questionElem and currentIndex were computed above)
-    if (!existingAnswers[name] || !Array.isArray(existingAnswers[name])) existingAnswers[name] = [];
-    existingAnswers[name][currentIndex] = answer;
+    // Get chronological submissions list
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    
+    // Check if this question already has enough answers (if player count is set)
+    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
+    if (playerCount) {
+        const answersForThisQuestion = submissions.filter(sub => sub.question === currentQuestion).length;
+        console.log('Player count check:', { playerCount, answersForThisQuestion }); // Debug
+        if (answersForThisQuestion >= playerCount) {
+            console.log('Submission blocked: player count reached'); // Debug
+            updateSubmissionState();
+            return;
+        }
+    }
 
-    // Save the updated answers to localStorage
-    localStorage.setItem('submittedAnswers', JSON.stringify(existingAnswers));
+    // Add new submission with timestamp
+    const submission = {
+        question: currentQuestion,
+        answer: answer.trim(),
+        name: name.trim(),
+        timestamp: Date.now(),
+        topic: window.currentTopic || 'unknown'
+    };
+    
+    submissions.push(submission);
+
+    // Save chronological submissions
+    localStorage.setItem('chronologicalSubmissions', JSON.stringify(submissions));
 
     // Clear the input boxes for the next player
-    document.getElementById('answer').value = '';
-    document.getElementById('name').value = '';
+    if (isPreferenceMode) {
+        // Clear preference system
+        document.getElementById('selectedPreference').value = '';
+        document.getElementById('preferenceName').value = '';
+        // Remove visual selection
+        const option1 = document.getElementById('option1');
+        const option2 = document.getElementById('option2');
+        if (option1) option1.classList.remove('selected');
+        if (option2) option2.classList.remove('selected');
+    } else {
+        // Clear text input system
+        document.getElementById('answer').value = '';
+        document.getElementById('name').value = '';
+    }
 
     // Display all answers on the page
     displayAnswers();
@@ -198,25 +308,38 @@ function submitAnswer() {
     updateSubmissionState();
 }
 
-// displayAnswers is implemented in scripts/answers.js and will be available globally
-
-// displayAnswers will register itself on DOMContentLoaded from scripts/answers.js
 const finalBtn = document.getElementById('final_submit');
 if (finalBtn) finalBtn.addEventListener('click', function() {
-    // Save the current question and submitted answers to sessionStorage
-    const questionElem = document.getElementById('question');
-    const answers = JSON.parse(localStorage.getItem('submittedAnswers')) || {};
+    // Get chronological submissions
+    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    
+    if (submissions.length === 0) {
+        alert('No answers submitted yet!');
+        return;
+    }
 
-    // Pass the full questions list to the display page so it can step through all questions
-    sessionStorage.setItem('questions', JSON.stringify(appQuestions));
-    sessionStorage.setItem('currentAnswers', JSON.stringify(answers));
+    // Group submissions by question (in order they were first answered)
+    const questionOrder = [];
+    const submissionsByQuestion = {};
+    
+    submissions.forEach(submission => {
+        if (!submissionsByQuestion[submission.question]) {
+            submissionsByQuestion[submission.question] = [];
+            questionOrder.push(submission.question);
+        }
+        submissionsByQuestion[submission.question].push(submission);
+    });
+
+    // Pass chronological data to display page
+    sessionStorage.setItem('questionsInOrder', JSON.stringify(questionOrder));
+    sessionStorage.setItem('submissionsByQuestion', JSON.stringify(submissionsByQuestion));
     // Redirect to the display/results page
 
-    // Clear stored answers so the next run starts fresh, but keep other persisted settings (like currentTopic)
+    // Clear stored submissions so the next run starts fresh, but keep other persisted settings (like currentTopic)
     try {
-        localStorage.removeItem('submittedAnswers');
+        localStorage.removeItem('chronologicalSubmissions');
     } catch (e) {
-        console.warn('Could not remove submittedAnswers from localStorage', e);
+        console.warn('Could not remove chronologicalSubmissions from localStorage', e);
     }
 
     // Redirect to the display/results page
@@ -230,4 +353,51 @@ if (finalBtn) finalBtn.addEventListener('click', function() {
      directions.classList.toggle('hide');
  }
 
- dropdownBtn.addEventListener('click', dropdown);
+ if (dropdownBtn) dropdownBtn.addEventListener('click', dropdown);
+
+// === FRONT PAGE FUNCTIONALITY ===
+// Handle player count selection and storage
+function handleFrontPageFunctionality() {
+    const select = document.getElementById('player_count');
+    if (!select) return; // Not on front page
+    
+    // When the selection changes, store the value as an integer in sessionStorage
+    select.addEventListener('change', function (e) {
+        const val = parseInt(e.target.value, 10);
+        console.log('Player count selected:', val); // Debug
+        if (!Number.isNaN(val) && val > 0) {
+            sessionStorage.setItem('playerCount', String(val));
+            console.log('Player count stored in sessionStorage:', val); // Debug
+        } else {
+            sessionStorage.removeItem('playerCount');
+            console.log('Player count removed from sessionStorage'); // Debug
+        }
+    });
+
+    // If the user navigates to this page and then back, pre-select the stored value
+    const stored = parseInt(sessionStorage.getItem('playerCount'), 10);
+    if (!Number.isNaN(stored) && stored > 0) {
+        const opt = Array.from(select.options).find(o => parseInt(o.value, 10) === stored);
+        if (opt) select.value = String(stored);
+    }
+}
+
+// Function to load and display the front page instruction
+function loadFrontPageInstruction() {
+    const instructionElement = document.getElementById('front-instruction');
+    if (!instructionElement) return; // Not on front page
+    
+    fetch('files/questions.json')
+        .then(res => res.json())
+        .then(data => {
+            const defaultData = data['default'];
+            if (defaultData && defaultData.questions && defaultData.questions.length > 0) {
+                // Use the first question as the front page instruction
+                const frontInstruction = defaultData.questions[0];
+                instructionElement.textContent = frontInstruction;
+            }
+        })
+        .catch(err => {
+            console.warn('Could not load front page instruction:', err);
+        });
+}
