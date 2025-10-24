@@ -18,15 +18,17 @@ function loadQuestions() {
                 topics.default = {
                     questions: [],
                     colorScheme: {
-                        background: "#fff7d1",
-                        headerBackground: "#FAFAF7",
-                        headerBorder: "#59A8D9",
-                        primaryButton: "#f0a23b",
-                        secondaryButton: "#2EC4B6",
-                        accent: "#FFC857",
-                        focusColor: "#307eea",
-                        textColor: "#333333",
-                        headerTextColor: "#333333"
+                        background: "#f8f9fa",
+                        headerBackground: "#ffffff",
+                        headerBorder: "#6c757d",
+                        primaryButton: "#007bff",
+                        secondaryButton: "#28a745",
+                        accent: "#17a2b8",
+                        focusColor: "#007bff",
+                        textColor: "#212529",
+                        headerTextColor: "#212529",
+                        svgColor: "#495057",
+                        svgHoverColor: "#6c757d"
                     }
                 };
             }
@@ -38,15 +40,17 @@ function loadQuestions() {
                 default: {
                     questions: [],
                     colorScheme: {
-                        background: "#fff7d1",
-                        headerBackground: "#FAFAF7",
-                        headerBorder: "#59A8D9",
-                        primaryButton: "#f0a23b",
-                        secondaryButton: "#2EC4B6",
-                        accent: "#FFC857",
-                        focusColor: "#307eea",
-                        textColor: "#333333",
-                        headerTextColor: "#333333"
+                        background: "#f8f9fa",
+                        headerBackground: "#ffffff",
+                        headerBorder: "#6c757d",
+                        primaryButton: "#007bff",
+                        secondaryButton: "#28a745",
+                        accent: "#17a2b8",
+                        focusColor: "#007bff",
+                        textColor: "#212529",
+                        headerTextColor: "#212529",
+                        svgColor: "#495057",
+                        svgHoverColor: "#6c757d"
                     }
                 }
             };
