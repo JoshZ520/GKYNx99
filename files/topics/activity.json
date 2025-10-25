@@ -1,12 +1,12 @@
 {
   "questions": [
     {
-      "prompt": "What type of sports do you prefer?",
+      "prompt": "What type of physical activities do you prefer?",
       "option1": "Team Sports",
       "option2": "Individual Sports"
     },
     {
-      "prompt": "How do you prefer to engage with sports?",
+      "prompt": "How do you prefer to engage with activities?",
       "option1": "Playing/Participating",
       "option2": "Watching/Following"
     },
