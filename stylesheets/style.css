@@ -104,30 +104,7 @@ body:not(.front-page) header {
 
 
 
-/* Theme-aware SVG colors using currentColor */
-.light-theme .switch_button,
-.light-theme #open_page {
-    /* Black SVG for light themes */
-    color: #333333;
-}
-
-.dark-theme .switch_button,
-.dark-theme #open_page {
-    /* White SVG for dark themes */
-    color: #ffffff;
-}
-
-.light-theme .switch_button:hover,
-.light-theme #open_page:hover {
-    /* Slightly lighter for hover on light themes */
-    color: #666666;
-}
-
-.dark-theme .switch_button:hover,
-.dark-theme #open_page:hover {
-    /* Slightly dimmed for hover on dark themes */
-    color: #cccccc;
-}
+/* SVG colors are now handled directly by JavaScript applyColorScheme function */
 
 .switch_button:focus {
     outline: none;

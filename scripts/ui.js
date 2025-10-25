@@ -92,11 +92,18 @@ function applyColorScheme(colorScheme) {
         footer.style.color = colorScheme.headerTextColor || '#ffffff';
     }
     
-    // Update switch button background to match body
+    // Update switch button and dropdown button colors using dedicated SVG colors
     const switchBtn = document.querySelector('.switch_button');
     if (switchBtn) {
         switchBtn.style.backgroundColor = colorScheme.background;
-        switchBtn.style.color = colorScheme.accent;
+        // Use dedicated SVG color from color scheme
+        switchBtn.style.color = colorScheme.svgColor || colorScheme.textColor;
+    }
+    
+    const openPageBtn = document.querySelector('#open_page');
+    if (openPageBtn) {
+        // Use dedicated SVG color from color scheme
+        openPageBtn.style.color = colorScheme.svgColor || colorScheme.textColor;
     }
 }
 
