@@ -2,7 +2,7 @@
 /* This system allows easy image replacement by contributors */
 
 .preference-container {
-    margin: 20px 0 120px 0; /* Increased bottom margin for name input */
+    margin: var(--space-lg) 0 120px 0; /* Increased bottom margin for name input */
     width: 100vw;
     position: relative;
     left: 50%;
@@ -30,7 +30,7 @@
     height: 360px; /* Increased height to accommodate label */
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-radius: 12px;
+    border-radius: var(--space-md);
     overflow: hidden;
     background: var(--background-light);
     border: 3px solid var(--accent-light);
@@ -41,10 +41,10 @@
 .preference-label {
     background: var(--background-light);
     color: var(--text-dark);
-    padding: 12px 15px;
+    padding: var(--space-md) var(--space-md);
     text-align: center;
     font-weight: 600;
-    font-size: 1.1em;
+    font-size: var(--font-lg);
     border-bottom: 2px solid var(--accent-light);
     flex-shrink: 0;
 }
@@ -144,11 +144,11 @@
         left: auto !important;
         bottom: auto !important;
         top: auto !important;
-        margin: 30px auto 10px auto !important; /* Extra top margin for separation */
+        margin: 30px auto var(--space-md) auto !important; /* Extra top margin for separation */
         order: 2; /* Name input comes after images */
         background: var(--background-light);
-        padding: 15px;
-        border-radius: 8px;
+        padding: var(--space-md);
+        border-radius: var(--space-sm);
         border: 1px solid var(--accent-light);
         max-width: 300px;
         width: auto;
@@ -170,13 +170,13 @@
 }
 
 .preference-name-input .group {
-    margin-bottom: 20px;
+    margin-bottom: var(--space-lg);
 }
 
 .preference-name-input input {
-    font-size: 18px;
+    font-size: var(--font-lg);
     width: 280px;
-    padding: 12px 8px;
+    padding: var(--space-md) var(--space-sm);
     border: none;
     border-bottom: 2px solid var(--accent-light);
     background: transparent;
@@ -197,7 +197,7 @@
         width: 100% !important;
         left: auto !important;
         right: auto !important;
-        margin: 20px auto !important;
+        margin: var(--space-lg) auto !important;
         margin-left: auto !important;
         margin-right: auto !important;
         height: auto !important;

@@ -7,6 +7,10 @@ let topics = {};
 let colorSchemes = {};
 let appQuestions = [];
 
+// Player turn management
+let playerNames = [];
+let currentPlayerIndex = 0;
+
 function loadQuestions() {
     // Load color schemes and topic index first
     return Promise.all([
@@ -151,48 +155,7 @@ function setTopic(topic) {
 }
 
 // Utility: count how many answers have been submitted for the current question
-function getSubmittedCountForCurrentQuestion() {
-    const questionElem = document.getElementById('question');
-    const currentQuestion = questionElem?.textContent || '';
-    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
-    const filteredSubmissions = submissions.filter(sub => sub.question === currentQuestion);
-    return filteredSubmissions.length;
-}
 
-// Update buttons and inputs according to the selected player count and current submission progress
-function updateSubmissionState() {
-    const playerCountString = sessionStorage.getItem('playerCount');
-    const playerCount = parseInt(playerCountString) || null;
-    const submitBtn = document.getElementById('submitButton');
-    const finalBtn = document.getElementById('final_submit');
-    const answerInput = document.getElementById('answer');
-    const nameInput = document.getElementById('name');
-    if (!submitBtn || !finalBtn) return;
-
-    if (playerCount && playerCount > 0) {
-        const submitted = getSubmittedCountForCurrentQuestion();
-        if (submitted >= playerCount) {
-            // hide/disable submit, show final only
-            submitBtn.style.display = 'none';
-            finalBtn.style.display = '';
-            if (answerInput) answerInput.disabled = true;
-            if (nameInput) nameInput.disabled = true;
-            return;
-        }
-
-        // not yet reached count: show submit and hide final
-        submitBtn.style.display = '';
-        finalBtn.style.display = 'none';
-        if (answerInput) answerInput.disabled = false;
-        if (nameInput) nameInput.disabled = false;
-    } else {
-        // no playerCount set -> default behavior (both visible)
-        submitBtn.style.display = '';
-        finalBtn.style.display = '';
-        if (answerInput) answerInput.disabled = false;
-        if (nameInput) nameInput.disabled = false;
-    }
-}
 // Pick a random topic (excluding the 'default' fallback and any non-topic keys)
 function pickRandomTopic() {
     const select = document.getElementById('topicSelect');
@@ -257,7 +220,9 @@ if (switchBtn) switchBtn.addEventListener('click', function() {
     
     questionElem.setAttribute('data-index', currentIndex);
     // Update submission UI state for the new question index
-    updateSubmissionState();
+    if (typeof updateSubmissionState === 'function') {
+        updateSubmissionState();
+    }
 });
 
 // wire the topic dropdown and restore persisted topic after loading questions
@@ -269,89 +234,23 @@ window.addEventListener('DOMContentLoaded', function () {
         // Always start with the default topic (instructions) on page load
         window.currentTopic = 'default';
         applyQuestionsForTopic('default');
-        const select = document.getElementById('topicSelect');
-        if (select) {
-            select.value = 'default';
-            
-            select.addEventListener('change', function (e) {
-                const val = e.target.value;
-                if (val === 'random') {
-                    // pick and apply a random topic, which will update the dropdown
-                    pickRandomTopic();
-                } else {
-                    setTopic(val);
-                }
-            });
-
-            // If the dropdown's current value is the built-in 'random' selection on load,
-            // immediately pick a random topic so the UI shows a real question set.
-            if (select.value === 'random') {
-                pickRandomTopic();
-            }
-        }
+        // Initialize new topic selection system
+        initializeTopicSelection();
 
         // Ensure submission state reflects any configured player count on initial load
         updateSubmissionState();
         
         // Load front page instruction if we're on the front page
         loadFrontPageInstruction();
+        
+        // Initialize player setup system
+        initializePlayerSetup();
+        
+        // Initialize player turn system for game page
+        initializePlayerTurnSystem();
     });
 });
-function submitAnswer() {
-    // Get answer from preference selection
-    const answer = document.getElementById('selectedPreference').value;
-    const name = document.getElementById('preferenceName').value;
-    
-    const questionElem = document.getElementById('question');
-    const currentQuestion = questionElem?.textContent || '';
 
-    if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
-        alert('Please make a selection and enter your name before submitting.');
-        return; // Don't submit empty answers
-    }
-
-    // Get chronological submissions list
-    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
-    
-    // Check if this question already has enough answers (if player count is set)
-    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
-    if (playerCount) {
-        const answersForThisQuestion = submissions.filter(sub => sub.question === currentQuestion).length;
-        if (answersForThisQuestion >= playerCount) {
-            updateSubmissionState();
-            return;
-        }
-    }
-
-    // Add new submission with timestamp
-    const submission = {
-        question: currentQuestion,
-        answer: answer.trim(),
-        name: name.trim(),
-        timestamp: Date.now(),
-        topic: window.currentTopic || 'unknown'
-    };
-    
-    submissions.push(submission);
-
-    // Save chronological submissions
-    localStorage.setItem('chronologicalSubmissions', JSON.stringify(submissions));
-
-    // Clear the preference system for the next player
-    document.getElementById('selectedPreference').value = '';
-    document.getElementById('preferenceName').value = '';
-    // Remove visual selection
-    const option1 = document.getElementById('option1');
-    const option2 = document.getElementById('option2');
-    if (option1) option1.classList.remove('selected');
-    if (option2) option2.classList.remove('selected');
-
-    // Display all answers on the page
-    displayAnswers();
-
-    // Update UI state in case we've reached the player count
-    updateSubmissionState();
-}
 
 const finalBtn = document.getElementById('final_submit');
 if (finalBtn) finalBtn.addEventListener('click', function() {
@@ -400,49 +299,52 @@ if (finalBtn) finalBtn.addEventListener('click', function() {
 
  if (dropdownBtn) dropdownBtn.addEventListener('click', dropdown);
 
-// === FRONT PAGE FUNCTIONALITY ===
-// Handle player count selection and storage
-function handleFrontPageFunctionality() {
-    const select = document.getElementById('player_count');
-    if (!select) return; // Not on front page
+// === PLAYER TURN SYSTEM ===
+function initializePlayerTurnSystem() {
+    // Only initialize on game page
+    const playerTurnIndicator = document.getElementById('playerTurnIndicator');
+    if (!playerTurnIndicator) return;
     
-    // When the selection changes, store the value as an integer in sessionStorage
-    select.addEventListener('change', function (e) {
-        const rawValue = e.target.value;
-        const val = parseInt(rawValue, 10);
-        if (!Number.isNaN(val) && val > 0) {
-            sessionStorage.setItem('playerCount', String(val));
-        } else {
-            sessionStorage.removeItem('playerCount');
-        }
-    });
-
-    // If the user navigates to this page and then back, pre-select the stored value
-    const stored = parseInt(sessionStorage.getItem('playerCount'), 10);
-    if (!Number.isNaN(stored) && stored > 0) {
-        const opt = Array.from(select.options).find(o => parseInt(o.value, 10) === stored);
-        if (opt) select.value = String(stored);
+    // Load player data from sessionStorage
+    const storedPlayerNames = sessionStorage.getItem('playerNames');
+    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || 1;
+    
+    if (playerCount > 1 && storedPlayerNames) {
+        playerNames = JSON.parse(storedPlayerNames);
+        currentPlayerIndex = 0;
+        showPlayerTurnIndicator();
+        updateCurrentPlayerDisplay();
+    } else {
+        // Single player or no multiplayer setup
+        hidePlayerTurnIndicator();
     }
 }
 
-// Function to load and display the front page instruction
-function loadFrontPageInstruction() {
-    const instructionElement = document.getElementById('front-instruction');
-    if (!instructionElement) return; // Not on front page
-    
-    fetch('files/topics/default.json')
-        .then(res => {
-            if (!res.ok) throw new Error('Failed to load default.json');
-            return res.json();
-        })
-        .then(data => {
-            if (data.questions && data.questions.length > 0) {
-                // Use the first question as the front page instruction
-                const frontInstruction = data.questions[0];
-                instructionElement.textContent = frontInstruction;
-            }
-        })
-        .catch(err => {
-            console.warn('Could not load front page instruction:', err);
-        });
+function showPlayerTurnIndicator() {
+    const playerTurnIndicator = document.getElementById('playerTurnIndicator');
+    if (playerTurnIndicator) {
+        playerTurnIndicator.style.display = 'block';
+    }
 }
+
+function hidePlayerTurnIndicator() {
+    const playerTurnIndicator = document.getElementById('playerTurnIndicator');
+    if (playerTurnIndicator) {
+        playerTurnIndicator.style.display = 'none';
+    }
+}
+
+function updateCurrentPlayerDisplay() {
+    const currentPlayerNameElement = document.getElementById('currentPlayerName');
+    if (currentPlayerNameElement && playerNames.length > 0) {
+        currentPlayerNameElement.textContent = playerNames[currentPlayerIndex];
+    }
+}
+
+function advanceToNextPlayer() {
+    if (playerNames.length > 1) {
+        currentPlayerIndex = (currentPlayerIndex + 1) % playerNames.length;
+        updateCurrentPlayerDisplay();
+    }
+}
+ 

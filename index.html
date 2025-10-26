@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Talk - Start</title>
     <link rel="stylesheet" href="stylesheets/style.css">
-    <script src="scripts/ui.js" defer></script>
-    <script src="scripts/main.js" defer></script>
+    <script src="scripts/shared.js" defer></script>
+    <script src="scripts/index.js" defer></script>
 </head>
 <body class="front-page">
     <div class="card">
@@ -30,8 +30,17 @@
                 </select>
             </div>
 
+            <!-- Player Names Section (initially hidden) -->
+            <div class="player-setup-section" id="playerSetupSection" style="display: none;">
+                <h3>Enter Player Names</h3>
+                <p class="setup-instruction">Players will answer questions in this order:</p>
+                <div class="player-names-container" id="playerNamesContainer">
+                    <!-- Player name inputs will be generated here -->
+                </div>
+            </div>
+
             <div class="group">
-                <a class="start-btn" href="game.html" id="start-game-btn">Start Game</a>
+                <button class="start-btn" id="start-game-btn" type="button" style="opacity: 0.5; pointer-events: none;">Start Game</button>
             </div>
         </main>
     </div>

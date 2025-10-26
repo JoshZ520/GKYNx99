@@ -7,8 +7,8 @@
     <title>Table Talk</title>
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="stylesheets/options.css">
-    <script src="scripts/ui.js" defer></script>
-    <script src="scripts/main.js" defer></script>
+    <script src="scripts/shared.js" defer></script>
+    <script src="scripts/game.js" defer></script>
 </head>
 <body>
     <header id="header">
@@ -21,6 +21,12 @@
         </div>
     </header>
     <main>
+        <!-- Player turn indicator -->
+        <div id="playerTurnIndicator" class="player-turn-indicator" style="display: none;">
+            <span class="turn-text">Current Player:</span>
+            <span class="current-player-name" id="currentPlayerName"></span>
+        </div>
+        
         <h1 class="question" id="question">Press the switch question to start</h1>
 
         <div class="controls">
@@ -40,23 +46,20 @@
     fill="currentColor"
   />
 </svg></button>
-            <div class="topic">
-                <label for="topicSelect">Topic:</label>
-                <select id="topicSelect">
-                    <option value="default">Start</option>
-                    <option value="random" selected>Random</option>
-                    <option value="fantasy">Fantasy</option>
-                    <option value="movies">Movies</option>
-                    <option value="activity">Activity</option>
-                    <option value="music">Music</option>
-                    <option value="tech">Tech</option>
-                    <option value="travel">Travel</option>
-                    <option value="learning">Learning</option>
-                    <option value="stories">Stories</option>
-                    <option value="play">Play</option>
-                    <option value="food">Food</option>
-                    <option value="personal">Personal</option>
-                </select>
+            <div class="topic-selection">
+                <!-- Always visible buttons -->
+                <div class="primary-controls">
+                    <button id="startButton">Start</button>
+                    <button id="randomButton">Random</button>
+                    <button id="topicsToggle">Topics ▼</button>
+                </div>
+                
+                <!-- Collapsible topic grid -->
+                <div class="topics-panel" id="topicsPanel" style="display: none;">
+                    <div class="topics-grid" id="topicsGrid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
             </div>
         </div>
 
