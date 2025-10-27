@@ -1,5 +1,5 @@
-// Display page functionality - handles results display and navigation
-// Combines question navigation and answer rendering for the display page
+// display.js - Display page functionality
+// Handles results display and navigation for the display page only
 
 // === DISPLAY PAGE QUESTION NAVIGATION ===
 const questionsInOrder = JSON.parse(sessionStorage.getItem('questionsInOrder')) || [];
@@ -19,13 +19,13 @@ function showQuestion(index) {
     if (questionsInOrder.length > 0 && questionsInOrder[index]) {
         header.textContent = questionsInOrder[index];
         // Show next button, hide back home button
-        if (nextBtn) nextBtn.style.display = '';
-        if (backHomeBtn) backHomeBtn.style.display = 'none';
+        if (nextBtn) nextBtn.classList.remove('hidden');
+        if (backHomeBtn) backHomeBtn.classList.add('hidden');
     } else {
         header.textContent = "All questions completed!";
         // Hide next button, show back home button
-        if (nextBtn) nextBtn.style.display = 'none';
-        if (backHomeBtn) backHomeBtn.style.display = '';
+        if (nextBtn) nextBtn.classList.add('hidden');
+        if (backHomeBtn) backHomeBtn.classList.remove('hidden');
     }
 }
 
@@ -100,7 +100,7 @@ function renderAnswers() {
             });
 
             // ensure container is visible
-            confettiContainer.style.display = '';
+            confettiContainer.classList.remove('hidden');
             confettiContainer.classList.add('show');
 
             // compute the maximum time any piece will take (delay + duration) and hide after that
@@ -129,7 +129,7 @@ function renderAnswers() {
             setTimeout(() => {
                 confettiContainer.classList.remove('show');
                 // hide container so it doesn't sit atop the page
-                confettiContainer.style.display = 'none';
+                confettiContainer.classList.add('hidden');
             }, Math.ceil(maxTime + buffer));
         }
     }
@@ -154,65 +154,14 @@ document.getElementById('back-home-btn')?.addEventListener('click', () => {
 showQuestion(currentIndex);
 renderAnswers();
 
-// === MAIN PAGE ANSWER DISPLAY ===
-// Renders submitted answers (reads from localStorage and saves to sessionStorage).
-// Safe to include on both index.html and display.html.
-
-function displayAnswers() {
-    // Read chronological submissions from localStorage (used while collecting answers)
-    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
-
-    function renderInto(container) {
-        if (!container) return;
-        container.innerHTML = '';
-        
-        if (submissions.length === 0) {
-            container.textContent = 'No answers submitted yet.';
-            return;
-        }
-
-        const list = document.createElement('div');
-        list.className = 'answers-entries';
-        
-        // Show all submissions in chronological order
-        submissions.sort((a, b) => a.timestamp - b.timestamp);
-        
-        submissions.forEach(submission => {
-            const item = document.createElement('div');
-            item.className = 'answer-item';
-            
-            const questionDiv = document.createElement('div');
-            questionDiv.className = 'submission-question';
-            questionDiv.textContent = `Q: ${submission.question}`;
-            
-            const answerDiv = document.createElement('div');
-            answerDiv.className = 'submission-answer';
-            const who = document.createElement('strong');
-            who.textContent = submission.name + ': ';
-            const text = document.createElement('span');
-            text.textContent = submission.answer;
-            answerDiv.appendChild(who);
-            answerDiv.appendChild(text);
-            
-            item.appendChild(questionDiv);
-            item.appendChild(answerDiv);
-            list.appendChild(item);
-        });
-
-        container.appendChild(list);
+// === INITIALIZATION ===
+// Load color scheme and initialize display on page load
+window.addEventListener('DOMContentLoaded', function() {
+    if (window.loadTopicColorScheme) {
+        window.loadTopicColorScheme();
     }
-
-    // Only render on the main page - display page uses its own logic
-    const answersListMain = document.getElementById('answersList');
-    if (answersListMain) {
-        renderInto(answersListMain);
-    }
-}
-
-// expose globally in case code calls it explicitly
-window.displayAnswers = displayAnswers;
-
-// Run displayAnswers when DOM is ready
-window.addEventListener('DOMContentLoaded', function () {
-    displayAnswers();
+    
+    // Initialize display
+    showQuestion(currentIndex);
+    renderAnswers();
 });

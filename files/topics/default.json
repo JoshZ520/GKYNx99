@@ -1,6 +1,34 @@
 {
   "questions": [
-    "Pick the number of players below, then press Start to begin your Table Talk session.",
-    "Welcome to Table Talk! Choose a topic, click the switch button for a question, then take turns making your choice. Use 'All Answers Finished' when everyone is done."
+    {
+      "prompt": "Which best describes your approach to decision-making?",
+      "option1": "Quick/Intuitive",
+      "option2": "Careful/Analytical"
+    },
+    {
+      "prompt": "How do you prefer to spend your free time?",
+      "option1": "Active/Social",
+      "option2": "Quiet/Reflective"
+    },
+    {
+      "prompt": "What motivates you more in challenging situations?",
+      "option1": "Competition/Achievement",
+      "option2": "Learning/Growth"
+    },
+    {
+      "prompt": "How do you typically approach new experiences?",
+      "option1": "Enthusiastic/Open",
+      "option2": "Cautious/Prepared"
+    },
+    {
+      "prompt": "What do you value more in relationships?",
+      "option1": "Loyalty/Stability",
+      "option2": "Growth/Adventure"
+    },
+    {
+      "prompt": "How do you prefer to communicate?",
+      "option1": "Direct/Straightforward", 
+      "option2": "Diplomatic/Thoughtful"
+    }
   ]
 }

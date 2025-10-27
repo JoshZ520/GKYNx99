@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/shared.css">
     <link rel="stylesheet" href="stylesheets/display.css">
-    <script src="scripts/ui.js" defer></script>
+    <script src="scripts/shared.js" defer></script>
+    <script src="scripts/session-manager.js" defer></script>
     <script src="scripts/display.js" defer></script>
 
 </head>
-<body>
+<body class="display-page">
+    <button id="theme-toggle" type="button" title="Switch Theme">🌙</button>
     <header>
         <h1 id="question-header"></h1>
         <div class="center_button">
@@ -32,7 +34,7 @@
     fill="currentColor"
   />
 </svg></button></div>
-        <button id="back-home-btn" style="display: none;"><svg
+        <button id="back-home-btn" class="hidden"><svg
   width="24"
   height="24"
   viewBox="0 0 24 24"
