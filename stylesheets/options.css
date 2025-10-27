@@ -39,12 +39,13 @@
 .preference-label {
     background: var(--background-light);
     color: var(--text-dark);
-    padding: var(--space-sm) var(--space-sm); /* Reduced padding */
+    padding: var(--space-md) var(--space-sm); /* Increased vertical padding for bigger text */
     text-align: center;
-    font-weight: 600;
-    font-size: var(--font-base); /* Reduced from var(--font-lg) */
-    border-bottom: 1px solid var(--accent-light); /* Thinner border */
+    font-weight: 700; /* Increased from 600 for more prominence */
+    font-size: var(--font-xl); /* Increased from var(--font-base) for bigger text */
+    border-bottom: 2px solid var(--accent-light); /* Slightly thicker border to match larger text */
     flex-shrink: 0;
+    letter-spacing: 0.5px; /* Added letter spacing for better readability */
 }
 
 .preference-option:hover {

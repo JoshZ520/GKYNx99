@@ -148,21 +148,14 @@ select {
     color: var(--dark);
 }
 
-/* Player count select styling */
-select#player_count {
+/* Player count input styling */
+input#player_count {
     font-size: 18px;
     padding: 6px 10px;
     border-radius: 4px;
     border: 1px solid var(--accent-light);
     background: var(--light);
     color: var(--text-dark);
-}
-
-/* === LAYOUT HELPERS === */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 16px;
 }
 
 /* === KEYFRAME ANIMATIONS === */
@@ -208,7 +201,6 @@ select#player_count {
         transform: translateY(0);
     }
 }
-
 /* === ANIMATION CLASSES === */
 
 /* Flying shapes for turn transitions */
@@ -293,23 +285,6 @@ select#player_count {
     }
 }
 
-/* Tablet screens (768px - 1024px) */
-@media (max-width: 1024px) and (min-width: 769px) {
-    .preference-container {
-        height: 230px; /* Compact size for tablets */
-    }
-    
-    .preference-option {
-        width: 220px; /* Reduced */
-        height: 200px; /* Reduced */
-    }
-    
-    .preference-image {
-        width: 200px; /* Reduced */
-        height: 140px; /* Reduced */
-    }
-}
-
 /* Mobile and tablet topic grid */
 @media (max-width: 768px) {
     .topics-grid {
@@ -340,46 +315,8 @@ select#player_count {
     }
 }
 
-    /* Mobile preference options */
-    .preference-container {
-        position: static !important;
-        transform: none !important;
-        width: 100% !important;
-        left: auto !important;
-        right: auto !important;
-        margin: var(--space-lg) auto !important; /* Center and normal margins */
-        margin-left: auto !important;
-        margin-right: auto !important;
-        height: auto !important;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .preference-options {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-        position: static !important;
-        transform: none !important;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
-        padding: 10px;
-        order: 1; /* Images come first */
-    }
-    
-    .preference-option {
-        width: 280px; /* Slightly reduced */
-        height: 200px; /* Reduced for compact mobile */
-        margin-bottom: 5px; /* Reduced margin */
-    }
-    
-    .preference-image {
-        width: 260px; /* Slightly reduced */
-        height: 140px; /* Significantly reduced */
-    }
-
-    /* Mobile player setup */
+/* Mobile player setup */
+@media (max-width: 768px) {
     .player-names-container {
         max-width: none;
     }
@@ -400,6 +337,7 @@ select#player_count {
         padding: var(--space-sm);
         max-height: calc(100vh - 60px); /* Less room needed on mobile */
     }
+}
 
 /* Mobile screens (max 640px) */
 @media (max-width: 640px) {
@@ -413,31 +351,6 @@ select#player_count {
     
     .current-player-name {
         font-size: var(--font-base);
-    }
-}
-
-/* Extra small screens (max 480px) */
-@media (max-width: 480px) {
-    .preference-container {
-        position: static !important;
-        transform: none !important;
-        width: 100% !important;
-        left: auto !important;
-        right: auto !important;
-        margin: var(--space-lg) auto !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        height: auto !important;
-    }
-    
-    .preference-option {
-        width: 260px; /* Reduced */
-        height: 180px; /* Reduced */
-    }
-    
-    .preference-image {
-        width: 240px; /* Reduced */
-        height: 120px; /* Significantly reduced */
     }
 }
 

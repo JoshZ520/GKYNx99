@@ -4,15 +4,15 @@
 
 /* === BASE IMAGE STYLES === */
 .preference-image {
-    width: 260px;
-    height: 210px;
-    margin: 10px;
+    width: 100%; /* Fill the entire container width */
+    flex-grow: 1; /* Take up all remaining space after label */
+    margin: 0; /* Remove margins to fill completely */
+    background-image: url(https://placekittens.com/300/300);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-color: var(--background-light);
-    flex-grow: 1;
-    border-radius: 10px;
+    border-radius: 0; /* Remove border radius since container has it */
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
@@ -54,34 +54,35 @@
 }
 
 /* === RESPONSIVE IMAGE SIZING === */
+/* Images now fill their containers completely on all screen sizes */
 
 /* Tablet screens (769px - 1024px) */
 @media (max-width: 1024px) and (min-width: 769px) {
     .preference-image {
-        width: 200px;
-        height: 140px;
-        margin: 8px;
-        border-radius: 8px;
+        width: 100%; /* Keep full width */
+        flex-grow: 1; /* Take remaining space */
+        margin: 0; /* No margins for full fill */
+        border-radius: 0; /* Container handles border radius */
     }
 }
 
 /* Mobile screens (max 768px) */
 @media (max-width: 768px) {
     .preference-image {
-        width: 260px;
-        height: 140px;
-        margin: 8px;
-        border-radius: 8px;
+        width: 100%; /* Keep full width */
+        flex-grow: 1; /* Take remaining space */
+        margin: 0; /* No margins for full fill */
+        border-radius: 0; /* Container handles border radius */
     }
 }
 
 /* Small mobile screens (max 480px) */
 @media (max-width: 480px) {
     .preference-image {
-        width: 240px;
-        height: 120px;
-        margin: 5px;
-        border-radius: 6px;
+        width: 100%; /* Keep full width */
+        flex-grow: 1; /* Take remaining space */
+        margin: 0; /* No margins for full fill */
+        border-radius: 0; /* Container handles border radius */
     }
 }
 
