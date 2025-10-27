@@ -38,16 +38,16 @@
 
 /* Dark theme adaptations */
 body.dark-theme #answers-list {
-    background: var(--dark);
+    background: var(--dark-card-bg);
     color: var(--text-light);
-    border-color: var(--accent-dark);
+    border-color: var(--dark-border);
 }
 
 body.dark-theme .answer-item {
     background: var(--background-dark);
     color: var(--text-light);
-    border-color: var(--accent-dark);
-    box-shadow: 0 1px 2px rgba(255,255,255,0.1);
+    border-color: var(--dark-border);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 body.dark-theme .answer-item strong {
@@ -69,9 +69,9 @@ body.light-theme h3 {
 
 /* Header styling for different themes */
 body.dark-theme header {
-    background: var(--background-dark);
+    background: var(--dark-card-bg);
     color: var(--text-light);
-    border-bottom: 2px solid var(--accent-dark);
+    border-bottom: 2px solid var(--dark-border);
 }
 
 body.light-theme header {
@@ -84,7 +84,7 @@ body.light-theme header {
 body.dark-theme button {
     background: var(--accent-dark);
     color: var(--text-light);
-    border: 1px solid var(--accent-light);
+    border: 1px solid var(--dark-border);
 }
 
 body.light-theme button {

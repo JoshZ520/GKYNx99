@@ -1,6 +1,75 @@
 /* index.css - Front page (index.html) specific styles */
 
 /* === FRONT PAGE STYLES === */
+
+/* Tagline styling */
+.tagline {
+    font-size: var(--font-lg) !important;
+    color: var(--accent-dark) !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    margin: var(--space-sm) 0 var(--space-lg) 0 !important;
+    font-style: italic;
+}
+
+/* Setup Steps Progress Indicator */
+.setup-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-lg);
+    margin: var(--space-xl) 0;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    opacity: 0.4;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    opacity: 1;
+}
+
+.step.completed {
+    opacity: 1;
+    color: var(--accent-dark);
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--background-light);
+    border: 2px solid var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: var(--font-base);
+}
+
+.step.active .step-number {
+    background-color: var(--accent-dark);
+    color: white;
+    border-color: var(--accent-dark);
+}
+
+.step.completed .step-number {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.step-text {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    text-align: center;
+}
+
 /* Card container for front page */
 .card {
     box-sizing: border-box;

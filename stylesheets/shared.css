@@ -3,14 +3,20 @@
 /* === CSS VARIABLES === */
 :root {
     /* Color Variables */
-    --background-dark: #2D1B21;
+    --background-dark: #1a1a1a;     /* Softer dark background - better readability */
     --background-light: #EADCE1;
-    --accent-dark: #66353C;
+    --accent-dark: #8B4B5C;         /* Lighter accent for better contrast on dark */
     --accent-light: #e9b7bd;
-    --text-light: #EADCE1;
+    --text-light: #f5f5f5;          /* Brighter text for dark theme readability */
     --text-dark: #5F3A48;
-    --dark: #1d1216;
+    --dark: #0d0d0d;                /* True dark for high contrast elements */
     --light: #ffeff5;
+    
+    /* Dark Theme Specific Colors for Better Readability */
+    --dark-card-bg: #2a2a2a;        /* Card backgrounds in dark theme */
+    --dark-border: #4a4a4a;         /* Borders in dark theme */
+    --dark-input-bg: #333333;       /* Input backgrounds in dark theme */
+    --dark-text-secondary: #cccccc; /* Secondary text in dark theme */
     
     /* Font Sizes - Only what you use */
     --font-sm: 14px;      /* Mobile/small text */
@@ -552,4 +558,71 @@ input#player_count {
         gap: 4px;
         /* Remove max-height constraint to prevent footer overlap */
     }
+}
+
+/* === DARK THEME ENHANCEMENTS === */
+/* Improved readability and contrast for dark theme */
+
+body.dark-theme {
+    background-color: var(--background-dark) !important;
+    color: var(--text-light) !important;
+}
+
+/* Card backgrounds in dark theme */
+body.dark-theme .card {
+    background: var(--dark-card-bg) !important;
+    color: var(--text-light) !important;
+    border: 1px solid var(--dark-border) !important;
+}
+
+/* Input fields in dark theme */
+body.dark-theme input,
+body.dark-theme textarea,
+body.dark-theme select {
+    background: var(--dark-input-bg) !important;
+    color: var(--text-light) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-theme input::placeholder {
+    color: var(--dark-text-secondary) !important;
+}
+
+/* Button improvements for dark theme */
+body.dark-theme button {
+    background: var(--accent-dark) !important;
+    color: var(--text-light) !important;
+    border: 1px solid var(--dark-border) !important;
+}
+
+body.dark-theme button:hover {
+    background: var(--accent-light) !important;
+    color: var(--dark) !important;
+}
+
+/* Labels and secondary text */
+body.dark-theme label {
+    color: var(--text-light) !important;
+}
+
+body.dark-theme .lead,
+body.dark-theme .setup-instruction,
+body.dark-theme .tagline {
+    color: var(--dark-text-secondary) !important;
+}
+
+/* Step indicators for dark theme */
+body.dark-theme .step-number {
+    background-color: var(--dark-input-bg) !important;
+    border-color: var(--dark-border) !important;
+    color: var(--text-light) !important;
+}
+
+body.dark-theme .step.active .step-number {
+    background-color: var(--accent-dark) !important;
+    border-color: var(--accent-dark) !important;
+}
+
+body.dark-theme .step-text {
+    color: var(--dark-text-secondary) !important;
 }

@@ -101,15 +101,15 @@ Table-Talk/
 
 ## **Architecture & Data Flow**
 
-### **🔄 Data Flow**
+### **Data Flow**
 1. **Setup** → Player configuration and topic selection
 2. **Game Loop** → Question display → Player answers → Turn advancement
 3. **Results** → Answer aggregation and display
 4. **Session Management** → Save/restore game state throughout
 
-### **📦 Module Structure**
+### **Module Structure**
 
-#### **🌐 Shared Module (`shared.js`)**
+#### **Shared Module (`shared.js`)**
 - **Data Loading**: Fetches topics and color schemes from JSON files
 - **Theme System**: Applies dynamic color schemes based on topics
 - **Utilities**: Common functions used across all pages
@@ -121,7 +121,7 @@ Table-Talk/
 - **Auto-save**: Periodic automatic saving
 - **Session Cleanup**: Removes old sessions automatically
 
-#### **🏠 Index Module (`index.js`)**
+#### **Index Module (`index.js`)**
 - **Player Setup**: Dynamic player name input generation
 - **Validation**: Ensures proper player configuration
 - **Resume UI**: Lists and manages saved game sessions
@@ -169,7 +169,7 @@ Table-Talk/
 5. Players take turns answering questions
 6. View results when ready
 
-## 🎲 **Game Flow**
+## **Game Flow**
 
 ### **Phase 1: Setup**
 ```
@@ -218,7 +218,7 @@ All Answers → Final Submit → Results Page → Discussion
 - **JSON Files**: Static question content and configuration
 - **Dynamic Loading**: Async loading of topic data
 
-### **🔄 State Management**
+### **State Management**
 ```javascript
 // Current Game State
 {
@@ -232,7 +232,7 @@ All Answers → Final Submit → Results Page → Discussion
 }
 ```
 
-### **📡 Event System**
+### **Event System**
 - **DOM Events**: User interactions and form submissions
 - **Custom Events**: Turn changes and state updates
 - **Async Operations**: Data loading and saving operations
@@ -240,20 +240,20 @@ All Answers → Final Submit → Results Page → Discussion
 
 ## **Session Management**
 
-### **🔐 Session Structure**
+### **Session Structure**
 Each game session contains:
 - **Metadata**: Creation time, last updated, session ID
 - **Players**: Count, names, current turn
 - **Progress**: Topic, question index, all submitted answers
 - **State**: Current game phase and UI state
 
-### **💿 Storage Strategy**
+### **Storage Strategy**
 - **Local Storage**: Permanent session history across browser restarts
 - **Session Storage**: Current active game data (cleared on tab close)
 - **Automatic Cleanup**: Removes sessions older than 7 days
 - **Compression**: Efficient JSON storage of game state
 
-### **🔄 Auto-Save Features**
+### **Auto-Save Features**
 - **Periodic Saving**: Every 2 minutes during active gameplay
 - **Event-Based Saving**: After answers, topic changes, question switches
 - **Manual Saving**: User-triggered save with visual feedback
@@ -261,7 +261,7 @@ Each game session contains:
 
 ## **Customization**
 
-### **🎭 Adding New Topics**
+### **Adding New Topics**
 
 1. **Create Topic File** (`files/topics/new-topic.json`):
 ```json
@@ -310,9 +310,9 @@ Add to `files/color-schemes.json`:
 - **Session Cleanup**: Adjust age limit in `session-manager.js`
 - **Animation Speed**: Modify CSS animation durations
 
-## 🌐 **Deployment**
+## **Deployment**
 
-### **📤 Static Hosting**
+### **Static Hosting**
 Works with any static file host:
 - **GitHub Pages**: Push to repository with GitHub Pages enabled
 - **Netlify**: Drag and drop deployment
@@ -335,14 +335,14 @@ Works with any static file host:
 
 ## **Development Guide**
 
-### **🔄 Making Changes**
+### **Making Changes**
 1. **Test Locally**: Always test changes with a local server
 2. **Validate JSON**: Ensure all JSON files are properly formatted
 3. **Check Console**: Monitor browser console for errors
 4. **Cross-Browser**: Test in multiple browsers
 5. **Mobile Test**: Verify mobile responsiveness
 
-### **🐛 Common Issues**
+### **Common Issues**
 - **CORS Errors**: Use proper local server, not file:// protocol
 - **Session Not Saving**: Check browser storage permissions
 - **Images Not Loading**: Verify file paths and extensions
@@ -399,7 +399,7 @@ updateSubmissionState()
 
 ---
 
-## 📝 **Version History**
+## **Version History**
 
 ### **Current Version: 3.0**
 - ✅ Modular architecture with separate page scripts
@@ -416,7 +416,7 @@ updateSubmissionState()
 
 ---
 
-## 🤝 **Contributing**
+## **Contributing**
 
 Contributions are welcome! Please:
 1. Fork the repository
@@ -424,7 +424,7 @@ Contributions are welcome! Please:
 3. Test your changes thoroughly
 4. Submit a pull request with clear description
 
-## 📞 **Support**
+## **Support**
 
 For questions or issues:
 - Check the browser console for error messages

@@ -15,24 +15,40 @@
     <div class="card">
         <header>
             <h1>Table Talk</h1>
-            <p class="lead" id="front-instruction">Enter how many players will participate, enter everyone's names, then start your Table Talk session!</p>
+            <p class="tagline">🎮 A fun conversation game for groups of 2-20 people</p>
+            <p class="lead" id="front-instruction">One person sets up the game by entering how many will play and everyone's names, then start your session!</p>
         </header>
 
         <main>
             <!-- Resume Game Section -->
             <div class="resume-section" id="resumeSection" class="hidden">
-                <h3>Resume a Game</h3>
-                <p class="resume-instruction">Continue where you left off:</p>
+                <h3>🔄 Continue Previous Game</h3>
+                <p class="resume-instruction">Pick up where you left off with a saved game:</p>
                 <div class="saved-games-list" id="savedGamesList">
                     <!-- Saved games will be populated here -->
                 </div>
                 <div class="resume-actions">
-                    <button type="button" class="secondary-btn" id="newGameBtn">Start New Game Instead</button>
+                    <button type="button" class="secondary-btn" id="newGameBtn">Start Fresh Game Instead</button>
                 </div>
             </div>
 
             <!-- New Game Section -->
             <div class="new-game-section" id="newGameSection">
+                <div class="setup-steps">
+                    <div class="step active" id="step1">
+                        <span class="step-number">1</span>
+                        <span class="step-text">Player Count</span>
+                    </div>
+                    <div class="step" id="step2">
+                        <span class="step-number">2</span>
+                        <span class="step-text">Enter Names</span>
+                    </div>
+                    <div class="step" id="step3">
+                        <span class="step-number">3</span>
+                        <span class="step-text">Start Game</span>
+                    </div>
+                </div>
+                
                 <div class='group'>
                     <label for="player_count">Number of Players:</label>
                     <input type="number" id="player_count" min="2" max="20" placeholder="Enter 2-20 players" required>
@@ -40,15 +56,20 @@
 
             <!-- Player Names Section (initially hidden) -->
             <div class="player-setup-section" id="playerSetupSection" class="hidden">
-                <h3>Enter Player Names</h3>
-                <p class="setup-instruction">Enter names for each player. You'll take turns in this order during the game:</p>
+                <h3>📝 Enter Everyone's Names</h3>
+                <p class="setup-instruction">
+                    <strong>You (the host)</strong> enter all player names below.<br>
+                    Players will take turns in this order during the game:
+                </p>
                 <div class="player-names-container" id="playerNamesContainer">
                     <!-- Player name inputs will be generated here -->
                 </div>
             </div>
 
                 <div class="group">
-                    <button class="start-btn" id="start-game-btn" type="button" style="opacity: 0.5; pointer-events: none;">Start Game</button>
+                    <button class="start-btn" id="start-game-btn" type="button" style="opacity: 0.5; pointer-events: none;">
+                        <span id="button-text">Complete setup to start</span>
+                    </button>
                 </div>
             </div>
         </main>

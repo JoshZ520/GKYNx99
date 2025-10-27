@@ -76,11 +76,29 @@ function initializePlayerSetup() {
     }
 }
 
+// Step progress management
+function updateStepProgress(currentStep) {
+    const steps = document.querySelectorAll('.step');
+    steps.forEach((step, index) => {
+        const stepNumber = index + 1;
+        step.classList.remove('active', 'completed');
+        
+        if (stepNumber < currentStep) {
+            step.classList.add('completed');
+        } else if (stepNumber === currentStep) {
+            step.classList.add('active');
+        }
+    });
+}
+
 function showPlayerSetup(playerCount) {
     const playerSetupSection = document.getElementById('playerSetupSection');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
     
     if (!playerSetupSection || !playerNamesContainer) return;
+    
+    // Update step progress to step 2
+    updateStepProgress(2);
     
     // Clear existing inputs
     playerNamesContainer.innerHTML = '';
@@ -127,8 +145,9 @@ function updateStartButtonState() {
     const playerCountInput = document.getElementById('player_count');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
     const startButton = document.getElementById('start-game-btn');
+    const buttonText = document.getElementById('button-text');
     
-    if (!playerCountInput || !startButton) return;
+    if (!playerCountInput || !startButton || !buttonText) return;
     
     const selectedCount = parseInt(playerCountInput.value);
     
@@ -136,6 +155,7 @@ function updateStartButtonState() {
         // No valid player count entered
         startButton.classList.add('disabled');
         startButton.classList.remove('enabled');
+        buttonText.textContent = selectedCount ? "Enter 2-20 players" : "Enter number of players first";
         return;
     }
     
@@ -151,13 +171,20 @@ function updateStartButtonState() {
             
             startButton.classList.remove('disabled');
             startButton.classList.add('enabled');
+            buttonText.textContent = `🚀 Start Game with ${selectedCount} Players`;
+            
+            // Update to step 3 (ready to start)
+            updateStepProgress(3);
         } else {
             startButton.classList.add('disabled');
             startButton.classList.remove('enabled');
+            const missingNames = selectedCount - nameInputs.filter(input => input.value.trim() !== '').length;
+            buttonText.textContent = `Enter ${missingNames} more name${missingNames === 1 ? '' : 's'}`;
         }
     } else {
         startButton.classList.add('disabled');
         startButton.classList.remove('enabled');
+        buttonText.textContent = `Enter names for ${selectedCount} players`;
     }
     
     // Add click handler if not already added
