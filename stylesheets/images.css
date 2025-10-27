@@ -137,6 +137,7 @@
 
 /* Selected image highlighting */
 .preference-option.selected .preference-image {
-    box-shadow: inset 0 0 0 3px var(--accent-dark);
-    transform: scale(1.02);
+    box-shadow: inset 0 0 0 5px #16a34a; /* Thicker green border inside image */
+    transform: scale(1.04); /* Slightly larger scale for more emphasis */
+    filter: brightness(1.05) saturate(1.1); /* Brighten and enhance colors */
 }

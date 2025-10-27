@@ -159,8 +159,6 @@ input#player_count {
 }
 
 /* === KEYFRAME ANIMATIONS === */
-
-/* Simplified turn change animations */
 @keyframes flyAcrossScreen {
     0% {
         transform: translateX(-100px) rotate(0deg);
@@ -201,6 +199,7 @@ input#player_count {
         transform: translateY(0);
     }
 }
+
 /* === ANIMATION CLASSES === */
 
 /* Flying shapes for turn transitions */
@@ -213,34 +212,12 @@ input#player_count {
     z-index: 1000;
     pointer-events: none;
     animation: flyAcrossScreen 1.5s ease-in-out forwards;
-    border-radius: 50%;
-}
-
-.flying-shape.circle {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    border-radius: 50%;
-}
-
-.flying-shape.square {
-    background: linear-gradient(135deg, #10b981, #047857);
-    border-radius: 8px;
-    transform: rotate(45deg);
-}
-
-.flying-shape.triangle {
-    width: 0;
-    height: 0;
-    background: transparent;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 35px solid #f59e0b;
-    border-radius: 0;
 }
 
 .flying-shape.star {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
     clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
     border-radius: 0;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
 
 /* Content fade animations */

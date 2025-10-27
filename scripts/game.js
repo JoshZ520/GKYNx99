@@ -12,10 +12,10 @@ function applyQuestionsForTopic(topic) {
     const topicData = topics[topic] || topics['default'] || {};
     let list = topicData.questions || [];
     
-    // For the default topic, use only the second question (index 1) for the game page
-    // The first question (index 0) is displayed on the front page
+    // For the default topic, skip the first question since it's displayed on the front page
+    // Use questions starting from index 1 for the game page
     if (topic === 'default' && list.length > 1) {
-        list = [list[1]]; // Use only the second question
+        list = list.slice(1); // Use all questions except the first one
     }
     
     appQuestions.splice(0, appQuestions.length, ...list);
@@ -59,6 +59,14 @@ function setTopic(topic) {
     localStorage.setItem('currentTopic', topic);
     // Update UI state after topic change (with small delay to ensure DOM is updated)
     setTimeout(() => updateSubmissionState(), 0);
+    
+    // Save session after topic change
+    if (window.gameSessionManager) {
+        setTimeout(() => {
+            gameSessionManager.saveCurrentSession();
+            console.log(`Topic changed to ${topic} - session saved`);
+        }, 100);
+    }
 }
 
 // === TOPIC SELECTION SYSTEM ===
@@ -92,32 +100,20 @@ function initializeTopicSelection() {
     
     if (startButton) {
         startButton.addEventListener('click', () => {
-            console.log('Start button clicked');
             setTopic('default');
         });
-        console.log('Start button listener added');
-    } else {
-        console.error('Start button not found');
     }
     
     if (randomButton) {
         randomButton.addEventListener('click', () => {
-            console.log('Random button clicked');
             pickRandomTopic();
         });
-        console.log('Random button listener added');
-    } else {
-        console.error('Random button not found');
     }
     
     if (topicsToggle) {
         topicsToggle.addEventListener('click', () => {
-            console.log('Topics toggle clicked');
             toggleTopicsPanel();
         });
-        console.log('Topics toggle listener added');
-    } else {
-        console.error('Topics toggle button not found');
     }
 }
 
@@ -132,7 +128,7 @@ function renderTopicGrid() {
         return;
     }
     
-    console.log('Rendering topics grid with', availableTopics.length, 'topics');
+
     
     // Calculate pagination
     const totalPages = Math.ceil(availableTopics.length / topicsPerPage);
@@ -151,7 +147,7 @@ function renderTopicGrid() {
     // Add event listeners
     grid.querySelectorAll('input[name="topic"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
-            console.log('Topic selected:', e.target.value);
+
             setTopic(e.target.value);
             
             // Close the topics dropdown after selection
@@ -160,7 +156,7 @@ function renderTopicGrid() {
             if (panel && toggle) {
                 panel.style.display = 'none';
                 toggle.textContent = 'Topics ▼';
-                console.log('Topics panel closed after selection');
+
             }
         });
     });
@@ -203,16 +199,16 @@ function toggleTopicsPanel() {
     const panel = document.getElementById('topicsPanel');
     const toggle = document.getElementById('topicsToggle');
     
-    console.log('Toggle clicked - panel display:', panel.style.display);
+
     
     if (panel.style.display === 'none') {
         panel.style.display = 'block';
         toggle.textContent = 'Topics ▲';
-        console.log('Showing topics panel');
+
     } else {
         panel.style.display = 'none';
         toggle.textContent = 'Topics ▼';
-        console.log('Hiding topics panel');
+
     }
 }
 
@@ -323,7 +319,7 @@ function selectPreference(choice) {
 function getSubmittedCountForCurrentQuestion() {
     const questionElem = document.getElementById('question');
     const currentQuestion = questionElem?.textContent || '';
-    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    const submissions = JSON.parse(sessionStorage.getItem('chronologicalSubmissions')) || [];
     const filteredSubmissions = submissions.filter(sub => sub.question === currentQuestion);
     return filteredSubmissions.length;
 }
@@ -338,7 +334,8 @@ function updateSubmissionState() {
     if (playerCount && playerCount > 0) {
         const submitted = getSubmittedCountForCurrentQuestion();
         if (submitted >= playerCount) {
-            // hide/disable submit, show final only
+            // All players have answered - show final submit button
+            console.log(`All ${playerCount} players have answered.`);
             submitBtn.style.display = 'none';
             finalBtn.style.display = '';
             return;
@@ -351,6 +348,62 @@ function updateSubmissionState() {
         // no count limit: always show submit, never show final
         submitBtn.style.display = '';
         finalBtn.style.display = 'none';
+    }
+}
+
+function switchToNextQuestion() {
+    // Advance to the next question in the current topic (do not change the topic)
+    const questionElem = document.getElementById('question');
+    if (!questionElem) return;
+    
+    if (!Array.isArray(appQuestions) || appQuestions.length === 0) {
+        // no questions available for the current topic
+        questionElem.textContent = '';
+        questionElem.setAttribute('data-index', 0);
+        return;
+    }
+
+    let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
+    currentIndex = (currentIndex + 1) % appQuestions.length;
+    
+    // Handle both old string format and new object format
+    const currentQuestion = appQuestions[currentIndex];
+    if (typeof currentQuestion === 'string') {
+        questionElem.textContent = currentQuestion;
+    } else if (currentQuestion && currentQuestion.prompt) {
+        questionElem.textContent = currentQuestion.prompt;
+        // Display the options as well
+        displayQuestionOptions(currentQuestion);
+    } else {
+        questionElem.textContent = '';
+    }
+    
+    questionElem.setAttribute('data-index', currentIndex);
+    
+    // Ensure submit button is visible for the new question
+    const submitBtn = document.getElementById('submitButton');
+    if (submitBtn) {
+        submitBtn.style.display = '';
+    }
+    
+    // Update submission UI state for the new question index
+    if (typeof updateSubmissionState === 'function') {
+        updateSubmissionState();
+    }
+    
+    // Save session after question switch
+    if (window.gameSessionManager) {
+        gameSessionManager.saveCurrentSession();
+        console.log('Question switched - session saved');
+    }
+}
+
+function resetToFirstPlayer() {
+    // Reset the turn system back to the first player
+    if (typeof playerNames !== 'undefined' && Array.isArray(playerNames) && playerNames.length > 0) {
+        currentPlayerIndex = 0;
+        updatePlayerTurnDisplay();
+        console.log(`Reset to first player: ${playerNames[0]}`);
     }
 }
 
@@ -383,7 +436,7 @@ function submitAnswer() {
     }
 
     // Get chronological submissions list
-    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    const submissions = JSON.parse(sessionStorage.getItem('chronologicalSubmissions')) || [];
     
     // Check if this question already has enough answers (if player count is set)
     const playerCount = storedPlayerCount;
@@ -407,7 +460,7 @@ function submitAnswer() {
     submissions.push(submission);
 
     // Save chronological submissions
-    localStorage.setItem('chronologicalSubmissions', JSON.stringify(submissions));
+    sessionStorage.setItem('chronologicalSubmissions', JSON.stringify(submissions));
 
     // Clear the preference system for the next player
     document.getElementById('selectedPreference').value = '';
@@ -423,6 +476,12 @@ function submitAnswer() {
     // Advance to next player if in multiplayer mode
     if (typeof advanceToNextPlayer === 'function') {
         advanceToNextPlayer();
+    }
+    
+    // Save session after answer submission
+    if (window.gameSessionManager) {
+        gameSessionManager.saveCurrentSession();
+        console.log('Answer submitted - session saved');
     }
 }
 
@@ -506,18 +565,23 @@ function showTurnChangeAnimation() {
 }
 
 function createFlyingShapes() {
-    const shapes = ['circle', 'square', 'triangle', 'star'];
-    const numShapes = 5; // Create 5 shapes flying across
+    const colors = [
+        '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7',
+        '#dda0dd', '#98d8c8', '#f7dc6f', '#bb8fce', '#85c1e9',
+        '#f8c471', '#82e0aa', '#f1948a', '#85c1e9', '#d5a6bd'
+    ];
+    const numShapes = 5; // Create 5 star shapes flying across
     
     for (let i = 0; i < numShapes; i++) {
         setTimeout(() => {
             const shape = document.createElement('div');
-            const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
             
-            shape.className = `flying-shape ${shapeType}`;
+            shape.className = 'flying-shape star';
             shape.style.top = `${Math.random() * 80 + 10}%`; // Random vertical position
             shape.style.animationDelay = '0s';
             shape.style.animationDuration = `${1.2 + Math.random() * 0.6}s`; // Slight variation in speed
+            shape.style.background = randomColor; // Apply random color
             
             document.body.appendChild(shape);
             
@@ -556,7 +620,7 @@ function advanceToNextPlayer() {
 // === FINAL SUBMISSION ===
 function handleFinalSubmit() {
     // Get chronological submissions
-    const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
+    const submissions = JSON.parse(sessionStorage.getItem('chronologicalSubmissions')) || [];
     
     if (submissions.length === 0) {
         alert('No answers submitted yet!');
@@ -579,15 +643,55 @@ function handleFinalSubmit() {
     sessionStorage.setItem('questionsInOrder', JSON.stringify(questionOrder));
     sessionStorage.setItem('submissionsByQuestion', JSON.stringify(submissionsByQuestion));
 
+    // Save final session state before finishing
+    if (window.gameSessionManager) {
+        gameSessionManager.saveCurrentSession();
+        gameSessionManager.disableAutoSave(); // Stop auto-saving since game is ending
+        console.log('Game completed - final session saved');
+    }
+
     // Clear stored submissions so the next run starts fresh, but keep other persisted settings (like currentTopic)
     try {
-        localStorage.removeItem('chronologicalSubmissions');
+        sessionStorage.removeItem('chronologicalSubmissions');
     } catch (e) {
-        console.warn('Could not remove chronologicalSubmissions from localStorage', e);
+        console.warn('Could not remove chronologicalSubmissions from sessionStorage', e);
     }
 
     // Redirect to the display/results page
     window.location.href = 'display.html';
+}
+
+// === MANUAL SAVE GAME ===
+function initializeSaveGameButton() {
+    const saveGameBtn = document.getElementById('saveGameBtn');
+    if (!saveGameBtn) return;
+    
+    saveGameBtn.addEventListener('click', function() {
+        if (window.gameSessionManager) {
+            gameSessionManager.saveCurrentSession();
+            
+            // Show feedback to user
+            const originalHTML = saveGameBtn.innerHTML;
+            saveGameBtn.innerHTML = `
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            `;
+            saveGameBtn.style.backgroundColor = '#28a745';
+            saveGameBtn.style.borderColor = '#28a745';
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+                saveGameBtn.innerHTML = originalHTML;
+                saveGameBtn.style.backgroundColor = '';
+                saveGameBtn.style.borderColor = '';
+            }, 2000);
+            
+            console.log('Game manually saved by user');
+        } else {
+            alert('Save system not available');
+        }
+    });
 }
 
 // === EVENT HANDLERS ===
@@ -614,38 +718,7 @@ function initializeGameEventHandlers() {
     
     // Switch question button
     const switchBtn = document.getElementById('switchQuestion');
-    if (switchBtn) switchBtn.addEventListener('click', function() {
-        // Advance to the next question in the current topic (do not change the topic)
-        const questionElem = document.getElementById('question');
-        if (!questionElem) return;
-        if (!Array.isArray(appQuestions) || appQuestions.length === 0) {
-            // no questions available for the current topic
-            questionElem.textContent = '';
-            questionElem.setAttribute('data-index', 0);
-            return;
-        }
-
-        let currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
-        currentIndex = (currentIndex + 1) % appQuestions.length;
-        
-        // Handle both old string format and new object format
-        const currentQuestion = appQuestions[currentIndex];
-        if (typeof currentQuestion === 'string') {
-            questionElem.textContent = currentQuestion;
-        } else if (currentQuestion && currentQuestion.prompt) {
-            questionElem.textContent = currentQuestion.prompt;
-            // Display the options as well
-            displayQuestionOptions(currentQuestion);
-        } else {
-            questionElem.textContent = '';
-        }
-        
-        questionElem.setAttribute('data-index', currentIndex);
-        // Update submission UI state for the new question index
-        if (typeof updateSubmissionState === 'function') {
-            updateSubmissionState();
-        }
-    });
+    if (switchBtn) switchBtn.addEventListener('click', switchToNextQuestion);
 }
 
 // === INITIALIZATION ===
@@ -668,6 +741,16 @@ window.addEventListener('DOMContentLoaded', function() {
             
             // Initialize event handlers
             initializeGameEventHandlers();
+            
+            // Initialize manual save game button
+            initializeSaveGameButton();
+            
+            // Save initial game session state and enable auto-save
+            if (window.gameSessionManager) {
+                gameSessionManager.saveCurrentSession();
+                gameSessionManager.enableAutoSave(2); // Auto-save every 2 minutes
+                console.log('Game initialized - session saved and auto-save enabled');
+            }
         });
     }
 });

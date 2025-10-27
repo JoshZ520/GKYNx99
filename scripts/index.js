@@ -172,8 +172,119 @@ function handleStartGame(e) {
         // Player names are already saved by updateStartButtonState
     }
     
+    // Create new game session
+    if (window.gameSessionManager) {
+        const sessionId = gameSessionManager.createNewSession();
+        console.log(`Started new game session: ${sessionId}`);
+    }
+    
     // Navigate to game page
     window.location.href = 'game.html';
+}
+
+// === RESUME GAME FUNCTIONALITY ===
+function initializeResumeGameUI() {
+    const resumeSection = document.getElementById('resumeSection');
+    const newGameSection = document.getElementById('newGameSection');
+    const newGameBtn = document.getElementById('newGameBtn');
+    const savedGamesList = document.getElementById('savedGamesList');
+    
+    if (!resumeSection || !newGameSection || !savedGamesList) return;
+    
+    // Check for available saved games
+    if (window.gameSessionManager) {
+        const availableSessions = gameSessionManager.listAvailableSessions();
+        
+        if (availableSessions.length > 0) {
+            // Show resume section, hide new game section initially
+            resumeSection.style.display = 'block';
+            newGameSection.style.display = 'none';
+            
+            // Populate saved games list
+            populateSavedGamesList(availableSessions);
+        } else {
+            // No saved games, show new game section
+            resumeSection.style.display = 'none';
+            newGameSection.style.display = 'block';
+        }
+    }
+    
+    // Handle "Start New Game Instead" button
+    if (newGameBtn) {
+        newGameBtn.addEventListener('click', () => {
+            resumeSection.style.display = 'none';
+            newGameSection.style.display = 'block';
+        });
+    }
+}
+
+function populateSavedGamesList(sessions) {
+    const savedGamesList = document.getElementById('savedGamesList');
+    if (!savedGamesList) return;
+    
+    savedGamesList.innerHTML = '';
+    
+    if (sessions.length === 0) {
+        savedGamesList.innerHTML = '<div class="no-saved-games">No saved games found</div>';
+        return;
+    }
+    
+    sessions.forEach(session => {
+        const summary = gameSessionManager.getSessionSummary(session.sessionId);
+        const gameItem = createSavedGameItem(summary);
+        savedGamesList.appendChild(gameItem);
+    });
+}
+
+function createSavedGameItem(summary) {
+    const item = document.createElement('div');
+    item.className = 'saved-game-item';
+    
+    const createdDate = new Date(summary.createdAt).toLocaleDateString();
+    const lastUpdated = new Date(summary.lastUpdated).toLocaleTimeString();
+    const playerList = summary.playerNames.join(', ') || 'No players set';
+    
+    item.innerHTML = `
+        <div class="saved-game-info">
+            <div class="saved-game-topic">Topic: ${summary.currentTopic || 'default'}</div>
+            <div class="saved-game-details">
+                ${summary.playerCount || 0} players • ${summary.totalAnswers} answers • ${summary.questionsAnswered} questions<br>
+                Started: ${createdDate} • Last played: ${lastUpdated}<br>
+                Players: ${playerList}
+            </div>
+        </div>
+        <div class="saved-game-actions">
+            <button class="resume-btn" onclick="resumeGame('${summary.sessionId}')">Resume</button>
+            <button class="delete-btn" onclick="deleteSavedGame('${summary.sessionId}')">Delete</button>
+        </div>
+    `;
+    
+    return item;
+}
+
+function resumeGame(sessionId) {
+    if (window.gameSessionManager) {
+        const success = gameSessionManager.loadSession(sessionId);
+        if (success) {
+            console.log(`Resuming game session: ${sessionId}`);
+            window.location.href = 'game.html';
+        } else {
+            alert('Failed to load saved game. It may have been corrupted.');
+        }
+    }
+}
+
+function deleteSavedGame(sessionId) {
+    if (confirm('Are you sure you want to delete this saved game? This cannot be undone.')) {
+        if (window.gameSessionManager) {
+            const success = gameSessionManager.deleteSession(sessionId);
+            if (success) {
+                console.log(`Deleted game session: ${sessionId}`);
+                // Refresh the UI
+                initializeResumeGameUI();
+            }
+        }
+    }
 }
 
 // === INITIALIZATION ===
@@ -183,4 +294,9 @@ window.addEventListener('DOMContentLoaded', function() {
     
     // Initialize player setup system
     initializePlayerSetup();
+    
+    // Initialize resume game UI
+    setTimeout(() => {
+        initializeResumeGameUI();
+    }, 100); // Small delay to ensure session manager is loaded
 });

@@ -55,9 +55,9 @@
 
 .preference-option:active,
 .preference-option.selected {
-    border-color: var(--accent-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 4px solid #16a34a; /* Thick green border instead of default */
+    transform: translateY(-5px) scale(1.03); /* Bigger lift and slight scale increase */
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); /* Green-tinted shadow for glow effect */
 }
 
 /* Image styles moved to images.css - import that file for image-specific styling */

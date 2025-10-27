@@ -9,7 +9,6 @@ let colorSchemes = {};
 
 // === DATA LOADING ===
 function loadQuestions() {
-    // Load color schemes and topic index first
     return Promise.all([
         fetch('files/color-schemes.json').then(res => {
             if (!res.ok) throw new Error('Failed to load color-schemes.json');
@@ -21,7 +20,6 @@ function loadQuestions() {
         })
     ])
     .then(([colorSchemesData, topicsIndex]) => {
-        // Store color schemes
         colorSchemes = colorSchemesData || {};
         
         // Load individual topic files
