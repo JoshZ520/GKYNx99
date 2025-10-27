@@ -138,7 +138,7 @@ function renderTopicGrid() {
     
     // Display current page topics in a 3x2 grid layout (6 topics max)
     grid.innerHTML = currentPageTopics.map(topic => `
-        <label class="topic-option">
+        <label class="topic-option smooth-transition">
             <input type="radio" name="topic" value="${topic.value}">
             <span>${topic.name}</span>
         </label>
@@ -154,7 +154,8 @@ function renderTopicGrid() {
             const panel = document.getElementById('topicsPanel');
             const toggle = document.getElementById('topicsToggle');
             if (panel && toggle) {
-                panel.style.display = 'none';
+                panel.classList.add('hidden');
+                panel.classList.remove('visible');
                 toggle.textContent = 'Topics ▼';
 
             }
@@ -201,12 +202,14 @@ function toggleTopicsPanel() {
     
 
     
-    if (panel.style.display === 'none') {
-        panel.style.display = 'block';
+    if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        panel.classList.add('visible');
         toggle.textContent = 'Topics ▲';
 
     } else {
-        panel.style.display = 'none';
+        panel.classList.add('hidden');
+        panel.classList.remove('visible');
         toggle.textContent = 'Topics ▼';
 
     }
@@ -234,7 +237,8 @@ function displayQuestionOptions(question) {
     const preferenceContainer = document.getElementById('preferenceContainer');
     
     if (preferenceContainer) {
-        preferenceContainer.style.display = 'block';
+        preferenceContainer.classList.remove('hidden');
+        preferenceContainer.classList.add('visible');
     }
         
     // Set up image containers for contributors to add images
@@ -336,18 +340,18 @@ function updateSubmissionState() {
         if (submitted >= playerCount) {
             // All players have answered - show final submit button
             console.log(`All ${playerCount} players have answered.`);
-            submitBtn.style.display = 'none';
-            finalBtn.style.display = '';
+            submitBtn.classList.add('hidden');
+            finalBtn.classList.remove('hidden');
             return;
         }
 
         // not yet reached count: show submit and hide final
-        submitBtn.style.display = '';
-        finalBtn.style.display = 'none';
+        submitBtn.classList.remove('hidden');
+        finalBtn.classList.add('hidden');
     } else {
         // no count limit: always show submit, never show final
-        submitBtn.style.display = '';
-        finalBtn.style.display = 'none';
+        submitBtn.classList.remove('hidden');
+        finalBtn.classList.add('hidden');
     }
 }
 
@@ -383,7 +387,7 @@ function switchToNextQuestion() {
     // Ensure submit button is visible for the new question
     const submitBtn = document.getElementById('submitButton');
     if (submitBtn) {
-        submitBtn.style.display = '';
+        submitBtn.classList.remove('hidden');
     }
     
     // Update submission UI state for the new question index
@@ -509,14 +513,16 @@ function initializePlayerTurnSystem() {
 function showPlayerTurnIndicator() {
     const playerTurnIndicator = document.getElementById('playerTurnIndicator');
     if (playerTurnIndicator) {
-        playerTurnIndicator.style.display = 'block';
+        playerTurnIndicator.classList.remove('hidden');
+        playerTurnIndicator.classList.add('visible');
     }
 }
 
 function hidePlayerTurnIndicator() {
     const playerTurnIndicator = document.getElementById('playerTurnIndicator');
     if (playerTurnIndicator) {
-        playerTurnIndicator.style.display = 'none';
+        playerTurnIndicator.classList.add('hidden');
+        playerTurnIndicator.classList.remove('visible');
     }
 }
 
@@ -524,12 +530,14 @@ function updateCurrentPlayerDisplay() {
     const currentPlayerNameElement = document.getElementById('currentPlayerName');
     if (currentPlayerNameElement && playerNames.length > 0) {
         // Fade out old name
-        currentPlayerNameElement.style.opacity = '0';
+        currentPlayerNameElement.classList.add('fade-out');
+        currentPlayerNameElement.classList.remove('fade-in');
         
         setTimeout(() => {
             // Update name and fade in
             currentPlayerNameElement.textContent = playerNames[currentPlayerIndex];
-            currentPlayerNameElement.style.opacity = '1';
+            currentPlayerNameElement.classList.remove('fade-out');
+            currentPlayerNameElement.classList.add('fade-in');
         }, 150);
     }
 }
@@ -565,23 +573,22 @@ function showTurnChangeAnimation() {
 }
 
 function createFlyingShapes() {
-    const colors = [
-        '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7',
-        '#dda0dd', '#98d8c8', '#f7dc6f', '#bb8fce', '#85c1e9',
-        '#f8c471', '#82e0aa', '#f1948a', '#85c1e9', '#d5a6bd'
+    const colorClasses = [
+        'color-red', 'color-teal', 'color-blue', 'color-green', 'color-yellow',
+        'color-purple', 'color-mint', 'color-gold', 'color-lavender', 'color-sky',
+        'color-orange', 'color-lime', 'color-coral', 'color-pink'
     ];
+    const speedClasses = ['flying-shape-slow', 'flying-shape-medium', 'flying-shape-fast'];
     const numShapes = 5; // Create 5 star shapes flying across
     
     for (let i = 0; i < numShapes; i++) {
         setTimeout(() => {
             const shape = document.createElement('div');
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            const randomColor = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+            const randomSpeed = speedClasses[Math.floor(Math.random() * speedClasses.length)];
             
-            shape.className = 'flying-shape star';
+            shape.className = `flying-shape star ${randomColor} ${randomSpeed}`;
             shape.style.top = `${Math.random() * 80 + 10}%`; // Random vertical position
-            shape.style.animationDelay = '0s';
-            shape.style.animationDuration = `${1.2 + Math.random() * 0.6}s`; // Slight variation in speed
-            shape.style.background = randomColor; // Apply random color
             
             document.body.appendChild(shape);
             
@@ -677,14 +684,12 @@ function initializeSaveGameButton() {
                     <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             `;
-            saveGameBtn.style.backgroundColor = '#28a745';
-            saveGameBtn.style.borderColor = '#28a745';
+            saveGameBtn.classList.add('success-state');
             
             // Reset button after 2 seconds
             setTimeout(() => {
                 saveGameBtn.innerHTML = originalHTML;
-                saveGameBtn.style.backgroundColor = '';
-                saveGameBtn.style.borderColor = '';
+                saveGameBtn.classList.remove('success-state');
             }, 2000);
             
             console.log('Game manually saved by user');

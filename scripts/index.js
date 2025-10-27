@@ -1,6 +1,26 @@
 // index.js - Front page functionality
 // Handles player count selection, player setup, and game start
 
+// Optional Socket.io connection (only if server is running)
+let socket = null;
+if (typeof io !== 'undefined') {
+    try {
+        socket = io();
+        socket.on('connect', () => {
+            console.log('Connected to server from INDEX page!');
+            console.log('Socket ID:', socket.id);
+        });
+        socket.on('welcome', (message) => {
+            console.log('Welcome message on index page:', message);
+        });
+    } catch (error) {
+        console.log('Socket.io not available - running in standalone mode');
+        socket = null;
+    }
+} else {
+    console.log('Socket.io not loaded - running in standalone mode');
+}
+
 // === PLAYER SETUP SYSTEM ===
 let playerNames = [];
 
@@ -85,7 +105,8 @@ function showPlayerSetup(playerCount) {
     }
     
     // Show the section
-    playerSetupSection.style.display = 'block';
+    playerSetupSection.classList.remove('hidden');
+    playerSetupSection.classList.add('visible');
     
     // Focus on first input
     const firstInput = playerNamesContainer.querySelector('.player-name-input');
@@ -97,7 +118,8 @@ function showPlayerSetup(playerCount) {
 function hidePlayerSetup() {
     const playerSetupSection = document.getElementById('playerSetupSection');
     if (playerSetupSection) {
-        playerSetupSection.style.display = 'none';
+        playerSetupSection.classList.remove('visible');
+        playerSetupSection.classList.add('hidden');
     }
 }
 
@@ -112,8 +134,8 @@ function updateStartButtonState() {
     
     if (!selectedCount || selectedCount < 2 || selectedCount > 20) {
         // No valid player count entered
-        startButton.style.opacity = '0.5';
-        startButton.style.pointerEvents = 'none';
+        startButton.classList.add('disabled');
+        startButton.classList.remove('enabled');
         return;
     }
     
@@ -127,15 +149,15 @@ function updateStartButtonState() {
             const playerNames = Array.from(nameInputs).map(input => input.value.trim());
             sessionStorage.setItem('playerNames', JSON.stringify(playerNames));
             
-            startButton.style.opacity = '1';
-            startButton.style.pointerEvents = 'auto';
+            startButton.classList.remove('disabled');
+            startButton.classList.add('enabled');
         } else {
-            startButton.style.opacity = '0.5';
-            startButton.style.pointerEvents = 'none';
+            startButton.classList.add('disabled');
+            startButton.classList.remove('enabled');
         }
     } else {
-        startButton.style.opacity = '0.5';
-        startButton.style.pointerEvents = 'none';
+        startButton.classList.add('disabled');
+        startButton.classList.remove('enabled');
     }
     
     // Add click handler if not already added
@@ -197,23 +219,29 @@ function initializeResumeGameUI() {
         
         if (availableSessions.length > 0) {
             // Show resume section, hide new game section initially
-            resumeSection.style.display = 'block';
-            newGameSection.style.display = 'none';
+            resumeSection.classList.remove('hidden');
+            resumeSection.classList.add('visible');
+            newGameSection.classList.add('hidden');
+            newGameSection.classList.remove('visible');
             
             // Populate saved games list
             populateSavedGamesList(availableSessions);
         } else {
             // No saved games, show new game section
-            resumeSection.style.display = 'none';
-            newGameSection.style.display = 'block';
+            resumeSection.classList.add('hidden');
+            resumeSection.classList.remove('visible');
+            newGameSection.classList.remove('hidden');
+            newGameSection.classList.add('visible');
         }
     }
     
     // Handle "Start New Game Instead" button
     if (newGameBtn) {
         newGameBtn.addEventListener('click', () => {
-            resumeSection.style.display = 'none';
-            newGameSection.style.display = 'block';
+            resumeSection.classList.add('hidden');
+            resumeSection.classList.remove('visible');
+            newGameSection.classList.remove('hidden');
+            newGameSection.classList.add('visible');
         });
     }
 }

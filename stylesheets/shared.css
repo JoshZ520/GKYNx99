@@ -34,8 +34,9 @@ body {
     line-height: 1.3; /* Slightly reduced line height for compact layout */
 }
 
-/* Game page gets a different background to highlight the main container */
-body:not(.front-page) {
+/* Game and display pages get a different background to highlight the main container */
+.game-page,
+.display-page {
     background-color: var(--accent-light);
     padding: var(--space-sm); /* Small padding around the bordered container */
 }
@@ -200,6 +201,122 @@ input#player_count {
     }
 }
 
+/* === UTILITY CLASSES === */
+
+/* Common transitions */
+.smooth-transition {
+    transition: all 0.3s ease;
+}
+
+.hover-transition {
+    transition: all 0.2s ease;
+}
+
+/* Common flex layouts */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-center-align {
+    display: flex;
+    align-items: center;
+}
+
+/* Common border radius */
+.rounded-sm {
+    border-radius: 4px;
+}
+
+.rounded {
+    border-radius: 5px;
+}
+
+.rounded-md {
+    border-radius: 8px;
+}
+
+.rounded-lg {
+    border-radius: 10px;
+}
+
+/* === UTILITY CLASSES FOR JAVASCRIPT === */
+
+/* Display utilities */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+/* State utilities */
+.disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+.enabled {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Opacity utilities */
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+/* Success state */
+.success-state {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+/* Flying shapes animation variations */
+.flying-shape-slow {
+    animation-duration: 1.8s !important;
+}
+
+.flying-shape-medium {
+    animation-duration: 1.5s !important;
+}
+
+.flying-shape-fast {
+    animation-duration: 1.2s !important;
+}
+
+/* Flying shape colors */
+.color-red { background: #ff6b6b !important; }
+.color-teal { background: #4ecdc4 !important; }
+.color-blue { background: #45b7d1 !important; }
+.color-green { background: #96ceb4 !important; }
+.color-yellow { background: #ffeaa7 !important; }
+.color-purple { background: #dda0dd !important; }
+.color-mint { background: #98d8c8 !important; }
+.color-gold { background: #f7dc6f !important; }
+.color-lavender { background: #bb8fce !important; }
+.color-sky { background: #85c1e9 !important; }
+.color-orange { background: #f8c471 !important; }
+.color-lime { background: #82e0aa !important; }
+.color-coral { background: #f1948a !important; }
+.color-pink { background: #d5a6bd !important; }
+
 /* === ANIMATION CLASSES === */
 
 /* Flying shapes for turn transitions */
@@ -232,8 +349,8 @@ input#player_count {
 
 /* === RESPONSIVE MEDIA QUERIES === */
 
-/* Tablet and larger screens */
-@media (min-width: 600px) {
+/* Desktop and Tablet (769px and up) */
+@media (min-width: 769px) {
     .buttons {
         display: flex;
         justify-content: center;
@@ -245,38 +362,68 @@ input#player_count {
     }
     
     /* Front page responsive adjustments */
-    h1 { 
+    .front-page h1 { 
         font-size: 40px; 
     }
     
-    .card .group { 
+    .front-page .card .group { 
         margin-bottom: 60px; 
     }
-}
 
-/* Short screens adjustment */
-@media (max-height: 520px) {
-    .card { 
-        margin: 20px 12px; 
-        padding: 16px; 
+    /* Preference container styles for desktop/tablet */
+    .preference-container {
+        height: 230px; /* Compact size for tablets and up */
+    }
+    
+    .preference-option {
+        width: 220px;
+        height: 200px;
+    }
+
+    /* Image styles for desktop/tablet */
+    .preference-image {
+        width: 100%;
+        flex-grow: 1;
+        margin: 0;
+        border-radius: 0;
     }
 }
 
-/* Mobile and tablet topic grid */
+/* Mobile (768px and below) */
 @media (max-width: 768px) {
+
+
+    /* Topics panel - overlay but mobile responsive */
+    .topics-panel {
+        position: absolute !important;
+        width: 95% !important;
+        min-width: unset !important;
+        max-width: 350px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        z-index: 100 !important;
+        padding: var(--space-md) !important;
+    }
+    
+    .topic-selection {
+        position: relative !important;
+    }
+
+    /* Topic grid adjustments */
     .topics-grid {
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(3, 1fr); /* 3 rows for 6 topics on mobile */
-        gap: 10px;
+        gap: 8px;
+        max-width: 100%;
+        margin: var(--space-sm) auto;
     }
     
     .topic-option {
-        padding: var(--space-sm); /* Reduced for compact layout */
-        min-height: 35px; /* Reduced height */
+        padding: var(--space-xs) var(--space-sm);
+        min-height: 40px;
     }
     
     .topic-option span {
-        font-size: var(--font-sm); /* Smaller text */
+        font-size: var(--font-sm);
         font-weight: 600;
     }
     
@@ -290,10 +437,8 @@ input#player_count {
     .pagination-controls {
         justify-content: center;
     }
-}
 
-/* Mobile player setup */
-@media (max-width: 768px) {
+    /* Player setup adjustments */
     .player-names-container {
         max-width: none;
     }
@@ -308,18 +453,10 @@ input#player_count {
         font-size: var(--font-sm);
     }
 
-    /* Responsive adjustments for bordered container */
-    body:not(.front-page) main {
-        margin: var(--space-sm) auto;
-        padding: var(--space-sm);
-        max-height: calc(100vh - 60px); /* Less room needed on mobile */
-    }
-}
-
-/* Mobile screens (max 640px) */
-@media (max-width: 640px) {
     .player-turn-indicator {
         margin: 0 var(--space-sm) var(--space-md) var(--space-sm);
+        max-width: 90%;
+        padding: 8px var(--space-md);
     }
     
     .turn-text {
@@ -329,12 +466,65 @@ input#player_count {
     .current-player-name {
         font-size: var(--font-base);
     }
+
+    /* Main container adjustments - fix footer overlap */
+    .game-page main,
+    .display-page main {
+        margin: var(--space-sm) auto;
+        padding: var(--space-sm);
+        min-height: auto;
+        max-height: none; /* Remove height constraint that causes footer overlap */
+    }
+
+    /* Preference container mobile styles - stack images vertically */
+    .preference-container {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        margin: var(--space-md) auto !important;
+        height: auto !important;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .preference-options {
+        flex-direction: column !important;
+        gap: 20px !important;
+        align-items: center !important;
+        position: static !important;
+        padding: 15px !important;
+        order: 1;
+        justify-content: center;
+    }
+    
+    .preference-option {
+        width: 90% !important;
+        max-width: 320px !important;
+        height: 200px !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Image styles for mobile */
+    .preference-image {
+        width: 100%;
+        flex-grow: 1;
+        margin: 0;
+        border-radius: 0;
+    }
 }
 
-/* Short screen responsive adjustments */
+
+
+/* Short Screen Height Adjustments */
 @media (max-height: 600px) {
-    body:not(.front-page) main {
-        max-height: calc(100vh - 40px); /* Even more constrained on short screens */
-        gap: 4px; /* Tighter spacing on short screens */
+    .card { 
+        margin: 20px 12px; 
+        padding: 16px; 
+    }
+
+    .game-page main,
+    .display-page main {
+        gap: 4px;
+        /* Remove max-height constraint to prevent footer overlap */
     }
 }

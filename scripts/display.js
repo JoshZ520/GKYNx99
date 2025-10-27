@@ -19,13 +19,13 @@ function showQuestion(index) {
     if (questionsInOrder.length > 0 && questionsInOrder[index]) {
         header.textContent = questionsInOrder[index];
         // Show next button, hide back home button
-        if (nextBtn) nextBtn.style.display = '';
-        if (backHomeBtn) backHomeBtn.style.display = 'none';
+        if (nextBtn) nextBtn.classList.remove('hidden');
+        if (backHomeBtn) backHomeBtn.classList.add('hidden');
     } else {
         header.textContent = "All questions completed!";
         // Hide next button, show back home button
-        if (nextBtn) nextBtn.style.display = 'none';
-        if (backHomeBtn) backHomeBtn.style.display = '';
+        if (nextBtn) nextBtn.classList.add('hidden');
+        if (backHomeBtn) backHomeBtn.classList.remove('hidden');
     }
 }
 
@@ -100,7 +100,7 @@ function renderAnswers() {
             });
 
             // ensure container is visible
-            confettiContainer.style.display = '';
+            confettiContainer.classList.remove('hidden');
             confettiContainer.classList.add('show');
 
             // compute the maximum time any piece will take (delay + duration) and hide after that
@@ -129,7 +129,7 @@ function renderAnswers() {
             setTimeout(() => {
                 confettiContainer.classList.remove('show');
                 // hide container so it doesn't sit atop the page
-                confettiContainer.style.display = 'none';
+                confettiContainer.classList.add('hidden');
             }, Math.ceil(maxTime + buffer));
         }
     }

@@ -242,11 +242,42 @@ function initializeDropdown() {
     const dropdownBtn = document.querySelector('#open_page');
     const directions = document.querySelector('#directions');
 
-    function dropdown(){
-        directions.classList.toggle('hide');
+    function updateButtonState() {
+        if (directions && dropdownBtn) {
+            if (directions.classList.contains('hide')) {
+                dropdownBtn.classList.add('collapsed');
+            } else {
+                dropdownBtn.classList.remove('collapsed');
+            }
+        }
     }
 
-    if (dropdownBtn) dropdownBtn.addEventListener('click', dropdown);
+    function dropdown(){
+        directions.classList.toggle('hide');
+        updateButtonState();
+    }
+
+    // Function to close directions (used when user starts interacting)
+    function closeDirections() {
+        if (directions && !directions.classList.contains('hide')) {
+            directions.classList.add('hide');
+            updateButtonState();
+        }
+    }
+
+    // Initialize button state (directions start expanded)
+    if (dropdownBtn) {
+        dropdownBtn.classList.remove('collapsed'); // Start with up arrow
+        dropdownBtn.addEventListener('click', dropdown);
+    }
+
+    // Auto-close directions when user starts playing
+    // Close when switching questions
+    const switchBtn = document.querySelector('#switchQuestion');
+    if (switchBtn) {
+        switchBtn.addEventListener('click', closeDirections);
+    }
+
 }
 
 // === INITIALIZATION ===
