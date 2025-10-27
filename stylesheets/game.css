@@ -1,0 +1,433 @@
+/* game.css - Game page (game.html) specific styles */
+
+/* === GAME PAGE LAYOUT === */
+
+/* Game page main container - contained layout */
+body:not(.front-page) main {
+    max-width: 1000px; /* Increased from 900px */
+    margin: var(--space-lg) auto; /* Increased margin for more breathing room */
+    padding: var(--space-lg); /* Increased padding */
+    border: 2px solid var(--accent-light);
+    border-radius: var(--space-md);
+    background-color: var(--light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    /* Remove height constraints - let content determine height */
+    min-height: 600px; /* Comfortable minimum height */
+    /* Removed max-height and overflow-y to allow natural expansion */
+    
+    /* Flex layout for better vertical distribution */
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md); /* Increased gap for better spacing */
+}
+
+/* === HEADER STYLES === */
+header {
+    border: 2px solid var(--accent-dark);
+    padding: 10px 20px;
+    margin: 20px;
+    background-color: var(--light);
+    color: var(--text-dark);
+    text-align: center;
+}
+
+/* Game page specific header adjustments */
+body:not(.front-page) header {
+    margin: 10px 20px 20px 20px; /* Reduced from 20px 20px 50px 20px */
+    padding: 5px 10px; /* Reduced from 0 10px */
+    text-align: left;
+}
+
+.direction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.direction h1 {
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+#open_page {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    /* Default color for SVGs with currentColor */
+    color: #333333;
+}
+
+#open_page img {
+    width: 40px;
+    height: 40px;
+    transition: color 0.3s ease;
+}
+
+#directions.hide {
+    display: none;
+}
+
+/* === QUESTION STYLES === */
+h1.question {
+    margin: 0 20px 15px 20px; /* Increased bottom margin */
+    font-size: 32px; /* Increased from 28px for better readability */
+    color: var(--dark);
+}
+
+/* === CONTROLS === */
+.controls {
+    display: grid;
+    justify-content: center;
+    gap: 18px; /* Increased for better spacing */
+    margin: 20px 0; /* Increased margin */
+    align-items: center;
+    justify-items: center;
+    
+    /* Allow controls to shrink if needed, but protect player indicator */
+    flex-shrink: 1;
+}
+
+/* Topic controls */
+.switch-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.switch_button {
+    cursor: pointer;
+    border: 3px solid var(--accent-dark);
+    background-color: var(--background-light);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Default color for SVGs with currentColor */
+    color: var(--accent-dark);
+}
+
+.switch_button:hover {
+    background-color: var(--accent-light);
+    border-color: var(--dark);
+    color: var(--dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.switch_button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.switch_button svg {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.3s ease;
+}
+
+.switch_button:hover svg {
+    transform: rotate(180deg);
+}
+
+.switch_button:focus {
+    outline: none;
+    border-color: var(--dark);
+    box-shadow: 0 0 0 3px rgba(102, 53, 60, 0.3);
+}
+
+.switch-label {
+    font-size: var(--font-base);
+    font-weight: 600;
+    color: var(--text-dark);
+    text-align: center;
+    margin-top: 2px;
+}
+
+.topic {
+    font-size: 20px;
+    margin-bottom: 50px;
+    color: var(--dark);
+}
+
+/* === TOPIC SELECTION SYSTEM === */
+.topic-selection {
+    margin: var(--space-sm) 0; /* Reduced from var(--space-lg) */
+    position: relative; /* Add positioning context for topics panel */
+}
+
+.primary-controls {
+    display: flex;
+    gap: var(--space-sm); /* Reduced gap */
+    margin-bottom: var(--space-sm); /* Reduced margin */
+    justify-content: center;
+}
+
+.primary-controls button {
+    padding: var(--space-sm) var(--space-md); /* Reduced padding */
+    font-size: var(--font-sm); /* Smaller font */
+    border: 1px solid var(--accent-dark); /* Thinner border */
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    border-radius: var(--space-sm);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-controls button:hover {
+    background-color: var(--accent-dark);
+    color: var(--background-light);
+}
+
+.topics-panel {
+    background-color: var(--background-light);
+    border: 1px solid var(--accent-dark);
+    border-radius: var(--space-md);
+    padding: var(--space-xl) var(--space-lg); /* Increased vertical padding for more space */
+    margin-top: var(--space-md);
+    
+    /* Position absolutely to not affect layout flow */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 95%; /* Increased from 90% */
+    max-width: 750px; /* Significantly increased from 650px */
+    min-width: 600px; /* Added minimum width for consistency */
+    
+    /* Add shadow for dropdown effect */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    
+    /* Remove flex-shrink since it's now positioned */
+    overflow: visible;
+}
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr); /* 2 rows for 6 topics per page */
+    gap: var(--space-md); /* Increased gap for better spacing */
+    width: 100%; /* Use full available width */
+    max-width: 580px; /* Much larger to use the bigger dropdown space */
+    margin: var(--space-md) auto; /* Added vertical margin for centering */
+    min-height: 140px; /* Increased for better proportions */
+}
+
+.topic-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) var(--space-sm); /* More generous padding */
+    border: 1px solid var(--accent-dark);
+    border-radius: var(--space-sm);
+    background-color: var(--background-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 60px; /* Taller boxes for better text fit */
+    overflow: hidden; /* Prevent text from overflowing */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.topic-option:hover {
+    background-color: #2563eb;
+}
+
+.topic-option:hover span {
+    color: white;
+}
+
+.topic-option input[type="radio"] {
+    display: none;
+}
+
+.topic-option:has(input[type="radio"]:checked) {
+    background-color: #16a34a;
+    font-weight: bold;
+    transform: scale(1.02);
+}
+
+.topic-option:has(input[type="radio"]:checked) span {
+    color: white;
+}
+
+/* Ensure selected state takes precedence over hover */
+.topic-option:has(input[type="radio"]:checked):hover {
+    background-color: #16a34a;
+}
+
+.topic-option:has(input[type="radio"]:checked):hover span {
+    color: white;
+}
+
+.topic-option span {
+    font-size: var(--font-base); /* Back to base size for readability */
+    font-weight: 600;
+    transition: all 0.3s ease;
+    line-height: 1.2; /* Tighter line height for multi-line text */
+    word-break: break-word; /* Allow breaking long words */
+    hyphens: auto; /* Add hyphenation for better text flow */
+    max-width: 100%; /* Ensure it doesn't exceed container */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    line-clamp: 2; /* Standard property for compatibility */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* === TOPIC PAGINATION === */
+.topics-pagination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg); /* Increased margin for more space */
+    padding: 0 var(--space-sm) var(--space-sm) var(--space-sm); /* Added horizontal padding */
+    border-bottom: 1px solid var(--accent-light);
+}
+
+.page-info {
+    font-size: var(--font-sm);
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.pagination-controls {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.page-btn {
+    padding: 4px var(--space-sm);
+    font-size: var(--font-sm);
+    border: 1px solid var(--accent-dark);
+    background-color: var(--background-light);
+    color: var(--text-dark);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: var(--accent-dark);
+    color: var(--background-light);
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--background-light);
+    color: var(--text-dark);
+}
+
+/* === PLAYER TURN INDICATOR === */
+.player-turn-indicator {
+    background: linear-gradient(135deg, var(--accent-light), #4f46e5);
+    color: white;
+    padding: 10px var(--space-lg); /* Increased padding for better comfort */
+    border-radius: 10px; /* Increased border radius */
+    margin: 0 auto var(--space-lg) auto; /* Increased margin */
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Slightly increased shadow */
+    max-width: 320px; /* Increased width */
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    /* Ensure it doesn't get squished by flex layout */
+    flex-shrink: 0; /* Prevent shrinking */
+    min-height: 42px; /* Increased minimum height */
+}
+
+.turn-text {
+    font-size: var(--font-base); /* Slightly increased for better readability */
+    font-weight: 500;
+    opacity: 0.9;
+    margin-right: var(--space-sm);
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.current-player-name {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap; /* Prevent name from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show ... if name is too long */
+}
+
+/* === BUTTONS === */
+.buttons {
+    margin: var(--space-lg) 0; /* Increased margin for better spacing */
+    /* Removed margin-top: auto to allow natural spacing */
+}
+
+/* Specific buttons */
+button.submit, button.fin {
+    font-size: var(--font-lg); /* Reduced from var(--font-xl) */
+    padding: var(--space-sm);
+    display: block;
+    margin: 0 auto var(--space-md) auto; /* Reduced margin */
+    border-radius: 5px;
+}
+
+button.submit {
+    background-color: var(--accent-dark);
+    color: white;
+    border: 2px solid var(--accent-light);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.submit:hover {
+    background-color: var(--accent-light);
+    color: var(--text-dark);
+    border: 2px solid var(--accent-dark);
+}
+
+.fin {
+    border: 2px solid var(--accent-light);
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+
+.fin.hide {
+    display: none;
+}
+
+/* === FOOTER === */
+footer {
+    background-color: var(--accent-dark);
+    padding: 8px 20px; /* Reduced from 12px */
+    color: var(--text-light);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 16px; /* Reduced from 20px */
+    text-align: center;
+    margin-top: 20px; /* Reduced from 40px */
+    transition: background-color 0.3s ease;
+}
+
+/* Game page specific footer adjustments */
+body:not(.front-page) footer {
+    padding: 3px 30px; /* Further reduced for compact layout */
+}
+
+footer h2 {
+    text-align: center;
+    color: var(--text-light);
+    font-size: var(--font-lg); /* Smaller footer heading */
+    margin: 5px 0; /* Reduced margins */
+}

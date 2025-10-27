@@ -1,0 +1,109 @@
+/* index.css - Front page (index.html) specific styles */
+
+/* === FRONT PAGE STYLES === */
+/* Card container for front page */
+.card {
+    box-sizing: border-box;
+    max-width: 720px;
+    width: calc(100% - 40px);
+    margin: 6vh auto; /* center vertically with some top/bottom spacing */
+    padding: 24px;
+    background: var(--light);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px var(--dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Start button styling */
+.start-btn {
+    display: inline-block;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.start-btn:hover:not([style*="pointer-events: none"]) { 
+    opacity: 0.95; 
+}
+
+/* Player Setup Section */
+.player-setup-section {
+    margin: var(--space-lg) 0;
+    padding: var(--space-lg);
+    background-color: var(--background-light);
+    border: 2px solid var(--accent-light);
+    border-radius: var(--space-md);
+}
+
+.player-setup-section h3 {
+    margin: 0 0 var(--space-md) 0;
+    color: var(--text-dark);
+    text-align: center;
+    font-size: var(--font-xl);
+}
+
+.setup-instruction {
+    margin: 0 0 var(--space-lg) 0;
+    color: var(--text-dark);
+    text-align: center;
+    font-size: var(--font-base);
+    font-style: italic;
+}
+
+.player-names-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.player-input-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.player-number {
+    background-color: var(--accent-dark);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: var(--font-sm);
+    flex-shrink: 0;
+}
+
+.player-name-input {
+    flex: 1;
+    padding: var(--space-md);
+    border: 2px solid var(--accent-light);
+    border-radius: var(--space-sm);
+    font-size: var(--font-base);
+    background-color: var(--background-light);
+    color: var(--text-dark);
+}
+
+.player-name-input:focus {
+    outline: none;
+    border-color: var(--accent-dark);
+    box-shadow: 0 0 0 3px rgba(102, 53, 60, 0.2);
+}
+
+.player-name-input::placeholder {
+    color: var(--text-dark);
+    opacity: 0.6;
+}

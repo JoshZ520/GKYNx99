@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <title>Table Talk</title>
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/shared.css">
+    <link rel="stylesheet" href="stylesheets/game.css">
     <link rel="stylesheet" href="stylesheets/options.css">
+    <link rel="stylesheet" href="stylesheets/images.css">
     <script src="scripts/shared.js" defer></script>
     <script src="scripts/game.js" defer></script>
 </head>
@@ -17,7 +19,7 @@
         </div>
         <button id="open_page" type="button"><img src="images/chevron-down.svg" alt="open page"></button>
         <div id="directions" class="hide">
-            <p>Set your player count on the <a href="index.html">start page</a>, then choose a topic or use Random. Click the switch button to get a question. Click your preferred option and enter your name, then press Submit. After everyone submits their answers, press 'All Answers Finished' to see results and discuss!</p>
+            <p>Choose a topic from the dropdown or use Random to get started. Click the circular switch button to get a new question. When it's your turn, select your preferred option and click Submit. After everyone has answered, click 'All Answers Finished' to see everyone's choices and discuss the results!</p>
         </div>
     </header>
     <main>
@@ -26,26 +28,30 @@
             <span class="turn-text">Current Player:</span>
             <span class="current-player-name" id="currentPlayerName"></span>
         </div>
-        
-        <h1 class="question" id="question">Press the switch question to start</h1>
+        <h1 class="question" id="question"></h1>
 
         <div class="controls">
-            <button class="switch_button" id="switchQuestion" type="button"><svg id="changeQ"
-  width="24"
-  height="24"
-  viewBox="0 0 24 24"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <path
-    d="M4.56079 10.6418L6.35394 3.94971L8.25402 5.84979C11.7312 3.6588 16.3814 4.07764 19.41 7.1063L17.9958 8.52052C15.7536 6.27827 12.3686 5.87519 9.71551 7.31128L11.2529 8.84869L4.56079 10.6418Z"
-    fill="currentColor"
-  />
-  <path
-    d="M19.4392 13.3581L17.646 20.0502L15.7459 18.1501C12.2688 20.3411 7.61857 19.9223 4.58991 16.8936L6.00413 15.4794C8.24638 17.7217 11.6313 18.1247 14.2844 16.6887L12.747 15.1512L19.4392 13.3581Z"
-    fill="currentColor"
-  />
-</svg></button>
+            <div class="switch-container">
+                <button class="switch_button" id="switchQuestion" type="button">
+                    <svg id="changeQ"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4.56079 10.6418L6.35394 3.94971L8.25402 5.84979C11.7312 3.6588 16.3814 4.07764 19.41 7.1063L17.9958 8.52052C15.7536 6.27827 12.3686 5.87519 9.71551 7.31128L11.2529 8.84869L4.56079 10.6418Z"
+                        fill="currentColor"
+                      />
+                      <path
+                        d="M19.4392 13.3581L17.646 20.0502L15.7459 18.1501C12.2688 20.3411 7.61857 19.9223 4.58991 16.8936L6.00413 15.4794C8.24638 17.7217 11.6313 18.1247 14.2844 16.6887L12.747 15.1512L19.4392 13.3581Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                </button>
+                <span class="switch-label">Switch Question</span>
+            </div>
             <div class="topic-selection">
                 <!-- Always visible buttons -->
                 <div class="primary-controls">
@@ -54,8 +60,15 @@
                     <button id="topicsToggle">Topics ▼</button>
                 </div>
                 
-                <!-- Collapsible topic grid -->
+                <!-- Collapsible topic grid with pagination -->
                 <div class="topics-panel" id="topicsPanel" style="display: none;">
+                    <div class="topics-pagination-header">
+                        <span class="page-info" id="pageInfo">Page 1 of 2</span>
+                        <div class="pagination-controls">
+                            <button class="page-btn" id="prevPageBtn" disabled>‹ Previous</button>
+                            <button class="page-btn" id="nextPageBtn">Next ›</button>
+                        </div>
+                    </div>
                     <div class="topics-grid" id="topicsGrid">
                         <!-- Populated by JavaScript -->
                     </div>
@@ -77,13 +90,6 @@
                     <div class="preference-image" id="option2Image">
                         <!-- Image will be loaded here -->
                     </div>
-                </div>
-            </div>
-            <!-- Name input for preference system -->
-            <div class="preference-name-input">
-                <div class="group">
-                    <input type="text" class="name_input" id="preferenceName" placeholder="First Name: " required>
-                    <span class="bar"></span>
                 </div>
             </div>
         </div>

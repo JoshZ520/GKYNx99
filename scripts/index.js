@@ -6,65 +6,47 @@ let playerNames = [];
 
 // Handle player count selection and storage
 function handleFrontPageFunctionality() {
-    const select = document.getElementById('player_count');
-    if (!select) return; // Not on front page
+    const input = document.getElementById('player_count');
+    if (!input) return; // Not on front page
     
-    // When the selection changes, store the value as an integer in sessionStorage
-    select.addEventListener('change', function (e) {
+    // When the input changes, store the value as an integer in sessionStorage
+    input.addEventListener('input', function (e) {
         const rawValue = e.target.value;
         const val = parseInt(rawValue, 10);
-        if (!Number.isNaN(val) && val > 0) {
+        if (!Number.isNaN(val) && val >= 2 && val <= 20) {
             sessionStorage.setItem('playerCount', String(val));
         } else {
             sessionStorage.removeItem('playerCount');
         }
     });
 
-    // If the user navigates to this page and then back, pre-select the stored value
+    // If the user navigates to this page and then back, pre-fill the stored value
     const stored = parseInt(sessionStorage.getItem('playerCount'), 10);
-    if (!Number.isNaN(stored) && stored > 0) {
-        const opt = Array.from(select.options).find(o => parseInt(o.value, 10) === stored);
-        if (opt) select.value = String(stored);
+    if (!Number.isNaN(stored) && stored >= 2 && stored <= 20) {
+        input.value = String(stored);
+        // Trigger the input event to show player setup if there's a stored value
+        input.dispatchEvent(new Event('input', { bubbles: true }));
     }
 }
 
-// Function to load and display the front page instruction
-function loadFrontPageInstruction() {
-    const instructionElement = document.getElementById('front-instruction');
-    if (!instructionElement) return; // Not on front page
-    
-    fetch('files/topics/default.json')
-        .then(res => {
-            if (!res.ok) throw new Error('Failed to load default.json');
-            return res.json();
-        })
-        .then(data => {
-            if (data.questions && data.questions.length > 0) {
-                // Use the first question as the front page instruction
-                const frontInstruction = data.questions[0];
-                instructionElement.textContent = frontInstruction;
-            }
-        })
-        .catch(err => {
-            console.warn('Could not load front page instruction:', err);
-        });
-}
+// Front page instruction is now hardcoded in HTML - no need to load from file
 
 function initializePlayerSetup() {
-    const playerCountSelect = document.getElementById('player_count');
+    const playerCountInput = document.getElementById('player_count');
     const playerSetupSection = document.getElementById('playerSetupSection');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
     
-    if (!playerCountSelect || !playerSetupSection || !playerNamesContainer) return;
+    if (!playerCountInput || !playerSetupSection || !playerNamesContainer) return;
     
-    playerCountSelect.addEventListener('change', function(e) {
+    playerCountInput.addEventListener('input', function(e) {
         const playerCount = parseInt(e.target.value);
         
-        if (playerCount && playerCount > 0) {
+        if (playerCount && playerCount >= 2 && playerCount <= 20) {
             showPlayerSetup(playerCount);
             updateStartButtonState();
         } else {
             hidePlayerSetup();
+            updateStartButtonState();
         }
     });
     
@@ -120,27 +102,27 @@ function hidePlayerSetup() {
 }
 
 function updateStartButtonState() {
-    const playerCountSelect = document.getElementById('player_count');
+    const playerCountInput = document.getElementById('player_count');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
     const startButton = document.getElementById('start-game-btn');
     
-    if (!playerCountSelect || !startButton) return;
+    if (!playerCountInput || !startButton) return;
     
-    const selectedCount = parseInt(playerCountSelect.value);
+    const selectedCount = parseInt(playerCountInput.value);
     
-    if (!selectedCount) {
-        // No player count selected
+    if (!selectedCount || selectedCount < 2 || selectedCount > 20) {
+        // No valid player count entered
         startButton.style.opacity = '0.5';
         startButton.style.pointerEvents = 'none';
         return;
     }
     
-    if (selectedCount > 1 && playerNamesContainer) {
+    if (selectedCount >= 2 && playerNamesContainer) {
         // Check if all player names are filled
         const nameInputs = playerNamesContainer.querySelectorAll('.player-name-input');
         const allNamesFilled = Array.from(nameInputs).every(input => input.value.trim() !== '');
         
-        if (allNamesFilled) {
+        if (allNamesFilled && nameInputs.length === selectedCount) {
             // Save player names to sessionStorage
             const playerNames = Array.from(nameInputs).map(input => input.value.trim());
             sessionStorage.setItem('playerNames', JSON.stringify(playerNames));
@@ -152,9 +134,8 @@ function updateStartButtonState() {
             startButton.style.pointerEvents = 'none';
         }
     } else {
-        // Single player or no setup needed
-        startButton.style.opacity = '1';
-        startButton.style.pointerEvents = 'auto';
+        startButton.style.opacity = '0.5';
+        startButton.style.pointerEvents = 'none';
     }
     
     // Add click handler if not already added
@@ -167,23 +148,23 @@ function updateStartButtonState() {
 function handleStartGame(e) {
     e.preventDefault();
     
-    const playerCountSelect = document.getElementById('player_count');
-    const selectedCount = parseInt(playerCountSelect.value);
+    const playerCountInput = document.getElementById('player_count');
+    const selectedCount = parseInt(playerCountInput.value);
     
-    if (!selectedCount) {
-        alert('Please select the number of players first.');
+    if (!selectedCount || selectedCount < 2 || selectedCount > 20) {
+        alert('Please enter a valid number of players (2-20).');
         return;
     }
     
     // Store player count in sessionStorage
     sessionStorage.setItem('playerCount', selectedCount.toString());
     
-    if (selectedCount > 1) {
+    if (selectedCount >= 2) {
         const playerNamesContainer = document.getElementById('playerNamesContainer');
         const nameInputs = playerNamesContainer.querySelectorAll('.player-name-input');
         const allNamesFilled = Array.from(nameInputs).every(input => input.value.trim() !== '');
         
-        if (!allNamesFilled) {
+        if (!allNamesFilled || nameInputs.length !== selectedCount) {
             alert('Please enter names for all players.');
             return;
         }
@@ -199,9 +180,6 @@ function handleStartGame(e) {
 window.addEventListener('DOMContentLoaded', function() {
     // Handle front page functionality (player count selection)
     handleFrontPageFunctionality();
-    
-    // Load front page instruction
-    loadFrontPageInstruction();
     
     // Initialize player setup system
     initializePlayerSetup();

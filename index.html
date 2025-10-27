@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Talk - Start</title>
-    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/shared.css">
+    <link rel="stylesheet" href="stylesheets/index.css">
     <script src="scripts/shared.js" defer></script>
     <script src="scripts/index.js" defer></script>
 </head>
@@ -12,28 +13,19 @@
     <div class="card">
         <header>
             <h1>Table Talk</h1>
-            <p class="lead" id="front-instruction">Pick the number of players below, then press Start.</p>
+            <p class="lead" id="front-instruction">Enter how many players will participate, enter everyone's names, then start your Table Talk session!</p>
         </header>
 
         <main>
             <div class='group'>
                 <label for="player_count">Number of Players:</label>
-                <select id="player_count" required>
-                    <option value="" disabled selected>Select number</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                </select>
+                <input type="number" id="player_count" min="2" max="20" placeholder="Enter 2-20 players" required>
             </div>
 
             <!-- Player Names Section (initially hidden) -->
             <div class="player-setup-section" id="playerSetupSection" style="display: none;">
                 <h3>Enter Player Names</h3>
-                <p class="setup-instruction">Players will answer questions in this order:</p>
+                <p class="setup-instruction">Enter names for each player. You'll take turns in this order during the game:</p>
                 <div class="player-names-container" id="playerNamesContainer">
                     <!-- Player name inputs will be generated here -->
                 </div>

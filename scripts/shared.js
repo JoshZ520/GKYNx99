@@ -69,6 +69,10 @@ function loadQuestions() {
             };
         }
         
+        // Update global references
+        window.topics = topics;
+        window.colorSchemes = colorSchemes;
+        
         return { topics, colorSchemes };
     })
     .catch(err => {
@@ -267,5 +271,7 @@ window.addEventListener('DOMContentLoaded', function () {
 window.loadQuestions = loadQuestions;
 window.applyColorScheme = applyColorScheme;
 window.loadTopicColorScheme = loadTopicColorScheme;
-window.topics = topics;
-window.colorSchemes = colorSchemes;
+
+// Make data available globally
+window.getTopics = () => topics;
+window.getColorSchemes = () => colorSchemes;

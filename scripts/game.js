@@ -8,7 +8,8 @@ let currentPlayerIndex = 0;
 
 // === QUESTION MANAGEMENT ===
 function applyQuestionsForTopic(topic) {
-    const topicData = (window.topics && window.topics[topic]) || window.topics['default'] || {};
+    const topics = window.getTopics ? window.getTopics() : {};
+    const topicData = topics[topic] || topics['default'] || {};
     let list = topicData.questions || [];
     
     // For the default topic, use only the second question (index 1) for the game page
@@ -42,7 +43,8 @@ function applyQuestionsForTopic(topic) {
         let colorScheme;
         if (typeof topicData.colorScheme === 'string') {
             // Resolve color scheme reference
-            colorScheme = window.colorSchemes[topicData.colorScheme] || window.colorSchemes['light'] || {};
+            const colorSchemes = window.getColorSchemes ? window.getColorSchemes() : {};
+            colorScheme = colorSchemes[topicData.colorScheme] || colorSchemes['light'] || {};
         } else {
             // Direct color scheme object (fallback for old format)
             colorScheme = topicData.colorScheme;
@@ -67,6 +69,7 @@ function initializeTopicSelection() {
     fetch('files/topics/index.json')
         .then(res => res.json())
         .then(topicsIndex => {
+            console.log('Loaded topics index:', topicsIndex);
             // Convert to array, excluding 'default'
             availableTopics = Object.keys(topicsIndex)
                 .filter(key => key !== 'default')
@@ -75,24 +78,70 @@ function initializeTopicSelection() {
                     name: key.charAt(0).toUpperCase() + key.slice(1)
                 }));
             
+            console.log('Available topics:', availableTopics);
             renderTopicGrid();
         })
         .catch(err => {
-            console.warn('Could not load topics:', err);
+            console.error('Could not load topics:', err);
         });
     
     // Set up button listeners
-    document.getElementById('startButton')?.addEventListener('click', () => setTopic('default'));
-    document.getElementById('randomButton')?.addEventListener('click', () => pickRandomTopic());
-    document.getElementById('topicsToggle')?.addEventListener('click', toggleTopicsPanel);
+    const startButton = document.getElementById('startButton');
+    const randomButton = document.getElementById('randomButton');
+    const topicsToggle = document.getElementById('topicsToggle');
+    
+    if (startButton) {
+        startButton.addEventListener('click', () => {
+            console.log('Start button clicked');
+            setTopic('default');
+        });
+        console.log('Start button listener added');
+    } else {
+        console.error('Start button not found');
+    }
+    
+    if (randomButton) {
+        randomButton.addEventListener('click', () => {
+            console.log('Random button clicked');
+            pickRandomTopic();
+        });
+        console.log('Random button listener added');
+    } else {
+        console.error('Random button not found');
+    }
+    
+    if (topicsToggle) {
+        topicsToggle.addEventListener('click', () => {
+            console.log('Topics toggle clicked');
+            toggleTopicsPanel();
+        });
+        console.log('Topics toggle listener added');
+    } else {
+        console.error('Topics toggle button not found');
+    }
 }
+
+// Topic pagination variables
+let currentTopicPage = 1;
+const topicsPerPage = 6;
 
 function renderTopicGrid() {
     const grid = document.getElementById('topicsGrid');
-    if (!grid) return;
+    if (!grid) {
+        console.error('Topics grid element not found');
+        return;
+    }
     
-    // Display all available topics in a 2x3 grid layout
-    grid.innerHTML = availableTopics.map(topic => `
+    console.log('Rendering topics grid with', availableTopics.length, 'topics');
+    
+    // Calculate pagination
+    const totalPages = Math.ceil(availableTopics.length / topicsPerPage);
+    const startIndex = (currentTopicPage - 1) * topicsPerPage;
+    const endIndex = startIndex + topicsPerPage;
+    const currentPageTopics = availableTopics.slice(startIndex, endIndex);
+    
+    // Display current page topics in a 3x2 grid layout (6 topics max)
+    grid.innerHTML = currentPageTopics.map(topic => `
         <label class="topic-option">
             <input type="radio" name="topic" value="${topic.value}">
             <span>${topic.name}</span>
@@ -102,21 +151,68 @@ function renderTopicGrid() {
     // Add event listeners
     grid.querySelectorAll('input[name="topic"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
+            console.log('Topic selected:', e.target.value);
             setTopic(e.target.value);
+            
+            // Close the topics dropdown after selection
+            const panel = document.getElementById('topicsPanel');
+            const toggle = document.getElementById('topicsToggle');
+            if (panel && toggle) {
+                panel.style.display = 'none';
+                toggle.textContent = 'Topics ▼';
+                console.log('Topics panel closed after selection');
+            }
         });
     });
+    
+    // Update pagination controls
+    updatePaginationControls(totalPages);
+}
+
+function updatePaginationControls(totalPages) {
+    const pageInfo = document.getElementById('pageInfo');
+    const prevBtn = document.getElementById('prevPageBtn');
+    const nextBtn = document.getElementById('nextPageBtn');
+    
+    if (pageInfo) {
+        pageInfo.textContent = `Page ${currentTopicPage} of ${totalPages}`;
+    }
+    
+    if (prevBtn) {
+        prevBtn.disabled = currentTopicPage <= 1;
+    }
+    
+    if (nextBtn) {
+        nextBtn.disabled = currentTopicPage >= totalPages;
+    }
+}
+
+function changePage(direction) {
+    const totalPages = Math.ceil(availableTopics.length / topicsPerPage);
+    
+    if (direction === 'next' && currentTopicPage < totalPages) {
+        currentTopicPage++;
+    } else if (direction === 'prev' && currentTopicPage > 1) {
+        currentTopicPage--;
+    }
+    
+    renderTopicGrid();
 }
 
 function toggleTopicsPanel() {
     const panel = document.getElementById('topicsPanel');
     const toggle = document.getElementById('topicsToggle');
     
+    console.log('Toggle clicked - panel display:', panel.style.display);
+    
     if (panel.style.display === 'none') {
         panel.style.display = 'block';
         toggle.textContent = 'Topics ▲';
+        console.log('Showing topics panel');
     } else {
         panel.style.display = 'none';
         toggle.textContent = 'Topics ▼';
+        console.log('Hiding topics panel');
     }
 }
 
@@ -237,8 +333,6 @@ function updateSubmissionState() {
     const playerCount = parseInt(playerCountString) || null;
     const submitBtn = document.getElementById('submitButton');
     const finalBtn = document.getElementById('final_submit');
-    const answerInput = document.getElementById('answer');
-    const nameInput = document.getElementById('name');
     if (!submitBtn || !finalBtn) return;
 
     if (playerCount && playerCount > 0) {
@@ -247,35 +341,44 @@ function updateSubmissionState() {
             // hide/disable submit, show final only
             submitBtn.style.display = 'none';
             finalBtn.style.display = '';
-            if (answerInput) answerInput.disabled = true;
-            if (nameInput) nameInput.disabled = true;
             return;
         }
 
         // not yet reached count: show submit and hide final
         submitBtn.style.display = '';
         finalBtn.style.display = 'none';
-        if (answerInput) answerInput.disabled = false;
-        if (nameInput) nameInput.disabled = false;
     } else {
         // no count limit: always show submit, never show final
         submitBtn.style.display = '';
         finalBtn.style.display = 'none';
-        if (answerInput) answerInput.disabled = false;
-        if (nameInput) nameInput.disabled = false;
     }
 }
 
 function submitAnswer() {
     // Get answer from preference selection
     const answer = document.getElementById('selectedPreference').value;
-    const name = document.getElementById('preferenceName').value;
+    
+    // Get current player's name from the player turn system
+    let name = 'Player';
+    const storedPlayerCount = parseInt(sessionStorage.getItem('playerCount')) || 1;
+    
+    if (storedPlayerCount > 1 && playerNames.length > 0) {
+        // Use the current player's name from the turn system
+        name = playerNames[currentPlayerIndex] || `Player ${currentPlayerIndex + 1}`;
+    } else {
+        // For single player, just use "Player" or get from session if available
+        const storedNames = sessionStorage.getItem('playerNames');
+        if (storedNames) {
+            const names = JSON.parse(storedNames);
+            name = names[0] || 'Player';
+        }
+    }
     
     const questionElem = document.getElementById('question');
     const currentQuestion = questionElem?.textContent || '';
 
-    if (!answer.trim() || !name.trim() || !currentQuestion.trim()) {
-        alert('Please make a selection and enter your name before submitting.');
+    if (!answer.trim() || !currentQuestion.trim()) {
+        alert('Please make a selection before submitting.');
         return; // Don't submit empty answers
     }
 
@@ -283,7 +386,7 @@ function submitAnswer() {
     const submissions = JSON.parse(localStorage.getItem('chronologicalSubmissions')) || [];
     
     // Check if this question already has enough answers (if player count is set)
-    const playerCount = parseInt(sessionStorage.getItem('playerCount')) || null;
+    const playerCount = storedPlayerCount;
     if (playerCount) {
         const answersForThisQuestion = submissions.filter(sub => sub.question === currentQuestion).length;
         if (answersForThisQuestion >= playerCount) {
@@ -308,7 +411,6 @@ function submitAnswer() {
 
     // Clear the preference system for the next player
     document.getElementById('selectedPreference').value = '';
-    document.getElementById('preferenceName').value = '';
     // Remove visual selection
     const option1 = document.getElementById('option1');
     const option2 = document.getElementById('option2');
@@ -362,14 +464,92 @@ function hidePlayerTurnIndicator() {
 function updateCurrentPlayerDisplay() {
     const currentPlayerNameElement = document.getElementById('currentPlayerName');
     if (currentPlayerNameElement && playerNames.length > 0) {
-        currentPlayerNameElement.textContent = playerNames[currentPlayerIndex];
+        // Fade out old name
+        currentPlayerNameElement.style.opacity = '0';
+        
+        setTimeout(() => {
+            // Update name and fade in
+            currentPlayerNameElement.textContent = playerNames[currentPlayerIndex];
+            currentPlayerNameElement.style.opacity = '1';
+        }, 150);
+    }
+}
+
+function showTurnChangeAnimation() {
+    if (playerNames.length <= 1) return;
+    
+    // Fade out the current answer content
+    const formElements = document.querySelectorAll('input[type="radio"]:checked, textarea');
+    const preferenceContainer = document.querySelector('.preference-container');
+    
+    if (preferenceContainer) {
+        preferenceContainer.classList.add('content-clearing');
+    }
+    
+    // Create flying shapes to "clear" the screen
+    createFlyingShapes();
+    
+    // Remove fade effect after animation
+    setTimeout(() => {
+        if (preferenceContainer) {
+            preferenceContainer.classList.remove('content-clearing');
+        }
+        // Clear the form
+        formElements.forEach(element => {
+            if (element.type === 'radio') {
+                element.checked = false;
+            } else if (element.tagName === 'TEXTAREA') {
+                element.value = '';
+            }
+        });
+    }, 800);
+}
+
+function createFlyingShapes() {
+    const shapes = ['circle', 'square', 'triangle', 'star'];
+    const numShapes = 5; // Create 5 shapes flying across
+    
+    for (let i = 0; i < numShapes; i++) {
+        setTimeout(() => {
+            const shape = document.createElement('div');
+            const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+            
+            shape.className = `flying-shape ${shapeType}`;
+            shape.style.top = `${Math.random() * 80 + 10}%`; // Random vertical position
+            shape.style.animationDelay = '0s';
+            shape.style.animationDuration = `${1.2 + Math.random() * 0.6}s`; // Slight variation in speed
+            
+            document.body.appendChild(shape);
+            
+            // Remove shape after animation
+            setTimeout(() => {
+                if (shape.parentNode) {
+                    shape.parentNode.removeChild(shape);
+                }
+            }, 2000);
+        }, i * 100); // Stagger the shapes slightly
     }
 }
 
 function advanceToNextPlayer() {
     if (playerNames.length > 1) {
-        currentPlayerIndex = (currentPlayerIndex + 1) % playerNames.length;
-        updateCurrentPlayerDisplay();
+        // Show turn change animation with flying shapes
+        showTurnChangeAnimation();
+        
+        // Advance to next player after animation starts
+        setTimeout(() => {
+            currentPlayerIndex = (currentPlayerIndex + 1) % playerNames.length;
+            updateCurrentPlayerDisplay();
+            
+            // Add new turn animation to indicator
+            const indicator = document.getElementById('playerTurnIndicator');
+            if (indicator) {
+                indicator.classList.add('new-turn');
+                setTimeout(() => {
+                    indicator.classList.remove('new-turn');
+                }, 600);
+            }
+        }, 200);
     }
 }
 
@@ -419,6 +599,18 @@ function initializeGameEventHandlers() {
     // Final submit button
     const finalBtn = document.getElementById('final_submit');
     if (finalBtn) finalBtn.addEventListener('click', handleFinalSubmit);
+    
+    // Topic pagination buttons
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', () => changePage('prev'));
+    }
+    
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', () => changePage('next'));
+    }
     
     // Switch question button
     const switchBtn = document.getElementById('switchQuestion');

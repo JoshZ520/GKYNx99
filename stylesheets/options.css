@@ -2,18 +2,16 @@
 /* This system allows easy image replacement by contributors */
 
 .preference-container {
-    margin: var(--space-lg) 0 120px 0; /* Increased bottom margin for name input */
-    width: 100vw;
+    margin: var(--space-md) 0; /* Increased margin for better spacing */
+    width: 100%; /* Changed from 100vw to stay within main container */
     position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    height: 400px; /* Fixed height for image area */
+    /* Removed the viewport-breaking positioning */
+    height: 320px; /* Increased from 250px for more comfortable viewing */
 }
 
 .preference-options {
     display: flex;
+    flex-direction: row;
     justify-content: space-evenly;
     align-items: flex-start;
     width: 100%;
@@ -22,18 +20,18 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 0; /* Explicitly position at top */
+    top: 0;
 }
 
 .preference-option {
-    width: 320px; /* 300px + 20px padding (10px each side) */
-    height: 360px; /* Increased height to accommodate label */
+    width: 300px; /* Increased from 250px */
+    height: 300px; /* Increased from 220px for better proportions */
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-radius: var(--space-md);
+    border-radius: var(--space-md); /* Increased border radius */
     overflow: hidden;
     background: var(--background-light);
-    border: 3px solid var(--accent-light);
+    border: 2px solid var(--accent-light);
     display: flex;
     flex-direction: column;
 }
@@ -41,11 +39,11 @@
 .preference-label {
     background: var(--background-light);
     color: var(--text-dark);
-    padding: var(--space-md) var(--space-md);
+    padding: var(--space-sm) var(--space-sm); /* Reduced padding */
     text-align: center;
     font-weight: 600;
-    font-size: var(--font-lg);
-    border-bottom: 2px solid var(--accent-light);
+    font-size: var(--font-base); /* Reduced from var(--font-lg) */
+    border-bottom: 1px solid var(--accent-light); /* Thinner border */
     flex-shrink: 0;
 }
 
@@ -61,54 +59,28 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.preference-image {
-    width: 300px;
-    height: 260px; /* Reduced to make room for label */
-    margin: 10px;
-    background-image: url(https://placekittens.com/200/300);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: var(--background-light);
-    flex-grow: 1;
-    border-radius: 12px;
-}
+/* Image styles moved to images.css - import that file for image-specific styling */
 
 /* Tablet and smaller desktop screens */
 @media (max-width: 1024px) and (min-width: 769px) {
     .preference-container {
-        height: 380px; /* Slightly smaller for tablets */
-        margin-bottom: 100px; /* Adequate space for name input */
+        height: 230px; /* Compact size for tablets */
     }
     
     .preference-option {
-        width: 280px;
-        height: 320px;
-    }
-    
-    .preference-image {
-        width: 260px;
-        height: 220px;
-    }
-    
-    .preference-name-input {
-        bottom: -70px; /* Adjust for tablet screens */
-        max-width: 300px;
+        width: 220px; /* Reduced */
+        height: 200px; /* Reduced */
     }
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .preference-container {
-        position: static !important;
-        transform: none !important;
-        width: 100% !important;
-        left: auto !important;
-        right: auto !important;
-        margin: 20px auto 30px auto !important; /* Center and normal margins */
-        margin-left: auto !important;
-        margin-right: auto !important;
-        height: auto !important;
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: var(--space-lg) auto;
+        height: auto;
         display: flex;
         flex-direction: column;
     }
@@ -117,116 +89,30 @@
         flex-direction: column;
         gap: 15px;
         align-items: center;
-        position: static !important;
-        transform: none !important;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
+        position: static;
         padding: 10px;
-        margin-bottom: 30px; /* Add separation from name input */
         order: 1; /* Images come first */
     }
     
     .preference-option {
-        width: 300px;
-        height: 250px;
-        margin-bottom: 10px;
+        width: 280px; /* Slightly reduced */
+        height: 200px; /* Reduced for compact mobile */
+        margin-bottom: 5px; /* Reduced margin */
     }
-    
-    .preference-image {
-        width: 280px;
-        height: 180px;
-    }
-    
-    .preference-name-input {
-        position: static !important; /* Force normal flow on mobile */
-        transform: none !important;
-        left: auto !important;
-        bottom: auto !important;
-        top: auto !important;
-        margin: 30px auto var(--space-md) auto !important; /* Extra top margin for separation */
-        order: 2; /* Name input comes after images */
-        background: var(--background-light);
-        padding: var(--space-md);
-        border-radius: var(--space-sm);
-        border: 1px solid var(--accent-light);
-        max-width: 300px;
-        width: auto;
-        z-index: auto;
-        clear: both; /* Ensure it clears any floated elements */
-    }
-}
-
-/* Name input styling for preference system */
-.preference-name-input {
-    position: absolute;
-    bottom: -80px; /* Position below the container */
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    max-width: 320px;
-    width: 100%;
-    z-index: 10; /* Ensure it's above other elements */
-}
-
-.preference-name-input .group {
-    margin-bottom: var(--space-lg);
-}
-
-.preference-name-input input {
-    font-size: var(--font-lg);
-    width: 280px;
-    padding: var(--space-md) var(--space-sm);
-    border: none;
-    border-bottom: 2px solid var(--accent-light);
-    background: transparent;
-    color: var(--text-dark);
-    transition: border-bottom-color 0.3s ease;
-}
-
-.preference-name-input input:focus {
-    outline: none;
-    border-bottom-color: var(--accent-dark);
 }
 
 /* Extra small screens */
 @media (max-width: 480px) {
     .preference-container {
-        position: static !important;
-        transform: none !important;
-        width: 100% !important;
-        left: auto !important;
-        right: auto !important;
-        margin: var(--space-lg) auto !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        height: auto !important;
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: var(--space-lg) auto;
+        height: auto;
     }
     
     .preference-option {
-        width: 280px;
-        height: 220px;
-    }
-    
-    .preference-image {
-        width: 260px;
-        height: 150px;
-    }
-    
-    .preference-name-input {
-        position: static !important; /* Force normal flow on small screens */
-        transform: none !important;
-        left: auto !important;
-        bottom: auto !important;
-        margin: 20px auto 10px auto;
-        max-width: 280px;
-        padding: 12px;
-        width: auto;
-        z-index: auto;
-    }
-    
-    .preference-name-input input {
-        width: 240px;
-        font-size: 16px;
+        width: 260px; /* Reduced */
+        height: 180px; /* Reduced */
     }
 }
