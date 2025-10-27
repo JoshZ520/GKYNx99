@@ -626,3 +626,41 @@ body.dark-theme .step.active .step-number {
 body.dark-theme .step-text {
     color: var(--dark-text-secondary) !important;
 }
+
+/* === UNIVERSAL THEME TOGGLE BUTTON === */
+/* Theme toggle button - positioned consistently across all pages */
+#theme-toggle {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+    border: none !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 24px !important;
+    cursor: pointer !important;
+    padding: 8px !important;
+    border-radius: 50% !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#theme-toggle:hover {
+    background-color: var(--accent-light) !important;
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Dark theme styling for toggle button */
+body.dark-theme #theme-toggle {
+    background-color: rgba(42, 42, 42, 0.9) !important;
+    color: var(--text-light) !important;
+}
+
+body.dark-theme #theme-toggle:hover {
+    background-color: var(--accent-dark) !important;
+}

@@ -63,6 +63,8 @@
     transform: rotate(180deg); /* Start rotated up since directions start expanded */
 }
 
+
+
 /* Rotate chevron down when directions are hidden */
 #open_page.collapsed img {
     transform: rotate(0deg);

@@ -71,6 +71,9 @@ function loadQuestions() {
         window.topics = topics;
         window.colorSchemes = colorSchemes;
         
+        // Initialize theme toggle after color schemes are loaded
+        initializeThemeToggle();
+        
         return { topics, colorSchemes };
     })
     .catch(err => {
@@ -97,6 +100,10 @@ function loadQuestions() {
                 svgHoverColor: "#6c757d"
             }
         };
+        
+        // Initialize theme toggle even with fallback data
+        initializeThemeToggle();
+        
         return { topics, colorSchemes };
     });
 }
@@ -293,7 +300,61 @@ window.addEventListener('DOMContentLoaded', function () {
     
     // Initialize dropdown if present
     initializeDropdown();
+    
+    // Load questions and color schemes, which will initialize theme toggle
+    loadQuestions();
 });
+
+// === THEME TOGGLE FUNCTIONALITY ===
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+    
+    // Update button icon based on current theme
+    function updateThemeIcon() {
+        if (document.body.classList.contains('dark-theme')) {
+            themeToggle.textContent = '☀️'; // Sun icon for switching to light
+            themeToggle.title = 'Switch to Light Mode';
+        } else {
+            themeToggle.textContent = '🌙'; // Moon icon for switching to dark
+            themeToggle.title = 'Switch to Dark Mode';
+        }
+    }
+    
+    // Toggle theme function using existing color schemes
+    function toggleTheme() {
+        if (document.body.classList.contains('dark-theme')) {
+            // Switch to light theme using existing color scheme
+            const lightScheme = colorSchemes.light || colorSchemes['light'];
+            if (lightScheme) {
+                applyColorScheme(lightScheme);
+                localStorage.setItem('theme-preference', 'light');
+            }
+        } else {
+            // Switch to dark theme using existing color scheme
+            const darkScheme = colorSchemes.dark || colorSchemes['dark'];
+            if (darkScheme) {
+                applyColorScheme(darkScheme);
+                localStorage.setItem('theme-preference', 'dark');
+            }
+        }
+        updateThemeIcon();
+    }
+    
+    // Load saved theme preference and apply existing color scheme
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme === 'dark' && colorSchemes.dark) {
+        applyColorScheme(colorSchemes.dark);
+    } else if (savedTheme === 'light' && colorSchemes.light) {
+        applyColorScheme(colorSchemes.light);
+    }
+    
+    // Set initial icon
+    updateThemeIcon();
+    
+    // Add click listener
+    themeToggle.addEventListener('click', toggleTheme);
+}
 
 // === EXPORTS ===
 // Make functions available globally
