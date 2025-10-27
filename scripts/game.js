@@ -115,6 +115,16 @@ function initializeTopicSelection() {
             toggleTopicsPanel();
         });
     }
+
+    // Ensure topics panel starts closed
+    const panel = document.getElementById('topicsPanel');
+    if (panel) {
+        panel.classList.add('hidden');
+        panel.classList.remove('visible');
+        if (topicsToggle) {
+            topicsToggle.textContent = 'Topics ▼';
+        }
+    }
 }
 
 // Topic pagination variables

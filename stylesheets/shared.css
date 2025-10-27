@@ -389,16 +389,38 @@ input#player_count {
     }
 }
 
+/* Tablet (769px to 1024px) - Optional middle ground */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .controls {
+        grid-template-columns: auto auto !important; /* 2 columns on tablet */
+        gap: var(--space-md) !important;
+    }
+    
+    /* Put topics selection on its own row */
+    .topic-selection {
+        grid-column: 1 / -1 !important;
+        justify-self: center !important;
+    }
+}
+
 /* Mobile (768px and below) */
 @media (max-width: 768px) {
 
+    /* Controls responsive - stack vertically on mobile */
+    .controls {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: var(--space-lg) !important;
+        align-items: center !important;
+        margin: var(--space-md) 0 !important;
+    }
 
     /* Topics panel - overlay but mobile responsive */
     .topics-panel {
         position: absolute !important;
-        width: 95% !important;
+        width: 80% !important;
         min-width: unset !important;
-        max-width: 350px !important;
+        max-width: none !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
         z-index: 100 !important;
@@ -411,15 +433,18 @@ input#player_count {
 
     /* Topic grid adjustments */
     .topics-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        max-width: 100%;
-        margin: var(--space-sm) auto;
+        grid-template-columns: repeat(2, minmax(100px, 1fr)) !important;
+        gap: var(--space-sm) !important;
+        max-width: 100% !important;
+        margin: var(--space-sm) auto !important;
     }
     
     .topic-option {
-        padding: var(--space-xs) var(--space-sm);
-        min-height: 40px;
+        padding: var(--space-sm) var(--space-md) !important;
+        min-height: 48px !important;
+        min-width: 100px !important;
+        white-space: nowrap !important; /* Prevent text wrapping */
+        overflow: visible !important; /* Allow text to show fully */
     }
     
     .topic-option span {
