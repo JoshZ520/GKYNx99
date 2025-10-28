@@ -278,34 +278,31 @@ function initializeThemeToggle() {
             themeToggle.title = 'Switch to Dark Mode';
         }
     }
-    // Toggle theme function using blue color schemes for testing
+    // Toggle theme function using existing color schemes
     function toggleTheme() {
         if (document.body.classList.contains('dark-theme')) {
-            // Switch to blue light theme
-            const blueLight = colorSchemes['blue-light'];
-            if (blueLight) {
-                applyColorScheme(blueLight);
-                localStorage.setItem('theme-preference', 'blue-light');
+            // Switch to light theme using existing color scheme
+            const lightScheme = colorSchemes.light || colorSchemes['light'];
+            if (lightScheme) {
+                applyColorScheme(lightScheme);
+                localStorage.setItem('theme-preference', 'light');
             }
         } else {
-            // Switch to blue dark theme
-            const blueDark = colorSchemes['blue-dark'];
-            if (blueDark) {
-                applyColorScheme(blueDark);
-                localStorage.setItem('theme-preference', 'blue-dark');
+            // Switch to dark theme using existing color scheme
+            const darkScheme = colorSchemes.dark || colorSchemes['dark'];
+            if (darkScheme) {
+                applyColorScheme(darkScheme);
+                localStorage.setItem('theme-preference', 'dark');
             }
         }
         updateThemeIcon();
     }
-    // Load saved theme preference and apply blue color schemes for testing
+    // Load saved theme preference and apply existing color scheme
     const savedTheme = localStorage.getItem('theme-preference');
-    if (savedTheme === 'blue-dark' && colorSchemes['blue-dark']) {
-        applyColorScheme(colorSchemes['blue-dark']);
-    } else if (savedTheme === 'blue-light' && colorSchemes['blue-light']) {
-        applyColorScheme(colorSchemes['blue-light']);
-    } else {
-        // Default to blue-light if no preference saved
-        applyColorScheme(colorSchemes['blue-light']);
+    if (savedTheme === 'dark' && colorSchemes.dark) {
+        applyColorScheme(colorSchemes.dark);
+    } else if (savedTheme === 'light' && colorSchemes.light) {
+        applyColorScheme(colorSchemes.light);
     }
     // Set initial icon
     updateThemeIcon();
