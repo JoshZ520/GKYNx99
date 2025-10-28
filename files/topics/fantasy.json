@@ -11,14 +11,14 @@
       "option2": "Physical Heroes"
     },
     {
-      "prompt": "What fantasy world type appeals to you?",
-      "option1": "Traditional Fantasy",
-      "option2": "Contemporary Fantasy"
+      "prompt": "What fantasy time period appeals to you?",
+      "option1": "Medieval/Historical",
+      "option2": "Modern/Contemporary"
     },
     {
-      "prompt": "What fantasy setting appeals to you most?",
-      "option1": "High Fantasy",
-      "option2": "Urban Fantasy"
+      "prompt": "What fantasy world scope appeals to you?",
+      "option1": "Epic/Grand Scale",
+      "option2": "Personal/Intimate"
     },
     {
       "prompt": "How do you prefer to engage with fantasy?",
@@ -27,8 +27,8 @@
     },
     {
       "prompt": "What draws you to fantasy content?",
-      "option1": "Escapism",
-      "option2": "Adventure"
+      "option1": "Relaxation",
+      "option2": "Excitement"
     }
   ]
 }

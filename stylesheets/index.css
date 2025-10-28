@@ -1,0 +1,266 @@
+/* index.css - Front page (index.html) specific styles */
+/* === FRONT PAGE STYLES === */
+/* Tagline styling */
+.tagline {
+    font-size: var(--font-lg) !important;
+    color: var(--accent-dark) !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    margin: var(--space-sm) 0 var(--space-lg) 0 !important;
+    font-style: italic;
+}
+/* Setup Steps Progress Indicator */
+.setup-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-lg);
+    margin: var(--space-xl) 0;
+}
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    opacity: 0.4;
+    transition: all 0.3s ease;
+}
+.step.active {
+    opacity: 1;
+}
+.step.completed {
+    opacity: 1;
+    color: var(--accent-dark);
+}
+.step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--background-light);
+    border: 2px solid var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: var(--font-base);
+}
+.step.active .step-number {
+    background-color: var(--accent-dark);
+    color: white;
+    border-color: var(--accent-dark);
+}
+.step.completed .step-number {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+.step-text {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    text-align: center;
+}
+/* Card container for front page */
+.card {
+    box-sizing: border-box;
+    max-width: 720px;
+    width: calc(100% - 40px);
+    margin: 6vh auto; /* center vertically with some top/bottom spacing */
+    padding: 24px;
+    background: var(--light);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px var(--dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* Start button styling */
+.start-btn {
+    display: inline-block;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+.start-btn:hover:not([style*="pointer-events: none"]) { 
+    opacity: 0.95; 
+}
+/* Player Setup Section */
+.player-setup-section {
+    margin: var(--space-lg) 0;
+    padding: var(--space-lg);
+    background-color: var(--background-light);
+    border: 2px solid var(--accent-light);
+    border-radius: var(--space-md);
+}
+.player-setup-section h3 {
+    margin: 0 0 var(--space-md) 0;
+    color: var(--text-dark);
+    text-align: center;
+    font-size: var(--font-xl);
+}
+.setup-instruction {
+    margin: 0 0 var(--space-lg) 0;
+    color: var(--text-dark);
+    text-align: center;
+    font-size: var(--font-base);
+    font-style: italic;
+}
+.player-names-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-width: 400px;
+    margin: 0 auto;
+}
+.player-input-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+.player-number {
+    background-color: var(--accent-dark);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: var(--font-sm);
+    flex-shrink: 0;
+}
+.player-name-input {
+    flex: 1;
+    padding: var(--space-md);
+    border: 2px solid var(--accent-light);
+    border-radius: var(--space-sm);
+    font-size: var(--font-base);
+    background-color: var(--background-light);
+    color: var(--text-dark);
+}
+.player-name-input:focus {
+    outline: none;
+    border-color: var(--accent-dark);
+    box-shadow: 0 0 0 3px rgba(102, 53, 60, 0.2);
+}
+.player-name-input::placeholder {
+    color: var(--text-dark);
+    opacity: 0.6;
+}
+/* === RESUME GAME SECTION === */
+.resume-section {
+    margin-bottom: var(--space-xl);
+    padding: var(--space-lg);
+    background-color: var(--background-light);
+    border: 2px solid var(--accent-dark);
+    border-radius: var(--space-md);
+}
+.resume-section h3 {
+    margin: 0 0 var(--space-md) 0;
+    color: var(--text-dark);
+    text-align: center;
+    font-size: var(--font-xl);
+}
+.resume-instruction {
+    margin: 0 0 var(--space-lg) 0;
+    color: var(--text-dark);
+    text-align: center;
+    font-size: var(--font-base);
+}
+.saved-games-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+.saved-game-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md);
+    background-color: var(--background-dark);
+    border: 1px solid var(--accent-light);
+    border-radius: var(--space-sm);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.saved-game-item:hover {
+    background-color: var(--accent-light);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.saved-game-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.saved-game-topic {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: var(--font-base);
+}
+.saved-game-details {
+    font-size: var(--font-sm);
+    color: var(--text-dark);
+    opacity: 0.8;
+}
+.saved-game-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+.resume-btn, .delete-btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: var(--font-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+.resume-btn {
+    background-color: var(--accent-dark);
+    color: white;
+}
+.resume-btn:hover {
+    opacity: 0.9;
+}
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+.delete-btn:hover {
+    opacity: 0.9;
+}
+.resume-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-md);
+}
+.secondary-btn {
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    border: 2px solid var(--accent-light);
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: var(--font-base);
+    transition: all 0.2s ease;
+}
+.secondary-btn:hover {
+    background-color: var(--accent-light);
+    color: var(--text-dark);
+}
+.no-saved-games {
+    text-align: center;
+    color: var(--text-dark);
+    opacity: 0.7;
+    font-style: italic;
+    padding: var(--space-lg);
+}

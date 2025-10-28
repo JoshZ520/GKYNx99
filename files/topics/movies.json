@@ -16,9 +16,9 @@
       "option2": "Home"
     },
     {
-      "prompt": "What movie length do you prefer?",
-      "option1": "Short Films",
-      "option2": "Epic Movies"
+      "prompt": "What type of movie series do you prefer?",
+      "option1": "Movie Series/Franchises",
+      "option2": "Standalone Films"
     },
     {
       "prompt": "What movie era do you prefer?",

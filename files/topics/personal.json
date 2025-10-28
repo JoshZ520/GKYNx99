@@ -11,9 +11,9 @@
       "option2": "Reserved/Private"
     },
     {
-      "prompt": "How do you make decisions?",
-      "option1": "Logical/Analytical",
-      "option2": "Intuitive/Emotional"
+      "prompt": "What drives your personal decisions?",
+      "option1": "Logic/Facts",
+      "option2": "Feelings/Gut Instinct"
     },
     {
       "prompt": "What's your approach to change?",
