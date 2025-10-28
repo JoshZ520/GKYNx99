@@ -215,18 +215,15 @@ function displayQuestionOptions(question) {
     // Set up image containers for contributors to add images
     const option1Image = document.getElementById('option1Image');
     const option2Image = document.getElementById('option2Image');
-    // Load images that match the exact option names
-    const currentTopic = window.currentTopic || 'default';
-    
-    if (option1Image && currentTopic !== 'default') {
+    // Placeholder kittens are now set via CSS - no dynamic loading needed
+    // Just set data attributes for future use
+    if (option1Image) {
         const option1Name = question.option1.toLowerCase().replace(/[\s\/]+/g, '-').replace(/[^\w\-]/g, '');
-        option1Image.style.backgroundImage = `url('images/preferences/${currentTopic}/${option1Name}.jpg')`;
         option1Image.setAttribute('data-option', option1Name);
     }
     
-    if (option2Image && currentTopic !== 'default') {
+    if (option2Image) {
         const option2Name = question.option2.toLowerCase().replace(/[\s\/]+/g, '-').replace(/[^\w\-]/g, '');
-        option2Image.style.backgroundImage = `url('images/preferences/${currentTopic}/${option2Name}.jpg')`;
         option2Image.setAttribute('data-option', option2Name);
     }
     // Set the text labels above the images

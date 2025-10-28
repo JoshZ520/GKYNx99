@@ -24,5 +24,31 @@
     "headerTextColor": "#ffffff",
     "svgColor": "#ffffff",
     "svgHoverColor": "#cccccc"
+  },
+  "blue-light": {
+    "background": "#f0f8ff",
+    "headerBackground": "#e6f3ff",
+    "headerBorder": "#4682b4",
+    "primaryButton": "#4682b4",
+    "secondaryButton": "#1e90ff",
+    "accent": "#0066cc",
+    "focusColor": "#0080ff",
+    "textColor": "#003366",
+    "headerTextColor": "#003366",
+    "svgColor": "#336699",
+    "svgHoverColor": "#4682b4"
+  },
+  "blue-dark": {
+    "background": "#0d1b2a",
+    "headerBackground": "#1b263b",
+    "headerBorder": "#415a77",
+    "primaryButton": "#415a77",
+    "secondaryButton": "#0077be",
+    "accent": "#4da6ff",
+    "focusColor": "#66b3ff",
+    "textColor": "#e0f6ff",
+    "headerTextColor": "#e0f6ff",
+    "svgColor": "#b3d9ff",
+    "svgHoverColor": "#80c4ff"
   }
 }
