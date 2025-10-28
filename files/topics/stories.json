@@ -23,7 +23,7 @@
                           "option1":  "Short/Concise",
                           "option2":  "Long/Detailed",
                           "images":  {
-                                         "option1":  "images/questions/Books/",
+                                         "option1":  "images/questions/Books/Length/short.jpg",
                                          "option2":  "images/questions/Books/"
                                      }
                       },
