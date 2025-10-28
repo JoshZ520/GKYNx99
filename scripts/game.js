@@ -215,16 +215,31 @@ function displayQuestionOptions(question) {
     // Set up image containers for contributors to add images
     const option1Image = document.getElementById('option1Image');
     const option2Image = document.getElementById('option2Image');
-    // Placeholder kittens are now set via CSS - no dynamic loading needed
-    // Just set data attributes for future use
+    // Load images from JSON URLs if available, otherwise use CSS fallback
     if (option1Image) {
         const option1Name = question.option1.toLowerCase().replace(/[\s\/]+/g, '-').replace(/[^\w\-]/g, '');
         option1Image.setAttribute('data-option', option1Name);
+        
+        // Use image URL from JSON if available and not placeholder
+        if (question.images && question.images.option1 && question.images.option1 !== "PASTE_URL_HERE") {
+            option1Image.style.backgroundImage = `url('${question.images.option1}')`;
+        } else {
+            // Clear any previous background-image to use CSS fallback (kitten image)
+            option1Image.style.backgroundImage = '';
+        }
     }
     
     if (option2Image) {
         const option2Name = question.option2.toLowerCase().replace(/[\s\/]+/g, '-').replace(/[^\w\-]/g, '');
         option2Image.setAttribute('data-option', option2Name);
+        
+        // Use image URL from JSON if available and not placeholder
+        if (question.images && question.images.option2 && question.images.option2 !== "PASTE_URL_HERE") {
+            option2Image.style.backgroundImage = `url('${question.images.option2}')`;
+        } else {
+            // Clear any previous background-image to use CSS fallback (kitten image)
+            option2Image.style.backgroundImage = '';
+        }
     }
     // Set the text labels above the images
     const option1Label = document.getElementById('option1Label');

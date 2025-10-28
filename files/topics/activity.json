@@ -1,34 +1,58 @@
-{
-  "questions": [
-    {
-      "prompt": "What type of physical activities do you prefer?",
-      "option1": "Team Sports",
-      "option2": "Individual Sports"
-    },
-    {
-      "prompt": "How do you prefer to engage with activities?",
-      "option1": "Playing/Participating",
-      "option2": "Watching/Following"
-    },
-    {
-      "prompt": "What's your activity environment preference?",
-      "option1": "Outdoor Activities",
-      "option2": "Indoor Activities"
-    },
-    {
-      "prompt": "What type of physical activity appeals to you?",
-      "option1": "Exercise/Fitness",
-      "option2": "Sports/Competition"
-    },
-    {
-      "prompt": "How do you prefer to stay active?",
-      "option1": "Structured Workouts",
-      "option2": "Casual Movement"
-    },
-    {
-      "prompt": "What motivates your activity choices?",
-      "option1": "Health Goals",
-      "option2": "Fun/Social"
-    }
-  ]
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "What type of physical activities do you prefer?",
+                          "option1":  "Team Sports",
+                          "option2":  "Individual Sports",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to engage with activities?",
+                          "option1":  "Playing/Participating",
+                          "option2":  "Watching/Following",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What\u0027s your activity environment preference?",
+                          "option1":  "Outdoor Activities",
+                          "option2":  "Indoor Activities",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What type of physical activity appeals to you?",
+                          "option1":  "Exercise/Fitness",
+                          "option2":  "Sports/Competition",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to stay active?",
+                          "option1":  "Structured Workouts",
+                          "option2":  "Casual Movement",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What motivates your activity choices?",
+                          "option1":  "Health Goals",
+                          "option2":  "Fun/Social",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      }
+                  ]
 }

@@ -1,34 +1,58 @@
-{
-  "questions": [
-    {
-      "prompt": "What aspect of fantasy stories appeals to you most?",
-      "option1": "Character Development",
-      "option2": "Action/Adventure"
-    },
-    {
-      "prompt": "What type of fantasy character do you prefer?",
-      "option1": "Magic Users",
-      "option2": "Physical Heroes"
-    },
-    {
-      "prompt": "What fantasy time period appeals to you?",
-      "option1": "Medieval/Historical",
-      "option2": "Modern/Contemporary"
-    },
-    {
-      "prompt": "What fantasy world scope appeals to you?",
-      "option1": "Epic/Grand Scale",
-      "option2": "Personal/Intimate"
-    },
-    {
-      "prompt": "How do you prefer to engage with fantasy?",
-      "option1": "Creating Stories",
-      "option2": "Consuming Stories"
-    },
-    {
-      "prompt": "What draws you to fantasy content?",
-      "option1": "Relaxation",
-      "option2": "Excitement"
-    }
-  ]
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "What aspect of fantasy stories appeals to you most?",
+                          "option1":  "Character Development",
+                          "option2":  "Action/Adventure",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What type of fantasy character do you prefer?",
+                          "option1":  "Magic Users",
+                          "option2":  "Physical Heroes",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What fantasy time period appeals to you?",
+                          "option1":  "Medieval/Historical",
+                          "option2":  "Modern/Contemporary",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What fantasy world scope appeals to you?",
+                          "option1":  "Epic/Grand Scale",
+                          "option2":  "Personal/Intimate",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to engage with fantasy?",
+                          "option1":  "Creating Stories",
+                          "option2":  "Consuming Stories",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What draws you to fantasy content?",
+                          "option1":  "Relaxation",
+                          "option2":  "Excitement",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      }
+                  ]
 }
