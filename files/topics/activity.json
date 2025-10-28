@@ -19,7 +19,7 @@
                                      }
                       },
                       {
-                          "prompt":  "What\u0027s your activity environment preference?",
+                          "prompt":  "What's your activity environment preference?",
                           "option1":  "Outdoor Activities",
                           "option2":  "Indoor Activities",
                           "images":  {
