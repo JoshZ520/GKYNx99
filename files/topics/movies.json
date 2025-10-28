@@ -17,8 +17,8 @@
     },
     {
       "prompt": "What type of movie series do you prefer?",
-      "option1": "Connected Movies (Trilogies/Series)",
-      "option2": "Standalone Movies (Solo Films)"
+      "option1": "Movie Series/Franchises",
+      "option2": "Standalone Films"
     },
     {
       "prompt": "What movie era do you prefer?",
