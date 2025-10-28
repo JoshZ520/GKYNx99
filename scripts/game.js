@@ -57,6 +57,16 @@ function setTopic(topic) {
     window.currentTopic = topic;
     applyQuestionsForTopic(topic);
     localStorage.setItem('currentTopic', topic);
+    
+    // Update topic display
+    const topicNameElement = document.getElementById('currentTopicName');
+    if (topicNameElement) {
+        const selectedTopic = availableTopics.find(t => t.value === topic);
+        const displayName = selectedTopic ? selectedTopic.name : 
+                           (topic === 'default' ? 'Instructions' : topic.charAt(0).toUpperCase() + topic.slice(1));
+        topicNameElement.textContent = displayName;
+    }
+    
     // Update UI state after topic change (with small delay to ensure DOM is updated)
     setTimeout(() => updateSubmissionState(), 0);
     
@@ -744,6 +754,12 @@ window.addEventListener('DOMContentLoaded', function() {
             // Always start with the default topic (instructions) on page load
             window.currentTopic = 'default';
             applyQuestionsForTopic('default');
+            
+            // Initialize topic display
+            const topicNameElement = document.getElementById('currentTopicName');
+            if (topicNameElement) {
+                topicNameElement.textContent = 'Instructions';
+            }
             
             // Initialize new topic selection system
             initializeTopicSelection();

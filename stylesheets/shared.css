@@ -395,20 +395,6 @@ input#player_count {
     }
 }
 
-/* Tablet (769px to 1024px) - Optional middle ground */
-@media (max-width: 1024px) and (min-width: 769px) {
-    .controls {
-        grid-template-columns: auto auto !important; /* 2 columns on tablet */
-        gap: var(--space-md) !important;
-    }
-    
-    /* Put topics selection on its own row */
-    .topic-selection {
-        grid-column: 1 / -1 !important;
-        justify-self: center !important;
-    }
-}
-
 /* Mobile (768px and below) */
 @media (max-width: 768px) {
 
@@ -431,6 +417,10 @@ input#player_count {
         transform: translateX(-50%) !important;
         z-index: 100 !important;
         padding: var(--space-md) !important;
+    }
+    .primary-controls {
+        flex-direction: column !important;
+        gap: var(--space-md) !important;
     }
     
     .topic-selection {
@@ -541,22 +531,6 @@ input#player_count {
         flex-grow: 1;
         margin: 0;
         border-radius: 0;
-    }
-}
-
-
-
-/* Short Screen Height Adjustments */
-@media (max-height: 600px) {
-    .card { 
-        margin: 20px 12px; 
-        padding: 16px; 
-    }
-
-    .game-page main,
-    .display-page main {
-        gap: 4px;
-        /* Remove max-height constraint to prevent footer overlap */
     }
 }
 

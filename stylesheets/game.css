@@ -198,10 +198,13 @@ h1.question {
 .topic-selection {
     margin: var(--space-sm) 0;
     position: relative; /* Add positioning context for topics panel */
+    display: flex;
+    justify-content: center;
 }
 
 .primary-controls {
     display: flex;
+    flex-direction: row;
     gap: var(--space-sm); /* Reduced gap */
     margin-bottom: var(--space-sm); /* Reduced margin */
     justify-content: center;
@@ -392,6 +395,21 @@ h1.question {
     white-space: nowrap; /* Prevent name from wrapping */
     overflow: hidden;
     text-overflow: ellipsis; /* Show ... if name is too long */
+}
+
+/* === TOPIC DISPLAY === */
+.current-topic-display {
+    text-align: center;
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-sm);
+}
+
+.topic-name {
+    font-size: var(--font-xl);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: capitalize;
+    display: block;
 }
 
 /* === BUTTONS === */

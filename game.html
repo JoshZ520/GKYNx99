@@ -31,8 +31,28 @@
             <span class="turn-text smooth-transition">Current Player:</span>
             <span class="current-player-name" id="currentPlayerName"></span>
         </div>
+        
         <h1 class="question" id="question"></h1>
-
+         <div class="topic-selection">
+            <button class="smooth-transition" id="topicsToggle">Topics ▼</button>
+                <!-- Collapsible topic grid with pagination -->
+                <div class="topics-panel" id="topicsPanel" class="hidden">
+                    <div class="topics-pagination-header">
+                        <span class="page-info" id="pageInfo">Page 1 of 2</span>
+                        <div class="pagination-controls">
+                            <button class="page-btn smooth-transition" id="prevPageBtn" disabled>‹ Previous</button>
+                            <button class="page-btn smooth-transition" id="nextPageBtn">Next ›</button>
+                        </div>
+                    </div>
+                    <div class="topics-grid" id="topicsGrid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+             <!-- Topic display -->
+            <div id="currentTopicDisplay" class="current-topic-display">
+                <span class="topic-name" id="currentTopicName">Instructions</span>
+            </div>
         <div class="controls">
             <div class="switch-container">
                 <button class="switch_button smooth-transition flex-center" id="switchQuestion" type="button">
@@ -63,28 +83,11 @@
                 </button>
                 <span class="save-label">Save Game</span>
             </div>
-            <div class="topic-selection">
-                <!-- Always visible buttons -->
-                <div class="primary-controls">
+             <div class="primary-controls">
                     <button class="smooth-transition" id="startButton">Start</button>
                     <button class="smooth-transition" id="randomButton">Random</button>
-                    <button class="smooth-transition" id="topicsToggle">Topics ▼</button>
                 </div>
-                
-                <!-- Collapsible topic grid with pagination -->
-                <div class="topics-panel" id="topicsPanel" class="hidden">
-                    <div class="topics-pagination-header">
-                        <span class="page-info" id="pageInfo">Page 1 of 2</span>
-                        <div class="pagination-controls">
-                            <button class="page-btn smooth-transition" id="prevPageBtn" disabled>‹ Previous</button>
-                            <button class="page-btn smooth-transition" id="nextPageBtn">Next ›</button>
-                        </div>
-                    </div>
-                    <div class="topics-grid" id="topicsGrid">
-                        <!-- Populated by JavaScript -->
-                    </div>
-                </div>
-            </div>
+           
         </div>
 
         <!-- Image-based preference selection -->
