@@ -6,11 +6,10 @@
     width: 100%; /* Fill the entire container width */
     flex-grow: 1; /* Take up all remaining space after label */
     margin: 0; /* Remove margins to fill completely */
-    background-image: url(https://placekittens.com/300/300);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-color: var(--background-light);
+    background-color: var(--accent-light); /* Fallback color if image doesn't load */
     border-radius: 0; /* Remove border radius since container has it */
     transition: transform 0.3s ease, filter 0.3s ease;
 }

@@ -215,12 +215,19 @@ function displayQuestionOptions(question) {
     // Set up image containers for contributors to add images
     const option1Image = document.getElementById('option1Image');
     const option2Image = document.getElementById('option2Image');
-    // Add data attributes for image loading (contributors can use these)
-    if (option1Image) {
-        option1Image.setAttribute('data-option', question.option1.toLowerCase().replace(/\s+/g, '-'));
+    // Load images that match the exact option names
+    const currentTopic = window.currentTopic || 'default';
+    
+    if (option1Image && currentTopic !== 'default') {
+        const option1Name = question.option1.toLowerCase().replace(/[\s\/]+/g, '-').replace(/[^\w\-]/g, '');
+        option1Image.style.backgroundImage = `url('images/preferences/${currentTopic}/${option1Name}.jpg')`;
+        option1Image.setAttribute('data-option', option1Name);
     }
-    if (option2Image) {
-        option2Image.setAttribute('data-option', question.option2.toLowerCase().replace(/\s+/g, '-'));
+    
+    if (option2Image && currentTopic !== 'default') {
+        const option2Name = question.option2.toLowerCase().replace(/[\s\/]+/g, '-').replace(/[^\w\-]/g, '');
+        option2Image.style.backgroundImage = `url('images/preferences/${currentTopic}/${option2Name}.jpg')`;
+        option2Image.setAttribute('data-option', option2Name);
     }
     // Set the text labels above the images
     const option1Label = document.getElementById('option1Label');
