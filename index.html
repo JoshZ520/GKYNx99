@@ -6,7 +6,6 @@
     <title>Table Talk - Start</title>
     <link rel="stylesheet" href="stylesheets/shared.css">
     <link rel="stylesheet" href="stylesheets/index.css">
-    
     <script src="scripts/shared.js" defer></script>
     <script src="scripts/session-manager.js" defer></script>
     <script src="scripts/index.js" defer></script>
@@ -19,7 +18,6 @@
             <p class="tagline">🎮 A fun conversation game for groups of 2-20 people</p>
             <p class="lead" id="front-instruction">One person sets up the game by entering how many will play and everyone's names, then start your session!</p>
         </header>
-
         <main>
             <!-- Resume Game Section -->
             <div class="resume-section" id="resumeSection" class="hidden">
@@ -32,7 +30,6 @@
                     <button type="button" class="secondary-btn" id="newGameBtn">Start Fresh Game Instead</button>
                 </div>
             </div>
-
             <!-- New Game Section -->
             <div class="new-game-section" id="newGameSection">
                 <div class="setup-steps">
@@ -49,12 +46,10 @@
                         <span class="step-text">Start Game</span>
                     </div>
                 </div>
-                
                 <div class='group'>
                     <label for="player_count">Number of Players:</label>
                     <input type="number" id="player_count" min="2" max="20" placeholder="Enter 2-20 players" required>
                 </div>
-
             <!-- Player Names Section (initially hidden) -->
             <div class="player-setup-section" id="playerSetupSection" class="hidden">
                 <h3>📝 Enter Everyone's Names</h3>
@@ -66,7 +61,6 @@
                     <!-- Player name inputs will be generated here -->
                 </div>
             </div>
-
                 <div class="group">
                     <button class="start-btn" id="start-game-btn" type="button" style="opacity: 0.5; pointer-events: none;">
                         <span id="button-text">Complete setup to start</span>

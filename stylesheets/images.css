@@ -1,7 +1,6 @@
 /* images.css - Image-specific styles for option images */
 /* This file contains all styling related to the actual images used in preference options */
 /* Contributors can easily modify image sizes, styling, and responsiveness here */
-
 /* === BASE IMAGE STYLES === */
 .preference-image {
     width: 100%; /* Fill the entire container width */
@@ -15,48 +14,39 @@
     border-radius: 0; /* Remove border radius since container has it */
     transition: transform 0.3s ease, filter 0.3s ease;
 }
-
 /* Image hover effects */
 .preference-image:hover {
     transform: scale(1.02);
     filter: brightness(1.1) contrast(1.05);
 }
-
 /* === SPECIFIC IMAGE CATEGORIES === */
 /* Contributors can add specific styling for different image types here */
-
 /* Food category images */
 .preference-image.food {
     /* Add food-specific styling here */
     border: 2px solid var(--accent-light);
 }
-
 /* Tech category images */
 .preference-image.tech {
     /* Add tech-specific styling here */
     filter: grayscale(10%);
 }
-
 /* Travel category images */
 .preference-image.travel {
     /* Add travel-specific styling here */
     border-radius: 15px;
 }
-
 /* === DEFAULT PLACEHOLDER IMAGES === */
 /* These can be overridden by JavaScript when real images are loaded */
 .preference-image.placeholder-1 {
     background-image: url('https://picsum.photos/300/250?random=1');
 }
-
 .preference-image.placeholder-2 {
     background-image: url('https://picsum.photos/300/250?random=2');
 }
-
 /* === RESPONSIVE IMAGE SIZING === */
 /* Images now fill their containers completely on all screen sizes */
 /* Media queries consolidated into shared.css for better maintainability */
-
 /* === IMAGE LOADING STATES === */
 .preference-image.loading {
     background-image: none;
@@ -65,14 +55,12 @@
     align-items: center;
     justify-content: center;
 }
-
 .preference-image.loading::before {
     content: "Loading...";
     color: var(--text-dark);
     font-size: var(--font-sm);
     opacity: 0.7;
 }
-
 /* Error state for failed image loads */
 .preference-image.error {
     background-image: none;
@@ -82,19 +70,16 @@
     align-items: center;
     justify-content: center;
 }
-
 .preference-image.error::before {
     content: "Image not found";
     color: #dc2626;
     font-size: var(--font-sm);
     text-align: center;
 }
-
 /* === ANIMATION CLASSES === */
 .preference-image.fade-in {
     animation: imagesFadeIn 0.5s ease-in-out;
 }
-
 @keyframes imagesFadeIn {
     from {
         opacity: 0;
@@ -105,7 +90,6 @@
         transform: scale(1);
     }
 }
-
 /* Selected image highlighting */
 .preference-option.selected .preference-image {
     box-shadow: inset 0 0 0 5px #16a34a; /* Thicker green border inside image */

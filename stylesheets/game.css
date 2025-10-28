@@ -1,7 +1,5 @@
 /* game.css - Game page (game.html) specific styles */
-
 /* === GAME PAGE LAYOUT === */
-
 /* Game and display pages main container - contained layout */
 .game-page main,
 .display-page main {
@@ -12,17 +10,14 @@
     border-radius: var(--space-md);
     background-color: var(--light);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    
     /* Remove height constraints - let content determine height */
     min-height: 600px; /* Comfortable minimum height */
     /* Removed max-height and overflow-y to allow natural expansion */
-    
     /* Flex layout for better vertical distribution */
     display: flex;
     flex-direction: column;
     gap: var(--space-md); /* Increased gap for better spacing */
 }
-
 /* === GAME PAGE HEADER STYLES === */
 .game-page header {
     border: 2px solid var(--accent-dark);
@@ -32,20 +27,17 @@
     padding: 5px 10px; /* Specific padding for game page */
     text-align: left; /* Left-aligned for game page */
 }
-
 .direction {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
-
 .direction h1 {
     margin: 0;
     flex-grow: 1;
     text-align: center;
 }
-
 #open_page {
     border: none;
     background-color: transparent;
@@ -55,32 +47,25 @@
     /* Default color for SVGs with currentColor */
     color: #333333;
 }
-
 #open_page img {
     width: 40px;
     height: 40px;
     transition: transform 0.3s ease, color 0.3s ease;
     transform: rotate(180deg); /* Start rotated up since directions start expanded */
 }
-
-
-
 /* Rotate chevron down when directions are hidden */
 #open_page.collapsed img {
     transform: rotate(0deg);
 }
-
 #directions.hide {
     display: none;
 }
-
 /* === QUESTION STYLES === */
 h1.question {
     margin: 0 20px 15px 20px; /* Increased bottom margin */
     font-size: 32px; /* Increased from 28px for better readability */
     color: var(--dark);
 }
-
 /* === CONTROLS === */
 .controls {
     display: grid;
@@ -90,11 +75,9 @@ h1.question {
     margin: 20px 0; /* Increased margin */
     align-items: center;
     justify-items: center;
-    
     /* Allow controls to shrink if needed, but protect player indicator */
     flex-shrink: 1;
 }
-
 /* Topic controls */
 .switch-container {
     display: flex;
@@ -102,7 +85,6 @@ h1.question {
     align-items: center;
     gap: 8px;
 }
-
 .switch_button {
     cursor: pointer;
     border: 3px solid var(--accent-dark);
@@ -115,7 +97,6 @@ h1.question {
     /* Default color for SVGs with currentColor */
     color: var(--accent-dark);
 }
-
 .switch_button:hover {
     background-color: var(--accent-light);
     border-color: var(--dark);
@@ -123,28 +104,23 @@ h1.question {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-
 .switch_button:active {
     transform: translateY(0);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .switch_button svg {
     width: 32px;
     height: 32px;
     transition: transform 0.3s ease;
 }
-
 .switch_button:hover svg {
     transform: rotate(180deg);
 }
-
 .switch_button:focus {
     outline: none;
     border-color: var(--dark);
     box-shadow: 0 0 0 3px rgba(102, 53, 60, 0.3);
 }
-
 .switch-label {
     font-size: var(--font-base);
     font-weight: 600;
@@ -152,7 +128,6 @@ h1.question {
     text-align: center;
     margin-top: 2px;
 }
-
 /* Save game button container */
 .save-container {
     display: flex;
@@ -160,7 +135,6 @@ h1.question {
     align-items: center;
     gap: 8px;
 }
-
 .save-game-btn {
     cursor: pointer;
     border: 2px solid var(--accent-dark);
@@ -170,30 +144,25 @@ h1.question {
     height: 50px;
     color: var(--text-dark);
 }
-
 .save-game-btn:hover {
     background-color: var(--accent-light);
     border-color: var(--accent-dark);
     transform: scale(1.05);
 }
-
 .save-game-btn:active {
     transform: scale(0.95);
 }
-
 .save-label {
     font-size: var(--font-sm);
     font-weight: 600;
     color: var(--text-dark);
     text-align: center;
 }
-
 .topic {
     font-size: 20px;
     margin-bottom: 50px;
     color: var(--dark);
 }
-
 /* === TOPIC SELECTION SYSTEM === */
 .topic-selection {
     margin: var(--space-sm) 0;
@@ -201,7 +170,6 @@ h1.question {
     display: flex;
     justify-content: center;
 }
-
 .primary-controls {
     display: flex;
     flex-direction: row;
@@ -209,7 +177,6 @@ h1.question {
     margin-bottom: var(--space-sm); /* Reduced margin */
     justify-content: center;
 }
-
 .primary-controls button {
     padding: var(--space-sm) var(--space-md); /* Reduced padding */
     font-size: var(--font-sm); /* Smaller font */
@@ -219,19 +186,16 @@ h1.question {
     border-radius: var(--space-sm);
     cursor: pointer;
 }
-
 .primary-controls button:hover {
     background-color: var(--accent-dark);
     color: var(--background-light);
 }
-
 .topics-panel {
     background-color: var(--background-light);
     border: 1px solid var(--accent-dark);
     border-radius: var(--space-md);
     padding: var(--space-xl) var(--space-lg);
     margin-top: var(--space-md);
-    
     /* Position absolutely to overlay content */
     position: absolute;
     top: 100%;
@@ -241,12 +205,10 @@ h1.question {
     width: 95%;
     max-width: 750px;
     min-width: 600px;
-    
     /* Add shadow for dropdown effect */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     overflow: visible;
 }
-
 .topics-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -257,7 +219,6 @@ h1.question {
     margin: var(--space-md) auto; /* Added vertical margin for centering */
     min-height: 140px; /* Increased for better proportions */
 }
-
 .topic-option {
     display: flex;
     align-items: center;
@@ -272,38 +233,30 @@ h1.question {
     overflow: hidden; /* Prevent text from overflowing */
     box-sizing: border-box; /* Include padding in width calculation */
 }
-
 .topic-option:hover {
     background-color: #2563eb;
 }
-
 .topic-option:hover span {
     color: white;
 }
-
 .topic-option input[type="radio"] {
     display: none;
 }
-
 .topic-option:has(input[type="radio"]:checked) {
     background-color: #16a34a;
     font-weight: bold;
     transform: scale(1.02);
 }
-
 .topic-option:has(input[type="radio"]:checked) span {
     color: white;
 }
-
 /* Ensure selected state takes precedence over hover */
 .topic-option:has(input[type="radio"]:checked):hover {
     background-color: #16a34a;
 }
-
 .topic-option:has(input[type="radio"]:checked):hover span {
     color: white;
 }
-
 .topic-option span {
     font-size: var(--font-base); /* Back to base size for readability */
     font-weight: 600;
@@ -317,7 +270,6 @@ h1.question {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-
 /* === TOPIC PAGINATION === */
 .topics-pagination-header {
     display: flex;
@@ -327,18 +279,15 @@ h1.question {
     padding: 0 var(--space-sm) var(--space-sm) var(--space-sm); /* Added horizontal padding */
     border-bottom: 1px solid var(--accent-light);
 }
-
 .page-info {
     font-size: var(--font-sm);
     color: var(--text-dark);
     font-weight: 500;
 }
-
 .pagination-controls {
     display: flex;
     gap: var(--space-sm);
 }
-
 .page-btn {
     padding: 4px var(--space-sm);
     font-size: var(--font-sm);
@@ -348,19 +297,16 @@ h1.question {
     border-radius: 4px;
     cursor: pointer;
 }
-
 .page-btn:hover:not(:disabled) {
     background-color: var(--accent-dark);
     color: var(--background-light);
 }
-
 .page-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     background-color: var(--background-light);
     color: var(--text-dark);
 }
-
 /* === PLAYER TURN INDICATOR === */
 .player-turn-indicator {
     background: linear-gradient(135deg, var(--accent-light), #4f46e5);
@@ -373,12 +319,10 @@ h1.question {
     max-width: 320px; /* Increased width */
     position: relative;
     overflow: hidden;
-    
     /* Ensure it doesn't get squished by flex layout */
     flex-shrink: 0; /* Prevent shrinking */
     min-height: 42px; /* Increased minimum height */
 }
-
 .turn-text {
     font-size: var(--font-base); /* Slightly increased for better readability */
     font-weight: 500;
@@ -386,7 +330,6 @@ h1.question {
     margin-right: var(--space-sm);
     white-space: nowrap; /* Prevent text wrapping */
 }
-
 .current-player-name {
     font-size: var(--font-lg);
     font-weight: 700;
@@ -396,14 +339,12 @@ h1.question {
     overflow: hidden;
     text-overflow: ellipsis; /* Show ... if name is too long */
 }
-
 /* === TOPIC DISPLAY === */
 .current-topic-display {
     text-align: center;
     margin-top: var(--space-xs);
     margin-bottom: var(--space-sm);
 }
-
 .topic-name {
     font-size: var(--font-xl);
     font-weight: 600;
@@ -411,13 +352,11 @@ h1.question {
     text-transform: capitalize;
     display: block;
 }
-
 /* === BUTTONS === */
 .buttons {
     margin: var(--space-lg) 0; /* Increased margin for better spacing */
     /* Removed margin-top: auto to allow natural spacing */
 }
-
 /* Specific buttons */
 button.submit, button.fin {
     font-size: var(--font-lg); /* Reduced from var(--font-xl) */
@@ -426,7 +365,6 @@ button.submit, button.fin {
     margin: 0 auto var(--space-md) auto; /* Reduced margin */
     border-radius: 5px;
 }
-
 button.submit {
     background-color: var(--accent-dark);
     color: white;
@@ -434,23 +372,19 @@ button.submit {
     font-weight: 600;
     cursor: pointer;
 }
-
 button.submit:hover {
     background-color: var(--accent-light);
     color: var(--text-dark);
     border: 2px solid var(--accent-dark);
 }
-
 .fin {
     border: 2px solid var(--accent-light);
     background-color: var(--background-dark);
     color: var(--text-light);
 }
-
 .fin.hide {
     display: none;
 }
-
 /* === GAME PAGE FOOTER === */
 .game-page footer {
     background-color: var(--accent-dark);
@@ -462,7 +396,6 @@ button.submit:hover {
     margin-top: 20px; /* Reduced from 40px */
     transition: background-color 0.3s ease;
 }
-
 .game-page footer h2 {
     text-align: center;
     color: var(--text-light);

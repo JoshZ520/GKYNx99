@@ -1,6 +1,5 @@
 /* === PREFERENCE-BASED IMAGE SYSTEM === */
 /* This system allows easy image replacement by contributors */
-
 .preference-container {
     margin: var(--space-md) 0; /* Increased margin for better spacing */
     width: 100%; /* Changed from 100vw to stay within main container */
@@ -8,7 +7,6 @@
     /* Removed the viewport-breaking positioning */
     height: 320px; /* Increased from 250px for more comfortable viewing */
 }
-
 .preference-options {
     display: flex;
     flex-direction: row;
@@ -22,7 +20,6 @@
     right: 0;
     top: 0;
 }
-
 .preference-option {
     width: 300px; /* Increased from 250px */
     height: 300px; /* Increased from 220px for better proportions */
@@ -35,7 +32,6 @@
     display: flex;
     flex-direction: column;
 }
-
 .preference-label {
     background: var(--background-light);
     color: var(--text-dark);
@@ -47,19 +43,15 @@
     flex-shrink: 0;
     letter-spacing: 0.5px; /* Added letter spacing for better readability */
 }
-
 .preference-option:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
-
 .preference-option:active,
 .preference-option.selected {
     border: 4px solid #16a34a; /* Thick green border instead of default */
     transform: translateY(-5px) scale(1.03); /* Bigger lift and slight scale increase */
     box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3); /* Green-tinted shadow for glow effect */
 }
-
 /* Image styles moved to images.css - import that file for image-specific styling */
-
 /* Media queries consolidated into shared.css for better maintainability */

@@ -67,11 +67,9 @@
     <div class="container">
         <h1>🔌 Socket.io Connection Test</h1>
         <p>This page tests the basic connection between your browser and the server.</p>
-        
         <div id="status" class="status disconnected">
             ❌ Not connected to server
         </div>
-        
         <div>
             <h3>What to watch for:</h3>
             <ul>
@@ -80,23 +78,19 @@
                 <li><strong>Status above:</strong> Should turn green when connected</li>
             </ul>
         </div>
-        
         <h3>Connection Log:</h3>
         <div id="log" class="log">
             <div class="log-entry">⏳ Waiting for connection...</div>
         </div>
-        
         <div>
             <button onclick="testConnection()">Send Test Message</button>
             <button onclick="sendCustomMessage()">Send Custom Message</button>
             <button onclick="clearLog()">Clear Log</button>
         </div>
-        
         <div style="margin: 10px 0;">
             <input type="text" id="customMessage" placeholder="Type a message to send to server..." style="width: 300px; padding: 8px;">
             <button onclick="sendCustomMessage()">Send</button>
         </div>
-        
         <div>
             <h3>Next Steps:</h3>
             <ol>
@@ -107,17 +101,14 @@
             </ol>
         </div>
     </div>
-
     <!-- Socket.io Client Library -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
         // This will hold our socket connection
         let socket = null;
-        
         // Get DOM elements
         const statusDiv = document.getElementById('status');
         const logDiv = document.getElementById('log');
-        
         // Function to add log entries
         function addLog(message, type = 'info') {
             const entry = document.createElement('div');
@@ -125,11 +116,9 @@
             entry.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> - ${message}`;
             logDiv.appendChild(entry);
             logDiv.scrollTop = logDiv.scrollHeight;
-            
             // Also log to console for debugging
             console.log(`[Socket.io] ${message}`);
         }
-        
         // Function to update connection status
         function updateStatus(connected, socketId = null) {
             if (connected) {
@@ -140,58 +129,47 @@
                 statusDiv.innerHTML = '❌ Not connected to server';
             }
         }
-        
         // Initialize Socket.io connection
         function initializeSocket() {
             addLog('🔄 Attempting to connect to server...');
-            
             // Create socket connection
             socket = io();
-            
             // When we successfully connect
             socket.on('connect', () => {
                 addLog(`🔌 Connected! Socket ID: ${socket.id}`);
                 updateStatus(true, socket.id);
             });
-            
             // When we receive the welcome message from server
             socket.on('welcome', (data) => {
                 addLog(`📨 Welcome message received: "${data.message}" at ${data.timestamp}`);
             });
-            
             // STEP 2: Handle test responses from server
             socket.on('test-response', (data) => {
                 addLog(`🔄 Server responded: "${data.message}" at ${data.serverTime}`);
             });
-            
             // STEP 2: Handle messages from other clients
             socket.on('someone-sent-message', (data) => {
                 addLog(`👥 Someone else (${data.from}) sent: "${data.message}" at ${data.timestamp}`);
             });
-            
             // When connection is lost
             socket.on('disconnect', (reason) => {
                 addLog(`❌ Disconnected. Reason: ${reason}`);
                 updateStatus(false);
             });
-            
             // When trying to reconnect
             socket.on('reconnect_attempt', (attempt) => {
                 addLog(`🔄 Reconnection attempt #${attempt}`);
             });
-            
             // When reconnected
             socket.on('reconnect', (attempt) => {
                 addLog(`✅ Reconnected after ${attempt} attempts`);
                 updateStatus(true, socket.id);
             });
-            
             // Connection error
             socket.on('connect_error', (error) => {
                 addLog(`🚫 Connection error: ${error.message}`);
             });
         }
-        
         // Test connection function
         function testConnection() {
             if (socket && socket.connected) {
@@ -202,9 +180,7 @@
                     'This is awesome! 🚀',
                     'Ready for multiplayer gaming!'
                 ];
-                
                 const randomMessage = testMessages[Math.floor(Math.random() * testMessages.length)];
-                
                 addLog(`📤 Sending test message: "${randomMessage}"`);
                 socket.emit('test-message', { 
                     message: randomMessage, 
@@ -214,17 +190,14 @@
                 addLog('⚠️ Not connected to server. Check if server is running.');
             }
         }
-        
         // Send custom message function
         function sendCustomMessage() {
             const input = document.getElementById('customMessage');
             const message = input.value.trim();
-            
             if (!message) {
                 addLog('⚠️ Please type a message first');
                 return;
             }
-            
             if (socket && socket.connected) {
                 addLog(`📤 Sending custom message: "${message}"`);
                 socket.emit('test-message', { 
@@ -236,17 +209,14 @@
                 addLog('⚠️ Not connected to server');
             }
         }
-        
         // Clear log function
         function clearLog() {
             logDiv.innerHTML = '<div class="log-entry">📝 Log cleared</div>';
         }
-        
         // Start the connection when page loads
         document.addEventListener('DOMContentLoaded', () => {
             addLog('🚀 Page loaded, initializing Socket.io...');
             initializeSocket();
-            
             // Add Enter key support for custom message input
             document.getElementById('customMessage').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {

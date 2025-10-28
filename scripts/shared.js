@@ -1,12 +1,10 @@
 // shared.js - Common functionality used across all pages
 // Contains theme system, utility functions, and shared data loading
-
 // === GLOBAL VARIABLES ===
 // Shared variables accessible from all pages
 window.currentTopic = window.currentTopic || 'default';
 let topics = {};
 let colorSchemes = {};
-
 // === DATA LOADING ===
 function loadQuestions() {
     return Promise.all([
@@ -21,7 +19,6 @@ function loadQuestions() {
     ])
     .then(([colorSchemesData, topicsIndex]) => {
         colorSchemes = colorSchemesData || {};
-        
         // Load individual topic files
         const topicPromises = Object.keys(topicsIndex).map(topicName => {
             const topicInfo = topicsIndex[topicName];
@@ -38,7 +35,6 @@ function loadQuestions() {
                     };
                 });
         });
-        
         return Promise.all(topicPromises);
     })
     .then(() => {
@@ -49,7 +45,6 @@ function loadQuestions() {
                 colorScheme: "light"
             };
         }
-        
         // Ensure light color scheme exists as fallback
         if (!colorSchemes.light) {
             colorSchemes.light = {
@@ -66,14 +61,11 @@ function loadQuestions() {
                 svgHoverColor: "#6c757d"
             };
         }
-        
         // Update global references
         window.topics = topics;
         window.colorSchemes = colorSchemes;
-        
         // Initialize theme toggle after color schemes are loaded
         initializeThemeToggle();
-        
         return { topics, colorSchemes };
     })
     .catch(err => {
@@ -100,21 +92,16 @@ function loadQuestions() {
                 svgHoverColor: "#6c757d"
             }
         };
-        
         // Initialize theme toggle even with fallback data
         initializeThemeToggle();
-        
         return { topics, colorSchemes };
     });
 }
-
 // === COLOR THEME SYSTEM ===
 function applyColorScheme(colorScheme) {
     const root = document.documentElement;
-    
     // Determine if this is a dark theme based on background color
     const isDarkTheme = colorScheme.textColor === '#ffffff' || isColorDark(colorScheme.background);
-    
     // Add or remove dark theme class on body
     if (isDarkTheme) {
         document.body.classList.add('dark-theme');
@@ -123,7 +110,6 @@ function applyColorScheme(colorScheme) {
         document.body.classList.add('light-theme');
         document.body.classList.remove('dark-theme');
     }
-    
     // Set CSS custom properties using the new variable names
     if (isDarkTheme) {
         root.style.setProperty('--background-dark', colorScheme.background);
@@ -144,54 +130,45 @@ function applyColorScheme(colorScheme) {
         root.style.setProperty('--light', colorScheme.background);
         root.style.setProperty('--dark', colorScheme.textColor);
     }
-    
     // Apply colors directly to elements for immediate effect
     document.body.style.backgroundColor = colorScheme.background;
     document.body.style.color = colorScheme.textColor || '#333333';
-    
     const header = document.querySelector('header');
     if (header) {
         header.style.backgroundColor = colorScheme.headerBackground;
         header.style.borderColor = colorScheme.headerBorder;
         header.style.color = colorScheme.textColor || '#333333';
     }
-    
     // Update all headings
     const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
     headings.forEach(heading => {
         heading.style.color = colorScheme.headerTextColor || '#333333';
     });
-    
     // Update all paragraphs and text elements
     const textElements = document.querySelectorAll('p, label, .topic, .preference-label');
     textElements.forEach(element => {
         element.style.color = colorScheme.textColor || '#333333';
     });
-    
     const submitBtn = document.querySelector('.submit');
     if (submitBtn) {
         submitBtn.style.backgroundColor = colorScheme.primaryButton;
         submitBtn.style.color = colorScheme.headerTextColor || '#ffffff';
     }
-    
     const finBtn = document.querySelector('.fin');
     if (finBtn) {
         finBtn.style.backgroundColor = colorScheme.secondaryButton;
         finBtn.style.color = colorScheme.headerTextColor || '#ffffff';
     }
-    
     const startBtn = document.querySelector('.start-btn');
     if (startBtn) {
         startBtn.style.backgroundColor = colorScheme.secondaryButton;
         startBtn.style.color = colorScheme.headerTextColor || '#ffffff';
     }
-    
     const footer = document.querySelector('footer');
     if (footer) {
         footer.style.backgroundColor = colorScheme.accent;
         footer.style.color = colorScheme.headerTextColor || '#ffffff';
     }
-    
     // Update switch button and dropdown button colors using dedicated SVG colors
     const switchBtn = document.querySelector('.switch_button');
     if (switchBtn) {
@@ -199,14 +176,12 @@ function applyColorScheme(colorScheme) {
         // Use dedicated SVG color from color scheme
         switchBtn.style.color = colorScheme.svgColor || colorScheme.textColor;
     }
-    
     const openPageBtn = document.querySelector('#open_page');
     if (openPageBtn) {
         // Use dedicated SVG color from color scheme
         openPageBtn.style.color = colorScheme.svgColor || colorScheme.textColor;
     }
 }
-
 // Helper function to determine if a color is dark
 function isColorDark(color) {
     // Convert hex color to RGB
@@ -214,18 +189,14 @@ function isColorDark(color) {
     const r = parseInt(hex.substr(0, 2), 16);
     const g = parseInt(hex.substr(2, 2), 16);
     const b = parseInt(hex.substr(4, 2), 16);
-    
     // Calculate luminance using the relative luminance formula
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    
     // Return true if luminance is less than 0.5 (dark color)
     return luminance < 0.5;
 }
-
 // Function to load and apply color scheme from the currently selected topic
 function loadTopicColorScheme() {
     const currentTopic = localStorage.getItem('currentTopic') || 'default';
-    
     // Load color schemes and topic index to get color scheme for current topic
     Promise.all([
         fetch('files/color-schemes.json').then(res => res.json()),
@@ -242,13 +213,11 @@ function loadTopicColorScheme() {
         console.warn('Could not load color scheme:', err);
     });
 }
-
 // === COMMON UI UTILITIES ===
 // Dropdown toggle functionality (used on game page)
 function initializeDropdown() {
     const dropdownBtn = document.querySelector('#open_page');
     const directions = document.querySelector('#directions');
-
     function updateButtonState() {
         if (directions && dropdownBtn) {
             if (directions.classList.contains('hide')) {
@@ -258,12 +227,10 @@ function initializeDropdown() {
             }
         }
     }
-
     function dropdown(){
         directions.classList.toggle('hide');
         updateButtonState();
     }
-
     // Function to close directions (used when user starts interacting)
     function closeDirections() {
         if (directions && !directions.classList.contains('hide')) {
@@ -271,22 +238,18 @@ function initializeDropdown() {
             updateButtonState();
         }
     }
-
     // Initialize button state (directions start expanded)
     if (dropdownBtn) {
         dropdownBtn.classList.remove('collapsed'); // Start with up arrow
         dropdownBtn.addEventListener('click', dropdown);
     }
-
     // Auto-close directions when user starts playing
     // Close when switching questions
     const switchBtn = document.querySelector('#switchQuestion');
     if (switchBtn) {
         switchBtn.addEventListener('click', closeDirections);
     }
-
 }
-
 // === INITIALIZATION ===
 // Load color scheme for all pages
 window.addEventListener('DOMContentLoaded', function () {
@@ -294,22 +257,17 @@ window.addEventListener('DOMContentLoaded', function () {
     if (!document.body.classList.contains('light-theme') && !document.body.classList.contains('dark-theme')) {
         document.body.classList.add('light-theme');
     }
-    
     // Load the current topic's color scheme if stored
     loadTopicColorScheme();
-    
     // Initialize dropdown if present
     initializeDropdown();
-    
     // Load questions and color schemes, which will initialize theme toggle
     loadQuestions();
 });
-
 // === THEME TOGGLE FUNCTIONALITY ===
 function initializeThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
     if (!themeToggle) return;
-    
     // Update button icon based on current theme
     function updateThemeIcon() {
         if (document.body.classList.contains('dark-theme')) {
@@ -320,7 +278,6 @@ function initializeThemeToggle() {
             themeToggle.title = 'Switch to Dark Mode';
         }
     }
-    
     // Toggle theme function using existing color schemes
     function toggleTheme() {
         if (document.body.classList.contains('dark-theme')) {
@@ -340,7 +297,6 @@ function initializeThemeToggle() {
         }
         updateThemeIcon();
     }
-    
     // Load saved theme preference and apply existing color scheme
     const savedTheme = localStorage.getItem('theme-preference');
     if (savedTheme === 'dark' && colorSchemes.dark) {
@@ -348,20 +304,16 @@ function initializeThemeToggle() {
     } else if (savedTheme === 'light' && colorSchemes.light) {
         applyColorScheme(colorSchemes.light);
     }
-    
     // Set initial icon
     updateThemeIcon();
-    
     // Add click listener
     themeToggle.addEventListener('click', toggleTheme);
 }
-
 // === EXPORTS ===
 // Make functions available globally
 window.loadQuestions = loadQuestions;
 window.applyColorScheme = applyColorScheme;
 window.loadTopicColorScheme = loadTopicColorScheme;
-
 // Make data available globally
 window.getTopics = () => topics;
 window.getColorSchemes = () => colorSchemes;
