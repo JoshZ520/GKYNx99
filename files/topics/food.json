@@ -1,0 +1,58 @@
+{
+  "questions": [
+    {
+      "prompt": "What type of cuisine do you prefer?",
+      "option1": "Traditional/Classic",
+      "option2": "Fusion/Modern",
+      "images": {
+        "option1": "PASTE_URL_HERE",
+        "option2": "PASTE_URL_HERE"
+      }
+    },
+    {
+      "prompt": "How do you approach trying new foods?",
+      "option1": "Adventurous/Experimental",
+      "option2": "Conservative/Familiar",
+      "images": {
+        "option1": "PASTE_URL_HERE",
+        "option2": "PASTE_URL_HERE"
+      }
+    },
+    {
+      "prompt": "What's your meal preparation preference?",
+      "option1": "Home Cooking",
+      "option2": "Dining Out",
+      "images": {
+        "option1": "PASTE_URL_HERE",
+        "option2": "PASTE_URL_HERE"
+      }
+    },
+    {
+      "prompt": "How do you prefer your food experience?",
+      "option1": "Simple/Quick",
+      "option2": "Elaborate/Slow",
+      "images": {
+        "option1": "PASTE_URL_HERE",
+        "option2": "PASTE_URL_HERE"
+      }
+    },
+    {
+      "prompt": "What motivates your food choices?",
+      "option1": "Health/Nutrition",
+      "option2": "Taste/Enjoyment",
+      "images": {
+        "option1": "PASTE_URL_HERE",
+        "option2": "PASTE_URL_HERE"
+      }
+    },
+    {
+      "prompt": "How do you discover new foods?",
+      "option1": "Recommendations",
+      "option2": "Personal Exploration",
+      "images": {
+        "option1": "PASTE_URL_HERE",
+        "option2": "PASTE_URL_HERE"
+      }
+    }
+  ]
+}

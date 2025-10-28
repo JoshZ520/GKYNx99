@@ -1,0 +1,58 @@
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "What type of music do you prefer?",
+                          "option1":  "Popular/Mainstream",
+                          "option2":  "Alternative/Indie",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to experience music?",
+                          "option1":  "Live Concerts",
+                          "option2":  "Recorded Music",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your musical era preference?",
+                          "option1":  "Classic/Vintage",
+                          "option2":  "Modern/Current",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you discover new music?",
+                          "option1":  "Recommendations",
+                          "option2":  "Exploration",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What type of musical energy do you prefer?",
+                          "option1":  "High Energy/Upbeat",
+                          "option2":  "Calm/Relaxing",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to enjoy music?",
+                          "option1":  "Background/Ambient",
+                          "option2":  "Active Listening",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      }
+                  ]
+}

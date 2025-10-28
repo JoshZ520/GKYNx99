@@ -1,0 +1,58 @@
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "How do you handle stress?",
+                          "option1":  "Active/Physical",
+                          "option2":  "Calm/Reflective",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your social energy preference?",
+                          "option1":  "Outgoing/Social",
+                          "option2":  "Reserved/Private",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What drives your personal decisions?",
+                          "option1":  "Logic/Facts",
+                          "option2":  "Feelings/Gut Instinct",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your approach to change?",
+                          "option1":  "Embrace/Adapt",
+                          "option2":  "Cautious/Steady",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to spend free time?",
+                          "option1":  "Productive/Active",
+                          "option2":  "Relaxing/Restful",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      },
+                      {
+                          "prompt":  "What motivates you most?",
+                          "option1":  "Achievement/Success",
+                          "option2":  "Connection/Meaning",
+                          "images":  {
+                                         "option1":  "PASTE_URL_HERE",
+                                         "option2":  "PASTE_URL_HERE"
+                                     }
+                      }
+                  ]
+}
