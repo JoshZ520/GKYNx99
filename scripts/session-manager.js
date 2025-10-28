@@ -107,8 +107,30 @@ class GameSessionManager {
     deleteSession(sessionId) {
         const allSessions = this.getAllSessions();
         if (allSessions[sessionId]) {
+            // Check if this is the currently active session
+            const currentSessionId = sessionStorage.getItem(this.CURRENT_SESSION_KEY);
+            
+            // Delete from saved sessions (localStorage)
             delete allSessions[sessionId];
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(allSessions));
+            
+            // If deleting the current session, clear all session data
+            if (currentSessionId === sessionId) {
+                console.log(`Clearing current session data for deleted session: ${sessionId}`);
+                
+                // Clear current session ID
+                sessionStorage.removeItem(this.CURRENT_SESSION_KEY);
+                
+                // Clear all game-related sessionStorage data
+                sessionStorage.removeItem('playerCount');
+                sessionStorage.removeItem('playerNames');
+                sessionStorage.removeItem('chronologicalSubmissions');
+                
+                // Clear any other game state that might be in sessionStorage
+                sessionStorage.removeItem('currentTopic');
+                sessionStorage.removeItem('currentQuestion');
+            }
+            
             console.log(`Deleted session: ${sessionId}`);
             return true;
         }
