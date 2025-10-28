@@ -141,7 +141,7 @@ function updateStartButtonState() {
             sessionStorage.setItem('playerNames', JSON.stringify(playerNames));
             startButton.classList.remove('disabled');
             startButton.classList.add('enabled');
-            buttonText.textContent = `🚀 Start Game with ${selectedCount} Players`;
+            buttonText.textContent = `Start Game with ${selectedCount} Players`;
             // Update to step 3 (ready to start)
             updateStepProgress(3);
         } else {
