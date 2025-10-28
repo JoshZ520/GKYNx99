@@ -3,17 +3,29 @@
     {
       "prompt": "What's your preferred movie format?",
       "option1": "Movies",
-      "option2": "TV Shows"
+      "option2": "TV Shows",
+      "images": {
+        "option1": "https://images.unsplash.com/photo-1489599651225-46d49768cdb1?w=300&h=200&fit=crop",
+        "option2": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=300&h=200&fit=crop"
+      }
     },
     {
       "prompt": "What's your favorite movie genre?",
       "option1": "Action",
-      "option2": "Comedy"
+      "option2": "Comedy",
+      "images": {
+        "option1": "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=300&h=200&fit=crop",
+        "option2": "https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=300&h=200&fit=crop"
+      }
     },
     {
       "prompt": "Where do you prefer to watch movies?",
       "option1": "Theater",
-      "option2": "Home"
+      "option2": "Home",
+      "images": {
+        "option1": "https://images.unsplash.com/photo-1489599651225-46d49768cdb1?w=300&h=200&fit=crop",
+        "option2": "https://images.unsplash.com/photo-1586899028174-e7098604235b?w=300&h=200&fit=crop"
+      }
     },
     {
       "prompt": "What type of movie series do you prefer?",
