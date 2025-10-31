@@ -257,8 +257,12 @@ io.on('connection', (socket) => {
 });
 // Start server
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log('🚀 Table Talk server running on port', PORT);
-    console.log('📱 Open http://localhost:3000 in your browser');
+    if (process.env.NODE_ENV === 'production') {
+        console.log('🌍 Production server running');
+    } else {
+        console.log('📱 Open http://localhost:3000 in your browser');
+    }
     console.log('👀 Watch this console for connection logs');
 });
