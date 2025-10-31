@@ -1,9 +1,9 @@
 /* Player-specific styles for mobile interface */
 
 .player-page {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-light) 100%);
     min-height: 100vh;
-    font-family: var(--font-family);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
 }
 
@@ -208,8 +208,8 @@
 }
 
 .answer-btn.selected {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
-    border-color: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
+    border-color: var(--accent-dark);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
@@ -262,7 +262,7 @@
     margin-bottom: 0.8rem;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    border-left: 4px solid var(--accent-color);
+    border-left: 4px solid var(--accent-dark);
 }
 
 .result-player {
