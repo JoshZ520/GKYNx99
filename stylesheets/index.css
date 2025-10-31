@@ -57,7 +57,7 @@
     font-size: var(--font-sm);
     font-weight: 600;
     text-align: center;
-    
+
 }
 /* Card container for front page */
 .card {
@@ -73,6 +73,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+.card header {
+    background-color: var(--light);
 }
 /* Start button styling */
 .start-btn {
