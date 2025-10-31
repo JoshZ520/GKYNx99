@@ -3,7 +3,7 @@
 /* Tagline styling */
 .tagline {
     font-size: var(--font-lg) !important;
-    color: var(--accent-dark) !important;
+    color: #31a71d !important;
     text-align: center !important;
     font-weight: 600 !important;
     margin: var(--space-sm) 0 var(--space-lg) 0 !important;

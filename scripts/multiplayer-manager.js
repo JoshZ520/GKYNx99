@@ -384,7 +384,7 @@ function startOfflineGame() {
     console.log('🎮 Starting offline game');
     
     // Navigate to game page
-    window.location.href = 'game.html';
+    window.location.href = 'index.html';
 }
 
 // === GAME PAGE SPECIFIC FUNCTIONS ===
