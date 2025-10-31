@@ -14,7 +14,16 @@ const io = socketIo(server, {
     }
 });
 // Serve static files (your current HTML/CSS/JS)
-app.use(express.static(path.join(__dirname, '..')));
+// In production, serve from parent directory; in development, same behavior
+const staticPath = process.env.NODE_ENV === 'production' 
+    ? path.join(__dirname, '..') 
+    : path.join(__dirname, '..');
+app.use(express.static(staticPath));
+
+// Add explicit static file serving for common paths
+app.use('/stylesheets', express.static(path.join(__dirname, '../stylesheets')));
+app.use('/scripts', express.static(path.join(__dirname, '../scripts')));
+app.use('/images', express.static(path.join(__dirname, '../images')));
 
 // Game rooms storage - in production, you'd use a database
 const gameRooms = new Map();
@@ -31,12 +40,35 @@ function generateRoomCode() {
 
 // Basic route to test server is working
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    try {
+        const indexPath = path.join(__dirname, '../index.html');
+        console.log('📄 Serving index.html from:', indexPath);
+        res.sendFile(indexPath);
+    } catch (error) {
+        console.error('❌ Error serving index.html:', error);
+        res.status(500).send('Server Error: Cannot serve index.html');
+    }
 });
 
 // Route for phone players to join games
 app.get('/player', (req, res) => {
-    res.sendFile(path.join(__dirname, '../player.html'));
+    try {
+        const playerPath = path.join(__dirname, '../player.html');
+        console.log('📱 Serving player.html from:', playerPath);
+        res.sendFile(playerPath);
+    } catch (error) {
+        console.error('❌ Error serving player.html:', error);
+        res.status(500).send('Server Error: Cannot serve player.html');
+    }
+});
+
+// Health check endpoint for Render
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'OK', 
+        timestamp: new Date().toISOString(),
+        rooms: gameRooms.size 
+    });
 });
 
 // Socket.io connection handling
@@ -257,12 +289,21 @@ io.on('connection', (socket) => {
 });
 // Start server
 const PORT = process.env.PORT || 3000;
+
 server.listen(PORT, '0.0.0.0', () => {
     console.log('🚀 Table Talk server running on port', PORT);
+    console.log('📁 Static files served from:', path.join(__dirname, '..'));
+    console.log('🌍 Environment:', process.env.NODE_ENV || 'development');
     if (process.env.NODE_ENV === 'production') {
         console.log('🌍 Production server running');
     } else {
         console.log('📱 Open http://localhost:3000 in your browser');
     }
     console.log('👀 Watch this console for connection logs');
+}).on('error', (error) => {
+    console.error('❌ Server failed to start:', error);
+    if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use`);
+    }
+    process.exit(1);
 });
