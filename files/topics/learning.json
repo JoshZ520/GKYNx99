@@ -5,8 +5,8 @@
                           "option1":  "Structured/Formal",
                           "option2":  "Self-Directed/Informal",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "images/questions/Learning/class.webp",
+                                         "option2":  "images/questions/Learning/self-study.jpg"
                                      }
                       },
                       {
@@ -14,8 +14,8 @@
                           "option1":  "Practical/Applied",
                           "option2":  "Theoretical/Academic",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "images/questions/Learning/Practical.jpg",
+                                         "option2":  "images/questions/Learning/logics.jpg"
                                      }
                       },
                       {
@@ -23,8 +23,8 @@
                           "option1":  "Visual/Reading",
                           "option2":  "Audio/Discussion",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "images/questions/Learning/christin-hume-k2Kcwkandwg-unsplash.webp",
+                                         "option2":  "images/questions/Learning/discuss.jpg"
                                      }
                       },
                       {
@@ -32,8 +32,8 @@
                           "option1":  "Quick/Intensive",
                           "option2":  "Gradual/Steady",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "images/questions/Learning/books.jpg",
+                                         "option2":  "images/questions/Learning/self-study.jpg"
                                      }
                       },
                       {
@@ -41,8 +41,8 @@
                           "option1":  "Interactive/Hands-on",
                           "option2":  "Observational/Lecture",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "images/questions/Learning/discuss.jpg",
+                                         "option2":  "images/questions/Learning/class.webp"
                                      }
                       },
                       {
@@ -50,8 +50,8 @@
                           "option1":  "Career/Professional",
                           "option2":  "Personal Interest",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "images/questions/Learning/career.jpg",
+                                         "option2":  "images/questions/Learning/Practical.jpg"
                                      }
                       }
                   ]

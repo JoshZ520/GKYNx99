@@ -267,3 +267,16 @@
     font-style: italic;
     padding: var(--space-lg);
 }
+
+header{
+    text-align: center;
+    padding: 0 20px;
+}
+
+header h1{
+    margin-bottom: 10px;
+}
+
+.card{
+    background-color: white;
+}
