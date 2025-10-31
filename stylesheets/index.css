@@ -30,7 +30,6 @@
 }
 .step.completed {
     opacity: 1;
-    color: var(--accent-dark);
 }
 .step-number {
     width: 32px;
@@ -45,19 +44,20 @@
     font-size: var(--font-base);
 }
 .step.active .step-number {
-    background-color: var(--accent-dark);
-    color: white;
+    background-color: var(--background-light);
+    color: var(--text-dark);
     border-color: var(--accent-dark);
 }
 .step.completed .step-number {
-    background-color: #28a745;
+    background-color: var(--success-color);
     color: white;
-    border-color: #28a745;
+    border-color: var(--success-color);
 }
 .step-text {
     font-size: var(--font-sm);
     font-weight: 600;
     text-align: center;
+
 }
 /* Card container for front page */
 .card {
@@ -74,11 +74,17 @@
     align-items: center;
     justify-content: center;
 }
+.card header {
+    background-color: var(--light);
+    color: var(--text-dark);
+    padding: var(--space-lg) var(--space-lg);
+    text-align: center;
+}
 /* Start button styling */
 .start-btn {
     display: inline-block;
-    background-color: var(--background-dark);
-    color: var(--text-light);
+    background-color: var(--accent-dark);
+    color: var(--light);
     padding: 12px 20px;
     border: none;
     border-radius: 8px;
@@ -142,13 +148,13 @@
     border: 2px solid var(--accent-light);
     border-radius: var(--space-sm);
     font-size: var(--font-base);
-    background-color: var(--background-light);
+    background-color: var(--light);
     color: var(--text-dark);
 }
 .player-name-input:focus {
     outline: none;
     border-color: var(--accent-dark);
-    box-shadow: 0 0 0 3px rgba(102, 53, 60, 0.2);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-dark) 20%, transparent);
 }
 .player-name-input::placeholder {
     color: var(--text-dark);
@@ -185,7 +191,7 @@
     justify-content: space-between;
     align-items: center;
     padding: var(--space-md);
-    background-color: var(--background-dark);
+    background-color: var(--light);
     border: 1px solid var(--accent-light);
     border-radius: var(--space-sm);
     cursor: pointer;
@@ -244,8 +250,8 @@
     margin-top: var(--space-md);
 }
 .secondary-btn {
-    background-color: var(--background-dark);
-    color: var(--text-light);
+    background-color: var(--accent-dark);
+    color: var(--light);
     border: 2px solid var(--accent-light);
     padding: 10px 16px;
     border-radius: 6px;
@@ -263,6 +269,16 @@
     opacity: 0.7;
     font-style: italic;
     padding: var(--space-lg);
+}
+
+/* Additional card styling */
+.card {
+    background-color: var(--light);
+}
+
+.card header h1 {
+    margin-bottom: var(--space-md);
+    color: var(--text-dark);
 }
 
 /* === MULTIPLAYER INDEX STYLES === */

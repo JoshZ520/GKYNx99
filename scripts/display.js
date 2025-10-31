@@ -4,9 +4,9 @@
 const questionsInOrder = JSON.parse(sessionStorage.getItem('questionsInOrder')) || [];
 const submissionsByQuestion = JSON.parse(sessionStorage.getItem('submissionsByQuestion')) || {};
 let currentIndex = 0;
-// Load color scheme on page load
+// Color scheme now handled by CSS variables only
 window.addEventListener('DOMContentLoaded', function() {
-    loadTopicColorScheme();
+    // Static color scheme - no dynamic loading needed
 });
 function showQuestion(index) {
     const header = document.getElementById('question-header');
@@ -72,11 +72,9 @@ document.getElementById('back-home-btn')?.addEventListener('click', () => {
 showQuestion(currentIndex);
 renderAnswers();
 // === INITIALIZATION ===
-// Load color scheme and initialize display on page load
+// Initialize display on page load
 window.addEventListener('DOMContentLoaded', function() {
-    if (window.loadTopicColorScheme) {
-        window.loadTopicColorScheme();
-    }
+    // Color scheme handled by static CSS variables
     // Initialize display
     showQuestion(currentIndex);
     renderAnswers();

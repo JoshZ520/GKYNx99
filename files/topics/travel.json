@@ -5,8 +5,8 @@
       "option1": "Adventure/Exploration",
       "option2": "Relaxation/Leisure",
       "images": {
-        "option1": "PASTE_URL_HERE",
-        "option2": "PASTE_URL_HERE"
+        "option1": "images/questions/Travel/",
+        "option2": "images/questions/"
       }
     },
     {
@@ -14,8 +14,8 @@
       "option1": "Planned Itinerary",
       "option2": "Spontaneous/Flexible",
       "images": {
-        "option1": "PASTE_URL_HERE",
-        "option2": "PASTE_URL_HERE"
+        "option1": "images/questions/",
+        "option2": "images/questions/"
       }
     },
     {
@@ -23,8 +23,8 @@
       "option1": "Natural/Outdoor",
       "option2": "Urban/Cultural",
       "images": {
-        "option1": "PASTE_URL_HERE",
-        "option2": "PASTE_URL_HERE"
+        "option1": "images/questions/",
+        "option2": "images/questions/"
       }
     },
     {
@@ -32,8 +32,8 @@
       "option1": "Hotels/Resorts",
       "option2": "Local/Authentic",
       "images": {
-        "option1": "PASTE_URL_HERE",
-        "option2": "PASTE_URL_HERE"
+        "option1": "images/questions/",
+        "option2": "images/questions/"
       }
     },
     {
@@ -41,8 +41,8 @@
       "option1": "Solo Travel",
       "option2": "Group Travel",
       "images": {
-        "option1": "PASTE_URL_HERE",
-        "option2": "PASTE_URL_HERE"
+        "option1": "images/questions/",
+        "option2": "images/questions/"
       }
     },
     {
@@ -50,8 +50,8 @@
       "option1": "Budget-Conscious",
       "option2": "Comfort-Focused",
       "images": {
-        "option1": "PASTE_URL_HERE",
-        "option2": "PASTE_URL_HERE"
+        "option1": "images/questions/",
+        "option2": "images/questions/"
       }
     }
   ]

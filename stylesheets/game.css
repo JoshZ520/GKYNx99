@@ -490,7 +490,7 @@ h1.question {
 
 /* === PLAYER TURN INDICATOR === */
 .player-turn-indicator {
-    background: linear-gradient(135deg, var(--accent-light), #4f46e5);
+    background: var(--accent-light);
     color: white;
     padding: 10px var(--space-lg);
     border-radius: 10px;
@@ -501,7 +501,6 @@ h1.question {
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
-    min-height: 42px;
 }
 
 .turn-text {
