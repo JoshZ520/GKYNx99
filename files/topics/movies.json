@@ -5,8 +5,8 @@
       "option1": "Movies",
       "option2": "TV Shows",
       "images": {
-        "option1": "https://images.unsplash.com/photo-1489599651225-46d49768cdb1?w=300&h=200&fit=crop",
-        "option2": "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=300&h=200&fit=crop"
+        "option1": "images/questions/Movies/",
+        "option2": "images/questions/Movies/"
       }
     },
     {
@@ -14,8 +14,8 @@
       "option1": "Action",
       "option2": "Comedy",
       "images": {
-        "option1": "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=300&h=200&fit=crop",
-        "option2": "https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=300&h=200&fit=crop"
+        "option1": "images/questions/Movies/",
+        "option2": "images/questions/Movies/"
       }
     },
     {
@@ -23,24 +23,36 @@
       "option1": "Theater",
       "option2": "Home",
       "images": {
-        "option1": "https://images.unsplash.com/photo-1489599651225-46d49768cdb1?w=300&h=200&fit=crop",
-        "option2": "https://images.unsplash.com/photo-1586899028174-e7098604235b?w=300&h=200&fit=crop"
+        "option1": "images/questions/Movies/",
+        "option2": "images/questions/Movies/"
       }
     },
     {
       "prompt": "What type of movie series do you prefer?",
       "option1": "Movie Series/Franchises",
-      "option2": "Standalone Films"
+      "option2": "Standalone Films",
+      "images": {
+        "option1": "images/questions/Movies/",
+        "option2": "images/questions/Movies/"
+      }
     },
     {
       "prompt": "What movie era do you prefer?",
       "option1": "Classic Films",
-      "option2": "Modern Cinema"
+      "option2": "Modern Cinema",
+      "images": {
+        "option1": "images/questions/Movies/",
+        "option2": "images/questions/Movies/"
+      }
     },
     {
       "prompt": "What movie mood do you prefer?",
       "option1": "Feel-good",
-      "option2": "Thought-provoking"
+      "option2": "Thought-provoking",
+      "images": {
+        "option1": "images/questions/Movies/",
+        "option2": "images/questions/Movies/"
+      }
     }
   ]
 }
