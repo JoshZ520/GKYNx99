@@ -4,7 +4,7 @@
     background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-light) 100%);
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: white;
+    
 }
 
 .section {
@@ -109,6 +109,9 @@
 }
 
 /* Waiting Section */
+#statusText{
+    color: white;
+}
 .status-header {
     text-align: center;
     margin-bottom: 2rem;

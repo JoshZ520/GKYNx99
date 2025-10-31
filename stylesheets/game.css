@@ -668,8 +668,8 @@ button.submit:hover {
 /* === MULTIPLAYER STYLES === */
 
 .multiplayer-info {
-    background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-    border: 2px solid var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-light), var(--background-light));
+    border: 2px solid var(--accent-dark);
     border-radius: 12px;
     padding: 1rem;
     margin-top: 1rem;
@@ -709,7 +709,7 @@ button.submit:hover {
     font-weight: bold;
     background: var(--light);
     padding: 0.5rem 1rem;
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--accent-dark);
     border-radius: 8px;
     color: var(--accent-dark);
     min-width: 80px;
@@ -717,7 +717,7 @@ button.submit:hover {
 }
 
 .copy-code-btn {
-    background: var(--accent-color);
+    background: var(--accent-dark);
     color: white;
     border: none;
     padding: 0.5rem;
@@ -762,7 +762,7 @@ button.submit:hover {
 }
 
 .no-players {
-    color: var(--text-secondary);
+    color: var(--text-dark);
     font-style: italic;
     text-align: center;
     padding: 0.5rem;
@@ -776,7 +776,7 @@ button.submit:hover {
 
 .create-room-btn,
 .close-room-btn {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(135deg, var(--accent-dark), var(--dark));
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;

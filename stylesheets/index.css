@@ -346,8 +346,8 @@
     justify-content: center;
     gap: 1rem;
     padding: 1.5rem;
-    background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-    border: 3px solid var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-light), var(--background-light));
+    border: 3px solid var(--accent-dark);
     border-radius: 15px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
@@ -365,7 +365,7 @@
     color: var(--accent-dark);
     background: var(--light);
     padding: 0.75rem 1.5rem;
-    border: 2px solid var(--accent-color);
+    border: 2px solid var(--accent-dark);
     border-radius: 10px;
     min-width: 120px;
     text-align: center;
@@ -374,7 +374,7 @@
 }
 
 .copy-btn {
-    background: var(--accent-color);
+    background: var(--accent-dark);
     color: white;
     border: none;
     padding: 0.75rem;
@@ -421,7 +421,7 @@
     margin-bottom: 0.25rem;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 6px;
-    border-left: 4px solid var(--accent-color);
+    border-left: 4px solid var(--accent-dark);
     font-weight: 500;
     animation: slideIn 0.3s ease;
 }
@@ -439,7 +439,7 @@
 
 .no-players {
     text-align: center;
-    color: var(--text-secondary);
+    color: var(--text-dark);
     font-style: italic;
     padding: 1rem;
 }
@@ -459,7 +459,7 @@
 .min-players-note {
     margin-top: 0.5rem;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-dark);
     font-style: italic;
 }
 
@@ -472,7 +472,7 @@
 .offline-note {
     margin-top: 1rem;
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: var(--text-dark);
     font-style: italic;
 }
 
