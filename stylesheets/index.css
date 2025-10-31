@@ -264,3 +264,252 @@
     font-style: italic;
     padding: var(--space-lg);
 }
+
+/* === MULTIPLAYER INDEX STYLES === */
+
+.connection-section {
+    margin-bottom: var(--space-lg);
+}
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 2px solid var(--accent-light);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+}
+
+.status-dot {
+    font-size: 1.2rem;
+}
+
+.status-dot.connecting {
+    color: #FF9800;
+    animation: pulse 1.5s infinite;
+}
+
+.status-dot.connected {
+    color: #4CAF50;
+}
+
+.status-dot.disconnected,
+.status-dot.error {
+    color: #F44336;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.step-section {
+    margin: var(--space-xl) 0;
+}
+
+.step-section.hidden {
+    display: none;
+}
+
+.step-section h3 {
+    color: var(--accent-dark);
+    margin-bottom: var(--space-md);
+    text-align: center;
+    font-size: var(--font-xl);
+}
+
+.step-instruction {
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-base);
+    line-height: 1.5;
+}
+
+.create-room-container {
+    display: flex;
+    justify-content: center;
+    margin: var(--space-xl) 0;
+}
+
+/* Room Code Display */
+.room-code-display {
+    margin: var(--space-xl) 0;
+}
+
+.room-code-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+    border: 3px solid var(--accent-color);
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.room-code-label {
+    font-weight: bold;
+    font-size: var(--font-lg);
+    color: var(--text-dark);
+}
+
+.room-code {
+    font-family: 'Courier New', monospace;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--accent-dark);
+    background: var(--light);
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+    min-width: 120px;
+    text-align: center;
+    letter-spacing: 0.2em;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.copy-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.copy-btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Players Joining Section */
+.players-joining {
+    margin: var(--space-xl) 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid var(--accent-light);
+    border-radius: 12px;
+}
+
+.players-joining h4 {
+    margin: 0 0 1rem 0;
+    color: var(--text-dark);
+    text-align: center;
+    font-size: var(--font-lg);
+}
+
+.players-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--accent-light);
+    border-radius: 6px;
+    background: var(--light);
+    padding: 0.5rem;
+}
+
+.player-item {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.25rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 6px;
+    border-left: 4px solid var(--accent-color);
+    font-weight: 500;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.no-players {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 1rem;
+}
+
+/* Start Game Section */
+.start-game-container {
+    text-align: center;
+    margin: var(--space-xl) 0;
+}
+
+.start-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.min-players-note {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Offline Mode Styles */
+.offline-container {
+    text-align: center;
+    margin: var(--space-xl) 0;
+}
+
+.offline-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .room-code-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .room-code {
+        font-size: 2rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .room-code-label {
+        font-size: var(--font-base);
+    }
+    
+    .players-joining {
+        padding: 1rem;
+    }
+    
+    .step-instruction {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .room-code {
+        font-size: 1.5rem;
+        padding: 0.5rem;
+        min-width: 100px;
+    }
+    
+    .room-code-container {
+        padding: 0.75rem;
+    }
+}

@@ -8,17 +8,24 @@
     <link rel="stylesheet" href="stylesheets/index.css">
     <script src="scripts/shared.js" defer></script>
     <script src="scripts/session-manager.js" defer></script>
-    <script src="scripts/index.js" defer></script>
 </head>
 <body class="front-page">
     <button id="theme-toggle" type="button" title="Switch Theme">🌙</button>
     <div class="card">
         <header>
             <h1>Table Talk</h1>
-            <p class="tagline">🎮 A fun conversation game for groups of 2-20 people</p>
-            <p class="lead" id="front-instruction">One person sets up the game by entering how many will play and everyone's names, then start your session!</p>
+            <p class="tagline">🎮 A fun conversation game where everyone plays on their phone</p>
+            <p class="lead" id="front-instruction">Host creates the game, everyone joins with their phones using the room code!</p>
         </header>
         <main>
+            <!-- Connection Status -->
+            <div id="connectionSection" class="connection-section">
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-dot" id="statusDot">●</span>
+                    <span id="statusText">Connecting to server...</span>
+                </div>
+            </div>
+
             <!-- Resume Game Section -->
             <div class="resume-section" id="resumeSection" class="hidden">
                 <h3>🔄 Continue Previous Game</h3>
@@ -30,44 +37,67 @@
                     <button type="button" class="secondary-btn" id="newGameBtn">Start Fresh Game Instead</button>
                 </div>
             </div>
+
             <!-- New Game Section -->
             <div class="new-game-section" id="newGameSection">
-                <div class="setup-steps">
-                    <div class="step active" id="step1">
-                        <span class="step-number">1</span>
-                        <span class="step-text">Player Count</span>
-                    </div>
-                    <div class="step" id="step2">
-                        <span class="step-number">2</span>
-                        <span class="step-text">Enter Names</span>
-                    </div>
-                    <div class="step" id="step3">
-                        <span class="step-number">3</span>
-                        <span class="step-text">Start Game</span>
+                <!-- Step 1: Create Room -->
+                <div class="step-section" id="createRoomStep">
+                    <h3>🏠 Step 1: Create Room</h3>
+                    <p class="step-instruction">Create a game room for everyone to join:</p>
+                    <div class="create-room-container">
+                        <button class="start-btn" id="createRoomBtn" type="button">
+                            <span>🚀 Create New Game</span>
+                        </button>
                     </div>
                 </div>
-                <div class='group'>
-                    <label for="player_count">Number of Players:</label>
-                    <input type="number" id="player_count" min="2" max="20" placeholder="Enter 2-20 players" required>
+
+                <!-- Step 2: Room Created - Show Code -->
+                <div class="step-section hidden" id="roomCreatedStep">
+                    <h3>✅ Step 2: Share Room Code</h3>
+                    <p class="step-instruction">Tell everyone to go to <strong>10.244.100.93:3000/player</strong> on their phones and enter this code:</p>
+                    
+                    <div class="room-code-display">
+                        <div class="room-code-container">
+                            <span class="room-code-label">Room Code:</span>
+                            <div class="room-code" id="roomCodeDisplay">----</div>
+                            <button class="copy-btn" id="copyRoomCodeBtn" title="Copy to clipboard">📋</button>
+                        </div>
+                    </div>
+
+                    <!-- Players Joining -->
+                    <div class="players-joining">
+                        <h4>👥 Players Joining (<span id="joinedPlayersCount">0</span>):</h4>
+                        <div class="players-list" id="joinedPlayersList">
+                            <div class="no-players">Waiting for players to join...</div>
+                        </div>
+                    </div>
+
+                    <!-- Start Game Button -->
+                    <div class="start-game-container">
+                        <button class="start-btn disabled" id="startGameBtn" type="button" disabled>
+                            <span id="startGameText">Waiting for players...</span>
+                        </button>
+                        <p class="min-players-note">Need at least 2 players to start</p>
+                    </div>
                 </div>
-            <!-- Player Names Section (initially hidden) -->
-            <div class="player-setup-section" id="playerSetupSection" class="hidden">
-                <h3>📝 Enter Everyone's Names</h3>
-                <p class="setup-instruction">
-                    <strong>You (the host)</strong> enter all player names below.<br>
-                    Players will take turns in this order during the game:
-                </p>
-                <div class="player-names-container" id="playerNamesContainer">
-                    <!-- Player name inputs will be generated here -->
-                </div>
-            </div>
-                <div class="group">
-                    <button class="start-btn" id="start-game-btn" type="button" style="opacity: 0.5; pointer-events: none;">
-                        <span id="button-text">Complete setup to start</span>
-                    </button>
+
+                <!-- Offline Mode Fallback -->
+                <div class="step-section hidden" id="offlineFallback">
+                    <h3>📱 Offline Mode</h3>
+                    <p class="step-instruction">Server not available. Play in single-device mode:</p>
+                    <div class="offline-container">
+                        <button class="start-btn" id="offlineGameBtn" type="button">
+                            <span>🎮 Play Offline</span>
+                        </button>
+                        <p class="offline-note">Everyone will take turns on this device</p>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Socket.io for multiplayer -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="scripts/index-multiplayer.js" defer></script>
 </body>
 </html>

@@ -30,6 +30,25 @@
             <p>Choose a topic from the dropdown or use Random to get started. Click the circular switch button to get a new question. When it's your turn, select your preferred option and click Submit. After everyone has answered, click 'All Answers Finished' to see everyone's choices and discuss the results!</p>
             <p><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
         </div>
+
+        <!-- Multiplayer Room Info (hidden until room is created) -->
+        <div id="multiplayerInfo" class="multiplayer-info hidden">
+            <div class="room-display">
+                <div class="room-code-section">
+                    <span class="room-label">Room Code:</span>
+                    <span class="room-code" id="roomCodeDisplay">----</span>
+                    <button class="copy-code-btn" id="copyCodeBtn" title="Copy room code">📋</button>
+                </div>
+                <div class="players-section">
+                    <span class="players-label">Connected Players (<span id="playerCount">0</span>):</span>
+                    <div class="players-list" id="connectedPlayersList"></div>
+                </div>
+            </div>
+            <div class="multiplayer-actions">
+                <button class="create-room-btn" id="createRoomBtn">🏠 Create Room for Phones</button>
+                <button class="close-room-btn hidden" id="closeRoomBtn">❌ Close Room</button>
+            </div>
+        </div>
     </header>
     <main>
         <!-- Player turn indicator -->
@@ -131,5 +150,9 @@
         <p>The purpose of this game is to get to know people.</p>
         <p>Ask Away</p>
     </footer>
+
+    <!-- Socket.io for multiplayer functionality -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="scripts/host.js" defer></script>
 </body>
 </html>
