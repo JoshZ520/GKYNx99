@@ -64,8 +64,7 @@ function loadQuestions() {
         // Update global references
         window.topics = topics;
         window.colorSchemes = colorSchemes;
-        // Initialize theme toggle after color schemes are loaded
-        initializeThemeToggle();
+
         return { topics, colorSchemes };
     })
     .catch(err => {
@@ -92,44 +91,20 @@ function loadQuestions() {
                 svgHoverColor: "#6c757d"
             }
         };
-        // Initialize theme toggle even with fallback data
-        initializeThemeToggle();
+
         return { topics, colorSchemes };
     });
 }
 // === COLOR THEME SYSTEM ===
 function applyColorScheme(colorScheme) {
     const root = document.documentElement;
-    // Determine if this is a dark theme based on background color
-    const isDarkTheme = colorScheme.textColor === '#ffffff' || isColorDark(colorScheme.background);
-    // Add or remove dark theme class on body
-    if (isDarkTheme) {
-        document.body.classList.add('dark-theme');
-        document.body.classList.remove('light-theme');
-    } else {
-        document.body.classList.add('light-theme');
-        document.body.classList.remove('dark-theme');
-    }
-    // Set CSS custom properties using the new variable names
-    if (isDarkTheme) {
-        root.style.setProperty('--background-dark', colorScheme.background);
-        root.style.setProperty('--background-light', colorScheme.headerBackground);
-        root.style.setProperty('--accent-dark', colorScheme.headerBorder);
-        root.style.setProperty('--accent-light', colorScheme.accent);
-        root.style.setProperty('--text-light', colorScheme.textColor);
-        root.style.setProperty('--text-dark', colorScheme.headerTextColor);
-        root.style.setProperty('--dark', colorScheme.background);
-        root.style.setProperty('--light', colorScheme.headerBackground);
-    } else {
-        root.style.setProperty('--background-light', colorScheme.background);
-        root.style.setProperty('--background-dark', colorScheme.headerBackground);
-        root.style.setProperty('--accent-light', colorScheme.accent);
-        root.style.setProperty('--accent-dark', colorScheme.headerBorder);
-        root.style.setProperty('--text-dark', colorScheme.textColor);
-        root.style.setProperty('--text-light', colorScheme.headerTextColor);
-        root.style.setProperty('--light', colorScheme.background);
-        root.style.setProperty('--dark', colorScheme.textColor);
-    }
+    // Apply color scheme to CSS variables (light theme only)
+    root.style.setProperty('--background-light', colorScheme.background);
+    root.style.setProperty('--accent-light', colorScheme.accent);
+    root.style.setProperty('--accent-dark', colorScheme.headerBorder);
+    root.style.setProperty('--text-dark', colorScheme.textColor);
+    root.style.setProperty('--light', colorScheme.background);
+    root.style.setProperty('--dark', colorScheme.textColor);
     // Apply colors directly to elements for immediate effect
     document.body.style.backgroundColor = colorScheme.background;
     document.body.style.color = colorScheme.textColor || '#333333';
@@ -183,17 +158,7 @@ function applyColorScheme(colorScheme) {
     }
 }
 // Helper function to determine if a color is dark
-function isColorDark(color) {
-    // Convert hex color to RGB
-    const hex = color.replace('#', '');
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
-    // Calculate luminance using the relative luminance formula
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    // Return true if luminance is less than 0.5 (dark color)
-    return luminance < 0.5;
-}
+
 // Function to load and apply color scheme from the currently selected topic
 function loadTopicColorScheme() {
     const currentTopic = localStorage.getItem('currentTopic') || 'default';
@@ -253,62 +218,15 @@ function initializeDropdown() {
 // === INITIALIZATION ===
 // Load color scheme for all pages
 window.addEventListener('DOMContentLoaded', function () {
-    // Add default light theme class if no theme is set
-    if (!document.body.classList.contains('light-theme') && !document.body.classList.contains('dark-theme')) {
-        document.body.classList.add('light-theme');
-    }
+
     // Load the current topic's color scheme if stored
     loadTopicColorScheme();
     // Initialize dropdown if present
     initializeDropdown();
-    // Load questions and color schemes, which will initialize theme toggle
+    // Load questions and color schemes
     loadQuestions();
 });
-// === THEME TOGGLE FUNCTIONALITY ===
-function initializeThemeToggle() {
-    const themeToggle = document.getElementById('theme-toggle');
-    if (!themeToggle) return;
-    // Update button icon based on current theme
-    function updateThemeIcon() {
-        if (document.body.classList.contains('dark-theme')) {
-            themeToggle.textContent = '☀️'; // Sun icon for switching to light
-            themeToggle.title = 'Switch to Light Mode';
-        } else {
-            themeToggle.textContent = '🌙'; // Moon icon for switching to dark
-            themeToggle.title = 'Switch to Dark Mode';
-        }
-    }
-    // Toggle theme function using existing color schemes
-    function toggleTheme() {
-        if (document.body.classList.contains('dark-theme')) {
-            // Switch to light theme using existing color scheme
-            const lightScheme = colorSchemes.light || colorSchemes['light'];
-            if (lightScheme) {
-                applyColorScheme(lightScheme);
-                localStorage.setItem('theme-preference', 'light');
-            }
-        } else {
-            // Switch to dark theme using existing color scheme
-            const darkScheme = colorSchemes.dark || colorSchemes['dark'];
-            if (darkScheme) {
-                applyColorScheme(darkScheme);
-                localStorage.setItem('theme-preference', 'dark');
-            }
-        }
-        updateThemeIcon();
-    }
-    // Load saved theme preference and apply existing color scheme
-    const savedTheme = localStorage.getItem('theme-preference');
-    if (savedTheme === 'dark' && colorSchemes.dark) {
-        applyColorScheme(colorSchemes.dark);
-    } else if (savedTheme === 'light' && colorSchemes.light) {
-        applyColorScheme(colorSchemes.light);
-    }
-    // Set initial icon
-    updateThemeIcon();
-    // Add click listener
-    themeToggle.addEventListener('click', toggleTheme);
-}
+
 // === EXPORTS ===
 // Make functions available globally
 window.loadQuestions = loadQuestions;

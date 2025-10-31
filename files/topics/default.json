@@ -1,54 +1,54 @@
 {
   "questions": [
     {
-      "prompt": "Which best describes your approach to decision-making?",
-      "option1": "Quick/Intuitive",
-      "option2": "Careful/Analytical",
+      "prompt": "How many questions would you like per topic?",
+      "option1": "Quick Session (3-4 questions)",
+      "option2": "Full Experience (6+ questions)",
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
       }
     },
     {
-      "prompt": "How do you prefer to spend your free time?",
-      "option1": "Active/Social",
-      "option2": "Quiet/Reflective",
+      "prompt": "What type of questions do you prefer?",
+      "option1": "Light & Fun",
+      "option2": "Deep & Thoughtful",
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
       }
     },
     {
-      "prompt": "What motivates you more in challenging situations?",
-      "option1": "Competition/Achievement",
-      "option2": "Learning/Growth",
+      "prompt": "How do you want to explore topics?",
+      "option1": "Random Mix",
+      "option2": "Choose Specific Topics",
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
       }
     },
     {
-      "prompt": "How do you typically approach new experiences?",
-      "option1": "Enthusiastic/Open",
-      "option2": "Cautious/Prepared",
+      "prompt": "What's your preferred game pace?",
+      "option1": "Quick Decisions",
+      "option2": "Take Time to Think",
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
       }
     },
     {
-      "prompt": "What do you value more in relationships?",
-      "option1": "Loyalty/Stability",
-      "option2": "Growth/Adventure",
+      "prompt": "How do you want to see results?",
+      "option1": "After Each Topic",
+      "option2": "At the End",
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
       }
     },
     {
-      "prompt": "How do you prefer to communicate?",
-      "option1": "Direct/Straightforward", 
-      "option2": "Diplomatic/Thoughtful",
+      "prompt": "What kind of game experience are you looking for?",
+      "option1": "Solo Reflection",
+      "option2": "Group Discussion Starter",
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
