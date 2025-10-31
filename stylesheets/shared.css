@@ -1,20 +1,13 @@
 /* shared.css - Common styles, animations, and media queries for all pages */
 /* === CSS VARIABLES === */
-#root {
+:root {
     /* Color Variables */
-    --background-dark: #1a1a1a;     /* Softer dark background - better readability */
     --background-light: #c2f7cd;
-    --accent-dark: #31a71d;         /* Lighter accent for better contrast on dark */
     --accent-light: #1eb817;
-    --text-light: #f5f5f5;          /* Brighter text for dark theme readability */
+    --accent-dark: #31a71d;
     --text-dark: #5F3A48;
-    --dark: #89ab84; /*#0d0d0d; */               /* True dark for high contrast elements */
+    --dark: #89ab84;
     --light: #ffffff;
-    /* Dark Theme Specific Colors for Better Readability */
-    --dark-card-bg: #2a2a2a;        /* Card backgrounds in dark theme */
-    --dark-border: #4a4a4a;         /* Borders in dark theme */
-    --dark-input-bg: #333333;       /* Input backgrounds in dark theme */
-    --dark-text-secondary: #cccccc; /* Secondary text in dark theme */
     /* Status Colors */
     --success-color: #28a745;       /* Success/completion states */
     /* Font Sizes - Only what you use */
@@ -33,7 +26,7 @@ body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0;
     padding: 0;
-    /* background-color: var(--background-light); */
+    background-color: var(--background-light) !important;
     line-height: 1.3; /* Slightly reduced line height for compact layout */
 }
 /* Game and display pages get a different background to highlight the main container */
@@ -447,96 +440,4 @@ input#player_count {
         border-radius: 0;
     }
 }
-/* === DARK THEME ENHANCEMENTS === */
-/* Improved readability and contrast for dark theme */
-body.dark-theme {
-    background-color: var(--background-dark) !important;
-    color: var(--text-light) !important;
-}
-/* Card backgrounds in dark theme */
-body.dark-theme .card {
-    background: var(--dark-card-bg) !important;
-    color: var(--text-light) !important;
-    border: 1px solid var(--dark-border) !important;
-}
-/* Input fields in dark theme */
-body.dark-theme input,
-body.dark-theme textarea,
-body.dark-theme select {
-    background: var(--dark-input-bg) !important;
-    color: var(--text-light) !important;
-    border-color: var(--dark-border) !important;
-}
-body.dark-theme input::placeholder {
-    color: var(--dark-text-secondary) !important;
-}
-/* Button improvements for dark theme - only override generic buttons */
-body.dark-theme button:not(.start-btn):not(.secondary-btn) {
-    background: var(--accent-dark) !important;
-    color: var(--text-light) !important;
-    border: 1px solid var(--dark-border) !important;
-}
-body.dark-theme button:not(.start-btn):not(.secondary-btn):hover {
-    background: var(--accent-light) !important;
-    color: var(--dark) !important;
-}
-/* Labels and secondary text */
-body.dark-theme label {
-    color: var(--text-light) !important;
-}
-body.dark-theme .lead,
-body.dark-theme .setup-instruction {
-    color: var(--dark-text-secondary) !important;
-}
-/* Remove tagline override to let CSS variables work */
-/* Step indicators for dark theme */
-body.dark-theme .step-number {
-    background-color: var(--dark-input-bg) !important;
-    border-color: var(--dark-border) !important;
-    color: var(--text-light) !important;
-}
-body.dark-theme .step.active .step-number {
-    background-color: var(--accent-dark) !important;
-    border-color: var(--accent-dark) !important;
-}
-body.dark-theme .step.completed .step-number {
-    background-color: var(--success-color) !important;
-    border-color: var(--success-color) !important;
-}
-body.dark-theme .step-text {
-    color: var(--dark-text-secondary) !important;
-}
-/* === UNIVERSAL THEME TOGGLE BUTTON === */
-/* Theme toggle button - positioned consistently across all pages */
-#theme-toggle {
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 1000 !important;
-    border: none !important;
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 24px !important;
-    cursor: pointer !important;
-    padding: 8px !important;
-    border-radius: 50% !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-    width: 48px !important;
-    height: 48px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-#theme-toggle:hover {
-    background-color: var(--accent-light) !important;
-    transform: scale(1.1) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
-}
-/* Dark theme styling for toggle button */
-body.dark-theme #theme-toggle {
-    background-color: rgba(42, 42, 42, 0.9) !important;
-    color: var(--text-light) !important;
-}
-body.dark-theme #theme-toggle:hover {
-    background-color: var(--accent-dark) !important;
-}
+
