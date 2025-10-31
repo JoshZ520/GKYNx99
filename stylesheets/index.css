@@ -76,12 +76,15 @@
 }
 .card header {
     background-color: var(--light);
+    color: var(--text-dark);
+    padding: var(--space-lg) var(--space-lg);
+    text-align: center;
 }
 /* Start button styling */
 .start-btn {
     display: inline-block;
-    background-color: var(--background-dark);
-    color: var(--text-light);
+    background-color: var(--accent-dark);
+    color: var(--light);
     padding: 12px 20px;
     border: none;
     border-radius: 8px;
@@ -188,7 +191,7 @@
     justify-content: space-between;
     align-items: center;
     padding: var(--space-md);
-    background-color: var(--background-dark);
+    background-color: var(--light);
     border: 1px solid var(--accent-light);
     border-radius: var(--space-sm);
     cursor: pointer;
@@ -247,8 +250,8 @@
     margin-top: var(--space-md);
 }
 .secondary-btn {
-    background-color: var(--background-dark);
-    color: var(--text-light);
+    background-color: var(--accent-dark);
+    color: var(--light);
     border: 2px solid var(--accent-light);
     padding: 10px 16px;
     border-radius: 6px;
@@ -268,15 +271,12 @@
     padding: var(--space-lg);
 }
 
-header{
-    text-align: center;
-    padding: 0 20px;
+/* Additional card styling */
+.card {
+    background-color: var(--light);
 }
 
-header h1{
-    margin-bottom: 10px;
-}
-
-.card{
-    background-color: white;
+.card header h1 {
+    margin-bottom: var(--space-md);
+    color: var(--text-dark);
 }

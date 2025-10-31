@@ -30,20 +30,7 @@ function applyQuestionsForTopic(topic) {
             questionElem.textContent = '';
         }
     }
-    // Apply color scheme if available
-    if (topicData.colorScheme && window.applyColorScheme) {
-        // Handle both string reference and direct object
-        let colorScheme;
-        if (typeof topicData.colorScheme === 'string') {
-            // Resolve color scheme reference
-            const colorSchemes = window.getColorSchemes ? window.getColorSchemes() : {};
-            colorScheme = colorSchemes[topicData.colorScheme] || colorSchemes['light'] || {};
-        } else {
-            // Direct color scheme object (fallback for old format)
-            colorScheme = topicData.colorScheme;
-        }
-        window.applyColorScheme(colorScheme);
-    }
+    // Color scheme now handled by static CSS variables - no dynamic color changes needed
 }
 function setTopic(topic) {
     window.currentTopic = topic;

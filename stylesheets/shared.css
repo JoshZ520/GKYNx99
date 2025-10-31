@@ -1,6 +1,6 @@
 /* shared.css - Common styles, animations, and media queries for all pages */
 /* === CSS VARIABLES === */
-:root #root {
+:root {
     /* Color Variables */
     --background-light: #c2f7cd;
     --accent-light: #1eb817;

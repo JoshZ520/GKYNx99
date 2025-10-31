@@ -1,50 +1,38 @@
 {
   "default": {
-    "colorScheme": "light",
     "file": "default.json"
   },
   "fantasy": {
-    "colorScheme": "dark",
     "file": "fantasy.json"
   },
   "movies": {
-    "colorScheme": "light",
     "file": "movies.json"
   },
   "activity": {
-    "colorScheme": "dark",
     "file": "activity.json"
   },
   "music": {
-    "colorScheme": "light",
     "file": "music.json"
   },
   "tech": {
-    "colorScheme": "dark",
     "file": "tech.json"
   },
   "travel": {
-    "colorScheme": "light",
     "file": "travel.json"
   },
   "learning": {
-    "colorScheme": "dark",
     "file": "learning.json"
   },
   "stories": {
-    "colorScheme": "light",
     "file": "stories.json"
   },
   "play": {
-    "colorScheme": "dark",
     "file": "play.json"
   },
   "food": {
-    "colorScheme": "light",
     "file": "food.json"
   },
   "personal": {
-    "colorScheme": "light",
     "file": "personal.json"
   }
 }
