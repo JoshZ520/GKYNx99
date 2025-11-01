@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Talk - Fallback Access</title>
+    <link rel="stylesheet" href="../stylesheets/shared.css">
+    <style>
+        .fallback-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status-indicator {
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .offline { background: #ffebee; color: #c62828; }
+        .option-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            background: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .option-btn:hover { background: #1976D2; }
+        .option-btn.secondary { background: #757575; }
+        .option-btn.secondary:hover { background: #424242; }
+    </style>
+</head>
+<body>
+    <div class="fallback-container">
+        <h1>🎮 Table Talk</h1>
+        <div class="status-indicator offline">
+            🔄 Backup Mode - Multiplayer Unavailable
+        </div>
+        
+        <h2>Choose Your Option:</h2>
+        
+        <div style="margin: 30px 0;">
+            <a href="front.html" class="option-btn">
+                🎮 Start Offline Game
+            </a>
+            <br>
+            <small>Single-device mode - everyone takes turns</small>
+        </div>
+        
+        <div style="margin: 30px 0;">
+            <a href="../index.html" class="option-btn secondary">
+                🔄 Try Multiplayer Again
+            </a>
+            <br>
+            <small>Check if server is back online</small>
+        </div>
+        
+        <div style="margin: 30px 0;">
+            <a href="display.html" class="option-btn secondary">
+                📊 View Results
+            </a>
+            <br>
+            <small>Show results from previous game</small>
+        </div>
+        
+        <hr style="margin: 40px 0;">
+        
+        <h3>📋 Fallback System Info</h3>
+        <p>This backup system ensures Table Talk works even when:</p>
+        <ul style="text-align: left; display: inline-block;">
+            <li>🌐 Internet connection is unavailable</li>
+            <li>🖥️ Server is down for maintenance</li>
+            <li>📱 Only one device is available</li>
+            <li>🔧 Multiplayer features are disabled</li>
+        </ul>
+        
+        <p><strong>How it works:</strong> Everyone takes turns using this same device instead of their phones.</p>
+        
+        <p style="margin-top: 30px;">
+            <a href="../" style="color: #666; text-decoration: none;">← Back to Main Site</a>
+        </p>
+    </div>
+</body>
+</html>

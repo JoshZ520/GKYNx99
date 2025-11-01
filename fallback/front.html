@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start page</title>
     <link rel="stylesheet" href="stylesheets/front_style.css">
-    <script src="scripts/session-utilities.js" defer></script>
-    <script src="scripts/index.js" defer></script>
+    <script src="../scripts/session-utilities.js" defer></script>
+    <script src="../scripts/theme-utilities.js" defer></script>
+    <script src="scripts/front-offline.js" defer></script>
 </head>
 <body>
     <div class="card">
         <header>
-            <h1>Table Talk</h1>
-            <p class="lead">Pick the number of players below, then press Start.</p>
+            <h1>Table Talk - Offline Mode</h1>
+            <p class="lead">🔄 <strong>Fallback Mode:</strong> Multiplayer unavailable, using single-device mode.</p>
+            <p>Pick the number of players below, then press Start.</p>
         </header>
 
         <main>
@@ -31,7 +33,10 @@
             </div>
 
             <div class="group">
-                <a class="start-btn" href="index.html">Start Game</a>
+                <a class="start-btn" href="../game.html">Start Offline Game</a>
+            </div>
+            <div class="group">
+                <a href="../index.html" style="color: #666; text-decoration: none;">← Back to Multiplayer</a>
             </div>
         </main>
     </div>

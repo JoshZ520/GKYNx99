@@ -640,5 +640,21 @@ function setupEventListeners() {
     }
 }
 
+// Check for offline mode and show appropriate UI
+function checkOfflineMode() {
+    const isOffline = sessionStorage.getItem('offlineMode') === 'true';
+    const offlineNotice = document.getElementById('offlineModeNotice');
+    const multiplayerInfo = document.getElementById('multiplayerInfo');
+    
+    if (isOffline && offlineNotice) {
+        offlineNotice.classList.remove('hidden');
+        if (multiplayerInfo) multiplayerInfo.classList.add('hidden');
+        console.log('🔄 Offline mode detected - showing single-device instructions');
+    }
+}
+
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeGamePage);
+document.addEventListener('DOMContentLoaded', function() {
+    checkOfflineMode();
+    initializeGamePage();
+});

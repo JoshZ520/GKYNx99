@@ -84,13 +84,14 @@
 
                 <!-- Offline Mode Fallback -->
                 <div class="step-section hidden" id="offlineFallback">
-                    <h3>📱 Offline Mode</h3>
-                    <p class="step-instruction">Server not available. Play in single-device mode:</p>
+                    <h3>� Backup Mode Available</h3>
+                    <p class="step-instruction">Multiplayer server unavailable. Use offline fallback:</p>
                     <div class="offline-container">
-                        <button class="start-btn" id="offlineGameBtn" type="button">
-                            <span>🎮 Play Offline</span>
+                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='fallback/front.html'">
+                            <span>🎮 Switch to Offline Mode</span>
                         </button>
-                        <p class="offline-note">Everyone will take turns on this device</p>
+                        <p class="offline-note">Single-device gameplay with manual player turns</p>
+                        <p class="offline-note"><small>💡 Try refreshing this page first - server might be starting up</small></p>
                     </div>
                 </div>
             </div>
