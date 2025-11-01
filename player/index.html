@@ -1,34 +1,19 @@
-<!DOCTYPE html><!DOCTYPE html>
-
-<html lang="en"><html lang="en">
-
-<head><head>
-
-    <meta charset="UTF-8">    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Redirecting...</title>    <title>Redirecting...</title>
-
-    <meta http-equiv="refresh" content="0; url=player/">    <meta http-equiv="refresh" content="0; url=player/">
-
-</head></head>
-
-<body><body>
-
-    <p>Redirecting to player interface...</p>    <p>Redirecting to player interface...</p>
-
-    <script>    <script>
-
-        // Immediate redirect for browsers that don't support meta refresh        // Immediate redirect for browsers that don't support meta refresh
-
-        window.location.href = 'player/';        window.location.href = 'player/';
-
-    </script>    </script>
-
-</body></body>
-
-</html></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Talk - Player</title>
+    <link rel="stylesheet" href="../stylesheets/shared.css">
+    <link rel="stylesheet" href="stylesheets/player.css">
+</head>
+<body class="player-page">
+    <!-- Join Game Section -->
+    <div id="joinSection" class="section visible">
+        <div class="container">
+            <div class="logo-section">
+                <h1> Table Talk</h1>
+                <p>Join the conversation</p>
             </div>
             
             <form id="joinForm" class="join-form">
