@@ -15,7 +15,7 @@
     <div class="card">
         <header>
             <h1>Table Talk</h1>
-            <p class="tagline">🎮 A fun conversation game where everyone plays on their phone</p>
+            <p class="tagline">A fun conversation game where everyone plays on their phone</p>
             <p class="lead" id="front-instruction">Host creates the game, everyone joins with their phones using the room code!</p>
         </header>
         <main>
@@ -29,7 +29,7 @@
 
             <!-- Resume Game Section -->
             <div class="resume-section" id="resumeSection" class="hidden">
-                <h3>🔄 Continue Previous Game</h3>
+                <h3>Continue Previous Game</h3>
                 <p class="resume-instruction">Pick up where you left off with a saved game:</p>
                 <div class="saved-games-list" id="savedGamesList">
                     <!-- Saved games will be populated here -->
@@ -43,31 +43,31 @@
             <div class="new-game-section" id="newGameSection">
                 <!-- Step 1: Create Room -->
                 <div class="step-section" id="createRoomStep">
-                    <h3>🏠 Step 1: Create Room</h3>
+                    <h3>Step 1: Create Room</h3>
                     <p class="step-instruction">Create a game room for everyone to join:</p>
                     <div class="create-room-container">
                         <button class="start-btn" id="createRoomBtn" type="button">
-                            <span>🚀 Create New Game</span>
+                            <span>Create New Game</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Step 2: Room Created - Show Code -->
                 <div class="step-section hidden" id="roomCreatedStep">
-                    <h3>✅ Step 2: Share Room Code</h3>
+                    <h3>Step 2: Share Room Code</h3>
                     <p class="step-instruction">Tell everyone to go to <strong>10.244.100.93:3000/player</strong> on their phones and enter this code:</p>
                     
                     <div class="room-code-display">
                         <div class="room-code-container">
                             <span class="room-code-label">Room Code:</span>
                             <div class="room-code" id="roomCodeDisplay">----</div>
-                            <button class="copy-btn" id="copyRoomCodeBtn" title="Copy to clipboard">📋</button>
+                            <button class="copy-btn" id="copyRoomCodeBtn" title="Copy to clipboard">Copy</button>
                         </div>
                     </div>
 
                     <!-- Players Joining -->
                     <div class="players-joining">
-                        <h4>👥 Players Joining (<span id="joinedPlayersCount">0</span>):</h4>
+                        <h4>Players Joining (<span id="joinedPlayersCount">0</span>):</h4>
                         <div class="players-list" id="joinedPlayersList">
                             <div class="no-players">Waiting for players to join...</div>
                         </div>
@@ -84,14 +84,14 @@
 
                 <!-- Offline Mode Fallback -->
                 <div class="step-section hidden" id="offlineFallback">
-                    <h3>� Backup Mode Available</h3>
+                    <h3>Backup Mode Available</h3>
                     <p class="step-instruction">Multiplayer server unavailable. Use offline fallback:</p>
                     <div class="offline-container">
                         <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='fallback/front.html'">
-                            <span>🎮 Switch to Offline Mode</span>
+                            <span>Switch to Offline Mode</span>
                         </button>
                         <p class="offline-note">Single-device gameplay with manual player turns</p>
-                        <p class="offline-note"><small>💡 Try refreshing this page first - server might be starting up</small></p>
+                        <p class="offline-note"><small>Tip: Try refreshing this page first - server might be starting up</small></p>
                     </div>
                 </div>
             </div>

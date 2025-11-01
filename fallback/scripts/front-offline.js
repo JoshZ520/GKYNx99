@@ -1,7 +1,7 @@
 // front-offline.js - Simple offline player setup
 // Fallback version for when multiplayer is unavailable
 
-console.log('🔄 Offline mode initialized');
+console.log('Offline mode initialized');
 
 // Simple player count handler
 window.addEventListener('DOMContentLoaded', function () {
@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', function () {
         if (!Number.isNaN(val) && val > 0) {
             sessionStorage.setItem('playerCount', String(val));
             sessionStorage.setItem('offlineMode', 'true');
-            console.log(`🎮 Offline game set for ${val} players`);
+            console.log(`Offline game set for ${val} players`);
         } else {
             sessionStorage.removeItem('playerCount');
             sessionStorage.removeItem('offlineMode');
@@ -33,4 +33,4 @@ window.addEventListener('DOMContentLoaded', function () {
     sessionStorage.removeItem('multiplayerMode');
 });
 
-console.log('📱 Fallback mode ready - single device gameplay');
+console.log('Fallback mode ready - single device gameplay');

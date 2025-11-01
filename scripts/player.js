@@ -1,5 +1,5 @@
 // Player-side JavaScript for Table Talk multiplayer
-console.log('🎮 Player client loaded');
+console.log('Player client loaded');
 
 // Global state
 let socket = null;
@@ -16,17 +16,17 @@ function initializePlayerSocket() {
         socket = io();
         
         socket.on('connect', () => {
-            console.log('✅ Connected to server');
+            console.log('Connected to server');
             updateConnectionStatus('connected', 'Connected');
         });
         
         socket.on('disconnect', () => {
-            console.log('❌ Disconnected from server');
+            console.log('Disconnected from server');
             updateConnectionStatus('disconnected', 'Disconnected');
         });
         
         socket.on('connect_error', (error) => {
-            console.error('❌ Connection error:', error);
+            console.error('Connection error:', error);
             updateConnectionStatus('disconnected', 'Connection Error');
         });
         
@@ -34,7 +34,7 @@ function initializePlayerSocket() {
         setupGameEventListeners();
         
     } catch (error) {
-        console.error('❌ Failed to initialize socket:', error);
+        console.error('Failed to initialize socket:', error);
         updateConnectionStatus('disconnected', 'Connection Failed');
     }
 }
@@ -43,7 +43,7 @@ function initializePlayerSocket() {
 function setupGameEventListeners() {
     // Join success
     socket.on('joined-room', (data) => {
-        console.log('🎉 Successfully joined room:', data);
+        console.log('Successfully joined room:', data);
         playerState.name = data.playerName;
         playerState.roomCode = data.roomCode;
         
@@ -52,14 +52,14 @@ function setupGameEventListeners() {
     
     // Join error
     socket.on('join-error', (data) => {
-        console.log('❌ Join error:', data);
+        console.log('Join error:', data);
         showPlayerError(data.message);
         resetJoinForm();
     });
     
     // New question received
     socket.on('new-question', (data) => {
-        console.log('❓ New question received:', data);
+        console.log('New question received:', data);
         playerState.currentQuestion = data.question;
         playerState.hasAnswered = false;
         
@@ -68,31 +68,31 @@ function setupGameEventListeners() {
     
     // Answer confirmation
     socket.on('answer-confirmed', (data) => {
-        console.log('✅ Answer confirmed:', data);
+        console.log('Answer confirmed:', data);
         playerState.hasAnswered = true;
         showAnswerStatus();
     });
     
     // Results revealed
     socket.on('answers-revealed', (data) => {
-        console.log('📊 Results revealed:', data);
+        console.log('Results revealed:', data);
         showResults(data);
     });
     
     // Other players joining/leaving
     socket.on('player-joined', (data) => {
-        console.log('👤 Player joined:', data);
+        console.log('Player joined:', data);
         updatePlayersList();
     });
     
     socket.on('player-left', (data) => {
-        console.log('👋 Player left:', data);
+        console.log('Player left:', data);
         updatePlayersList();
     });
     
     // Host disconnected
     socket.on('host-disconnected', (data) => {
-        console.log('🏠 Host disconnected:', data);
+        console.log('Host disconnected:', data);
         showPlayerError('Host has left the game. Please rejoin or start a new game.');
         setTimeout(() => {
             showJoinSection();
@@ -101,7 +101,7 @@ function setupGameEventListeners() {
     
     // General errors
     socket.on('error', (data) => {
-        console.log('❌ Error:', data);
+        console.log('Error:', data);
         showPlayerError(data.message);
     });
 }
@@ -243,7 +243,7 @@ function submitAnswer(selectedOption, index) {
         }
     });
     
-    console.log('📤 Answer submitted:', selectedOption);
+    console.log('Answer submitted:', selectedOption);
 }
 
 // Display results
@@ -275,7 +275,7 @@ function updatePlayersList() {
     if (container) {
         // This would need to be populated by server data
         // For now, just show that we're connected
-        container.innerHTML = `<div>✅ ${playerState.name} (you)</div>`;
+        container.innerHTML = `<div>${playerState.name} (you)</div>`;
     }
 }
 
@@ -326,13 +326,13 @@ function setupJoinForm() {
             roomCode: roomCode
         });
         
-        console.log('📤 Join request sent:', { playerName, roomCode });
+        console.log('Join request sent:', { playerName, roomCode });
     });
 }
 
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Player page initialized');
+    console.log('Player page initialized');
     
     // Initialize socket connection
     initializePlayerSocket();
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Handle page visibility changes (important for mobile)
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && socket && !socket.connected) {
-        console.log('🔄 Page visible, reconnecting...');
+        console.log('Page visible, reconnecting...');
         socket.connect();
     }
 });

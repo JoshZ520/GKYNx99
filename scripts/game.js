@@ -649,7 +649,7 @@ function checkOfflineMode() {
     if (isOffline && offlineNotice) {
         offlineNotice.classList.remove('hidden');
         if (multiplayerInfo) multiplayerInfo.classList.add('hidden');
-        console.log('🔄 Offline mode detected - showing single-device instructions');
+        console.log('Offline mode detected - showing single-device instructions');
     }
 }
 

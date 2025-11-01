@@ -36,17 +36,17 @@ function initializeMultiplayerSocket() {
         socket = io();
         
         socket.on('connect', () => {
-            console.log('✅ Connected to server');
+            console.log('Connected to server');
             handleConnectionSuccess();
         });
         
         socket.on('disconnect', () => {
-            console.log('❌ Disconnected from server');
+            console.log('Disconnected from server');
             handleConnectionLost();
         });
         
         socket.on('connect_error', (error) => {
-            console.error('❌ Connection error:', error);
+            console.error('Connection error:', error);
             handleConnectionError();
         });
         
@@ -54,7 +54,7 @@ function initializeMultiplayerSocket() {
         return true;
         
     } catch (error) {
-        console.error('❌ Failed to initialize socket:', error);
+        console.error('Failed to initialize socket:', error);
         handleConnectionError();
         return false;
     }
@@ -64,7 +64,7 @@ function initializeMultiplayerSocket() {
 function setupSharedEventListeners() {
     // Room creation success
     socket.on('room-created', (data) => {
-        console.log('🏠 Room created successfully:', data);
+        console.log('Room created successfully:', data);
         multiplayerState.isHost = true;
         multiplayerState.roomCode = data.roomCode;
         
@@ -122,7 +122,7 @@ function setupSharedEventListeners() {
     
     // General errors
     socket.on('error', (data) => {
-        console.log('❌ Multiplayer error:', data);
+        console.log('Multiplayer error:', data);
         showMultiplayerError(data.message);
     });
 }
@@ -130,7 +130,7 @@ function setupSharedEventListeners() {
 // === CONNECTION HANDLERS ===
 function handleConnectionSuccess() {
     if (isIndexPage) {
-        updateMultiplayerConnectionStatus('connected', '✅ Connected to server');
+        updateMultiplayerConnectionStatus('connected', 'Connected to server');
         showCreateRoomStep();
     } else if (isGamePage) {
         showMultiplayerControls();
@@ -139,7 +139,7 @@ function handleConnectionSuccess() {
 
 function handleConnectionLost() {
     if (isIndexPage) {
-        updateMultiplayerConnectionStatus('disconnected', '❌ Disconnected from server');
+        updateMultiplayerConnectionStatus('disconnected', 'Disconnected from server');
     } else if (isGamePage) {
         resetMultiplayerState();
     }
@@ -147,7 +147,7 @@ function handleConnectionLost() {
 
 function handleConnectionError() {
     if (isIndexPage) {
-        updateMultiplayerConnectionStatus('error', '❌ Connection failed');
+        updateMultiplayerConnectionStatus('error', 'Connection failed');
         showOfflineMode();
     } else if (isGamePage) {
         hideMultiplayerControls();
@@ -214,7 +214,7 @@ function copyRoomCode() {
         const copyBtn = document.getElementById(isIndexPage ? 'copyRoomCodeBtn' : 'copyCodeBtn');
         if (copyBtn) {
             const originalText = copyBtn.textContent;
-            copyBtn.textContent = '✅';
+            copyBtn.textContent = 'Copied!';
             setTimeout(() => {
                 copyBtn.textContent = originalText;
             }, isIndexPage ? 2000 : 1500);
@@ -373,7 +373,7 @@ function startGame() {
         players: multiplayerState.connectedPlayers
     }));
     
-    console.log('🎮 Starting game with', multiplayerState.connectedPlayers.length, 'players');
+    console.log('Starting game with', multiplayerState.connectedPlayers.length, 'players');
     
     // Navigate to game page
     window.location.href = 'game.html';
@@ -385,7 +385,7 @@ function startOfflineGame() {
     // Clear any multiplayer session data
     sessionStorage.removeItem('multiplayerRoom');
     
-    console.log('🎮 Starting offline game');
+    console.log('Starting offline game');
     
     // Navigate to game page
     window.location.href = 'index.html';
@@ -456,7 +456,7 @@ function hideRoomInfo() {
     if (createBtn) {
         createBtn.classList.remove('hidden');
         createBtn.disabled = false;
-        createBtn.textContent = '🏠 Create Room for Phones';
+        createBtn.textContent = 'Create Room for Phones';
     }
     if (closeBtn) {
         closeBtn.classList.add('hidden');
@@ -622,7 +622,7 @@ function showPlayerJoinedNotification(playerName) {
 }
 
 function showPlayerAnsweredNotification(playerName) {
-    showMessage(`✅ ${playerName} answered`);
+    showMessage(`${playerName} answered`);
 }
 
 function showMessage(message) {
@@ -631,7 +631,7 @@ function showMessage(message) {
 }
 
 function showMultiplayerError(message) {
-    console.error('❌ Multiplayer Error:', message);
+    console.error('Multiplayer Error:', message);
     // Could add error notifications here in the future
 }
 
@@ -705,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (!socketInitialized) {
-        console.log('🎮 Socket not available -', isIndexPage ? 'offline mode only' : 'multiplayer disabled');
+        console.log('Socket not available -', isIndexPage ? 'offline mode only' : 'multiplayer disabled');
     }
     
     // Check for existing multiplayer session (game page)

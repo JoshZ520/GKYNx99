@@ -42,10 +42,10 @@ function generateRoomCode() {
 app.get('/', (req, res) => {
     try {
         const indexPath = path.join(__dirname, '../index.html');
-        console.log('📄 Serving index.html from:', indexPath);
+        console.log('Serving index.html from:', indexPath);
         res.sendFile(indexPath);
     } catch (error) {
-        console.error('❌ Error serving index.html:', error);
+        console.error('Error serving index.html:', error);
         res.status(500).send('Server Error: Cannot serve index.html');
     }
 });
@@ -57,7 +57,7 @@ app.get('/player', (req, res) => {
         console.log('📱 Serving player.html from:', playerPath);
         res.sendFile(playerPath);
     } catch (error) {
-        console.error('❌ Error serving player.html:', error);
+        console.error('Error serving player.html:', error);
         res.status(500).send('Server Error: Cannot serve player.html');
     }
 });
@@ -73,7 +73,7 @@ app.get('/health', (req, res) => {
 
 // Socket.io connection handling
 io.on('connection', (socket) => {
-    console.log('🔌 New client connected:', socket.id);
+    console.log('New client connected:', socket.id);
     
     // Send a welcome message to the newly connected client
     socket.emit('welcome', {
@@ -99,7 +99,7 @@ io.on('connection', (socket) => {
         gameRooms.set(roomCode, room);
         socket.join(roomCode);
         
-        console.log(`🏠 Room ${roomCode} created by ${socket.id}`);
+        console.log(`Room ${roomCode} created by ${socket.id}`);
         
         socket.emit('room-created', {
             roomCode: roomCode,
@@ -256,13 +256,13 @@ io.on('connection', (socket) => {
 
     // Handle disconnection and cleanup
     socket.on('disconnect', (reason) => {
-        console.log('❌ Client disconnected:', socket.id, 'Reason:', reason);
+        console.log('Client disconnected:', socket.id, 'Reason:', reason);
         
         // Clean up rooms where this socket was host or player
         for (const [roomCode, room] of gameRooms.entries()) {
             if (room.hostId === socket.id) {
                 // Host disconnected - notify players and clean up room
-                console.log(`🏠 Host left room ${roomCode}, cleaning up`);
+                console.log(`Host left room ${roomCode}, cleaning up`);
                 socket.to(roomCode).emit('host-disconnected', {
                     message: 'Host has left the game'
                 });
@@ -291,17 +291,17 @@ io.on('connection', (socket) => {
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, '0.0.0.0', () => {
-    console.log('🚀 Table Talk server running on port', PORT);
-    console.log('📁 Static files served from:', path.join(__dirname, '..'));
-    console.log('🌍 Environment:', process.env.NODE_ENV || 'development');
+    console.log('Table Talk server running on port', PORT);
+    console.log('Static files served from:', path.join(__dirname, '..'));
+    console.log('Environment:', process.env.NODE_ENV || 'development');
     if (process.env.NODE_ENV === 'production') {
-        console.log('🌍 Production server running');
+        console.log('Production server running');
     } else {
-        console.log('📱 Open http://localhost:3000 in your browser');
+        console.log('Open http://localhost:3000 in your browser');
     }
-    console.log('👀 Watch this console for connection logs');
+    console.log('Watch this console for connection logs');
 }).on('error', (error) => {
-    console.error('❌ Server failed to start:', error);
+    console.error('Server failed to start:', error);
     if (error.code === 'EADDRINUSE') {
         console.error(`Port ${PORT} is already in use`);
     }
