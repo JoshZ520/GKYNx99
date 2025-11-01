@@ -25,7 +25,7 @@ let multiplayerState = {
 };
 
 // === CORE SOCKET MANAGEMENT ===
-function initializeSocket() {
+function initializeMultiplayerSocket() {
     if (typeof io === 'undefined') {
         console.log('Socket.io not available - showing offline mode');
         handleOfflineMode();
@@ -123,14 +123,14 @@ function setupSharedEventListeners() {
     // General errors
     socket.on('error', (data) => {
         console.log('❌ Multiplayer error:', data);
-        showError(data.message);
+        showMultiplayerError(data.message);
     });
 }
 
 // === CONNECTION HANDLERS ===
 function handleConnectionSuccess() {
     if (isIndexPage) {
-        updateConnectionStatus('connected', '✅ Connected to server');
+        updateMultiplayerConnectionStatus('connected', '✅ Connected to server');
         showCreateRoomStep();
     } else if (isGamePage) {
         showMultiplayerControls();
@@ -139,7 +139,7 @@ function handleConnectionSuccess() {
 
 function handleConnectionLost() {
     if (isIndexPage) {
-        updateConnectionStatus('disconnected', '❌ Disconnected from server');
+        updateMultiplayerConnectionStatus('disconnected', '❌ Disconnected from server');
     } else if (isGamePage) {
         resetMultiplayerState();
     }
@@ -147,7 +147,7 @@ function handleConnectionLost() {
 
 function handleConnectionError() {
     if (isIndexPage) {
-        updateConnectionStatus('error', '❌ Connection failed');
+        updateMultiplayerConnectionStatus('error', '❌ Connection failed');
         showOfflineMode();
     } else if (isGamePage) {
         hideMultiplayerControls();
@@ -165,7 +165,7 @@ function handleOfflineMode() {
 // === ROOM MANAGEMENT ===
 function createRoom() {
     if (!socket || !socket.connected) {
-        showError('Not connected to server. Please refresh the page.');
+        showMultiplayerError('Not connected to server. Please refresh the page.');
         return;
     }
     
@@ -222,7 +222,7 @@ function copyRoomCode() {
         showMessage(`Room code ${multiplayerState.roomCode} copied${isIndexPage ? '!' : ' to clipboard!'}`);
     }).catch(err => {
         console.error('Failed to copy room code:', err);
-        showError('Failed to copy room code');
+        showMultiplayerError('Failed to copy room code');
     });
 }
 
@@ -274,15 +274,19 @@ function updatePlayersDisplayGame() {
 }
 
 // === INDEX PAGE SPECIFIC FUNCTIONS ===
-function updateConnectionStatus(status, text) {
-    if (!isIndexPage) return;
-    
-    const statusDot = document.getElementById('statusDot');
-    const statusText = document.getElementById('statusText');
-    
-    if (statusDot && statusText) {
-        statusDot.className = `status-dot ${status}`;
-        statusText.textContent = text;
+function updateMultiplayerConnectionStatus(status, text) {
+    // Update connection status specifically for multiplayer functionality
+    if (isIndexPage) {
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        
+        if (statusDot && statusText) {
+            statusDot.className = `status-dot ${status}`;
+            statusText.textContent = text;
+        }
+    } else if (isGamePage) {
+        // Handle game page status updates if needed
+        console.log(`Multiplayer Status: ${status} - ${text}`);
     }
 }
 
@@ -358,7 +362,7 @@ function updateStartButtonState() {
 
 function startGame() {
     if (!isIndexPage || !multiplayerState.canStart) {
-        showError('Need at least 2 players to start');
+        showMultiplayerError('Need at least 2 players to start');
         return;
     }
     
@@ -596,7 +600,7 @@ function resumeGame(sessionId) {
         if (success) {
             window.location.href = 'game.html';
         } else {
-            showError('Failed to load saved game');
+            showMultiplayerError('Failed to load saved game');
         }
     }
 }
@@ -626,8 +630,8 @@ function showMessage(message) {
     // Could add toast notifications here in the future
 }
 
-function showError(message) {
-    console.error('❌ Error:', message);
+function showMultiplayerError(message) {
+    console.error('❌ Multiplayer Error:', message);
     // Could add error notifications here in the future
 }
 
@@ -688,10 +692,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize socket connection
     if (isIndexPage) {
-        updateConnectionStatus('connecting', '🔄 Connecting to server...');
+        updateMultiplayerConnectionStatus('connecting', '🔄 Connecting to server...');
     }
     
-    const socketInitialized = initializeSocket();
+    const socketInitialized = initializeMultiplayerSocket();
     
     // Index page specific initialization
     if (isIndexPage) {

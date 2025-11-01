@@ -11,7 +11,7 @@ let playerState = {
 };
 
 // Initialize socket connection
-function initializeSocket() {
+function initializePlayerSocket() {
     try {
         socket = io();
         
@@ -53,7 +53,7 @@ function setupGameEventListeners() {
     // Join error
     socket.on('join-error', (data) => {
         console.log('❌ Join error:', data);
-        showError(data.message);
+        showPlayerError(data.message);
         resetJoinForm();
     });
     
@@ -93,7 +93,7 @@ function setupGameEventListeners() {
     // Host disconnected
     socket.on('host-disconnected', (data) => {
         console.log('🏠 Host disconnected:', data);
-        showError('Host has left the game. Please rejoin or start a new game.');
+        showPlayerError('Host has left the game. Please rejoin or start a new game.');
         setTimeout(() => {
             showJoinSection();
         }, 3000);
@@ -102,7 +102,7 @@ function setupGameEventListeners() {
     // General errors
     socket.on('error', (data) => {
         console.log('❌ Error:', data);
-        showError(data.message);
+        showPlayerError(data.message);
     });
 }
 
@@ -118,7 +118,7 @@ function updateConnectionStatus(status, text) {
 }
 
 // Show error message
-function showError(message) {
+function showPlayerError(message) {
     const errorDiv = document.getElementById('joinError');
     if (errorDiv) {
         errorDiv.textContent = message;
@@ -301,12 +301,12 @@ function setupJoinForm() {
         const roomCode = roomCodeInput.value.trim().toUpperCase();
         
         if (!playerName || !roomCode) {
-            showError('Please enter both your name and room code');
+            showPlayerError('Please enter both your name and room code');
             return;
         }
         
         if (roomCode.length !== 4) {
-            showError('Room code must be 4 characters');
+            showPlayerError('Room code must be 4 characters');
             return;
         }
         
@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Player page initialized');
     
     // Initialize socket connection
-    initializeSocket();
+    initializePlayerSocket();
     
     // Setup join form
     setupJoinForm();
