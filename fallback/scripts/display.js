@@ -1,9 +1,19 @@
 // display.js - Display page functionality
 // Handles results display and navigation for the display page only
 // === DISPLAY PAGE QUESTION NAVIGATION ===
-const questionsInOrder = JSON.parse(sessionStorage.getItem('questionsInOrder')) || [];
+const questionsData = JSON.parse(sessionStorage.getItem('questionsInOrder')) || [];
 const submissionsByQuestion = JSON.parse(sessionStorage.getItem('submissionsByQuestion')) || {};
+// Convert questionsData to simple array of question strings
+const questionsInOrder = questionsData.map(item => {
+    // Handle both old format (string) and new format (object)
+    return typeof item === 'string' ? item : item.question;
+});
 let currentIndex = 0;
+
+console.log('Display page loaded with:', {
+    questionsCount: questionsInOrder.length,
+    submissionsCount: Object.keys(submissionsByQuestion).length
+});
 // Color scheme now handled by CSS variables only
 window.addEventListener('DOMContentLoaded', function() {
     // Static color scheme - no dynamic loading needed
@@ -28,31 +38,43 @@ function renderAnswers() {
     const container = document.getElementById('answers-list');
     if (!container) return;
     container.innerHTML = '';
+    
     const currentQuestion = questionsInOrder[currentIndex];
     if (!currentQuestion) {
         container.textContent = 'No answers for this question.';
         return;
     }
-    const submissions = submissionsByQuestion[currentQuestion] || [];
-    if (submissions.length === 0) {
+    
+    const questionData = submissionsByQuestion[currentQuestion];
+    if (!questionData || !questionData.answers) {
         container.textContent = 'No answers submitted for this question.';
         return;
     }
+    
+    const answers = questionData.answers;
+    const answerEntries = Object.entries(answers);
+    
+    if (answerEntries.length === 0) {
+        container.textContent = 'No answers submitted for this question.';
+        return;
+    }
+    
     const list = document.createElement('div');
     list.className = 'answers-entries';
-    // Sort submissions by timestamp to show them in order they were submitted
-    submissions.sort((a, b) => a.timestamp - b.timestamp);
-    submissions.forEach(submission => {
+    
+    // Convert answers object to array and display
+    answerEntries.forEach(([playerName, answer]) => {
         const item = document.createElement('div');
         item.className = 'answer-item';
         const who = document.createElement('strong');
-        who.textContent = submission.name + ': ';
+        who.textContent = playerName + ': ';
         const text = document.createElement('span');
-        text.textContent = submission.answer;
+        text.textContent = answer;
         item.appendChild(who);
         item.appendChild(text);
         list.appendChild(item);
     });
+    
     container.appendChild(list);
 }
 document.getElementById('next-btn')?.addEventListener('click', () => {
@@ -65,8 +87,20 @@ document.getElementById('back-home-btn')?.addEventListener('click', () => {
     sessionStorage.removeItem('playerCount');
     sessionStorage.removeItem('questionsInOrder');
     sessionStorage.removeItem('submissionsByQuestion');
-    // Go back to home
-    window.location.href = 'index.html';
+    sessionStorage.removeItem('playerNames');
+    sessionStorage.removeItem('playerData');
+    sessionStorage.removeItem('gameMode');
+    sessionStorage.removeItem('offlineMode');
+    
+    // Check if we're in offline mode
+    const isOffline = sessionStorage.getItem('offlineMode') === 'true';
+    if (isOffline) {
+        // Go back to offline front page
+        window.location.href = 'front-pg.html';
+    } else {
+        // Go back to main index
+        window.location.href = '../index.html';
+    }
 });
 // initial render
 showQuestion(currentIndex);

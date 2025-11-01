@@ -117,49 +117,7 @@
     font-size: var(--font-base);
     font-style: italic;
 }
-.player-names-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-    max-width: 400px;
-    margin: 0 auto;
-}
-.player-input-group {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-}
-.player-number {
-    background-color: var(--accent-dark);
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: var(--font-sm);
-    flex-shrink: 0;
-}
-.player-name-input {
-    flex: 1;
-    padding: var(--space-md);
-    border: 2px solid var(--accent-light);
-    border-radius: var(--space-sm);
-    font-size: var(--font-base);
-    background-color: var(--light);
-    color: var(--text-dark);
-}
-.player-name-input:focus {
-    outline: none;
-    border-color: var(--accent-dark);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-dark) 20%, transparent);
-}
-.player-name-input::placeholder {
-    color: var(--text-dark);
-    opacity: 0.6;
-}
+
 /* === RESUME GAME SECTION === */
 .resume-section {
     margin-bottom: var(--space-xl);
@@ -490,6 +448,16 @@
     font-size: 0.9rem;
     color: var(--text-dark);
     font-style: italic;
+}
+
+/* Game Mode Descriptions */
+.game-mode-description {
+    font-size: var(--font-sm);
+    color: var(--text-muted);
+    text-align: center;
+    margin: var(--space-sm) 0 0 0;
+    font-style: italic;
+    line-height: 1.4;
 }
 
 /* Mobile Responsive */

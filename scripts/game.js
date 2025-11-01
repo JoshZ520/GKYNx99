@@ -281,8 +281,14 @@ function handleFinalSubmit() {
         console.log('Final session state saved before transitioning to results');
     }
     
-    // Navigate to results page
-    window.location.href = 'display.html';
+    // Navigate to results page - check if offline mode
+    const isOffline = sessionStorage.getItem('offlineMode') === 'true';
+    if (isOffline) {
+        window.location.href = 'fallback/display.html';
+    } else {
+        // For online mode, we might need to create a main display page or redirect appropriately
+        window.location.href = 'fallback/display.html'; // Temporary - use fallback for now
+    }
 }
 
 // === PLAYER TURN MANAGEMENT ===
@@ -542,6 +548,33 @@ function pickRandomTopic() {
     return choice;
 }
 
+function getRandomQuestion() {
+    if (!selectedTopic) {
+        // If no topic selected, pick a random topic first
+        pickRandomTopic();
+        return;
+    }
+    
+    // Get questions for current topic
+    const currentTopicQuestions = getQuestionsForTopic(selectedTopic);
+    
+    if (!currentTopicQuestions || currentTopicQuestions.length === 0) {
+        alert('No questions available for the current topic.');
+        return;
+    }
+    
+    // Pick a random question
+    const randomIndex = Math.floor(Math.random() * currentTopicQuestions.length);
+    currentQuestionIndex = randomIndex;
+    
+    console.log(`Random question selected: index ${currentQuestionIndex}`);
+    
+    // Display the question
+    displayCurrentQuestion();
+    updatePlayerTurnIndicator();
+    clearPreviousAnswers();
+}
+
 // === EVENT LISTENERS AND INITIALIZATION ===
 function initializeGamePage() {
     console.log('Initializing game page...');
@@ -652,6 +685,14 @@ function checkOfflineMode() {
         console.log('Offline mode detected - showing single-device instructions');
     }
 }
+
+// Make functions available globally for conditional script loading and remote control
+window.checkOfflineMode = checkOfflineMode;
+window.nextQuestion = switchToNextQuestion;
+window.previousQuestion = switchToPreviousQuestion;
+window.toggleTopicsPanel = toggleTopicsPanel;
+window.pickRandomTopic = pickRandomTopic;
+window.getRandomQuestion = getRandomQuestion;
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {

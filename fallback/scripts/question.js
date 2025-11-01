@@ -1,14 +1,37 @@
-const questions = JSON.parse(sessionStorage.getItem('questions')) || [];
+// This file is deprecated - the main game.html now uses the main application's 
+// question loading system from theme-utilities.js and game.js
+// The questions are loaded dynamically from files/topics/ instead of session storage
+
+let questions = [];
 let currentIndex = 0;
+
+// Use the main application's topic system
+function loadQuestionsFromTopics() {
+    if (window.getTopics) {
+        const topics = window.getTopics();
+        const defaultTopic = topics.default || {};
+        questions = defaultTopic.questions || [];
+        console.log('Loaded', questions.length, 'questions from main topic system');
+    } else {
+        console.error('Main topic system not available');
+        questions = [];
+    }
+}
 
 function showQuestion(index) {
     const header = document.getElementById('question-header');
+    
+    // Ensure questions are loaded
+    if (questions.length === 0) {
+        loadQuestionsFromTopics();
+    }
 
     if (questions.length > 0 && questions[index]) {
-        // If questions are objects, use questions[index].text; if strings, use questions[index]
-        header.textContent = typeof questions[index] === 'object' && questions[index] !== null
-            ? questions[index].text || "Question text missing."
-            : questions[index];
+        // Handle both old string format and new object format
+        const question = questions[index];
+        header.textContent = typeof question === 'object' && question !== null
+            ? (question.prompt || question.text || "Question text missing.")
+            : question;
     } else {
         header.textContent = "No more questions.";
         const nextBtn = document.getElementById('next-btn');

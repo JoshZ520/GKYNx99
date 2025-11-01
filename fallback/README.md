@@ -13,7 +13,7 @@ This directory contains the **offline fallback** version of Table Talk for situa
 
 ```
 📁 fallback/
-├── 📄 front.html              → Player setup (enter names)
+├── 📄 front-pg.html           → Player setup (enter names)
 ├── 📄 display.html            → Results display page
 ├── 📁 scripts/
 │   ├── 📄 answers.js          → Answer processing utilities
@@ -28,7 +28,7 @@ This directory contains the **offline fallback** version of Table Talk for situa
 
 ### Option 1: Direct Access
 ```
-1. Open fallback/front.html in browser
+1. Open fallback/front-pg.html in browser
 2. Set up players manually
 3. Play on single device (pass around)
 4. View results on fallback/display.html
@@ -40,7 +40,7 @@ Add this to your main index.html to auto-detect server issues:
 // Auto-fallback if multiplayer fails
 setTimeout(() => {
     if (!multiplayerConnected) {
-        window.location.href = 'fallback/front.html';
+        window.location.href = 'fallback/front-pg.html';
     }
 }, 5000); // 5 second timeout
 ```

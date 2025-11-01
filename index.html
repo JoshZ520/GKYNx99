@@ -41,14 +41,23 @@
 
             <!-- New Game Section -->
             <div class="new-game-section" id="newGameSection">
-                <!-- Step 1: Create Room -->
+                <!-- Step 1: Choose Game Mode -->
                 <div class="step-section" id="createRoomStep">
-                    <h3>Step 1: Create Room</h3>
-                    <p class="step-instruction">Create a game room for everyone to join:</p>
+                    <h3>Step 1: Choose Game Mode</h3>
+                    <p class="step-instruction">Select how you want to play:</p>
+                    
                     <div class="create-room-container">
                         <button class="start-btn" id="createRoomBtn" type="button">
-                            <span>Create New Game</span>
+                            <span>Create Multiplayer Game</span>
                         </button>
+                        <p class="game-mode-description">Everyone joins with their phones using a room code</p>
+                    </div>
+                    
+                    <div class="create-room-container" style="margin-top: 20px;">
+                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="window.location.href='fallback/front-pg.html'">
+                            <span>Start Offline Mode</span>
+                        </button>
+                        <p class="game-mode-description">Single device - everyone takes turns</p>
                     </div>
                 </div>
 
@@ -84,10 +93,10 @@
 
                 <!-- Offline Mode Fallback -->
                 <div class="step-section hidden" id="offlineFallback">
-                    <h3>Backup Mode Available</h3>
-                    <p class="step-instruction">Multiplayer server unavailable. Use offline fallback:</p>
+                    <h3>Server Connection Issue</h3>
+                    <p class="step-instruction">Can't connect to multiplayer server. Switch to offline mode:</p>
                     <div class="offline-container">
-                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='fallback/front.html'">
+                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='fallback/front-pg.html'">
                             <span>Switch to Offline Mode</span>
                         </button>
                         <p class="offline-note">Single-device gameplay with manual player turns</p>

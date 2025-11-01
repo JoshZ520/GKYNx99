@@ -3,28 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
+    <title>Game Results - Table Talk</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
     <link rel="stylesheet" href="../stylesheets/shared.css">
+    <link rel="stylesheet" href="../stylesheets/index.css">
     <link rel="stylesheet" href="stylesheets/display.css">
     <script src="../scripts/theme-utilities.js" defer></script>
     <script src="../scripts/session-utilities.js" defer></script>
     <script src="scripts/display.js" defer></script>
 </head>
 <body class="display-page" id="root">
-    <header>
-        <h1 id="question-header"></h1>
-        <div class="center_button">
-        <button id="next-btn">Next<img src="../images/icons/next-circle.svg" alt="Next" width="24" height="24"></button></div>
-        <button id="back-home-btn" class="hidden"><img src="../images/icons/home.svg" alt="Home" width="24" height="24">Back to Home</button>
-    </header>
-    <main>
-        <section id="answers-section">
-            <h2>Submitted Answers</h2>
-            <div id="answers-list">
-                <!-- Answers will be dynamically inserted here -->
+    <div class="card">
+        <header>
+            <h1>Game Results</h1>
+            <p class="tagline">Review Everyone's Answers</p>
+        </header>
+        <main>
+            <div class="step-section">
+                <h3 id="question-header">Loading...</h3>
+                <p class="step-instruction">Here's what everyone answered for this question:</p>
+                
+                <section id="answers-section">
+                    <div id="answers-list" class="players-list">
+                        <!-- Answers will be dynamically inserted here -->
+                    </div>
+                </section>
+                
+                <div class="start-game-container">
+                    <button class="start-btn" id="next-btn">
+                        <span>Next Question</span>
+                    </button>
+                    <button class="secondary-btn hidden" id="back-home-btn">
+                        <span>Back to Home</span>
+                    </button>
+                </div>
             </div>
-        </section>
-    </main>
+        </main>
+    </div>
 </body>
 </html>
