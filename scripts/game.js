@@ -60,7 +60,7 @@ function switchToNextQuestion() {
     
     questionElem.setAttribute('data-index', nextIndex);
     
-    // ✅ MULTIPLAYER INTEGRATION: Broadcast new question to multiplayer players if active
+    // Broadcast new question to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         window.hostMultiplayer.broadcastQuestion(nextQuestion);
     }
@@ -100,7 +100,7 @@ function switchToPreviousQuestion() {
     
     questionElem.setAttribute('data-index', prevIndex);
     
-    // ✅ MULTIPLAYER INTEGRATION: Broadcast new question to multiplayer players if active
+    // Broadcast new question to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         window.hostMultiplayer.broadcastQuestion(prevQuestion);
     }

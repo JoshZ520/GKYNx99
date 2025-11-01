@@ -25,7 +25,6 @@ class GameSessionManager {
         
         // Set as current session in sessionStorage
         sessionStorage.setItem(this.CURRENT_SESSION_KEY, sessionId);
-        
         // Save to localStorage
         this.saveSessionData(sessionId, sessionData);
         
@@ -139,12 +138,10 @@ class GameSessionManager {
                 
                 // Clear current session ID
                 sessionStorage.removeItem(this.CURRENT_SESSION_KEY);
-                
                 // Clear all game-related sessionStorage data
                 sessionStorage.removeItem('playerCount');
                 sessionStorage.removeItem('playerNames');
                 sessionStorage.removeItem('chronologicalSubmissions');
-                
                 // Clear any other game state that might be in sessionStorage
                 sessionStorage.removeItem('currentTopic');
                 sessionStorage.removeItem('currentQuestion');

@@ -53,7 +53,6 @@ function loadQuestions() {
 
 // Helper function to determine if a color is dark
 
-
 // === COMMON UI UTILITIES ===
 // Dropdown toggle functionality (used on game page)
 function initializeDropdown() {

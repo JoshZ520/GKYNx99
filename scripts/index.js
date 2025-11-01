@@ -6,187 +6,26 @@
 let socket = null;
 let isMultiplayerMode = false;
 let roomCode = null;
-let joinedPlayers = [];
+// joinedPlayers now managed by multiplayer-manager.js
 
 // Initialize Socket.IO connection (optional - graceful fallback if server unavailable)
-function initializeMultiplayer() {
-    if (typeof io !== 'undefined') {
-        try {
-            socket = io();
-            
-            socket.on('connect', () => {
-                console.log('Connected to server from INDEX page!');
-                console.log('Socket ID:', socket.id);
-                updateConnectionStatus('connected', 'Connected to server - Multiplayer available');
-                showCreateRoomOption();
-            });
-            
-            socket.on('disconnect', () => {
-                console.log('Disconnected from server');
-                updateConnectionStatus('disconnected', 'Server disconnected - Offline mode only');
-                fallbackToOfflineMode();
-            });
-            
-            socket.on('welcome', (message) => {
-                console.log('Welcome message on index page:', message);
-            });
-            
-            // ✅ MULTIPLAYER INTEGRATION: Room creation response
-            socket.on('roomCreated', (data) => {
-                roomCode = data.roomCode;
-                updateRoomCodeDisplay(data.roomCode);
-                showRoomCreatedStep();
-                isMultiplayerMode = true;
-            });
-            
-            // ✅ MULTIPLAYER INTEGRATION: Player joined room
-            socket.on('playerJoined', (data) => {
-                joinedPlayers.push(data.player);
-                updateJoinedPlayersList();
-                updateStartGameButton();
-            });
-            
-            // ✅ MULTIPLAYER INTEGRATION: Player left room
-            socket.on('playerLeft', (data) => {
-                joinedPlayers = joinedPlayers.filter(p => p.id !== data.playerId);
-                updateJoinedPlayersList();
-                updateStartGameButton();
-            });
-            
-            // Connection timeout fallback
-            setTimeout(() => {
-                if (!socket.connected) {
-                    console.log('Socket.io connection timeout - falling back to offline mode');
-                    updateConnectionStatus('offline', 'Server unavailable - Offline mode only');
-                    fallbackToOfflineMode();
-                }
-            }, 3000);
-            
-        } catch (error) {
-            console.log('Socket.io not available - running in offline mode');
-            updateConnectionStatus('offline', 'Server unavailable - Offline mode only');
-            fallbackToOfflineMode();
-        }
-    } else {
-        console.log('Socket.io not loaded - running in offline mode');
-        updateConnectionStatus('offline', 'Server unavailable - Offline mode only');
-        fallbackToOfflineMode();
-    }
-}
+// initializeMultiplayer functionality moved to multiplayer-manager.js
 
 // ===== CONNECTION STATUS MANAGEMENT =====
-function updateConnectionStatus(status, message) {
-    const statusDot = document.getElementById('statusDot');
-    const statusText = document.getElementById('statusText');
-    
-    if (statusDot && statusText) {
-        statusText.textContent = message;
-        statusDot.className = `status-dot ${status}`;
-    }
-}
-
-function showCreateRoomOption() {
-    const createRoomStep = document.getElementById('createRoomStep');
-    const offlineFallback = document.getElementById('offlineFallback');
-    
-    if (createRoomStep) createRoomStep.classList.remove('hidden');
-    if (offlineFallback) offlineFallback.classList.add('hidden');
-}
-
-function fallbackToOfflineMode() {
-    const createRoomStep = document.getElementById('createRoomStep');
-    const roomCreatedStep = document.getElementById('roomCreatedStep');
-    const offlineFallback = document.getElementById('offlineFallback');
-    
-    if (createRoomStep) createRoomStep.classList.add('hidden');
-    if (roomCreatedStep) roomCreatedStep.classList.add('hidden');
-    if (offlineFallback) offlineFallback.classList.remove('hidden');
-    
-    isMultiplayerMode = false;
-}
+// Connection status and UI management functions moved to multiplayer-manager.js
 
 // ===== MULTIPLAYER ROOM MANAGEMENT =====
-function createMultiplayerRoom() {
-    if (socket && socket.connected) {
-        // ✅ MULTIPLAYER INTEGRATION: Create room request
-        socket.emit('createRoom', {
-            hostName: 'Host Player',
-            gameType: 'tabletalk'
-        });
-    } else {
-        alert('Cannot create room - server connection not available');
-        fallbackToOfflineMode();
-    }
-}
+// createMultiplayerRoom functionality moved to multiplayer-manager.js createRoom()
 
-function updateRoomCodeDisplay(code) {
-    const roomCodeDisplay = document.getElementById('roomCodeDisplay');
-    if (roomCodeDisplay) {
-        roomCodeDisplay.textContent = code;
-    }
-}
+// updateRoomCodeDisplay functionality moved to multiplayer-manager.js
 
-function showRoomCreatedStep() {
-    const createRoomStep = document.getElementById('createRoomStep');
-    const roomCreatedStep = document.getElementById('roomCreatedStep');
-    
-    if (createRoomStep) createRoomStep.classList.add('hidden');
-    if (roomCreatedStep) roomCreatedStep.classList.remove('hidden');
-}
+// showRoomCreatedStep functionality moved to multiplayer-manager.js
 
-function updateJoinedPlayersList() {
-    const playersList = document.getElementById('joinedPlayersList');
-    const playersCount = document.getElementById('joinedPlayersCount');
-    
-    if (playersCount) {
-        playersCount.textContent = joinedPlayers.length;
-    }
-    
-    if (playersList) {
-        if (joinedPlayers.length === 0) {
-            playersList.innerHTML = '<div class="no-players">Waiting for players to join...</div>';
-        } else {
-            playersList.innerHTML = joinedPlayers.map(player => 
-                `<div class="player-item">${player.name}</div>`
-            ).join('');
-        }
-    }
-}
+// updateJoinedPlayersList functionality moved to multiplayer-manager.js updatePlayersDisplay()
 
-function updateStartGameButton() {
-    const startGameBtn = document.getElementById('startGameBtn');
-    const startGameText = document.getElementById('startGameText');
-    
-    if (startGameBtn && startGameText) {
-        if (joinedPlayers.length >= 2) {
-            startGameBtn.classList.remove('disabled');
-            startGameBtn.removeAttribute('disabled');
-            startGameText.textContent = `Start Game with ${joinedPlayers.length} Players`;
-        } else {
-            startGameBtn.classList.add('disabled');
-            startGameBtn.setAttribute('disabled', 'true');
-            startGameText.textContent = 'Waiting for players...';
-        }
-    }
-}
+// updateStartGameButton functionality moved to multiplayer-manager.js updateStartButtonState()
 
-function startMultiplayerGame() {
-    if (joinedPlayers.length >= 2 && socket && socket.connected) {
-        // Store multiplayer session info
-        sessionStorage.setItem('multiplayerMode', 'true');
-        sessionStorage.setItem('roomCode', roomCode);
-        sessionStorage.setItem('playerCount', joinedPlayers.length.toString());
-        sessionStorage.setItem('playerNames', JSON.stringify(joinedPlayers.map(p => p.name)));
-        
-        // ✅ MULTIPLAYER INTEGRATION: Start game signal
-        socket.emit('startGame', { roomCode: roomCode });
-        
-        // Navigate to game
-        window.location.href = 'game.html';
-    } else {
-        alert('Need at least 2 players to start the game');
-    }
-}
+// startMultiplayerGame functionality moved to multiplayer-manager.js startGame() function
 
 // ===== OFFLINE MODE FUNCTIONALITY =====
 let playerNames = [];
@@ -517,17 +356,9 @@ function copyRoomCodeToClipboard() {
 
 // ===== EVENT LISTENERS AND INITIALIZATION =====
 function initializeEventListeners() {
-    // Create Room Button
-    const createRoomBtn = document.getElementById('createRoomBtn');
-    if (createRoomBtn) {
-        createRoomBtn.addEventListener('click', createMultiplayerRoom);
-    }
+    // Create Room Button is handled by multiplayer-manager.js
     
-    // Start Game Button (multiplayer)
-    const startGameBtn = document.getElementById('startGameBtn');
-    if (startGameBtn) {
-        startGameBtn.addEventListener('click', startMultiplayerGame);
-    }
+    // Start Game Button is handled by multiplayer-manager.js
     
     // Offline Game Button
     const offlineGameBtn = document.getElementById('offlineGameBtn');
@@ -546,8 +377,7 @@ function initializeEventListeners() {
 window.addEventListener('DOMContentLoaded', function() {
     console.log('Index page loading - initializing consolidated functionality');
     
-    // Initialize multiplayer connection
-    initializeMultiplayer();
+    // Multiplayer connection handled by multiplayer-manager.js
     
     // Initialize event listeners
     initializeEventListeners();

@@ -72,7 +72,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
 const swipeTarget = document.querySelector('#next-btn');
 
 function swipeRightAndReturn(){

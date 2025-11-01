@@ -1,12 +1,12 @@
 // multiplayer-manager.js - Unified multiplayer functionality for Table Talk
 // Intelligently handles both room setup (index) and game hosting (game) contexts
-console.log('🚀 Multiplayer Manager loaded');
+console.log(' Multiplayer Manager loaded');
 
 // === CONTEXT DETECTION ===
 const isIndexPage = window.location.pathname.includes('index.html') || window.location.pathname === '/';
 const isGamePage = window.location.pathname.includes('game.html');
 
-console.log(`📍 Page context: ${isIndexPage ? 'Index (Setup)' : isGamePage ? 'Game (Host)' : 'Unknown'}`);
+console.log(`Page context: ${isIndexPage ? 'Index (Setup)' : isGamePage ? 'Game (Host)' : 'Unknown'}`);
 
 // === SHARED STATE MANAGEMENT ===
 let socket = null;
@@ -77,7 +77,7 @@ function setupSharedEventListeners() {
     
     // Player joined the room
     socket.on('player-joined', (data) => {
-        console.log('👤 Player joined:', data);
+        console.log(' Player joined:', data);
         
         // Add player to our list if not already there
         const existingPlayer = multiplayerState.connectedPlayers.find(p => p.id === data.player.id);
@@ -95,7 +95,7 @@ function setupSharedEventListeners() {
     
     // Player left the room
     socket.on('player-left', (data) => {
-        console.log('👋 Player left:', data);
+        console.log(' Player left:', data);
         
         // Remove player from our list
         multiplayerState.connectedPlayers = multiplayerState.connectedPlayers.filter(p => p.id !== data.player.id);
@@ -110,7 +110,7 @@ function setupSharedEventListeners() {
     // Answer received from a player (game page only)
     if (isGamePage) {
         socket.on('answer-received', (data) => {
-            console.log('💬 Answer received:', data);
+            console.log(' Answer received:', data);
             
             // Store the answer
             multiplayerState.collectedAnswers.set(data.playerName, data);
@@ -173,8 +173,8 @@ function createRoom() {
     if (createBtn) {
         createBtn.disabled = true;
         createBtn.innerHTML = isIndexPage ? 
-            '<span>🔄 Creating room...</span>' : 
-            '🔄 Creating Room...';
+            '<span> Creating room...</span>' : 
+            ' Creating Room...';
     }
     
     socket.emit('create-room', {
@@ -373,6 +373,12 @@ function startGame() {
         players: multiplayerState.connectedPlayers
     }));
     
+    // Also store in legacy format for compatibility
+    sessionStorage.setItem('multiplayerMode', 'true');
+    sessionStorage.setItem('roomCode', multiplayerState.roomCode);
+    sessionStorage.setItem('playerCount', multiplayerState.connectedPlayers.length.toString());
+    sessionStorage.setItem('playerNames', JSON.stringify(multiplayerState.connectedPlayers.map(p => p.name)));
+    
     console.log('Starting game with', multiplayerState.connectedPlayers.length, 'players');
     
     // Navigate to game page
@@ -491,7 +497,7 @@ function broadcastQuestionToPlayers(question) {
         question: multiplayerQuestion
     });
     
-    console.log('📤 Question broadcasted to players:', multiplayerQuestion);
+    console.log(' Question broadcasted to players:', multiplayerQuestion);
     showMessage(`Question sent to ${multiplayerState.connectedPlayers.length} players`);
 }
 
@@ -507,7 +513,7 @@ function revealAnswersToPlayers() {
         roomCode: multiplayerState.roomCode
     });
     
-    console.log('📊 Answers revealed to players');
+    console.log(' Answers revealed to players');
     showMessage('Results shown to all players');
 }
 
@@ -515,13 +521,13 @@ function revealAnswersToPlayers() {
 function updateAnswerProgress(answeredCount, totalPlayers) {
     if (!isGamePage) return;
     
-    console.log(`📊 Progress: ${answeredCount}/${totalPlayers} players answered`);
+    console.log(`Progress: ${answeredCount}/${totalPlayers} players answered`);
     
     // Auto-reveal when everyone has answered
     if (answeredCount === totalPlayers && totalPlayers > 0) {
         setTimeout(() => {
             if (multiplayerState.waitingForAnswers) {
-                console.log('🎉 All players answered! Auto-revealing results...');
+                console.log('All players answered! Auto-revealing results...');
                 revealAnswersToPlayers();
             }
         }, 1000); // Small delay for better UX
@@ -618,7 +624,7 @@ function deleteSavedGame(sessionId) {
 
 // === NOTIFICATION HELPERS ===
 function showPlayerJoinedNotification(playerName) {
-    showMessage(`🎉 ${playerName} joined the game!`);
+    showMessage(` ${playerName} joined the game!`);
 }
 
 function showPlayerAnsweredNotification(playerName) {
@@ -626,7 +632,7 @@ function showPlayerAnsweredNotification(playerName) {
 }
 
 function showMessage(message) {
-    console.log('📢 Message:', message);
+    console.log(' Message:', message);
     // Could add toast notifications here in the future
 }
 
@@ -685,14 +691,15 @@ function setupEventListeners() {
 
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Multiplayer manager initialized for', isIndexPage ? 'index' : 'game', 'page');
+    console.log('Multiplayer manager initialized for', isIndexPage ? 'index' : 'game', 'page');
     
     // Setup event listeners
     setupEventListeners();
     
-    // Initialize socket connection
+    // Initialize socket connection and UI state
     if (isIndexPage) {
         updateMultiplayerConnectionStatus('connecting', '🔄 Connecting to server...');
+        updateStartButtonState(); // Initialize button state
     }
     
     const socketInitialized = initializeMultiplayerSocket();
@@ -717,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 multiplayerState.roomCode = roomData.roomCode;
                 multiplayerState.isHost = roomData.isHost;
                 multiplayerState.connectedPlayers = roomData.players || [];
-                console.log('🔄 Restored multiplayer session:', roomData);
+                console.log(' Restored multiplayer session:', roomData);
             } catch (e) {
                 console.warn('Failed to restore multiplayer session:', e);
             }
