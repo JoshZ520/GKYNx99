@@ -10,6 +10,22 @@
     --light: #ffffff;
     /* Status Colors */
     --success-color: #28a745;       /* Success/completion states */
+    
+    /* Game UI Colors */
+    --button-purple: #a855f7;       /* Purple buttons */
+    --button-purple-dark: #7c3aed;  /* Purple hover */
+    --button-blue: #3b82f6;         /* Blue buttons */
+    --button-blue-dark: #2563eb;    /* Blue hover */
+    --button-green: #10b981;        /* Green buttons */
+    --button-green-dark: #059669;   /* Green hover */
+    --button-red: #ef4444;          /* Red/skip buttons */
+    --button-red-dark: #dc2626;     /* Red hover */
+    
+    /* Border & Background Colors */
+    --border-dark: #2d3748;         /* Dark borders */
+    --bg-light-gray: #f0f0f0;       /* Light backgrounds */
+    --bg-gray: #d1d5db;             /* Medium gray */
+    --text-gray: #333333;           /* Dark text */
     /* Font Sizes - Only what you use */
     --font-sm: 14px;      /* Mobile/small text */
     --font-base: 16px;    /* Body text */
