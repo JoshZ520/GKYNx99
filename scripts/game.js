@@ -221,10 +221,25 @@ function selectPreference(choice) {
         selectedOption.classList.add('selected');
     }
     
-    // Store the selection
-    document.getElementById('selectedPreference').value = choice;
+    // Get the actual text value instead of the option key
+    let actualAnswer = choice; // fallback to choice if we can't find the text
     
-    console.log('Selected preference:', choice);
+    if (choice === 'option1') {
+        const option1Label = document.getElementById('option1Label');
+        if (option1Label) {
+            actualAnswer = option1Label.textContent;
+        }
+    } else if (choice === 'option2') {
+        const option2Label = document.getElementById('option2Label');
+        if (option2Label) {
+            actualAnswer = option2Label.textContent;
+        }
+    }
+    
+    // Store the actual answer text, not the option key
+    document.getElementById('selectedPreference').value = actualAnswer;
+    
+    console.log('Selected preference:', choice, '→ actual answer:', actualAnswer);
 }
 
 function submitAnswer() {
