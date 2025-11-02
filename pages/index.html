@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../assets/css/core/index.css">
     <!-- Clean script architecture -->
     <script src="../src/utilities/theme-utilities.js" defer></script>
+    <script src="../src/utilities/game-snapshot.js" defer></script>
     <script src="../src/utilities/index.js" defer></script>
 </head>
 <body class="front-page" id="root">
@@ -27,15 +28,17 @@
                 </div>
             </div>
 
-            <!-- Resume Game Section -->
-            <div class="resume-section" id="resumeSection" class="hidden">
+            <!-- Continue Game Section -->
+            <div class="continue-game-section" id="continueGameSection" style="display: none;">
                 <h3>Continue Previous Game</h3>
-                <p class="resume-instruction">Pick up where you left off with a saved game:</p>
-                <div class="saved-games-list" id="savedGamesList">
-                    <!-- Saved games will be populated here -->
-                </div>
-                <div class="resume-actions">
-                    <button type="button" class="secondary-btn" id="newGameBtn">Start Fresh Game Instead</button>
+                <p class="continue-instruction">You have an unfinished game that you can resume.</p>
+                <div class="continue-actions">
+                    <button class="start-btn" id="continueGameBtn" type="button">
+                        <span>Continue Game</span>
+                    </button>
+                    <button class="danger-btn" id="discardGameBtn" type="button">
+                        <span>Start New Game Instead</span>
+                    </button>
                 </div>
             </div>
 

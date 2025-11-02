@@ -16,6 +16,7 @@ function advanceToNextPlayer() {
     if (playerNames.length === 0) return;
     
     currentPlayerIndex = (currentPlayerIndex + 1) % playerNames.length;
+    window.currentPlayerIndex = currentPlayerIndex; // Keep global sync
     updatePlayerTurnIndicator();
     
     // Clear the selection for the next player
@@ -123,12 +124,18 @@ function submitAnswer() {
     
     console.log(`${currentPlayerName} submitted: ${selectedPreference} for "${currentQuestionText}"`);
     
-    // MULTIPLAYER INTEGRATION: Advance to next player if in multiplayer mode
-    if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
-        // Let multiplayer manager handle player advancement
+    // MULTIPLAYER INTEGRATION: Advance to next player based on game mode
+    const isOfflineMode = sessionStorage.getItem('offlineMode') === 'true' || 
+                          sessionStorage.getItem('gameMode') === 'offline';
+    
+    if (isOfflineMode) {
+        // Offline mode - advance to next player normally
+        advanceToNextPlayer();
+    } else if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
+        // Multiplayer mode - let multiplayer manager handle player advancement
         // This will be handled by the multiplayer system
     } else {
-        // Single player mode - proceed normally
+        // Fallback - advance to next player
         advanceToNextPlayer();
     }
     
@@ -152,12 +159,6 @@ function handleFinalSubmit() {
     // MULTIPLAYER INTEGRATION: Reveal answers to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         window.hostMultiplayer.revealAnswers();
-    }
-    
-    // Save final session state before finishing
-    if (window.gameSessionManager) {
-        gameSessionManager.saveCurrentSession();
-        console.log('Final session state saved before transitioning to results');
     }
     
     // Navigate to results page - check if offline mode
@@ -222,8 +223,14 @@ window.gamePlayer = {
     getCurrentPlayerIndex: () => currentPlayerIndex,
     getSubmissionsByQuestion: () => submissionsByQuestion,
     // Setters for shared state
-    setPlayerNames: (names) => { playerNames = names; },
-    setCurrentPlayerIndex: (index) => { currentPlayerIndex = index; }
+    setPlayerNames: (names) => { 
+        playerNames = names; 
+        window.playerNames = names; // Keep global sync for compatibility
+    },
+    setCurrentPlayerIndex: (index) => { 
+        currentPlayerIndex = index; 
+        window.currentPlayerIndex = index; // Keep global sync for compatibility
+    }
 };
 
 // === AUTO-INITIALIZATION ===
