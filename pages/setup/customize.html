@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Game - Table Talk</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="../../assets/css/core/shared.css">
+    <link rel="stylesheet" href="../../assets/css/core/index.css">
+    <link rel="stylesheet" href="../../assets/css/setup/customize.css">
+    <script src="../../src/utilities/theme-utilities.js" defer></script>
+    <script src="../../src/utilities/session-utilities.js" defer></script>
+    <script src="../../src/setup/question-filter.js" defer></script>
+    <script src="../../src/setup/customize.js" defer></script>
+</head>
+<body class="customize-page" id="root">
+    <div class="card">
+        <header>
+            <h1>Customize Your Game</h1>
+            <p class="tagline">Design the perfect conversation experience</p>
+        </header>
+
+        <main>
+            <!-- Game Length Section -->
+            <div class="step-section">
+                <h3>📊 Game Length</h3>
+                <p class="step-instruction">How many questions do you want to explore?</p>
+                
+                <div class="question-count-options">
+                    <label class="count-option">
+                        <input type="radio" name="questionCount" value="5">
+                        <span>Quick (5 questions)</span>
+                        <small>~10-15 minutes</small>
+                    </label>
+                    <label class="count-option">
+                        <input type="radio" name="questionCount" value="10" checked>
+                        <span>Standard (10 questions)</span>
+                        <small>~20-30 minutes</small>
+                    </label>
+                    <label class="count-option">
+                        <input type="radio" name="questionCount" value="15">
+                        <span>Extended (15 questions)</span>
+                        <small>~35-45 minutes</small>
+                    </label>
+                    <label class="count-option custom-option">
+                        <input type="radio" name="questionCount" value="custom">
+                        <span>Custom: <input type="number" id="customCount" min="1" max="50" value="10"> questions</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Topic Selection Section -->
+            <div class="step-section">
+                <h3>🎯 Topics to Include</h3>
+                <p class="step-instruction">Choose which conversation topics you'd like to explore:</p>
+                
+                <div class="topic-selection-controls">
+                    <button type="button" class="secondary-btn" id="selectAllBtn">Select All</button>
+                    <button type="button" class="secondary-btn" id="selectNoneBtn">Select None</button>
+                </div>
+                
+                <div class="topics-grid" id="topicCheckboxes">
+                    <!-- Topics will be loaded here by JavaScript -->
+                    <label class="topic-checkbox">
+                        <input type="checkbox" value="food" checked>
+                        <span>Food & Dining</span>
+                        <small>12 questions</small>
+                    </label>
+                    <!-- More topics will be added dynamically -->
+                </div>
+            </div>
+
+            <!-- Game Style Section -->
+            <div class="step-section">
+                <h3>⚙️ Game Style</h3>
+                <p class="step-instruction">How should questions be selected and ordered?</p>
+                
+                <div class="game-style-options">
+                    <label class="style-option">
+                        <input type="radio" name="gameStyle" value="balanced" checked>
+                        <span>Balanced Mix</span>
+                        <small>Equal questions from each selected topic</small>
+                    </label>
+                    <label class="style-option">
+                        <input type="radio" name="gameStyle" value="random">
+                        <span>Random Selection</span>
+                        <small>Questions chosen randomly from all topics</small>
+                    </label>
+                    <label class="style-option">
+                        <input type="radio" name="gameStyle" value="progressive">
+                        <span>Progressive Depth</span>
+                        <small>Start light, gradually get deeper</small>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="step-section preview-section">
+                <h3>📋 Game Preview</h3>
+                <div id="gamePreview" class="game-preview">
+                    <div class="preview-item">
+                        <strong>Total Questions:</strong> <span id="previewQuestionCount">10</span>
+                    </div>
+                    <div class="preview-item">
+                        <strong>Selected Topics:</strong> <span id="previewTopics">Food & Dining</span>
+                    </div>
+                    <div class="preview-item">
+                        <strong>Estimated Time:</strong> <span id="previewTime">20-30 minutes</span>
+                    </div>
+                    <div class="preview-item">
+                        <strong>Distribution:</strong> <span id="previewDistribution">~10 food questions</span>
+                    </div>
+                </div>
+                
+                <div id="previewWarnings" class="preview-warnings hidden">
+                    <!-- Warnings will be displayed here -->
+                </div>
+            </div>
+
+            <!-- Start Game Section -->
+            <div class="step-section">
+                <div class="start-game-container">
+                    <button class="start-btn" id="startCustomGameBtn" type="button">
+                        <span>Start Custom Game</span>
+                    </button>
+                    <p class="game-mode-note">Your custom configuration will be saved for this session</p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="step-section">
+                <div class="navigation-links">
+                    <a href="../index.html" class="secondary-btn">← Back to Main Menu</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

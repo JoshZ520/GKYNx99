@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
 app.get('/player', (req, res) => {
     try {
         const playerPath = path.join(__dirname, '../player/index.html');
-        console.log('📱 Serving player page from:', playerPath);
+        console.log('Serving player page from:', playerPath);
         res.sendFile(playerPath);
     } catch (error) {
         console.error('Error serving player.html:', error);
@@ -135,7 +135,7 @@ io.on('connection', (socket) => {
         room.players.push(player);
         socket.join(roomCode);
         
-        console.log(`👤 ${playerName} joined room ${roomCode}`);
+        console.log(` ${playerName} joined room ${roomCode}`);
         
         // Notify player they joined successfully
         socket.emit('joined-room', {
@@ -198,7 +198,7 @@ io.on('connection', (socket) => {
             timestamp: new Date().toISOString()
         });
         
-        console.log(`💬 ${player.name} answered in room ${roomCode}`);
+        console.log(` ${player.name} answered in room ${roomCode}`);
         
         // Notify host of answer count
         const hostSocket = io.sockets.sockets.get(room.hostId);
@@ -231,7 +231,7 @@ io.on('connection', (socket) => {
         // Compile results
         const results = Array.from(room.answers.values());
         
-        console.log(`📊 Results revealed for room ${roomCode}`);
+        console.log(`Results revealed for room ${roomCode}`);
         
         // Send results to everyone in room
         io.to(roomCode).emit('answers-revealed', {
@@ -242,7 +242,7 @@ io.on('connection', (socket) => {
 
     // LEGACY - Keep existing test message functionality
     socket.on('test-message', (data) => {
-        console.log('📨 Test message received from', socket.id, ':', data.message);
+        console.log(' Test message received from', socket.id, ':', data.message);
         socket.emit('test-response', {
             message: `Server received: "${data.message}"`,
             serverTime: new Date().toLocaleTimeString(),
@@ -276,7 +276,7 @@ io.on('connection', (socket) => {
                     room.players.splice(playerIndex, 1);
                     room.answers.delete(socket.id);
                     
-                    console.log(`👤 ${player.name} left room ${roomCode}`);
+                    console.log(`${player.name} left room ${roomCode}`);
                     
                     // Notify remaining players
                     socket.to(roomCode).emit('player-left', {

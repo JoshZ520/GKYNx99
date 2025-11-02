@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Talk - Start!</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
-    <link rel="stylesheet" href="stylesheets/shared.css">
-    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="../assets/css/core/shared.css">
+    <link rel="stylesheet" href="../assets/css/core/index.css">
     <!-- Clean script architecture -->
-    <script src="scripts/theme-utilities.js" defer></script>
-    <script src="scripts/index.js" defer></script>
+    <script src="../src/utilities/theme-utilities.js" defer></script>
+    <script src="../src/utilities/index.js" defer></script>
 </head>
 <body class="front-page" id="root">
     <div class="card">
@@ -54,7 +54,7 @@
                     </div>
                     
                     <div class="create-room-container" style="margin-top: 20px;">
-                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="window.location.href='fallback/front-pg.html'">
+                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="window.location.href='../fallback/front-pg.html'">
                             <span>Start Offline Mode</span>
                         </button>
                         <p class="game-mode-description">Single device - everyone takes turns</p>
@@ -96,7 +96,7 @@
                     <h3>Server Connection Issue</h3>
                     <p class="step-instruction">Can't connect to multiplayer server. Switch to offline mode:</p>
                     <div class="offline-container">
-                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='fallback/front-pg.html'">
+                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='../fallback/front-pg.html'">
                             <span>Switch to Offline Mode</span>
                         </button>
                         <p class="offline-note">Single-device gameplay with manual player turns</p>
@@ -110,6 +110,6 @@
     <!-- Socket.io for multiplayer -->
     <script src="/socket.io/socket.io.js"></script>
     <!-- Clean multiplayer manager -->
-    <script src="scripts/multiplayer-manager.js" defer></script>
+    <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
 </body>
 </html>

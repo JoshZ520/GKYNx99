@@ -1,0 +1,383 @@
+/* Customize Page Specific Styles */
+
+.customize-page {
+    --primary-blue: #2c5aa0;
+    --secondary-blue: #4a7bc8;
+    --accent-blue: #e6f0ff;
+    --success-green: #28a745;
+    --warning-orange: #fd7e14;
+    --danger-red: #dc3545;
+    --text-color: #2c3e50;
+    --border-color: #dee2e6;
+    --background-light: #f8f9fa;
+}
+
+.customize-page .card {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+/* Header Styling */
+.customize-page header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.customize-page h1 {
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+}
+
+.tagline {
+    color: #6c757d;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Step Sections */
+.step-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.step-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.step-section h3 {
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.step-instruction {
+    color: #6c757d;
+    margin: 0 0 1rem 0;
+    font-size: 0.95rem;
+}
+
+/* Question Count Options */
+.question-count-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.count-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.count-option:hover {
+    border-color: var(--secondary-blue);
+    background-color: var(--accent-blue);
+}
+
+.count-option input[type="radio"] {
+    margin-right: 0.75rem;
+}
+
+.count-option input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.count-option:has(input[type="radio"]:checked) {
+    border-color: var(--primary-blue);
+    background-color: var(--accent-blue);
+}
+
+.count-option span {
+    flex: 1;
+    font-weight: 500;
+}
+
+.count-option small {
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin-left: 0.5rem;
+}
+
+.custom-option {
+    flex-wrap: wrap;
+}
+
+.custom-option #customCount {
+    width: 60px;
+    margin: 0 0.25rem;
+    padding: 0.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Topic Selection */
+.topic-selection-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.secondary-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    color: var(--text-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background-color: var(--background-light);
+    border-color: var(--secondary-blue);
+}
+
+.topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.topic-checkbox {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.topic-checkbox:hover {
+    border-color: var(--secondary-blue);
+    background-color: var(--accent-blue);
+}
+
+.topic-checkbox:has(input:checked) {
+    border-color: var(--success-green);
+    background-color: #e8f5e8;
+}
+
+.topic-checkbox input[type="checkbox"] {
+    margin-bottom: 0.5rem;
+}
+
+.topic-checkbox span {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+}
+
+.topic-checkbox small {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Game Style Options */
+.game-style-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.style-option {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.style-option:hover {
+    border-color: var(--secondary-blue);
+    background-color: var(--accent-blue);
+}
+
+.style-option:has(input[type="radio"]:checked) {
+    border-color: var(--primary-blue);
+    background-color: var(--accent-blue);
+}
+
+.style-option input[type="radio"] {
+    margin-bottom: 0.5rem;
+}
+
+.style-option span {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.25rem;
+}
+
+.style-option small {
+    color: #6c757d;
+    font-size: 0.85rem;
+}
+
+/* Preview Section */
+.preview-section {
+    background-color: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.game-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.preview-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+}
+
+.preview-item strong {
+    color: var(--text-color);
+}
+
+.preview-item span {
+    color: var(--primary-blue);
+    font-weight: 500;
+}
+
+.preview-warnings {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 6px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+}
+
+.preview-warnings.hidden {
+    display: none;
+}
+
+.preview-warnings .warning-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.preview-warnings .warning-item:last-child {
+    margin-bottom: 0;
+}
+
+.preview-warnings .warning-icon {
+    margin-right: 0.5rem;
+    color: var(--warning-orange);
+}
+
+/* Start Game Section */
+.start-game-container {
+    text-align: center;
+    padding: 1.5rem 0;
+}
+
+.start-btn {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(44, 90, 160, 0.2);
+}
+
+.start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(44, 90, 160, 0.3);
+}
+
+.start-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.game-mode-note {
+    margin: 1rem 0 0 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* Navigation Links */
+.navigation-links {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.navigation-links a {
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .customize-page .card {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .topics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .game-preview {
+        grid-template-columns: 1fr;
+    }
+    
+    .topic-selection-controls {
+        flex-direction: column;
+    }
+    
+    .question-count-options {
+        gap: 0.5rem;
+    }
+    
+    .count-option,
+    .style-option {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .customize-page .card {
+        margin: 0.5rem;
+        padding: 1rem;
+    }
+    
+    .step-section {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+    }
+    
+    .start-btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+    }
+}

@@ -4,7 +4,7 @@
 let topics = {};
 // === DATA LOADING ===
 function loadQuestions() {
-    return fetch('files/topics/index.json').then(res => {
+    return fetch('data/questions/topics/index.json').then(res => {
         if (!res.ok) throw new Error('Failed to load topics/index.json');
         return res.json();
     })
@@ -12,7 +12,7 @@ function loadQuestions() {
         // Load individual topic files
         const topicPromises = Object.keys(topicsIndex).map(topicName => {
             const topicInfo = topicsIndex[topicName];
-            return fetch(`files/topics/${topicInfo.file}`)
+            return fetch(`data/questions/topics/${topicInfo.file}`)
                 .then(res => {
                     if (!res.ok) throw new Error(`Failed to load ${topicInfo.file}`);
                     return res.json();
