@@ -165,7 +165,7 @@ io.on('connection', (socket) => {
         room.questionInProgress = true;
         room.answers.clear();
         
-        console.log(`❓ Question broadcasted to room ${roomCode}`);
+        console.log(`Question broadcasted to room ${roomCode}`);
         
         // Send question to all players in room
         io.to(roomCode).emit('new-question', {

@@ -2,11 +2,11 @@
 // All multiplayer functionality handled by multiplayer-manager.js
 // Player setup functionality moved to fallback/scripts/player-setup.js
 
-console.log('📄 Index page loading...');
+console.log('Index page loading...');
 
 // === OFFLINE MODE FUNCTIONALITY ===
 function startOfflineMode() {
-    console.log('🔄 Starting offline mode...');
+    console.log('Starting offline mode...');
     
     // Clear any multiplayer data
     sessionStorage.removeItem('multiplayerRoom');
@@ -36,10 +36,10 @@ function initializeMainPageEventListeners() {
 
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 Main index page initialized');
+    console.log('Main index page initialized');
     
     // Initialize main page event listeners
     initializeMainPageEventListeners();
     
-    console.log('✅ Main page functionality ready');
+    console.log('Main page functionality ready');
 });

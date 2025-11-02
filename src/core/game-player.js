@@ -123,7 +123,7 @@ function submitAnswer() {
     
     console.log(`${currentPlayerName} submitted: ${selectedPreference} for "${currentQuestionText}"`);
     
-    // ✅ MULTIPLAYER INTEGRATION: Advance to next player if in multiplayer mode
+    // MULTIPLAYER INTEGRATION: Advance to next player if in multiplayer mode
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         // Let multiplayer manager handle player advancement
         // This will be handled by the multiplayer system
@@ -149,7 +149,7 @@ function handleFinalSubmit() {
     sessionStorage.setItem('questionsInOrder', JSON.stringify(questionOrder));
     sessionStorage.setItem('submissionsByQuestion', JSON.stringify(submissionsByQuestion));
     
-    // ✅ MULTIPLAYER INTEGRATION: Reveal answers to multiplayer players if active
+    // MULTIPLAYER INTEGRATION: Reveal answers to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         window.hostMultiplayer.revealAnswers();
     }
@@ -181,6 +181,30 @@ function initializePlayers() {
     }
 }
 
+// === INITIALIZATION ===
+function initializePlayerSystem() {
+    console.log('Initializing player system...');
+    
+    // Load player data from session storage (for offline mode)
+    const gameMode = sessionStorage.getItem('gameMode');
+    if (gameMode === 'offline') {
+        const storedNames = sessionStorage.getItem('playerNames');
+        if (storedNames) {
+            try {
+                const names = JSON.parse(storedNames);
+                setPlayerNames(names);
+                console.log('Loaded offline players:', names);
+                
+                // Initialize the first player's turn
+                currentPlayerIndex = 0;
+                updatePlayerTurnIndicator();
+            } catch (error) {
+                console.error('Error loading player names:', error);
+            }
+        }
+    }
+}
+
 // === EXPORTS ===
 // Make functions available globally for use by other modules
 window.gamePlayer = {
@@ -192,6 +216,7 @@ window.gamePlayer = {
     submitAnswer,
     handleFinalSubmit,
     initializePlayers,
+    initializePlayerSystem,
     // Getters for shared state
     getPlayerNames: () => playerNames,
     getCurrentPlayerIndex: () => currentPlayerIndex,
@@ -200,3 +225,13 @@ window.gamePlayer = {
     setPlayerNames: (names) => { playerNames = names; },
     setCurrentPlayerIndex: (index) => { currentPlayerIndex = index; }
 };
+
+// === AUTO-INITIALIZATION ===
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Player System...');
+    if (window.gamePlayer) {
+        window.gamePlayer.initializePlayerSystem();
+        console.log('Player system initialized');
+    }
+});

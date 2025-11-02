@@ -8,8 +8,9 @@ const topicsPerPage = 6;
 
 // === TOPIC SELECTION SYSTEM ===
 function initializeTopicSelection() {
-    // Load topics from JSON
-    fetch('files/topics/index.json')
+    // Load topics from JSON - use dynamic path resolution
+    const basePath = window.location.pathname.includes('/pages/') ? '../data/questions/topics/index.json' : 'data/questions/topics/index.json';
+    fetch(basePath)
         .then(res => res.json())
         .then(topicsIndex => {
             console.log('Loaded topics index:', topicsIndex);
@@ -257,3 +258,13 @@ window.gameUI = {
     // Getters for shared state
     getAvailableTopics: () => availableTopics
 };
+
+// === AUTO-INITIALIZATION ===
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing Game UI...');
+    if (window.gameUI) {
+        window.gameUI.initializeTopicSelection();
+        console.log('Topic selection initialized');
+    }
+});

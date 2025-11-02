@@ -29,7 +29,7 @@ function handleFrontPageFunctionality() {
 }
 
 function initializePlayerSetup() {
-    console.log('🔧 initializePlayerSetup() called');
+    console.log('initializePlayerSetup() called');
     const playerCountInput = document.getElementById('player_count');
     const playerNamesStep = document.getElementById('playerNamesStep');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
@@ -41,14 +41,14 @@ function initializePlayerSetup() {
     });
     
     if (!playerCountInput) {
-        console.log('❌ No player_count element found - exiting');
+        console.log('No player_count element found - exiting');
         return; // Not on a page with player setup
     }
     
-    console.log('📝 Adding change event listener to player count dropdown');
+    console.log('Adding change event listener to player count dropdown');
     
     playerCountInput.addEventListener('change', function(e) {
-        console.log('🎯 Dropdown changed! Selected value:', e.target.value);
+        console.log('Dropdown changed! Selected value:', e.target.value);
         const count = parseInt(e.target.value, 10);
         console.log('Parsed count:', count);
         
@@ -60,18 +60,18 @@ function initializePlayerSetup() {
         }
         
         if (Number.isNaN(count) || count < 2 || count > 20) {
-            console.log('❌ Invalid count, hiding step');
+            console.log('Invalid count, hiding step');
             if (playerNamesStep) playerNamesStep.classList.add('hidden');
             return;
         }
         
-        console.log('✅ Valid count, showing player names step');
+        console.log('Valid count, showing player names step');
         // Show player names step
         if (playerNamesStep) {
             playerNamesStep.classList.remove('hidden');
             console.log('Step 2 should now be visible');
         } else {
-            console.log('❌ playerNamesStep element not found!');
+            console.log('playerNamesStep element not found!');
         }
         
         // Generate player name inputs
@@ -233,7 +233,7 @@ function initializeOfflineEventListeners() {
 
 // === INITIALIZATION ===
 function initializePlayerSetupSystem() {
-    console.log('📄 Player setup system loading...');
+    console.log('Player setup system loading...');
     console.log('Current page URL:', window.location.href);
     console.log('Document ready state:', document.readyState);
     
@@ -246,10 +246,10 @@ function initializePlayerSetupSystem() {
     // Initialize player setup system
     initializePlayerSetup();
     
-    console.log('✅ Player setup system ready');
+    console.log('Player setup system ready');
 }
 
-console.log('🚀 player-setup.js script loaded!');
+console.log('player-setup.js script loaded!');
 console.log('Document ready state at script load:', document.readyState);
 
 // Auto-initialize if DOM is already loaded, otherwise wait
@@ -257,6 +257,6 @@ if (document.readyState === 'loading') {
     console.log('⏳ DOM still loading, waiting for DOMContentLoaded...');
     document.addEventListener('DOMContentLoaded', initializePlayerSetupSystem);
 } else {
-    console.log('✅ DOM already loaded, initializing immediately');
+    console.log('DOM already loaded, initializing immediately');
     initializePlayerSetupSystem();
 }

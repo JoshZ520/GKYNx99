@@ -1,7 +1,7 @@
 // multiplayer-manager.js - Clean multiplayer system
 // Handles all multiplayer functionality - room creation, player management, game integration
 
-console.log('🎮 Table Talk App Loading...');
+console.log('Table Talk App Loading...');
 
 // === GLOBAL STATE ===
 let socket = null;
@@ -40,13 +40,13 @@ function updateStatus(message, type = 'info') {
     if (statusDot) {
         statusDot.className = `status-dot ${type}`;
     }
-    console.log(`📊 Status: ${message}`);
+    console.log(`Status: ${message}`);
 }
 
 // === SOCKET CONNECTION ===
 function initializeSocket() {
     if (typeof io === 'undefined') {
-        console.log('❌ Socket.IO not available');
+        console.log('Socket.IO not available');
         updateStatus('Server unavailable - Offline mode only', 'offline');
         return false;
     }
@@ -55,7 +55,7 @@ function initializeSocket() {
         socket = io();
         
         socket.on('connect', () => {
-            console.log('✅ Connected to server');
+            console.log('Connected to server');
             gameState.isConnected = true;
             updateStatus('Connected to server', 'connected');
             
@@ -66,13 +66,13 @@ function initializeSocket() {
         });
         
         socket.on('disconnect', () => {
-            console.log('❌ Disconnected from server');
+            console.log('Disconnected from server');
             gameState.isConnected = false;
             updateStatus('Disconnected from server', 'disconnected');
         });
         
         socket.on('room-created', (data) => {
-            console.log('🏠 Room created:', data.roomCode);
+            console.log('Room created:', data.roomCode);
             gameState.roomCode = data.roomCode;
             gameState.isHost = true;
             
@@ -86,14 +86,14 @@ function initializeSocket() {
         });
         
         socket.on('player-joined', (data) => {
-            console.log('👤 Player joined:', data.player.name);
+            console.log('Player joined:', data.player.name);
             gameState.players.push(data.player);
             updatePlayersList();
             updateStartButton();
         });
         
         socket.on('player-left', (data) => {
-            console.log('👋 Player left:', data.player.name);
+            console.log('Player left:', data.player.name);
             gameState.players = gameState.players.filter(p => p.id !== data.player.id);
             updatePlayersList();
             updateStartButton();
@@ -101,7 +101,7 @@ function initializeSocket() {
         
         // Game page specific socket events
         socket.on('answer-received', (data) => {
-            console.log('📝 Answer received:', data.playerName);
+            console.log('Answer received:', data.playerName);
             updateAnswerProgress(data.answeredCount, data.totalPlayers);
             
             // Show notification
@@ -116,7 +116,7 @@ function initializeSocket() {
         });
         
         socket.on('answers-revealed', (data) => {
-            console.log('📊 Answers revealed:', data.results);
+            console.log('Answers revealed:', data.results);
             // This would be handled by game.js
             if (typeof handleAnswersRevealed === 'function') {
                 handleAnswersRevealed(data.results, data.question);
@@ -125,7 +125,7 @@ function initializeSocket() {
         
         return true;
     } catch (error) {
-        console.log('❌ Socket connection failed:', error);
+        console.log('Socket connection failed:', error);
         updateStatus('Connection failed - Offline mode only', 'offline');
         return false;
     }
@@ -179,7 +179,7 @@ function createRoom() {
         return;
     }
     
-    console.log('🏠 Creating room...');
+    console.log('Creating room...');
     updateStatus('Creating room...', 'connecting');
     
     const createBtn = document.getElementById('createRoomBtn');
@@ -199,7 +199,7 @@ function startGame() {
         return;
     }
     
-    console.log('🎮 Starting game...');
+    console.log('Starting game...');
     
     // Store game data for the game page
     sessionStorage.setItem('multiplayerRoom', JSON.stringify({
@@ -213,7 +213,7 @@ function startGame() {
 }
 
 function startOfflineMode() {
-    console.log('🔄 Starting offline mode...');
+    console.log('Starting offline mode...');
     
     // Clear any multiplayer data
     sessionStorage.removeItem('multiplayerRoom');
@@ -294,7 +294,7 @@ function broadcastQuestionToPlayers(question) {
         question: multiplayerQuestion
     });
     
-    console.log('📤 Question broadcasted to players:', multiplayerQuestion);
+    console.log('Question broadcasted to players:', multiplayerQuestion);
 }
 
 function revealAnswers() {
@@ -307,7 +307,7 @@ function revealAnswers() {
         roomCode: gameState.roomCode
     });
     
-    console.log('📊 Revealing answers to all players');
+    console.log('Revealing answers to all players');
 }
 
 function updateAnswerProgress(answeredCount, totalPlayers) {
@@ -332,7 +332,7 @@ if (typeof window !== 'undefined') {
 
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
-    console.log(`🎮 Table Talk initializing on ${gameState.currentPage} page`);
+    console.log(`Table Talk initializing on ${gameState.currentPage} page`);
     
     // Setup event listeners
     setupEventListeners();
@@ -361,12 +361,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.roomCode = roomData.roomCode;
                 gameState.isHost = roomData.isHost;
                 gameState.players = roomData.players || [];
-                console.log('🎮 Game page initialized with room:', gameState.roomCode);
+                console.log('Game page initialized with room:', gameState.roomCode);
             } catch (error) {
                 console.error('Failed to parse multiplayer room data:', error);
             }
         }
     }
     
-    console.log('✅ Table Talk initialized');
+    console.log('Table Talk initialized');
 });

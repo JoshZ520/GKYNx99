@@ -56,64 +56,8 @@ function generatePlayerInputs(selectedValue) {
 }
 
 function initializePlayerSetup() {
-    const playerCountInput = document.getElementById('player_count');
-    const playerSetupSection = document.getElementById('playerSetupSection');
-    const playerNamesContainer = document.getElementById('playerNamesContainer');
-    
-    if (!playerCountInput) return;
-    
-    playerCountInput.addEventListener('change', function(e) {
-        const count = parseInt(e.target.value, 10);
-        
-        if (Number.isNaN(count) || count < 2 || count > 10) {
-            if (playerSetupSection) playerSetupSection.classList.add('hidden');
-            return;
-        }
-        
-        // Show player setup section
-        if (playerSetupSection) playerSetupSection.classList.remove('hidden');
-        
-        // Generate player name inputs
-        if (playerNamesContainer) {
-            playerNamesContainer.innerHTML = '';
-            
-            for (let i = 1; i <= count; i++) {
-                const playerDiv = document.createElement('div');
-                playerDiv.className = 'player-input-group';
-                playerDiv.style.marginBottom = '10px';
-                
-                const label = document.createElement('label');
-                label.textContent = `Player ${i}:`;
-                label.htmlFor = `player_${i}`;
-                label.style.display = 'block';
-                label.style.marginBottom = '5px';
-                
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.id = `player_${i}`;
-                input.name = `player_${i}`;
-                input.placeholder = `Enter name for Player ${i}`;
-                input.required = true;
-                input.style.width = '100%';
-                input.style.padding = '8px';
-                input.style.border = '1px solid #ddd';
-                input.style.borderRadius = '4px';
-                
-                playerDiv.appendChild(label);
-                playerDiv.appendChild(input);
-                playerNamesContainer.appendChild(playerDiv);
-            }
-        }
-        
-        // Update start button state
-        updateStartButtonState();
-        
-        // Add input listeners
-        const inputs = playerNamesContainer.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.addEventListener('input', updateStartButtonState);
-        });
-    });
+    // This function is no longer needed - generatePlayerInputs handles everything
+    console.log('Player setup initialized - using generatePlayerInputs for input handling');
 }
 
 function updateStartButton() {

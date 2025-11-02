@@ -4,7 +4,12 @@
 let topics = {};
 // === DATA LOADING ===
 function loadQuestions() {
-    return fetch('data/questions/topics/index.json').then(res => {
+    // Determine the correct path based on current page location
+    const isInPages = window.location.pathname.includes('/pages/');
+    const isInFallback = window.location.pathname.includes('/fallback/');
+    const basePath = (isInPages || isInFallback) ? '../data/questions/topics/' : 'data/questions/topics/';
+    
+    return fetch(basePath + 'index.json').then(res => {
         if (!res.ok) throw new Error('Failed to load topics/index.json');
         return res.json();
     })
@@ -12,7 +17,7 @@ function loadQuestions() {
         // Load individual topic files
         const topicPromises = Object.keys(topicsIndex).map(topicName => {
             const topicInfo = topicsIndex[topicName];
-            return fetch(`data/questions/topics/${topicInfo.file}`)
+            return fetch(`${basePath}${topicInfo.file}`)
                 .then(res => {
                     if (!res.ok) throw new Error(`Failed to load ${topicInfo.file}`);
                     return res.json();

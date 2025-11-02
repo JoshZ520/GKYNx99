@@ -1,5 +1,8 @@
 // game-core.js - Core game functionality: question management and navigation
 // Handles loading, displaying, and navigating between questions
+//
+// LOGGING POLICY: Only keep essential logs (initialization, connections, errors)
+// For debugging: Add temporary console.log statements, then remove before committing
 
 // === SHARED GAME STATE ===
 let appQuestions = [];
@@ -182,3 +185,153 @@ window.gameCore = {
         return questionElem ? parseInt(questionElem.getAttribute('data-index')) || 0 : 0;
     }
 };
+
+// === EVENT LISTENERS SETUP ===
+// Set up game control event listeners when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Setting up Game Core event listeners...');
+    
+    // Question navigation controls
+    const switchBtn = document.getElementById('switchQuestion');
+    const randomTopicBtn = document.getElementById('randomTopicBtn');
+    const prevQuestionBtn = document.getElementById('prevQuestionBtn');
+    const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+    const skipQuestionBtn = document.getElementById('skipQuestionBtn');
+    
+    if (switchBtn) {
+        switchBtn.addEventListener('click', () => {
+            window.gameCore.switchToNextQuestion();
+        });
+        console.log('Switch question button connected');
+    }
+    
+    if (randomTopicBtn) {
+        randomTopicBtn.addEventListener('click', () => {
+            if (window.gameUI && window.gameUI.pickRandomTopic) {
+                window.gameUI.pickRandomTopic();
+            }
+        });
+        console.log('Random topic button connected');
+    }
+    
+    if (prevQuestionBtn) {
+        prevQuestionBtn.addEventListener('click', () => {
+            window.gameCore.switchToPreviousQuestion();
+        });
+        console.log('Previous question button connected');
+    }
+    
+    if (nextQuestionBtn) {
+        nextQuestionBtn.addEventListener('click', () => {
+            window.gameCore.switchToNextQuestion();
+        });
+        console.log('Next question button connected');
+    }
+    
+    if (skipQuestionBtn) {
+        skipQuestionBtn.addEventListener('click', () => {
+            window.gameCore.switchToNextQuestion();
+        });
+        console.log('Skip question button connected');
+    }
+    
+    // Topics and UI controls
+    const topicsToggleBtn = document.getElementById('topicsToggle');
+    if (topicsToggleBtn) {
+        topicsToggleBtn.addEventListener('click', () => {
+            if (window.gameUI && window.gameUI.toggleTopicsPanel) {
+                window.gameUI.toggleTopicsPanel();
+            }
+        });
+        console.log('Topics toggle button connected');
+    }
+    
+    // Preference selection
+    const option1 = document.getElementById('option1');
+    const option2 = document.getElementById('option2');
+    
+    if (option1) {
+        option1.addEventListener('click', () => {
+            if (window.gameUI && window.gameUI.selectPreference) {
+                window.gameUI.selectPreference('option1');
+            }
+        });
+        console.log('Option 1 selection connected');
+    }
+    
+    if (option2) {
+        option2.addEventListener('click', () => {
+            if (window.gameUI && window.gameUI.selectPreference) {
+                window.gameUI.selectPreference('option2');
+            }
+        });
+        console.log('Option 2 selection connected');
+    }
+    
+    // Player actions
+    const submitBtn = document.getElementById('submitButton');
+    const finalSubmitBtn = document.getElementById('final_submit');
+    
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            if (window.gamePlayer && window.gamePlayer.submitAnswer) {
+                window.gamePlayer.submitAnswer();
+            }
+        });
+        console.log('Submit answer button connected');
+    }
+    
+    if (finalSubmitBtn) {
+        finalSubmitBtn.addEventListener('click', () => {
+            if (window.gamePlayer && window.gamePlayer.handleFinalSubmit) {
+                window.gamePlayer.handleFinalSubmit();
+            }
+        });
+        console.log('Final submit button connected');
+    }
+    
+    // Topics pagination
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', () => {
+            if (window.gameUI && window.gameUI.changePage) {
+                window.gameUI.changePage('prev');
+            }
+        });
+        console.log('Previous page button connected');
+    }
+    
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', () => {
+            if (window.gameUI && window.gameUI.changePage) {
+                window.gameUI.changePage('next');
+            }
+        });
+        console.log('Next page button connected');
+    }
+    
+    console.log('Game Core event listeners setup complete!');
+    
+    // Perform final initialization after all modules are set up
+    setTimeout(() => {
+        // Check and apply offline mode
+        if (window.checkOfflineMode) {
+            window.checkOfflineMode();
+        }
+        
+        // Load current topic and apply questions
+        const currentTopic = localStorage.getItem('currentTopic') || 'default';
+        if (window.gameCore) {
+            window.gameCore.setTopic(currentTopic);
+        }
+        
+        // Update initial submission state
+        if (window.gamePlayer && window.gamePlayer.updateSubmissionState) {
+            window.gamePlayer.updateSubmissionState();
+        }
+        
+        console.log('Final game initialization complete!');
+    }, 100); // Small delay to ensure all modules are loaded
+});
