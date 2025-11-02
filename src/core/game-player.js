@@ -29,10 +29,20 @@ function updatePlayerTurnIndicator() {
     const indicator = document.getElementById('playerTurnIndicator');
     const playerNameElement = document.getElementById('currentPlayerName');
     
-    if (indicator && playerNameElement && playerNames.length > 1) {
+    console.log('Updating player turn indicator:', {
+        indicator: !!indicator,
+        playerNameElement: !!playerNameElement,
+        playerNamesLength: playerNames.length,
+        playerNames: playerNames,
+        currentPlayerIndex: currentPlayerIndex
+    });
+    
+    if (indicator && playerNameElement && playerNames.length > 0) { // Changed from > 1 to > 0
         const currentPlayer = getCurrentPlayerName();
         playerNameElement.textContent = currentPlayer;
         indicator.classList.remove('hidden');
+        
+        console.log('Player indicator updated:', currentPlayer);
         
         // Add animation class for new turn
         indicator.classList.add('new-turn');
@@ -124,18 +134,19 @@ function submitAnswer() {
     
     console.log(`${currentPlayerName} submitted: ${selectedPreference} for "${currentQuestionText}"`);
     
-    // MULTIPLAYER INTEGRATION: Advance to next player based on game mode
-    const isOfflineMode = sessionStorage.getItem('offlineMode') === 'true' || 
-                          sessionStorage.getItem('gameMode') === 'offline';
+    // SIMPLE FIX: Always advance to next player unless explicitly in multiplayer mode
+    console.log('Checking player advancement...');
     
-    if (isOfflineMode) {
-        // Offline mode - advance to next player normally
-        advanceToNextPlayer();
-    } else if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
-        // Multiplayer mode - let multiplayer manager handle player advancement
-        // This will be handled by the multiplayer system
+    // Only skip player advancement if we're definitely in an active multiplayer game
+    const skipAdvancement = window.hostMultiplayer && 
+                           window.hostMultiplayer.isActive && 
+                           window.hostMultiplayer.isActive() &&
+                           sessionStorage.getItem('offlineMode') !== 'true';
+    
+    if (skipAdvancement) {
+        console.log('Multiplayer mode detected - skipping automatic player advancement');
     } else {
-        // Fallback - advance to next player
+        console.log('Advancing to next player...');
         advanceToNextPlayer();
     }
     
@@ -175,10 +186,15 @@ function handleFinalSubmit() {
 function initializePlayers() {
     // Load player names from session storage
     const storedPlayerNames = JSON.parse(sessionStorage.getItem('playerNames')) || [];
+    console.log('Initializing players from session storage:', storedPlayerNames);
+    
     if (storedPlayerNames.length > 0) {
         playerNames = storedPlayerNames;
         currentPlayerIndex = 0;
+        console.log('Players loaded:', playerNames, 'Current player index:', currentPlayerIndex);
         updatePlayerTurnIndicator();
+    } else {
+        console.log('No player names found in session storage');
     }
 }
 
@@ -186,23 +202,30 @@ function initializePlayers() {
 function initializePlayerSystem() {
     console.log('Initializing player system...');
     
-    // Load player data from session storage (for offline mode)
-    const gameMode = sessionStorage.getItem('gameMode');
-    if (gameMode === 'offline') {
-        const storedNames = sessionStorage.getItem('playerNames');
-        if (storedNames) {
-            try {
-                const names = JSON.parse(storedNames);
-                setPlayerNames(names);
-                console.log('Loaded offline players:', names);
-                
-                // Initialize the first player's turn
-                currentPlayerIndex = 0;
-                updatePlayerTurnIndicator();
-            } catch (error) {
-                console.error('Error loading player names:', error);
-            }
+    // Load player data from session storage
+    const storedNames = sessionStorage.getItem('playerNames');
+    console.log('Session storage playerNames:', storedNames);
+    
+    if (storedNames) {
+        try {
+            const names = JSON.parse(storedNames);
+            playerNames = names; // Set directly
+            window.playerNames = names; // Keep global sync
+            
+            console.log('Loaded players:', names);
+            
+            // Initialize the first player's turn
+            currentPlayerIndex = 0;
+            window.currentPlayerIndex = 0;
+            
+            // Update the display
+            updatePlayerTurnIndicator();
+            
+        } catch (error) {
+            console.error('Error loading player names:', error);
         }
+    } else {
+        console.log('No playerNames found in session storage');
     }
 }
 
