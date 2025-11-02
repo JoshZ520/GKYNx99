@@ -411,7 +411,7 @@ h1.question {
 }
 
 .topics-panel {
-    background-color: var(--background-light);
+    background-color: green;
     border: 1px solid var(--accent-dark);
     border-radius: var(--space-md);
     padding: var(--space-xl) var(--space-lg);
@@ -446,7 +446,7 @@ h1.question {
     padding: var(--space-md) var(--space-sm);
     border: 1px solid var(--accent-dark);
     border-radius: var(--space-sm);
-    background-color: var(--accent-light);
+    background-color: var(--background-light);
     cursor: pointer;
     text-align: center;
     min-height: 60px;
@@ -455,7 +455,7 @@ h1.question {
 }
 
 .topic-option:hover {
-    background-color: var(--background-light);
+    background-color: var(--accent-light);
 }
 
 .topic-option:hover span {
