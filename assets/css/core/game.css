@@ -510,7 +510,7 @@ h1.question {
 }
 
 .page-info {
-    font-size: var(--font-sm);
+    font-size: var(--font-lg);
     color: var(--text-dark);
     font-weight: 500;
 }
