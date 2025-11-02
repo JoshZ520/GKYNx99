@@ -411,7 +411,7 @@ h1.question {
 }
 
 .topics-panel {
-    background-color: green;
+    background-color: rgb(74, 213, 74);
     border: 1px solid var(--accent-dark);
     border-radius: var(--space-md);
     padding: var(--space-xl) var(--space-lg);
