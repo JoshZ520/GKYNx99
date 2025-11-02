@@ -23,7 +23,7 @@ function initializeMainPageEventListeners() {
     if (newGameBtn) {
         newGameBtn.addEventListener('click', () => {
             sessionStorage.clear();
-            window.location.href = 'index.html';
+            window.location.href = 'pages/index.html';
         });
     }
     

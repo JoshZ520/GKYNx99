@@ -42,7 +42,7 @@ function generateRoomCode() {
 // Basic route to test server is working
 app.get('/', (req, res) => {
     try {
-        const indexPath = path.join(__dirname, '../index.html');
+        const indexPath = path.join(__dirname, '../pages/index.html');
         console.log('Serving index.html from:', indexPath);
         res.sendFile(indexPath);
     } catch (error) {
