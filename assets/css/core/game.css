@@ -446,7 +446,7 @@ h1.question {
     padding: var(--space-md) var(--space-sm);
     border: 1px solid var(--accent-dark);
     border-radius: var(--space-sm);
-    background-color: var(--background-light);
+    background-color: var(--accent-light);
     cursor: pointer;
     text-align: center;
     min-height: 60px;
@@ -455,7 +455,7 @@ h1.question {
 }
 
 .topic-option:hover {
-    background-color: #2563eb;
+    background-color: var(--background-light);
 }
 
 .topic-option:hover span {

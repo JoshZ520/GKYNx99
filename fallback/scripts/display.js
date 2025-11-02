@@ -99,7 +99,7 @@ document.getElementById('back-home-btn')?.addEventListener('click', () => {
         window.location.href = 'front-pg.html';
     } else {
         // Go back to main index
-        window.location.href = '../index.html';
+        window.location.href = '../pages/index.html';
     }
 });
 // initial render
