@@ -134,6 +134,14 @@ function setTopic(topic) {
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)
     setTimeout(() => updateSubmissionState(), 0);
+    
+    // Save session after topic change
+    if (window.gameSessionManager) {
+        setTimeout(() => {
+            gameSessionManager.saveCurrentSession();
+            console.log(`Topic changed to ${topic} - session saved`);
+        }, 100);
+    }
 }
 
 // === UTILITY FUNCTIONS ===

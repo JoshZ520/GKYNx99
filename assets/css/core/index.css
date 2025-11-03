@@ -118,74 +118,25 @@
     font-style: italic;
 }
 
-/* === CONTINUE GAME SECTION === */
-.continue-game-section {
+/* === RESUME GAME SECTION === */
+.resume-section {
     margin-bottom: var(--space-xl);
     padding: var(--space-lg);
     background-color: var(--background-light);
     border: 2px solid var(--accent-dark);
     border-radius: var(--space-md);
-    animation: slideIn 0.3s ease-out;
 }
-
-.continue-game-section h3 {
+.resume-section h3 {
     margin: 0 0 var(--space-md) 0;
     color: var(--text-dark);
     text-align: center;
     font-size: var(--font-xl);
 }
-
-.continue-instruction {
+.resume-instruction {
     margin: 0 0 var(--space-lg) 0;
     color: var(--text-dark);
     text-align: center;
     font-size: var(--font-base);
-}
-
-.continue-game-info {
-    margin-bottom: var(--space-lg);
-    padding: var(--space-md);
-    background-color: var(--background-light);
-    border: 1px solid var(--border-light);
-    border-radius: var(--space-sm);
-}
-
-.game-snapshot-info p {
-    margin: var(--space-xs) 0;
-    color: var(--text-dark);
-    text-align: center;
-}
-
-.game-snapshot-info .save-time {
-    font-size: var(--font-sm);
-    color: var(--text-light);
-    font-style: italic;
-    margin-top: var(--space-sm);
-}
-
-.continue-actions {
-    display: flex;
-    gap: var(--space-md);
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.continue-actions .start-btn {
-    flex: 1;
-    min-width: 160px;
-}
-
-.continue-actions .danger-btn {
-    flex: 1;
-    min-width: 160px;
-    background-color: var(--error-color);
-    color: white;
-    border: 2px solid var(--error-color);
-}
-
-.continue-actions .danger-btn:hover {
-    background-color: var(--error-dark);
-    border-color: var(--error-dark);
 }
 .saved-games-list {
     display: flex;

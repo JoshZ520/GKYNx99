@@ -226,7 +226,7 @@ function initializeOfflineEventListeners() {
     if (newGameBtn) {
         newGameBtn.addEventListener('click', () => {
             sessionStorage.clear();
-            window.location.href = '../pages/index.html';
+            window.location.href = '../index.html';
         });
     }
 }
