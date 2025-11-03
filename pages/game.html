@@ -167,14 +167,9 @@ Back to Game Mode
 
 <!-- Conditionally load multiplayer scripts -->
 <script>
-// Simple fix: Just always advance to next player in offline mode
-console.log('Game page loading...');
-
 // Check if we're in offline mode
 const isOfflineMode = sessionStorage.getItem('offlineMode') === 'true' || 
                       sessionStorage.getItem('gameMode') === 'offline';
-
-console.log('Game mode:', isOfflineMode ? 'OFFLINE' : 'MULTIPLAYER');
 
 if (!isOfflineMode) {
     // Load socket.io and multiplayer manager for online mode only

@@ -80,7 +80,7 @@ function initializePlayerSetup() {
             
             for (let i = 1; i <= count; i++) {
                 const playerDiv = document.createElement('div');
-                playerDiv.className = 'player-name-input';
+                playerDiv.className = 'player-input-group';
                 
                 const label = document.createElement('label');
                 label.textContent = `Player ${i}:`;
@@ -206,7 +206,7 @@ function handleStartGame() {
     window.loadQuestions().then(() => {
         console.log('Questions loaded successfully for offline mode');
         // Navigate to game page
-        window.location.href = '../game.html';
+        window.location.href = '../pages/game.html';
     }).catch(error => {
         console.error('Failed to load questions:', error);
         alert('Failed to load questions. Please check your internet connection and try again.');
@@ -226,14 +226,13 @@ function initializeOfflineEventListeners() {
     if (newGameBtn) {
         newGameBtn.addEventListener('click', () => {
             sessionStorage.clear();
-            window.location.href = '../../index.html';
+            window.location.href = '../pages/index.html';
         });
     }
 }
 
 // === INITIALIZATION ===
 function initializePlayerSetupSystem() {
-    console.log('Player setup system loading...');
     console.log('Current page URL:', window.location.href);
     console.log('Document ready state:', document.readyState);
     
@@ -252,11 +251,20 @@ function initializePlayerSetupSystem() {
 console.log('player-setup.js script loaded!');
 console.log('Document ready state at script load:', document.readyState);
 
-// Auto-initialize if DOM is already loaded, otherwise wait
-if (document.readyState === 'loading') {
-    console.log('⏳ DOM still loading, waiting for DOMContentLoaded...');
-    document.addEventListener('DOMContentLoaded', initializePlayerSetupSystem);
+// Only initialize if we're NOT on the main index page (which uses front-offline.js)
+const isMainIndexPage = window.location.pathname.includes('index.html') || 
+                       window.location.pathname.endsWith('/') || 
+                       window.location.pathname === '/pages/';
+
+if (!isMainIndexPage) {
+    // Auto-initialize if DOM is already loaded, otherwise wait
+    if (document.readyState === 'loading') {
+        console.log('⏳ DOM still loading, waiting for DOMContentLoaded...');
+        document.addEventListener('DOMContentLoaded', initializePlayerSetupSystem);
+    } else {
+        console.log('DOM already loaded, initializing immediately');
+        initializePlayerSetupSystem();
+    }
 } else {
-    console.log('DOM already loaded, initializing immediately');
-    initializePlayerSetupSystem();
+    console.log('Main index page detected - letting front-offline.js handle player setup');
 }
