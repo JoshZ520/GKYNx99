@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<title>Table Talk</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+<link rel="stylesheet" href="../assets/css/core/shared.css">
+<link rel="stylesheet" href="../assets/css/core/game.css">
+<link rel="stylesheet" href="../assets/css/components/options.css">
+<link rel="stylesheet" href="../assets/css/components/images.css">
+<link rel="stylesheet" href="../assets/css/components/remote.css">
+<script src="../src/utilities/theme-utilities.js" defer></script>
+<script src="../src/utilities/game-snapshot.js" defer></script>
+<!-- Core game modules -->
+<script src="../src/core/game-core.js" defer></script>
+<script src="../src/core/game-player.js" defer></script>
+<script src="../src/core/game-ui.js" defer></script>
+
+</head>
+<body class="game-page" id="root">
+<header id="header">
+<div class="direction">
+<h1>Directions: </h1>
+</div>
+<div class="header-controls">
+<button id="open_page" type="button"><img src="../assets/images/icons/chevron-down.svg" alt="open page"></button>
+</div>
+<div id="directions">
+<p>Choose a topic from the dropdown or use Random to get started. Click the circular switch button to get a new question. When it's your turn, select your preferred option and click Submit. After everyone has answered, click 'All Answers Finished' to see everyone's choices and discuss the results!</p>
+<div class="game-navigation">
+<button class="back-to-mode-btn smooth-transition" id="backToModeBtn" type="button" onclick="window.location.href='index.html'">
+<img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
+Back to Game Mode
+</button>
+<p class="setup-link"><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
+</div>
+
+<!-- Offline Mode Notice -->
+<div id="offlineModeNotice" class="offline-notice hidden" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; margin: 10px 0; border-radius: 5px;">
+<p><strong>Offline Mode:</strong> Pass this device between players for their turns. Everyone takes turns on the same screen.</p>
+</div>
+</div>
+
+<!-- Multiplayer Room Info (hidden until room is created) -->
+<div id="multiplayerInfo" class="multiplayer-info hidden">
+<div class="room-display">
+<div class="room-code-section">
+<span class="room-label">Room Code:</span>
+<span class="room-code" id="roomCodeDisplay">----</span>
+<button class="copy-code-btn" id="copyCodeBtn" title="Copy room code">Copy</button>
+</div>
+<div class="players-section">
+<span class="players-label">Connected Players (<span id="playerCount">0</span>):</span>
+<div class="players-list" id="connectedPlayersList"></div>
+</div>
+</div>
+<div class="multiplayer-actions">
+<button class="create-room-btn" id="createRoomBtn">Create Room for Phones</button>
+<button class="close-room-btn hidden" id="closeRoomBtn">Close Room</button>
+</div>
+</div>
+</header>
+<main>
+<!-- Player turn indicator -->
+<div id="playerTurnIndicator" class="player-turn-indicator smooth-transition hidden">
+<span class="turn-text smooth-transition">Current Player:</span>
+<span class="current-player-name" id="currentPlayerName"></span>
+</div>
+<h1 class="question" id="question"></h1>
+<div class="topic-selection">
+<button class="smooth-transition" id="topicsToggle">Topics ▼</button>
+<!-- Collapsible topic grid with pagination -->
+<div class="topics-panel hidden" id="topicsPanel">
+<div class="topics-pagination-header">
+<span class="page-info" id="pageInfo">Page 1 of 2</span>
+<div class="pagination-controls">
+<button class="page-btn smooth-transition" id="prevPageBtn" disabled>‹ Previous</button>
+<button class="page-btn smooth-transition" id="nextPageBtn">Next ›</button>
+</div>
+</div>
+<div class="topics-grid" id="topicsGrid">
+<!-- Populated by JavaScript -->
+</div>
+</div>
+</div>
+<!-- Topic display -->
+<div id="currentTopicDisplay" class="current-topic-display">
+<span class="topic-name" id="currentTopicName">Instructions</span>
+</div>
+<!-- Remote Control Layout -->
+<div class="remote-control">
+<div class="remote-row">
+<!-- Random Topic Button -->
+<div class="remote-button-container">
+<button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
+<img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
+</button>
+<span class="remote-label">Random Topic</span>
+</div>
+
+<!-- Previous Question Button -->
+<div class="remote-button-container">
+<button class="remote-btn smooth-transition" id="prevQuestionBtn" type="button" title="Previous Question">
+<img src="../assets/images/icons/previous.svg" alt="Previous" width="20" height="20">
+</button>
+<span class="remote-label">Previous</span>
+</div>
+
+<!-- Random Question Button (Center) -->
+<div class="remote-button-container center">
+<button class="switch_button smooth-transition flex-center" id="switchQuestion" type="button" title="Random Question in Current Topic">
+<img id="changeQ" src="../assets/images/icons/refresh.svg" alt="Switch Question" width="24" height="24">
+</button>
+<span class="remote-label">Random Question</span>
+</div>
+
+<!-- Next Question Button -->
+<div class="remote-button-container">
+<button class="remote-btn smooth-transition" id="nextQuestionBtn" type="button" title="Next Question">
+<img src="../assets/images/icons/next.svg" alt="Next" width="20" height="20">
+</button>
+<span class="remote-label">Next</span>
+</div>
+
+<!-- Skip Question Button -->
+<div class="remote-button-container">
+<button class="remote-btn smooth-transition" id="skipQuestionBtn" type="button" title="Skip This Question">
+<img src="../assets/images/icons/skip.svg" alt="Skip" width="20" height="20">
+</button>
+<span class="remote-label">Skip Question</span>
+</div>
+</div>
+</div>
+<!-- Image-based preference selection -->
+<div class="preference-container" id="preferenceContainer" class="hidden">
+<div class="preference-options">
+<div class="preference-option" id="option1" data-choice="option1">
+<div class="preference-label" id="option1Label">Option 1</div>
+<div class="preference-image" id="option1Image">
+<!-- Image will be loaded here -->
+</div>
+</div>
+<div class="preference-option" id="option2" data-choice="option2">
+<div class="preference-label" id="option2Label">Option 2</div>
+<div class="preference-image" id="option2Image">
+<!-- Image will be loaded here -->
+</div>
+</div>
+</div>
+</div>
+<!-- Hidden field to store the selected preference -->
+<input type="hidden" id="selectedPreference" value="">
+<div class="buttons">
+<button class="submit smooth-transition" id="submitButton" type="submit">Submit Answer</button>
+<button class="fin" id="final_submit" type="button">All Answers Finished</button>
+</div>
+</main>
+
+
+
+<footer>
+<h2>About: </h2>
+<p>The purpose of this game is to get to know people.</p>
+<p>Ask Away</p>
+</footer>
+
+<!-- Conditionally load multiplayer scripts -->
+<script>
+// Simple fix: Just always advance to next player in offline mode
+console.log('Game page loading...');
+
+// Check if we're in offline mode
+const isOfflineMode = sessionStorage.getItem('offlineMode') === 'true' || 
+                      sessionStorage.getItem('gameMode') === 'offline';
+
+console.log('Game mode:', isOfflineMode ? 'OFFLINE' : 'MULTIPLAYER');
+
+if (!isOfflineMode) {
+    // Load socket.io and multiplayer manager for online mode only
+    const socketScript = document.createElement('script');
+    socketScript.src = '/socket.io/socket.io.js';
+    document.head.appendChild(socketScript);
+
+    socketScript.onload = function() {
+        const multiplayerScript = document.createElement('script');
+        multiplayerScript.src = '../src/multiplayer/multiplayer-manager.js';
+        multiplayerScript.defer = true;
+        document.head.appendChild(multiplayerScript);
+    };
+
+    socketScript.onerror = function() {
+        console.log('Socket.io failed to load - falling back to offline mode');
+        sessionStorage.setItem('offlineMode', 'true');
+        sessionStorage.setItem('gameMode', 'offline');
+        window.location.reload();
+    };
+} else {
+    console.log('Offline mode - skipping multiplayer scripts');
+}
+</script>
+</body>
+</html>

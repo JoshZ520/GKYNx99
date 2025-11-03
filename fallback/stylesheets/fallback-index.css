@@ -1,0 +1,75 @@
+/* fallback-index.css - Styles for fallback index page */
+/* Extracted from inline styles in fallback/index.html */
+
+/* === FALLBACK CONTAINER === */
+.fallback-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* === STATUS INDICATORS === */
+.status-indicator {
+    padding: 10px;
+    margin: 20px 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.offline { 
+    background: #ffebee; 
+    color: #c62828; 
+}
+
+/* === OPTION BUTTONS === */
+.option-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 10px;
+    background: #2196F3;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.option-btn:hover { 
+    background: #1976D2; 
+}
+
+.option-btn.secondary { 
+    background: #757575; 
+}
+
+.option-btn.secondary:hover { 
+    background: #424242; 
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .fallback-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+    
+    .option-btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 480px) {
+    .fallback-container {
+        margin: 10px;
+        padding: 10px;
+    }
+}

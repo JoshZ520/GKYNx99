@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Table Talk - Player</title>
+<link rel="stylesheet" href="../assets/css/core/shared.css">
+<link rel="stylesheet" href="stylesheets/player.css">
+</head>
+<body class="player-page">
+<!-- Join Game Section -->
+<div id="joinSection" class="section visible">
+<div class="container">
+<div class="logo-section">
+<h1> Table Talk</h1>
+<p>Join the conversation</p>
+</div>
+
+<form id="joinForm" class="join-form">
+<div class="input-group">
+<label for="playerName">Your Name</label>
+<input type="text" id="playerName" placeholder="Enter your name" maxlength="20" required>
+</div>
+
+<div class="input-group">
+<label for="roomCode">Room Code</label>
+<input type="text" id="roomCode" placeholder="4-letter code" maxlength="4" style="text-transform: uppercase;" required>
+</div>
+
+<button type="submit" class="join-btn" id="joinBtn">
+<span>Join Game</span>
+</button>
+</form>
+
+<div id="joinError" class="error-message hidden"></div>
+</div>
+</div>
+
+<!-- Waiting Section -->
+<div id="waitingSection" class="section hidden">
+<div class="container">
+<div class="status-header">
+<h2> Joined Successfully!</h2>
+<div class="room-info">
+<span>Room: <strong id="currentRoomCode"></strong></span>
+<span>Player: <strong id="currentPlayerName"></strong></span>
+</div>
+</div>
+
+<div class="waiting-content">
+<div class="waiting-icon">⏳</div>
+<h3>Waiting for the host to start the next question...</h3>
+<p class="waiting-text">Keep this screen open. You'll see the question when it's ready!</p>
+</div>
+
+<div class="players-list">
+<h4>Players in Game:</h4>
+<div id="playersList"></div>
+</div>
+</div>
+</div>
+
+<!-- Question Section -->
+<div id="questionSection" class="section hidden">
+<div class="container">
+<div class="question-header">
+<div class="room-info">
+Room: <strong id="questionRoomCode"></strong>
+</div>
+</div>
+
+<div class="question-content">
+<h2 id="currentQuestion"></h2>
+
+<div class="answer-options" id="answerOptions">
+<!-- Dynamic answer buttons will be inserted here -->
+</div>
+</div>
+
+<div id="answerStatus" class="answer-status hidden">
+<div class="status-icon"></div>
+<p>Your answer has been submitted!</p>
+<p class="small-text">Waiting for other players...</p>
+</div>
+</div>
+</div>
+
+<!-- Results Section -->
+<div id="resultsSection" class="section hidden">
+<div class="container">
+<div class="results-header">
+<h2> Results</h2>
+<div class="question-recap" id="resultsQuestion"></div>
+</div>
+
+<div class="results-content" id="resultsContent">
+<!-- Results will be dynamically inserted here -->
+</div>
+
+<div class="next-question-prompt">
+<p> Discuss the results with your group!</p>
+<p class="small-text">Waiting for the next question...</p>
+</div>
+</div>
+</div>
+
+<!-- Connection Status -->
+<div id="connectionStatus" class="connection-status">
+<span id="statusIndicator" class="status-indicator connecting">●</span>
+<span id="statusText">Connecting...</span>
+</div>
+
+<!-- Socket.io Client -->
+<script src="/socket.io/socket.io.js"></script>
+<script src="scripts/player.js"></script>
+</body>
+</html>
