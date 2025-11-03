@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../assets/css/core/index.css">
     <!-- Clean script architecture -->
     <script src="../src/utilities/theme-utilities.js" defer></script>
-    <script src="../src/utilities/index.js" defer></script>
 </head>
 <body class="front-page" id="root">
     <div class="card">
@@ -54,7 +53,7 @@
                     </div>
                     
                     <div class="create-room-container" style="margin-top: 20px;">
-                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="window.location.href='../fallback/front-pg.html'">
+                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="showOfflineSetup()">
                             <span>Start Offline Mode</span>
                         </button>
                         <p class="game-mode-description">Single device - everyone takes turns</p>
@@ -64,7 +63,7 @@
                 <!-- Step 2: Room Created - Show Code -->
                 <div class="step-section hidden" id="roomCreatedStep">
                     <h3>Step 2: Share Room Code</h3>
-                    <p class="step-instruction">Tell everyone to go to <strong>10.244.100.93:3000/player</strong> on their phones and enter this code:</p>
+                    <p class="step-instruction">Tell everyone to go to <strong>https://table-talk.onrender.com/player</strong> on their phones and enter this code:</p>
                     
                     <div class="room-code-display">
                         <div class="room-code-container">
@@ -96,11 +95,56 @@
                     <h3>Server Connection Issue</h3>
                     <p class="step-instruction">Can't connect to multiplayer server. Switch to offline mode:</p>
                     <div class="offline-container">
-                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='../fallback/front-pg.html'">
+                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="showOfflineSetup()">
                             <span>Switch to Offline Mode</span>
                         </button>
                         <p class="offline-note">Single-device gameplay with manual player turns</p>
                         <p class="offline-note"><small>Tip: Try refreshing this page first - server might be starting up</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Offline Game Setup Section (Enhanced) -->
+            <div class="new-game-section hidden" id="offlineSetupSection">
+                <!-- Step 1: Player Count -->
+                <div class="step-section" id="playerCountStep">
+                    <h3>Step 1: Choose Players</h3>
+                    <p class="step-instruction">Select how many players will be taking turns:</p>
+                    <div class="create-room-container">
+                        <div class="player-count-selector">
+                            <label for="player_count">Number of Players:</label>
+                            <input type="number" id="player_count" min="2" max="20" placeholder="Enter number (2-20)" required oninput="generatePlayerInputs(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Player Names -->
+                <div class="step-section hidden" id="playerNamesStep">
+                    <h3>Step 2: Enter Player Names</h3>
+                    <p class="step-instruction">Add names for each player who will be participating:</p>
+                    
+                    <div class="players-joining">
+                        <h4>Player Names:</h4>
+                        <div id="playerNamesContainer" class="players-list">
+                            <!-- Player name inputs will be generated here -->
+                        </div>
+                    </div>
+
+                    <!-- Start Game Button -->
+                    <div class="start-game-container">
+                        <button class="start-btn disabled" id="startGame" type="button" disabled>
+                            <span id="startGameText">Fill all player names to start</span>
+                        </button>
+                        <p class="min-players-note">All players need names to begin</p>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="step-section">
+                    <div class="offline-container">
+                        <button class="secondary-btn" id="backToMultiplayerBtn" type="button" onclick="showMultiplayerSetup()">
+                            ← Back to Multiplayer
+                        </button>
                     </div>
                 </div>
             </div>
@@ -109,7 +153,18 @@
 
     <!-- Socket.io for multiplayer -->
     <script src="/socket.io/socket.io.js"></script>
+    <!-- Configuration and UI modules -->
+    <script src="../src/config/game-config.js" type="module" defer></script>
+    <script src="../src/ui/ui-mode-switcher.js" type="module" defer></script>
     <!-- Clean multiplayer manager -->
     <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
+    <!-- Offline mode functionality -->
+    <script src="../src/multiplayer/front-offline.js" defer></script>
+    <script src="../src/multiplayer/player-setup.js" defer></script>
+    
+    <!-- UI Switching Functions now in separate JS file -->
+    
+    <!-- UI Mode Switching -->
+
 </body>
 </html>

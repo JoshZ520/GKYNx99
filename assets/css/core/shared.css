@@ -6,8 +6,10 @@
     --accent-light: #1eb817;
     --accent-dark: #31a71d;
     --text-dark: #5F3A48;
+    --text-muted: #6b7280;
     --dark: #89ab84;
     --light: #ffffff;
+    --border-light: #e5e7eb;
     /* Status Colors */
     --success-color: #28a745;       /* Success/completion states */
     
@@ -36,6 +38,11 @@
     --space-md: 16px;     /* Medium spacing */
     --space-lg: 20px;     /* Large spacing */
     --space-xl: 40px;     /* Extra large margins */
+    
+    /* Border Radius Variables */
+    --border-radius-sm: 4px;   /* Small border radius */
+    --border-radius-md: 8px;   /* Medium border radius */
+    --border-radius-lg: 12px;  /* Large border radius */
 }
 /* === GLOBAL STYLES === */
 body {
@@ -192,6 +199,30 @@ input#player_count {
 }
 .hover-transition {
     transition: all 0.2s ease;
+}
+
+/* Common button styles */
+.start-btn {
+    display: inline-block;
+    background-color: var(--accent-dark);
+    color: var(--light);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.start-btn:hover:not([style*="pointer-events: none"]) { 
+    opacity: 0.95; 
+}
+
+.start-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 /* Common flex layouts */
 .flex-center {

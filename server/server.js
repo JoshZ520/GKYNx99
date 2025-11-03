@@ -24,7 +24,7 @@ app.use(express.static(staticPath));
 app.use('/stylesheets', express.static(path.join(__dirname, '../stylesheets')));
 app.use('/scripts', express.static(path.join(__dirname, '../scripts')));
 app.use('/images', express.static(path.join(__dirname, '../images')));
-app.use('/player', express.static(path.join(__dirname, '../player')));
+app.use('/pages', express.static(path.join(__dirname, '../pages')));
 
 // Game rooms storage - in production, you'd use a database
 const gameRooms = new Map();
@@ -42,7 +42,7 @@ function generateRoomCode() {
 // Basic route to test server is working
 app.get('/', (req, res) => {
     try {
-        const indexPath = path.join(__dirname, '../index.html');
+        const indexPath = path.join(__dirname, '../pages/index.html');
         console.log('Serving index.html from:', indexPath);
         res.sendFile(indexPath);
     } catch (error) {
@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
 // Route for phone players to join games
 app.get('/player', (req, res) => {
     try {
-        const playerPath = path.join(__dirname, '../player/index.html');
+        const playerPath = path.join(__dirname, '../pages/player/index.html');
         console.log('Serving player page from:', playerPath);
         res.sendFile(playerPath);
     } catch (error) {

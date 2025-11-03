@@ -12,11 +12,12 @@
 <link rel="stylesheet" href="../assets/css/components/images.css">
 <link rel="stylesheet" href="../assets/css/components/remote.css">
 <script src="../src/utilities/theme-utilities.js" defer></script>
-<script src="../src/utilities/game-snapshot.js" defer></script>
 <!-- Core game modules -->
-<script src="../src/core/game-core.js" defer></script>
-<script src="../src/core/game-player.js" defer></script>
-<script src="../src/core/game-ui.js" defer></script>
+<script src="../src/config/game-config.js" type="module" defer></script>
+<script src="../src/core/game-core.js" type="module" defer></script>
+<script src="../src/core/game-player.js" type="module" defer></script>
+<script src="../src/core/game-ui.js" type="module" defer></script>
+<script src="../src/core/game-loader.js" type="module" defer></script>
 
 </head>
 <body class="game-page" id="root">
@@ -156,6 +157,46 @@ Back to Game Mode
 <button class="submit smooth-transition" id="submitButton" type="submit">Submit Answer</button>
 <button class="fin" id="final_submit" type="button">All Answers Finished</button>
 </div>
+
+<!-- Results Section (hidden during gameplay) -->
+<section id="gameResults" class="game-results hidden">
+    <div class="results-container">
+        <header class="results-header">
+            <h2>🎉 Game Complete!</h2>
+            <p class="results-subtitle">Here's a summary of your Table Talk session</p>
+        </header>
+        
+        <div class="results-content">
+            <div class="game-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Questions Answered:</span>
+                    <span class="stat-value" id="totalQuestions">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Players:</span>
+                    <span class="stat-value" id="totalPlayers">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Game Duration:</span>
+                    <span class="stat-value" id="gameDuration">--</span>
+                </div>
+            </div>
+            
+            <div class="questions-summary">
+                <h3>Questions & Answers</h3>
+                <div id="questionsList" class="questions-list">
+                    <!-- Questions and answers will be populated here -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-actions">
+            <button class="start-btn" id="continueGameBtn" type="button">Continue Playing</button>
+            <button class="secondary-btn" id="playAgainBtn" type="button">Play Again</button>
+            <button class="secondary-btn" id="backToMenuBtn" type="button">Back to Menu</button>
+        </div>
+    </div>
+</section>
 </main>
 
 
@@ -167,38 +208,6 @@ Back to Game Mode
 </footer>
 
 <!-- Conditionally load multiplayer scripts -->
-<script>
-// Simple fix: Just always advance to next player in offline mode
-console.log('Game page loading...');
 
-// Check if we're in offline mode
-const isOfflineMode = sessionStorage.getItem('offlineMode') === 'true' || 
-                      sessionStorage.getItem('gameMode') === 'offline';
-
-console.log('Game mode:', isOfflineMode ? 'OFFLINE' : 'MULTIPLAYER');
-
-if (!isOfflineMode) {
-    // Load socket.io and multiplayer manager for online mode only
-    const socketScript = document.createElement('script');
-    socketScript.src = '/socket.io/socket.io.js';
-    document.head.appendChild(socketScript);
-
-    socketScript.onload = function() {
-        const multiplayerScript = document.createElement('script');
-        multiplayerScript.src = '../src/multiplayer/multiplayer-manager.js';
-        multiplayerScript.defer = true;
-        document.head.appendChild(multiplayerScript);
-    };
-
-    socketScript.onerror = function() {
-        console.log('Socket.io failed to load - falling back to offline mode');
-        sessionStorage.setItem('offlineMode', 'true');
-        sessionStorage.setItem('gameMode', 'offline');
-        window.location.reload();
-    };
-} else {
-    console.log('Offline mode - skipping multiplayer scripts');
-}
-</script>
 </body>
 </html>

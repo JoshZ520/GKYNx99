@@ -293,6 +293,7 @@
     padding: 1.5rem 0;
 }
 
+/* Custom .start-btn styling for customize page - overrides shared.css */
 .start-btn {
     background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
     color: white;

@@ -1,11 +1,12 @@
 let playerNames = [];
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Fallback front page loaded');
+    console.log('Front-offline.js loaded');
     
-    // Initialize player setup functionality
-    initializePlayerSetup();
-    setupEventListeners();
+    // Only initialize if we're in offline mode or on the main page
+    if (document.getElementById('offlineSetupSection') || document.getElementById('playerCountStep')) {
+        setupEventListeners();
+    }
 });
 
 // Active player setup functionality - combines HTML script + this file
@@ -32,7 +33,7 @@ function generatePlayerInputs(selectedValue) {
         
         for (let i = 1; i <= count; i++) {
             const playerDiv = document.createElement('div');
-            playerDiv.className = 'player-name-input';
+            playerDiv.className = 'player-input-group';  // Updated to match CSS class
             
             const label = document.createElement('label');
             label.textContent = `Player ${i}:`;
@@ -55,10 +56,7 @@ function generatePlayerInputs(selectedValue) {
     }
 }
 
-function initializePlayerSetup() {
-    // This function is no longer needed - generatePlayerInputs handles everything
-    console.log('Player setup initialized - using generatePlayerInputs for input handling');
-}
+// Remove the duplicate initializePlayerSetup function since player-setup.js handles this
 
 function updateStartButton() {
     const startBtn = document.getElementById('startGame');

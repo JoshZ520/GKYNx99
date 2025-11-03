@@ -2,7 +2,8 @@
 // Handles loading, displaying, and navigating between questions
 //
 // LOGGING POLICY: Only keep essential logs (initialization, connections, errors)
-// For debugging: Add temporary console.log statements, then remove before committing
+
+import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
 
 // === SHARED GAME STATE ===
 let appQuestions = [];
@@ -10,20 +11,20 @@ let appQuestions = [];
 // === QUESTION MANAGEMENT ===
 function applyQuestionsForTopic(topic) {
     const topics = window.getTopics ? window.getTopics() : {};
-    const topicData = topics[topic] || topics['default'] || {};
+    const topicData = topics[topic] || topics[GAME_CONFIG.TOPICS.DEFAULT] || {};
     let list = topicData.questions || [];
     
     // For the default topic, skip the first question since it's displayed on the front page
     // Use questions starting from index 1 for the game page
-    if (topic === 'default' && list.length > 1) {
+    if (topic === GAME_CONFIG.TOPICS.DEFAULT && list.length > 1) {
         list = list.slice(1); // Use all questions except the first one
     }
     
     appQuestions.splice(0, appQuestions.length, ...list);
     
-    const questionElem = document.getElementById('question');
+    const questionElem = CONFIG_UTILS.getElementById('QUESTION');
     if (questionElem) {
-        questionElem.setAttribute('data-index', 0);
+        questionElem.setAttribute('data-index', GAME_CONFIG.DEFAULTS.QUESTION_INDEX);
         // Handle both old string format and new object format
         const currentQuestion = appQuestions[0];
         if (typeof currentQuestion === 'string') {
@@ -31,7 +32,9 @@ function applyQuestionsForTopic(topic) {
         } else if (currentQuestion && currentQuestion.prompt) {
             questionElem.textContent = currentQuestion.prompt;
             // Display the options as well
-            displayQuestionOptions(currentQuestion);
+            if (window.gameUI) {
+                window.gameUI.displayQuestionOptions(currentQuestion);
+            }
         } else {
             questionElem.textContent = '';
         }
@@ -41,10 +44,10 @@ function applyQuestionsForTopic(topic) {
 function switchToNextQuestion() {
     if (appQuestions.length === 0) return;
     
-    const questionElem = document.getElementById('question');
+    const questionElem = CONFIG_UTILS.getElementById('QUESTION');
     if (!questionElem) return;
     
-    const currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
+    const currentIndex = parseInt(questionElem.getAttribute('data-index')) || GAME_CONFIG.DEFAULTS.QUESTION_INDEX;
     const nextIndex = (currentIndex + 1) % appQuestions.length;
     const nextQuestion = appQuestions[nextIndex];
     
@@ -54,9 +57,11 @@ function switchToNextQuestion() {
         hidePreferenceContainer();
     } else if (nextQuestion && nextQuestion.prompt) {
         questionElem.textContent = nextQuestion.prompt;
-        displayQuestionOptions(nextQuestion);
+        if (window.gameUI) {
+            window.gameUI.displayQuestionOptions(nextQuestion);
+        }
     } else {
-        questionElem.textContent = 'No question available';
+        questionElem.textContent = GAME_CONFIG.DEFAULTS.NO_QUESTION_TEXT;
         hidePreferenceContainer();
     }
     
@@ -68,14 +73,16 @@ function switchToNextQuestion() {
     }
     
     // Ensure submit button is visible for the new question
-    const submitBtn = document.getElementById('submitButton');
+    const submitBtn = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
     if (submitBtn) {
-        submitBtn.style.display = 'block';
+        submitBtn.style.display = GAME_CONFIG.DISPLAY.BLOCK;
     }
     
     // Clear any previous submissions/answers
     clearPreviousAnswers();
-    updateSubmissionState();
+    if (window.gamePlayer) {
+        window.gamePlayer.updateSubmissionState();
+    }
 }
 
 function switchToPreviousQuestion() {
@@ -94,34 +101,38 @@ function switchToPreviousQuestion() {
         hidePreferenceContainer();
     } else if (prevQuestion && prevQuestion.prompt) {
         questionElem.textContent = prevQuestion.prompt;
-        displayQuestionOptions(prevQuestion);
+        if (window.gameUI) {
+            window.gameUI.displayQuestionOptions(prevQuestion);
+        }
     } else {
-        questionElem.textContent = 'No question available';
+        questionElem.textContent = GAME_CONFIG.DEFAULTS.NO_QUESTION_TEXT;
         hidePreferenceContainer();
     }
     
     questionElem.setAttribute('data-index', prevIndex);
     
-    // Broadcast new question to multiplayer players if active
+    // Broadcast previous question to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         window.hostMultiplayer.broadcastQuestion(prevQuestion);
     }
     
     // Ensure submit button is visible for the new question
-    const submitBtn = document.getElementById('submitButton');
+    const submitBtn = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
     if (submitBtn) {
-        submitBtn.style.display = 'block';
+        submitBtn.style.display = GAME_CONFIG.DISPLAY.BLOCK;
     }
     
     // Clear any previous submissions/answers
     clearPreviousAnswers();
-    updateSubmissionState();
+    if (window.gamePlayer) {
+        window.gamePlayer.updateSubmissionState();
+    }
 }
 
 function setTopic(topic) {
     window.currentTopic = topic;
     applyQuestionsForTopic(topic);
-    localStorage.setItem('currentTopic', topic);
+    CONFIG_UTILS.setLocalStorageItem('CURRENT_TOPIC', topic);
     
     // Update topic display
     const topicNameElement = document.getElementById('currentTopicName');
@@ -133,13 +144,13 @@ function setTopic(topic) {
     }
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)
-    setTimeout(() => updateSubmissionState(), 0);
+    setTimeout(() => updateSubmissionState(), GAME_CONFIG.ANIMATIONS.UI_UPDATE_DELAY);
     
     // Save session after topic change
     if (window.gameSessionManager) {
         setTimeout(() => {
             gameSessionManager.saveCurrentSession();
-            console.log(`Topic changed to ${topic} - session saved`);
+
         }, 100);
     }
 }
@@ -178,6 +189,15 @@ window.gameCore = {
     clearCurrentSelection,
     clearPreviousAnswers,
     hidePreferenceContainer,
+    refreshCurrentQuestion: () => {
+        // Refresh the current question display and update UI state
+        if (window.gamePlayer && window.gamePlayer.updateSubmissionState) {
+            window.gamePlayer.updateSubmissionState();
+        }
+        if (window.gameUI && window.gameUI.updateQuestionUI) {
+            window.gameUI.updateQuestionUI();
+        }
+    },
     // Getters for shared state
     getAppQuestions: () => appQuestions,
     getCurrentQuestionIndex: () => {
@@ -189,7 +209,10 @@ window.gameCore = {
 // === EVENT LISTENERS SETUP ===
 // Set up game control event listeners when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Setting up Game Core event listeners...');
+    // Initialize player system
+    if (window.gamePlayer && window.gamePlayer.initializePlayerSystem) {
+        window.gamePlayer.initializePlayerSystem();
+    }
     
     // Question navigation controls
     const switchBtn = document.getElementById('switchQuestion');
@@ -202,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
         switchBtn.addEventListener('click', () => {
             window.gameCore.switchToNextQuestion();
         });
-        console.log('Switch question button connected');
+
     }
     
     if (randomTopicBtn) {
@@ -211,28 +234,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.pickRandomTopic();
             }
         });
-        console.log('Random topic button connected');
+
     }
     
     if (prevQuestionBtn) {
         prevQuestionBtn.addEventListener('click', () => {
             window.gameCore.switchToPreviousQuestion();
         });
-        console.log('Previous question button connected');
+
     }
     
     if (nextQuestionBtn) {
         nextQuestionBtn.addEventListener('click', () => {
             window.gameCore.switchToNextQuestion();
         });
-        console.log('Next question button connected');
+
     }
     
     if (skipQuestionBtn) {
         skipQuestionBtn.addEventListener('click', () => {
             window.gameCore.switchToNextQuestion();
         });
-        console.log('Skip question button connected');
+
     }
     
     // Topics and UI controls
@@ -243,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.toggleTopicsPanel();
             }
         });
-        console.log('Topics toggle button connected');
+
     }
     
     // Preference selection
@@ -256,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.selectPreference('option1');
             }
         });
-        console.log('Option 1 selection connected');
+
     }
     
     if (option2) {
