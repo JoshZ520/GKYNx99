@@ -1,6 +1,8 @@
 // game-player.js - Player management: turns, submissions, and answer tracking
 // Handles player progression, answer recording, and submission state
 
+import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
+
 // === SHARED GAME STATE ===
 let playerNames = [];
 let currentPlayerIndex = 0;
@@ -35,7 +37,7 @@ function updatePlayerTurnIndicator() {
         
         // Add animation class for new turn
         indicator.classList.add('new-turn');
-        setTimeout(() => indicator.classList.remove('new-turn'), 600);
+        setTimeout(() => indicator.classList.remove('new-turn'), GAME_CONFIG.ANIMATIONS.TURN_INDICATOR_DURATION);
     } else if (indicator) {
         indicator.classList.add('hidden');
     }
@@ -145,8 +147,8 @@ function handleFinalSubmit() {
     })).sort((a, b) => a.timestamp - b.timestamp);
     
     // Pass chronological data to display page
-    sessionStorage.setItem('questionsInOrder', JSON.stringify(questionOrder));
-    sessionStorage.setItem('submissionsByQuestion', JSON.stringify(submissionsByQuestion));
+    CONFIG_UTILS.setStorageItem('QUESTIONS_ORDER', JSON.stringify(questionOrder));
+    CONFIG_UTILS.setStorageItem('SUBMISSIONS', JSON.stringify(submissionsByQuestion));
     
     // MULTIPLAYER INTEGRATION: Reveal answers to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
@@ -159,29 +161,236 @@ function handleFinalSubmit() {
 
     }
     
-    // Navigate to results page - fallback pages were consolidated
-    // For now, redirect back to main page since display.html was removed
-    // TODO: Create a proper results/summary page
-    const isOffline = sessionStorage.getItem('offlineMode') === 'true';
-    if (isOffline) {
-        // Could show a game complete message and return to setup
-        alert('Game Complete! Thanks for playing Table Talk!');
-        sessionStorage.clear();
-        window.location.href = 'index.html';
-    } else {
-        // For online mode
-        alert('Game Complete! Thanks for playing Table Talk!');
-        window.location.href = 'index.html';
+    // Show results on the same page instead of redirecting
+    showGameResults();
+}
+
+function showGameResults() {
+    // Hide the main game interface
+    const gameContainer = document.querySelector('main > div');
+    if (gameContainer) {
+        gameContainer.style.display = 'none';
     }
+    
+    // Show results section
+    const resultsSection = document.getElementById('gameResults');
+    if (!resultsSection) {
+        console.error('Results section not found');
+        return;
+    }
+    
+    resultsSection.classList.remove('hidden');
+    
+    // Populate game stats
+    const totalQuestions = Object.keys(submissionsByQuestion).length;
+    const totalPlayers = playerNames.length;
+    
+    document.getElementById('totalQuestions').textContent = totalQuestions;
+    document.getElementById('totalPlayers').textContent = totalPlayers;
+    
+    // Calculate game duration (basic implementation)
+    const gameStart = CONFIG_UTILS.getStorageItem('GAME_START_TIME');
+    const gameDuration = gameStart ? 
+        Math.round((Date.now() - parseInt(gameStart)) / 60000) + ' minutes' : 
+        'Unknown';
+    document.getElementById('gameDuration').textContent = gameDuration;
+    
+    // Populate questions and answers
+    const questionsList = document.getElementById('questionsList');
+    questionsList.innerHTML = '';
+    
+    // Get questions in chronological order
+    const questionsInOrder = JSON.parse(CONFIG_UTILS.getStorageItem('QUESTIONS_ORDER') || '[]');
+    
+    questionsInOrder.forEach(questionData => {
+        const questionText = questionData.question;
+        const submissions = submissionsByQuestion[questionText];
+        
+        if (submissions) {
+            const questionItem = document.createElement('div');
+            questionItem.className = 'question-item';
+            
+            const questionTextDiv = document.createElement('div');
+            questionTextDiv.className = 'question-text';
+            questionTextDiv.textContent = questionText;
+            
+            const answersDiv = document.createElement('div');
+            answersDiv.className = 'question-answers';
+            
+            // Group answers by preference
+            const answerGroups = {};
+            Object.entries(submissions.answers).forEach(([player, answer]) => {
+                if (!answerGroups[answer]) {
+                    answerGroups[answer] = [];
+                }
+                answerGroups[answer].push(player);
+            });
+            
+            // Create answer chips
+            Object.entries(answerGroups).forEach(([answer, players]) => {
+                const chip = document.createElement('span');
+                chip.className = 'answer-chip';
+                chip.textContent = `${answer}: ${players.join(', ')}`;
+                answersDiv.appendChild(chip);
+            });
+            
+            questionItem.appendChild(questionTextDiv);
+            questionItem.appendChild(answersDiv);
+            questionsList.appendChild(questionItem);
+        }
+    });
+    
+    // Set up action buttons
+    setupResultsButtons();
+}
+
+function setupResultsButtons() {
+    const continueGameBtn = document.getElementById('continueGameBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const backToMenuBtn = document.getElementById('backToMenuBtn');
+    
+    if (continueGameBtn) {
+        continueGameBtn.addEventListener('click', () => {
+            // Resume the game with current state
+            resumeGame();
+        });
+    }
+    
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', () => {
+            // Clear game data and restart
+            CONFIG_UTILS.removeStorageItem('SUBMISSIONS');
+            CONFIG_UTILS.removeStorageItem('QUESTIONS_ORDER');
+            CONFIG_UTILS.removeStorageItem('GAME_START_TIME');
+            window.location.reload();
+        });
+    }
+    
+    if (backToMenuBtn) {
+        backToMenuBtn.addEventListener('click', () => {
+            // Clear all game data and go to main menu
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        });
+    }
+}
+
+function resumeGame() {
+    // Hide results section
+    const resultsSection = document.getElementById('gameResults');
+    if (resultsSection) {
+        resultsSection.classList.add('hidden');
+    }
+    
+    // Show the main game interface again
+    const gameContainer = document.querySelector('main > div');
+    if (gameContainer) {
+        gameContainer.style.display = '';
+    }
+    
+    // Find the next question that hasn't been fully answered by all players
+    findNextUncompletedQuestion();
+    
+    // Update the player turn indicator to current state
+    updatePlayerTurnIndicator();
+    
+    // Update submit button state based on current question
+    updateSubmissionState();
+    
+    // If there's a current question, make sure it's displayed properly
+    if (window.gameCore && window.gameCore.refreshCurrentQuestion) {
+        window.gameCore.refreshCurrentQuestion();
+    }
+    
+    // Optionally show a toast/message that the game has resumed
+    showGameResumedMessage();
+}
+
+function findNextUncompletedQuestion() {
+    // Get all questions and find one that doesn't have answers from all players
+    const totalPlayers = playerNames.length;
+    const currentQuestionElement = document.getElementById('question');
+    
+    if (!currentQuestionElement) return;
+    
+    // Check current question first
+    const currentQuestionText = currentQuestionElement.textContent;
+    const currentQuestionData = submissionsByQuestion[currentQuestionText];
+    const currentAnswers = currentQuestionData ? Object.keys(currentQuestionData.answers).length : 0;
+    
+    // If current question is not fully answered, stay on it
+    if (currentAnswers < totalPlayers) {
+        return; // Stay on current question
+    }
+    
+    // Otherwise, try to find next uncompleted question by switching questions
+    let attempts = 0;
+    const maxAttempts = 20; // Prevent infinite loop
+    
+    while (attempts < maxAttempts) {
+        // Switch to the next question
+        if (window.gameCore && window.gameCore.switchToNextQuestion) {
+            window.gameCore.switchToNextQuestion();
+        }
+        
+        // Check if this new question is incomplete
+        const newQuestionText = currentQuestionElement.textContent;
+        const newQuestionData = submissionsByQuestion[newQuestionText];
+        const newAnswers = newQuestionData ? Object.keys(newQuestionData.answers).length : 0;
+        
+        if (newAnswers < totalPlayers) {
+            return; // Found an incomplete question
+        }
+        
+        attempts++;
+    }
+}
+
+function showGameResumedMessage() {
+    // Create a temporary message to confirm game resumed
+    const message = document.createElement('div');
+    message.className = 'game-resumed-message';
+    message.textContent = '🎮 Game resumed! Continue where you left off.';
+    message.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent-dark);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        z-index: 1001;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        animation: slideDown 0.3s ease;
+    `;
+    
+    document.body.appendChild(message);
+    
+    // Remove message after 3 seconds
+    setTimeout(() => {
+        message.style.animation = 'slideUp 0.3s ease';
+        setTimeout(() => {
+            if (message.parentNode) {
+                message.parentNode.removeChild(message);
+            }
+        }, GAME_CONFIG.ANIMATIONS.FADE_TRANSITION);
+    }, GAME_CONFIG.ANIMATIONS.MESSAGE_DISPLAY_TIME);
 }
 
 // === INITIALIZATION ===
 function initializePlayerSystem() {
-    // Load player data from session storage (for offline mode)
-    const gameMode = sessionStorage.getItem('gameMode');
+    // Track game start time
+    if (!CONFIG_UTILS.getStorageItem('GAME_START_TIME')) {
+        CONFIG_UTILS.setStorageItem('GAME_START_TIME', Date.now().toString());
+    }
     
-    if (gameMode === 'offline') {
-        const storedNames = sessionStorage.getItem('playerNames');
+    // Load player data from session storage (for offline mode)
+    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
+    
+    if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
+        const storedNames = CONFIG_UTILS.getStorageItem('PLAYER_NAMES');
         
         if (storedNames) {
             try {
@@ -209,6 +418,10 @@ window.gamePlayer = {
     updateSubmissionState,
     submitAnswer,
     handleFinalSubmit,
+    showGameResults,
+    setupResultsButtons,
+    resumeGame,
+    showGameResumedMessage,
     initializePlayerSystem,
     // Getters for shared state
     getPlayerNames: () => playerNames,
