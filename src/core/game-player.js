@@ -167,11 +167,11 @@ function handleFinalSubmit() {
         // Could show a game complete message and return to setup
         alert('Game Complete! Thanks for playing Table Talk!');
         sessionStorage.clear();
-        window.location.href = 'pages/index.html';
+        window.location.href = 'index.html';
     } else {
         // For online mode
         alert('Game Complete! Thanks for playing Table Talk!');
-        window.location.href = 'pages/index.html';
+        window.location.href = 'index.html';
     }
 }
 
