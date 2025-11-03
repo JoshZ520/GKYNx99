@@ -12,9 +12,11 @@
 <link rel="stylesheet" href="../assets/css/components/images.css">
 <link rel="stylesheet" href="../assets/css/components/remote.css">
 <script src="../src/utilities/theme-utilities.js" defer></script>
-<script src="../src/utilities/session-utilities.js" defer></script>
-<!-- New modular architecture -->
+<script src="../src/utilities/game-snapshot.js" defer></script>
+<!-- Core game modules -->
 <script src="../src/core/game-core.js" defer></script>
+<script src="../src/core/game-player.js" defer></script>
+<script src="../src/core/game-ui.js" defer></script>
 
 </head>
 <body class="game-page" id="root">
@@ -23,10 +25,6 @@
 <h1>Directions: </h1>
 </div>
 <div class="header-controls">
-<button class="header-save-btn smooth-transition" id="saveGameBtn" type="button" title="Save Game Progress">
-<img src="../assets/images/icons/save.svg" alt="Save" width="18" height="18">
-<span class="save-text">Save</span>
-</button>
 <button id="open_page" type="button"><img src="../assets/images/icons/chevron-down.svg" alt="open page"></button>
 </div>
 <div id="directions">
@@ -170,47 +168,37 @@ Back to Game Mode
 
 <!-- Conditionally load multiplayer scripts -->
 <script>
-// Check if we're in offline mode before loading multiplayer scripts
-const isOfflineMode = sessionStorage.getItem('offlineMode') === 'true';
+// Simple fix: Just always advance to next player in offline mode
+console.log('Game page loading...');
+
+// Check if we're in offline mode
+const isOfflineMode = sessionStorage.getItem('offlineMode') === 'true' || 
+                      sessionStorage.getItem('gameMode') === 'offline';
+
+console.log('Game mode:', isOfflineMode ? 'OFFLINE' : 'MULTIPLAYER');
 
 if (!isOfflineMode) {
-// Load socket.io and multiplayer manager for online mode
-const socketScript = document.createElement('script');
-socketScript.src = '/socket.io/socket.io.js';
-document.head.appendChild(socketScript);
+    // Load socket.io and multiplayer manager for online mode only
+    const socketScript = document.createElement('script');
+    socketScript.src = '/socket.io/socket.io.js';
+    document.head.appendChild(socketScript);
 
-socketScript.onload = function() {
-const multiplayerScript = document.createElement('script');
-multiplayerScript.src = 'scripts/multiplayer-manager.js';
-multiplayerScript.defer = true;
-document.head.appendChild(multiplayerScript);
-};
+    socketScript.onload = function() {
+        const multiplayerScript = document.createElement('script');
+        multiplayerScript.src = '../src/multiplayer/multiplayer-manager.js';
+        multiplayerScript.defer = true;
+        document.head.appendChild(multiplayerScript);
+    };
 
-socketScript.onerror = function() {
-console.log('Socket.io failed to load - falling back to offline mode');
-sessionStorage.setItem('offlineMode', 'true');
-sessionStorage.setItem('gameMode', 'offline');
-// Trigger offline mode check in game.js
-if (window.checkOfflineMode) {
-window.checkOfflineMode();
-}
-};
+    socketScript.onerror = function() {
+        console.log('Socket.io failed to load - falling back to offline mode');
+        sessionStorage.setItem('offlineMode', 'true');
+        sessionStorage.setItem('gameMode', 'offline');
+        window.location.reload();
+    };
 } else {
-console.log(' Offline mode detected - skipping multiplayer scripts');
-
-// Trigger offline mode UI setup immediately
-document.addEventListener('DOMContentLoaded', function() {
-if (window.checkOfflineMode) {
-window.checkOfflineMode();
+    console.log('Offline mode - skipping multiplayer scripts');
 }
-});
-}
-
-// Load remote control system for both online and offline modes
-const remoteScript = document.createElement('script');
-remoteScript.src = 'scripts/remote.js';
-remoteScript.defer = true;
-document.head.appendChild(remoteScript);
 </script>
 
 <!-- Load game modules -->

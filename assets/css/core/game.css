@@ -411,7 +411,7 @@ h1.question {
 }
 
 .topics-panel {
-    background-color: var(--background-light);
+    background-color: rgb(74, 213, 74);
     border: 1px solid var(--accent-dark);
     border-radius: var(--space-md);
     padding: var(--space-xl) var(--space-lg);
@@ -455,7 +455,7 @@ h1.question {
 }
 
 .topic-option:hover {
-    background-color: #2563eb;
+    background-color: var(--accent-light);
 }
 
 .topic-option:hover span {
@@ -510,7 +510,7 @@ h1.question {
 }
 
 .page-info {
-    font-size: var(--font-sm);
+    font-size: var(--font-lg);
     color: var(--text-dark);
     font-weight: 500;
 }
