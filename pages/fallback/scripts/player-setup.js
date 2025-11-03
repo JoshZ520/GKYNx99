@@ -206,7 +206,7 @@ function handleStartGame() {
     window.loadQuestions().then(() => {
         console.log('Questions loaded successfully for offline mode');
         // Navigate to game page
-        window.location.href = '../../game.html';
+        window.location.href = '../game.html';
     }).catch(error => {
         console.error('Failed to load questions:', error);
         alert('Failed to load questions. Please check your internet connection and try again.');

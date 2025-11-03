@@ -209,7 +209,7 @@ function startGame() {
     }));
     
     // Navigate to game page
-    window.location.href = 'game.html';
+    window.location.href = '../pages/game.html';
 }
 
 function startOfflineMode() {

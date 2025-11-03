@@ -106,10 +106,10 @@ function startCustomGame() {
     
     if (gameMode === 'multiplayer') {
         // TODO: Redirect to multiplayer game with custom config
-        window.location.href = 'game.html';
+        window.location.href = '../game.html';
     } else {
         // TODO: Redirect to offline game with custom config
-        window.location.href = 'game.html';
+        window.location.href = '../game.html';
     }
 }
 

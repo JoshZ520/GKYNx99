@@ -28,7 +28,7 @@ function updatePlayerTurnIndicator() {
     const indicator = document.getElementById('playerTurnIndicator');
     const playerNameElement = document.getElementById('currentPlayerName');
     
-    if (indicator && playerNameElement && playerNames.length > 1) {
+    if (indicator && playerNameElement && playerNames.length > 0) {
         const currentPlayer = getCurrentPlayerName();
         playerNameElement.textContent = currentPlayer;
         indicator.classList.remove('hidden');
@@ -187,13 +187,16 @@ function initializePlayerSystem() {
     
     // Load player data from session storage (for offline mode)
     const gameMode = sessionStorage.getItem('gameMode');
+    console.log('Game mode:', gameMode);
     if (gameMode === 'offline') {
         const storedNames = sessionStorage.getItem('playerNames');
+        console.log('Stored player names from sessionStorage:', storedNames);
         if (storedNames) {
             try {
                 const names = JSON.parse(storedNames);
                 setPlayerNames(names);
                 console.log('Loaded offline players:', names);
+                console.log('Player names array now:', playerNames);
                 
                 // Initialize the first player's turn
                 currentPlayerIndex = 0;
