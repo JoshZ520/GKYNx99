@@ -209,7 +209,7 @@ function startGame() {
     }));
     
     // Navigate to game page
-    window.location.href = 'game.html';
+    window.location.href = '../pages/game.html';
 }
 
 function startOfflineMode() {
@@ -220,7 +220,12 @@ function startOfflineMode() {
     sessionStorage.setItem('gameMode', 'offline');
     
     // Navigate to offline setup (fallback directory)
-    window.location.href = 'fallback/front-pg.html';
+    // Fallback page no longer exists - show offline setup inline
+    if (window.showOfflineSetup) {
+        window.showOfflineSetup();
+    } else {
+        window.location.href = 'pages/index.html';
+    }
 }
 
 function copyRoomCode() {

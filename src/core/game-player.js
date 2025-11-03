@@ -28,7 +28,7 @@ function updatePlayerTurnIndicator() {
     const indicator = document.getElementById('playerTurnIndicator');
     const playerNameElement = document.getElementById('currentPlayerName');
     
-    if (indicator && playerNameElement && playerNames.length > 1) {
+    if (indicator && playerNameElement && playerNames.length > 0) {
         const currentPlayer = getCurrentPlayerName();
         playerNameElement.textContent = currentPlayer;
         indicator.classList.remove('hidden');
@@ -53,8 +53,7 @@ function recordPlayerAnswer(playerName, question, answer) {
     // Record the player's answer
     submissionsByQuestion[question].answers[playerName] = answer;
     
-    console.log('Recorded answer:', { playerName, question, answer });
-    console.log('Current submissions:', submissionsByQuestion);
+
 }
 
 function updateSubmissionState() {
@@ -121,7 +120,7 @@ function submitAnswer() {
     // Record this answer
     recordPlayerAnswer(currentPlayerName, currentQuestionText, selectedPreference);
     
-    console.log(`${currentPlayerName} submitted: ${selectedPreference} for "${currentQuestionText}"`);
+
     
     // MULTIPLAYER INTEGRATION: Advance to next player if in multiplayer mode
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
@@ -137,7 +136,7 @@ function submitAnswer() {
 }
 
 function handleFinalSubmit() {
-    console.log('Final submit clicked - preparing results');
+
     
     // Create chronological list of questions in the order they were answered
     const questionOrder = Object.keys(submissionsByQuestion).map(question => ({
@@ -157,48 +156,43 @@ function handleFinalSubmit() {
     // Save final session state before finishing
     if (window.gameSessionManager) {
         gameSessionManager.saveCurrentSession();
-        console.log('Final session state saved before transitioning to results');
+
     }
     
-    // Navigate to results page - check if offline mode
+    // Navigate to results page - fallback pages were consolidated
+    // For now, redirect back to main page since display.html was removed
+    // TODO: Create a proper results/summary page
     const isOffline = sessionStorage.getItem('offlineMode') === 'true';
     if (isOffline) {
-        window.location.href = 'fallback/display.html';
+        // Could show a game complete message and return to setup
+        alert('Game Complete! Thanks for playing Table Talk!');
+        sessionStorage.clear();
+        window.location.href = 'pages/index.html';
     } else {
-        // For online mode, we might need to create a main display page or redirect appropriately
-        window.location.href = 'fallback/display.html'; // Temporary - use fallback for now
-    }
-}
-
-// === PLAYER SETUP ===
-function initializePlayers() {
-    // Load player names from session storage
-    const storedPlayerNames = JSON.parse(sessionStorage.getItem('playerNames')) || [];
-    if (storedPlayerNames.length > 0) {
-        playerNames = storedPlayerNames;
-        currentPlayerIndex = 0;
-        updatePlayerTurnIndicator();
+        // For online mode
+        alert('Game Complete! Thanks for playing Table Talk!');
+        window.location.href = 'pages/index.html';
     }
 }
 
 // === INITIALIZATION ===
 function initializePlayerSystem() {
-    console.log('Initializing player system...');
-    
     // Load player data from session storage (for offline mode)
     const gameMode = sessionStorage.getItem('gameMode');
+    
     if (gameMode === 'offline') {
         const storedNames = sessionStorage.getItem('playerNames');
+        
         if (storedNames) {
             try {
                 const names = JSON.parse(storedNames);
-                setPlayerNames(names);
-                console.log('Loaded offline players:', names);
+                playerNames = names;
                 
                 // Initialize the first player's turn
                 currentPlayerIndex = 0;
                 updatePlayerTurnIndicator();
             } catch (error) {
+                // Keep error handling for debugging issues
                 console.error('Error loading player names:', error);
             }
         }
@@ -215,7 +209,6 @@ window.gamePlayer = {
     updateSubmissionState,
     submitAnswer,
     handleFinalSubmit,
-    initializePlayers,
     initializePlayerSystem,
     // Getters for shared state
     getPlayerNames: () => playerNames,
@@ -229,9 +222,7 @@ window.gamePlayer = {
 // === AUTO-INITIALIZATION ===
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing Player System...');
     if (window.gamePlayer) {
         window.gamePlayer.initializePlayerSystem();
-        console.log('Player system initialized');
     }
 });
