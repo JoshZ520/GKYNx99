@@ -81,21 +81,7 @@
     text-align: center;
 }
 /* Start button styling */
-.start-btn {
-    display: inline-block;
-    background-color: var(--accent-dark);
-    color: var(--light);
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, opacity 0.3s ease;
-}
-.start-btn:hover:not([style*="pointer-events: none"]) { 
-    opacity: 0.95; 
-}
+/* .start-btn styles moved to shared.css for consistency */
 /* Player Setup Section */
 .player-setup-section {
     margin: var(--space-lg) 0;
@@ -424,11 +410,7 @@
     margin: var(--space-xl) 0;
 }
 
-.start-btn.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
+/* .start-btn.disabled moved to shared.css */
 
 .min-players-note {
     margin-top: 0.5rem;
@@ -460,6 +442,109 @@
     line-height: 1.4;
 }
 
+/* === OFFLINE MODE STYLES === */
+
+/* Player Count Selector */
+.player-count-selector {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-lg);
+    background: var(--background-light);
+    border-radius: var(--border-radius-lg);
+    border: 2px solid var(--accent-light);
+    margin: var(--space-lg) 0;
+}
+
+.player-count-selector label {
+    font-weight: 600;
+    font-size: var(--font-lg);
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.player-count-selector input[type="number"] {
+    padding: var(--space-md) var(--space-lg);
+    border: 2px solid var(--accent-light);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-base);
+    background-color: white;
+    color: var(--text-dark);
+    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.player-count-selector input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent-dark);
+    box-shadow: 0 0 0 3px rgba(49, 167, 29, 0.2);
+}
+
+.player-count-selector input[type="number"]:hover {
+    border-color: var(--accent-dark);
+}
+
+/* Player Input Groups */
+.player-input-group {
+    margin-bottom: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--background-light);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--accent-light);
+}
+
+.player-input-group label {
+    font-weight: 600;
+    min-width: 80px;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.player-input-group input {
+    flex: 1;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--accent-light);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-base);
+    transition: border-color 0.2s ease;
+}
+
+.player-input-group input:focus {
+    outline: none;
+    border-color: var(--accent-dark);
+    box-shadow: 0 0 0 2px rgba(49, 167, 29, 0.2);
+}
+
+.player-input-group input:invalid {
+    border-color: #dc3545;
+}
+
+/* Player Names Container */
+#playerNamesContainer {
+    max-width: 100%;
+    margin: var(--space-lg) 0;
+}
+
+/* Offline Setup Section */
+#offlineSetupSection {
+    margin: var(--space-xl) 0;
+}
+
+#offlineSetupSection.hidden {
+    display: none;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     .room-code-container {
@@ -483,6 +568,31 @@
     
     .step-instruction {
         font-size: 0.9rem;
+    }
+    
+    /* Offline mode mobile adjustments */
+    .player-count-selector {
+        padding: var(--space-md);
+    }
+    
+    .player-count-selector input[type="number"] {
+        min-width: 150px;
+        font-size: var(--font-sm);
+    }
+    
+    .player-input-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    
+    .player-input-group label {
+        min-width: auto;
+    }
+    
+    .player-input-group input {
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 

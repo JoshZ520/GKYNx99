@@ -106,21 +106,16 @@ function startCustomGame() {
     
     if (gameMode === 'multiplayer') {
         // TODO: Redirect to multiplayer game with custom config
-        window.location.href = 'game.html';
+        window.location.href = '../pages/game.html';
     } else {
         // TODO: Redirect to offline game with custom config
-        window.location.href = 'game.html';
+        window.location.href = '../pages/game.html';
     }
 }
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
-    // TODO: Add event listeners for:
-    // - Topic checkboxes
-    // - Question count slider/input
-    // - Game style radio buttons
-    // - Start button
-    console.log('Setting up customize page event listeners...');
+    // TODO: Implement event listeners when customize functionality is needed
 }
 
 // === INITIALIZATION ===

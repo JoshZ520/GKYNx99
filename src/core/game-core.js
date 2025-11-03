@@ -2,7 +2,7 @@
 // Handles loading, displaying, and navigating between questions
 //
 // LOGGING POLICY: Only keep essential logs (initialization, connections, errors)
-// For debugging: Add temporary console.log statements, then remove before committing
+
 
 // === SHARED GAME STATE ===
 let appQuestions = [];
@@ -139,7 +139,7 @@ function setTopic(topic) {
     if (window.gameSessionManager) {
         setTimeout(() => {
             gameSessionManager.saveCurrentSession();
-            console.log(`Topic changed to ${topic} - session saved`);
+
         }, 100);
     }
 }
@@ -189,7 +189,10 @@ window.gameCore = {
 // === EVENT LISTENERS SETUP ===
 // Set up game control event listeners when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Setting up Game Core event listeners...');
+    // Initialize player system
+    if (window.gamePlayer && window.gamePlayer.initializePlayerSystem) {
+        window.gamePlayer.initializePlayerSystem();
+    }
     
     // Question navigation controls
     const switchBtn = document.getElementById('switchQuestion');
@@ -202,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
         switchBtn.addEventListener('click', () => {
             window.gameCore.switchToNextQuestion();
         });
-        console.log('Switch question button connected');
+
     }
     
     if (randomTopicBtn) {
@@ -211,28 +214,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.pickRandomTopic();
             }
         });
-        console.log('Random topic button connected');
+
     }
     
     if (prevQuestionBtn) {
         prevQuestionBtn.addEventListener('click', () => {
             window.gameCore.switchToPreviousQuestion();
         });
-        console.log('Previous question button connected');
+
     }
     
     if (nextQuestionBtn) {
         nextQuestionBtn.addEventListener('click', () => {
             window.gameCore.switchToNextQuestion();
         });
-        console.log('Next question button connected');
+
     }
     
     if (skipQuestionBtn) {
         skipQuestionBtn.addEventListener('click', () => {
             window.gameCore.switchToNextQuestion();
         });
-        console.log('Skip question button connected');
+
     }
     
     // Topics and UI controls
@@ -243,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.toggleTopicsPanel();
             }
         });
-        console.log('Topics toggle button connected');
+
     }
     
     // Preference selection
@@ -256,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.selectPreference('option1');
             }
         });
-        console.log('Option 1 selection connected');
+
     }
     
     if (option2) {
