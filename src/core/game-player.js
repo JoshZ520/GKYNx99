@@ -163,10 +163,10 @@ function handleFinalSubmit() {
     // Navigate to results page - check if offline mode
     const isOffline = sessionStorage.getItem('offlineMode') === 'true';
     if (isOffline) {
-        window.location.href = 'fallback/display.html';
+        window.location.href = 'pages/fallback/display.html';
     } else {
         // For online mode, we might need to create a main display page or redirect appropriately
-        window.location.href = 'fallback/display.html'; // Temporary - use fallback for now
+        window.location.href = 'pages/fallback/display.html'; // Temporary - use fallback for now
     }
 }
 

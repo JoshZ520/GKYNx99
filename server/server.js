@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
 // Route for phone players to join games
 app.get('/player', (req, res) => {
     try {
-        const playerPath = path.join(__dirname, '../player/index.html');
+        const playerPath = path.join(__dirname, '../pages/player/index.html');
         console.log('Serving player page from:', playerPath);
         res.sendFile(playerPath);
     } catch (error) {

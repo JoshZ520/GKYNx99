@@ -139,7 +139,7 @@ function startOfflineGame() {
         sessionStorage.setItem('playerCount', players.length);
         
         // Navigate to game
-        window.location.href = '../pages/game.html';
+        window.location.href = '../../game.html';
     }).catch(error => {
         console.error('Failed to load questions:', error);
         alert('Failed to load questions. Please check your internet connection and try again.');

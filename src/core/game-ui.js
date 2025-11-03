@@ -9,7 +9,7 @@ const topicsPerPage = 6;
 // === TOPIC SELECTION SYSTEM ===
 function initializeTopicSelection() {
     // Load topics from JSON - use dynamic path resolution
-    const basePath = window.location.pathname.includes('/pages/') ? '../data/questions/topics/index.json' : 'data/questions/topics/index.json';
+    const basePath = window.location.pathname.includes('/pages/') ? '../src/data/questions/topics/index.json' : 'src/data/questions/topics/index.json';
     fetch(basePath)
         .then(res => res.json())
         .then(topicsIndex => {

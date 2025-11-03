@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../assets/css/core/index.css">
     <!-- Clean script architecture -->
     <script src="../src/utilities/theme-utilities.js" defer></script>
-    <script src="../src/utilities/index.js" defer></script>
 </head>
 <body class="front-page" id="root">
     <div class="card">
@@ -54,7 +53,7 @@
                     </div>
                     
                     <div class="create-room-container" style="margin-top: 20px;">
-                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="window.location.href='../fallback/front-pg.html'">
+                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="window.location.href='fallback/front-pg.html'">
                             <span>Start Offline Mode</span>
                         </button>
                         <p class="game-mode-description">Single device - everyone takes turns</p>
@@ -64,7 +63,7 @@
                 <!-- Step 2: Room Created - Show Code -->
                 <div class="step-section hidden" id="roomCreatedStep">
                     <h3>Step 2: Share Room Code</h3>
-                    <p class="step-instruction">Tell everyone to go to <strong>10.244.100.93:3000/player</strong> on their phones and enter this code:</p>
+                    <p class="step-instruction">Tell everyone to go to <strong>https://table-talk.onrender.com/player</strong> on their phones and enter this code:</p>
                     
                     <div class="room-code-display">
                         <div class="room-code-container">
@@ -96,7 +95,7 @@
                     <h3>Server Connection Issue</h3>
                     <p class="step-instruction">Can't connect to multiplayer server. Switch to offline mode:</p>
                     <div class="offline-container">
-                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='../fallback/front-pg.html'">
+                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="window.location.href='pages/fallback/front-pg.html'">
                             <span>Switch to Offline Mode</span>
                         </button>
                         <p class="offline-note">Single-device gameplay with manual player turns</p>

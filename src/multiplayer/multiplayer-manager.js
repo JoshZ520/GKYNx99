@@ -220,7 +220,7 @@ function startOfflineMode() {
     sessionStorage.setItem('gameMode', 'offline');
     
     // Navigate to offline setup (fallback directory)
-    window.location.href = 'fallback/front-pg.html';
+    window.location.href = 'pages/fallback/front-pg.html';
 }
 
 function copyRoomCode() {
