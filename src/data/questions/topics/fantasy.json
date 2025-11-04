@@ -5,8 +5,8 @@
                           "option1":  "Character Development",
                           "option2":  "Action/Adventure",
                           "images":  {
-                                         "option1":  "images/questions/Fantasy/Development.png",
-                                         "option2":  "images/questions/Fantasy"
+                                         "option1":  "../assets/images/questions/Fantasy/Development.png",
+                                         "option2":  "../assets/images/questions/Fantasy"
                                      }
                       },
                       {
@@ -14,8 +14,8 @@
                           "option1":  "Magic Users",
                           "option2":  "Physical Heroes",
                           "images":  {
-                                         "option1":  "images/questions/Fantasy/Magic.png",
-                                         "option2":  "images/questions/Fantasy/Fighter.png"
+                                         "option1":  "../assets/images/questions/Fantasy/Magic.png",
+                                         "option2":  "../assets/images/questions/Fantasy/Fighter.png"
                                      }
                       },
                       {
