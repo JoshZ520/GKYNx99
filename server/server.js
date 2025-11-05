@@ -18,13 +18,43 @@ const io = socketIo(server, {
 const staticPath = process.env.NODE_ENV === 'production' 
     ? path.join(__dirname, '..') 
     : path.join(__dirname, '..');
-app.use(express.static(staticPath));
 
-// Add explicit static file serving for common paths
-app.use('/stylesheets', express.static(path.join(__dirname, '../stylesheets')));
+// Configure proper MIME types for static files
+app.use(express.static(staticPath, {
+    setHeaders: (res, filePath) => {
+        // Set proper MIME types for different file extensions
+        if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        } else if (filePath.endsWith('.js')) {
+            res.setHeader('Content-Type', 'text/javascript');
+        } else if (filePath.endsWith('.json')) {
+            res.setHeader('Content-Type', 'application/json');
+        } else if (filePath.endsWith('.html')) {
+            res.setHeader('Content-Type', 'text/html');
+        }
+        // Add cache control for better performance
+        res.setHeader('Cache-Control', 'public, max-age=31536000');
+    }
+}));
+
+// Add explicit static file serving for common paths with proper MIME types
+app.use('/stylesheets', express.static(path.join(__dirname, '../stylesheets'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        }
+    }
+}));
 app.use('/scripts', express.static(path.join(__dirname, '../scripts')));
 app.use('/images', express.static(path.join(__dirname, '../images')));
 app.use('/pages', express.static(path.join(__dirname, '../pages')));
+app.use('/assets', express.static(path.join(__dirname, '../assets'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        }
+    }
+}));
 
 // Game rooms storage - in production, you'd use a database
 const gameRooms = new Map();
