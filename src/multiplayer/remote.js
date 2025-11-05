@@ -1,28 +1,21 @@
 // remote.js - Game remote control functionality for offline mode
 // Provides comprehensive game controls: next/prev question, random question/topic, skip question
 
-console.log('Remote control system loading...');
-
 // === REMOTE CONTROL STATE ===
 let remoteControlsEnabled = false;
 
 // === INITIALIZATION ===
 function initializeRemoteControls() {
-    console.log('Initializing remote controls for existing game buttons');
     remoteControlsEnabled = true;
     
     // Setup event listeners for existing remote control buttons
     setupRemoteEventListeners();
-    
-    console.log('Remote controls ready');
 }
 
 
 
 // === EVENT LISTENERS ===
 function setupRemoteEventListeners() {
-    console.log('Setting up event listeners for existing remote buttons');
-    
     // Question controls
     setupQuestionControls();
     
@@ -122,51 +115,7 @@ function showRemoteFeedback(message, type = 'success') {
     feedback.className = `remote-feedback ${type}`;
     feedback.textContent = message;
     
-    // Add feedback styles
-    const feedbackStyle = `
-        .remote-feedback {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            z-index: 1001;
-            animation: slideInRight 0.3s ease;
-        }
-        
-        .remote-feedback.success {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-        
-        .remote-feedback.error {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @media (max-width: 768px) {
-            .remote-feedback {
-                left: 10px;
-                right: 10px;
-                top: 10px;
-            }
-        }
-    `;
-    
-    if (!document.getElementById('feedbackStyles')) {
-        const styleEl = document.createElement('style');
-        styleEl.id = 'feedbackStyles';
-        styleEl.textContent = feedbackStyle;
-        document.head.appendChild(styleEl);
-    }
+    // Styles are now in remote.css
     
     document.body.appendChild(feedback);
     
@@ -182,12 +131,10 @@ function showRemoteFeedback(message, type = 'success') {
 // === UTILITY FUNCTIONS ===
 function enableRemoteControls() {
     remoteControlsEnabled = true;
-    console.log('Remote controls enabled');
 }
 
 function disableRemoteControls() {
     remoteControlsEnabled = false;
-    console.log('Remote controls disabled');
 }
 
 // === AUTO-INITIALIZATION ===
@@ -204,5 +151,3 @@ window.remoteControls = {
     disable: disableRemoteControls,
     showFeedback: showRemoteFeedback
 };
-
-console.log('Remote control system loaded');

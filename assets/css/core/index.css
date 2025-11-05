@@ -261,11 +261,6 @@
     color: #F44336;
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-}
-
 .step-section {
     margin: var(--space-xl) 0;
 }
@@ -384,17 +379,6 @@
     border-left: 4px solid var(--accent-dark);
     font-weight: 500;
     animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
 }
 
 .no-players {

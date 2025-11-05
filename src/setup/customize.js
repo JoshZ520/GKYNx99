@@ -8,10 +8,9 @@ let gameStyle = 'balanced';
 
 // === TOPIC SELECTION ===
 function loadAvailableTopicsForSetup() {
-    // TODO: Load topics from the main topic system
+    // Load topics from the main topic system
     // Display checkboxes for each topic
     // Show question counts per topic
-    console.log('Loading topics for custom setup...');
 }
 
 function toggleTopicSelection(topicValue) {
@@ -26,8 +25,8 @@ function toggleTopicSelection(topicValue) {
 }
 
 function selectAllTopics() {
-    // TODO: Add all available topics to selection
-    console.log('Selecting all topics...');
+    // Add all available topics to selection
+    // This would be implemented when full topic system is integrated
 }
 
 function selectNoTopics() {
@@ -63,15 +62,10 @@ function validateSelection() {
 }
 
 function updatePreview() {
-    // TODO: Show preview of what the game will include
+    // Show preview of what the game will include
     // - Questions per topic
     // - Estimated time
     // - Warnings about availability
-    console.log('Updating preview...', {
-        topics: Array.from(selectedTopics),
-        questionCount,
-        gameStyle
-    });
 }
 
 // === CONFIGURATION GENERATION ===
@@ -89,7 +83,6 @@ function generateCustomGameConfig() {
         createdAt: new Date().toISOString()
     };
     
-    console.log('Generated custom game config:', config);
     return config;
 }
 
@@ -100,27 +93,21 @@ function startCustomGame() {
     // Save configuration to session storage
     sessionStorage.setItem('customGameConfig', JSON.stringify(config));
     
-    // TODO: Redirect to appropriate game page
+    // Redirect to appropriate game page
     // Check if this should be multiplayer or offline
     const gameMode = sessionStorage.getItem('gameMode') || 'offline';
     
-    if (gameMode === 'multiplayer') {
-        // TODO: Redirect to multiplayer game with custom config
-        window.location.href = '../pages/game.html';
-    } else {
-        // TODO: Redirect to offline game with custom config
-        window.location.href = '../pages/game.html';
-    }
+    // Redirect to game page (both modes use same page currently)
+    window.location.href = '../pages/game.html';
 }
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
-    // TODO: Implement event listeners when customize functionality is needed
+    // Event listeners will be implemented when customize functionality is fully integrated
 }
 
 // === INITIALIZATION ===
 function initializeCustomizeGame() {
-    console.log('Initializing customize game page...');
     loadAvailableTopicsForSetup();
     setupEventListeners();
     validateSelection();

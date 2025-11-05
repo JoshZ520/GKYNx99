@@ -9,7 +9,6 @@
     --text-muted: #6b7280;
     --dark: #89ab84;
     --light: #ffffff;
-    --border-light: #e5e7eb;
     /* Status Colors */
     --success-color: #28a745;       /* Success/completion states */
     
@@ -192,6 +191,32 @@ input#player_count {
         transform: translateY(0);
     }
 }
+
+/* === CONSOLIDATED ANIMATIONS === */
+/* Unified pulse animation for all components */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Unified blink animation for status indicators */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Slide in animation for list items */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 /* === UTILITY CLASSES === */
 /* Common transitions */
 .smooth-transition {
@@ -230,31 +255,6 @@ input#player_count {
     align-items: center;
     justify-content: center;
 }
-.flex-column {
-    display: flex;
-    flex-direction: column;
-}
-.flex-row {
-    display: flex;
-    flex-direction: row;
-}
-.flex-center-align {
-    display: flex;
-    align-items: center;
-}
-/* Common border radius */
-.rounded-sm {
-    border-radius: 4px;
-}
-.rounded {
-    border-radius: 5px;
-}
-.rounded-md {
-    border-radius: 8px;
-}
-.rounded-lg {
-    border-radius: 10px;
-}
 /* === UTILITY CLASSES FOR JAVASCRIPT === */
 /* Display utilities */
 .hidden {
@@ -284,31 +284,7 @@ input#player_count {
     background-color: #28a745 !important;
     color: white !important;
 }
-/* Flying shapes animation variations */
-.flying-shape-slow {
-    animation-duration: 1.8s !important;
-}
-.flying-shape-medium {
-    animation-duration: 1.5s !important;
-}
-.flying-shape-fast {
-    animation-duration: 1.2s !important;
-}
-/* Flying shape colors */
-.color-red { background: #ff6b6b !important; }
-.color-teal { background: #4ecdc4 !important; }
-.color-blue { background: #45b7d1 !important; }
-.color-green { background: #96ceb4 !important; }
-.color-yellow { background: #ffeaa7 !important; }
-.color-purple { background: #dda0dd !important; }
-.color-mint { background: #98d8c8 !important; }
-.color-gold { background: #f7dc6f !important; }
-.color-lavender { background: #bb8fce !important; }
-.color-sky { background: #85c1e9 !important; }
-.color-orange { background: #f8c471 !important; }
-.color-lime { background: #82e0aa !important; }
-.color-coral { background: #f1948a !important; }
-.color-pink { background: #d5a6bd !important; }
+/* Note: Flying shape utility classes removed as they were unused */
 /* === ANIMATION CLASSES === */
 /* Flying shapes for turn transitions */
 .flying-shape {
