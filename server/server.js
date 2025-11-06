@@ -174,8 +174,8 @@ io.on('connection', (socket) => {
             success: true
         });
         
-        // Notify host and other players
-        socket.to(roomCode).emit('player-joined', {
+        // Notify host and other players (including host!)
+        io.to(roomCode).emit('player-joined', {
             player: player,
             totalPlayers: room.players.length
         });
@@ -308,8 +308,8 @@ io.on('connection', (socket) => {
                     
                     console.log(`${player.name} left room ${roomCode}`);
                     
-                    // Notify remaining players
-                    socket.to(roomCode).emit('player-left', {
+                    // Notify remaining players (including host!)
+                    io.to(roomCode).emit('player-left', {
                         player: player,
                         totalPlayers: room.players.length
                     });

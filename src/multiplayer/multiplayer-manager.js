@@ -155,13 +155,19 @@ function updateStartButton() {
     const startBtn = document.getElementById('startGameBtn');
     const startText = document.getElementById('startGameText');
     
+    console.log('updateStartButton called - players:', gameState.players.length);
+    console.log('startBtn exists:', !!startBtn, 'startText exists:', !!startText);
+    
     if (startBtn && startText) {
         const canStart = gameState.players.length >= 2;
+        
+        console.log('canStart:', canStart);
         
         if (canStart) {
             startBtn.disabled = false;
             startBtn.classList.remove('disabled');
             startText.textContent = `Start Game (${gameState.players.length} players)`;
+            console.log('Button enabled, disabled class removed');
         } else {
             startBtn.disabled = true;
             startBtn.classList.add('disabled');
@@ -174,8 +180,13 @@ function updateStartButton() {
 
 // === GAME ACTIONS ===
 function createRoom() {
+    console.log('createRoom() called');
+    console.log('Socket:', socket);
+    console.log('Connected:', gameState.isConnected);
+    
     if (!socket || !gameState.isConnected) {
         updateStatus('Not connected to server', 'error');
+        console.log('Cannot create room - not connected');
         return;
     }
     
@@ -249,10 +260,26 @@ function copyRoomCode() {
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
+    console.log('Setting up event listeners...');
+    
     // Create Room Button
     const createRoomBtn = document.getElementById('createRoomBtn');
+    console.log('createRoomBtn element:', createRoomBtn);
     if (createRoomBtn) {
+        // Test button properties
+        console.log('Button disabled?', createRoomBtn.disabled);
+        console.log('Button classes:', createRoomBtn.className);
+        console.log('Button computed style:', window.getComputedStyle(createRoomBtn).pointerEvents);
+        
         createRoomBtn.addEventListener('click', createRoom);
+        console.log('✓ createRoom click listener attached');
+        
+        // Add a direct test
+        createRoomBtn.addEventListener('click', function() {
+            console.log('!!! BUTTON WAS CLICKED !!!');
+        });
+    } else {
+        console.log('✗ createRoomBtn not found in DOM');
     }
     
     // Start Game Button
@@ -329,8 +356,10 @@ function updateAnswerProgress(answeredCount, totalPlayers) {
     }
 }
 
-// Make functions globally available for game.js
+// Make functions globally available for HTML onclick handlers and game.js
 if (typeof window !== 'undefined') {
+    window.createRoom = createRoom;
+    window.startGame = startGame;
     window.broadcastQuestionToPlayers = broadcastQuestionToPlayers;
     window.revealAnswers = revealAnswers;
 }
@@ -377,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 text: questionElem.textContent,
                                 options: extractCurrentQuestionOptions()
                             };
-                            broadcastQuestion(currentQuestion);
+                            broadcastQuestionToPlayers(currentQuestion);
                             console.log('Auto-broadcasted first question to players');
                         }
                     }, 1000);
@@ -413,7 +442,7 @@ function extractCurrentQuestionOptions() {
 // === EXPORT API FOR GAME INTEGRATION ===
 window.hostMultiplayer = {
     isActive: () => gameState.isConnected && gameState.isHost && gameState.roomCode,
-    broadcastQuestion: broadcastQuestion,
+    broadcastQuestion: broadcastQuestionToPlayers,
     revealAnswers: revealAnswers,
     getGameState: () => ({ ...gameState })
 };
