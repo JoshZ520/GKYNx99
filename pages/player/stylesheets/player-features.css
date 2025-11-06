@@ -1,60 +1,6 @@
-/* Player-specific styles for mobile interface */
+/* player-features.css - Player page feature-specific components */
 
-.player-page {
-    background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-light) 100%);
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
-}
-#joinSection {
-    display: flex;
-    justify-self: center;
-}
-.section {
-    display: none;
-    min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for mobile */
-    padding: 1rem;
-}
-
-.section.visible {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-}
-
-.container {
-    width: 100%;
-    max-width: 400px;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid var(--accent-light);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-/* Join Section */
-.logo-section {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.logo-section h1 {
-    font-size: 2.5rem;
-    margin: 0 0 0.5rem 0;
-    font-weight: bold;
-    color: var(--dark);
-}
-
-.logo-section p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin: 0;
-    color: var(--text-dark);
-}
-
+/* === JOIN FORM === */
 .join-form {
     display: flex;
     flex-direction: column;
@@ -117,10 +63,11 @@
     transform: translateY(0);
 }
 
-/* Waiting Section */
-#statusText{
+/* === WAITING SECTION === */
+#statusText {
     color: var(--dark);
 }
+
 .status-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -175,7 +122,7 @@
     color: var(--dark);
 }
 
-/* Question Section */
+/* === QUESTION SECTION === */
 .question-header {
     text-align: right;
     margin-bottom: 2rem;
@@ -250,7 +197,7 @@
     color: var(--text-dark);
 }
 
-/* Results Section */
+/* === RESULTS SECTION === */
 .results-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -305,40 +252,7 @@
     color: var(--text-dark);
 }
 
-/* Connection Status */
-.connection-status {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 20px;
-    font-size: 0.8rem;
-    z-index: 1000;
-    color: var(--light);
-}
-
-.status-indicator {
-    font-size: 1rem;
-}
-
-.status-indicator.connecting {
-    color: #FF9800;
-    animation: blink 1s infinite;
-}
-
-.status-indicator.connected {
-    color: #4CAF50;
-}
-
-.status-indicator.disconnected {
-    color: #F44336;
-}
-
-/* Error Messages */
+/* === ERROR MESSAGES === */
 .error-message {
     background: rgba(244, 67, 54, 0.2);
     border: 1px solid #F44336;
@@ -351,126 +265,4 @@
 
 .error-message.hidden {
     display: none;
-}
-
-/* Mobile Optimizations */
-@media (max-width: 768px) {
-    .section {
-        padding: 0.5rem;
-        min-height: 100vh;
-        min-height: 100dvh; /* Dynamic viewport height for mobile */
-    }
-    
-    .container {
-        padding: 1.5rem;
-        margin: 0.5rem;
-        max-width: calc(100% - 1rem);
-        width: 100%;
-    }
-    
-    .logo-section {
-        margin-bottom: 1.5rem;
-    }
-    
-    .logo-section h1 {
-        font-size: 2rem;
-    }
-    
-    .join-form {
-        gap: 1.25rem;
-    }
-    
-    .input-group input {
-        padding: 0.875rem;
-        font-size: 1rem;
-    }
-    
-    .join-btn {
-        padding: 1rem 1.5rem;
-        font-size: 1rem;
-    }
-    
-    .question-content h2 {
-        font-size: 1.2rem;
-    }
-    
-    .answer-btn {
-        padding: 1.2rem 0.8rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* Small mobile devices */
-@media (max-width: 480px) {
-    .container {
-        padding: 1rem;
-        margin: 0.25rem;
-    }
-    
-    .logo-section h1 {
-        font-size: 1.75rem;
-    }
-    
-    .input-group input {
-        padding: 0.75rem;
-        font-size: 0.95rem;
-    }
-    
-    .join-btn {
-        padding: 0.875rem 1.25rem;
-        font-size: 0.95rem;
-    }
-}
-
-/* Landscape phone orientation */
-@media (max-height: 500px) and (orientation: landscape) {
-    .section {
-        min-height: 100vh;
-        min-height: 100dvh;
-        padding: 0.5rem;
-        align-items: flex-start;
-        padding-top: 2rem;
-    }
-    
-    .container {
-        padding: 1rem;
-        max-width: 500px;
-    }
-    
-    .logo-section {
-        margin-bottom: 1rem;
-    }
-    
-    .logo-section h1 {
-        font-size: 1.8rem;
-    }
-    
-    .join-form {
-        gap: 1rem;
-    }
-}
-
-/* Very small screens - ensure content fits */
-@media (max-height: 400px) {
-    .section.visible {
-        align-items: flex-start;
-        padding-top: 1rem;
-    }
-    
-    .logo-section {
-        margin-bottom: 0.75rem;
-    }
-    
-    .logo-section h1 {
-        font-size: 1.5rem;
-        margin-bottom: 0.25rem;
-    }
-    
-    .logo-section p {
-        font-size: 0.9rem;
-    }
-    
-    .join-form {
-        gap: 0.75rem;
-    }
 }
