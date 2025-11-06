@@ -367,6 +367,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.isHost = roomData.isHost;
                 gameState.players = roomData.players || [];
                 console.log('Game page initialized with room:', gameState.roomCode);
+                
+                // Auto-broadcast first question after a short delay to ensure game is ready
+                if (gameState.isHost && gameState.isConnected) {
+                    setTimeout(() => {
+                        const questionElem = document.getElementById('question');
+                        if (questionElem && questionElem.textContent) {
+                            const currentQuestion = {
+                                text: questionElem.textContent,
+                                options: extractCurrentQuestionOptions()
+                            };
+                            broadcastQuestion(currentQuestion);
+                            console.log('Auto-broadcasted first question to players');
+                        }
+                    }, 1000);
+                }
             } catch (error) {
                 console.error('Failed to parse multiplayer room data:', error);
             }
@@ -375,3 +390,30 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('Table Talk initialized');
 });
+
+// Helper function to extract current question options from the page
+function extractCurrentQuestionOptions() {
+    const optionsContainer = document.getElementById('preferenceContainer');
+    if (!optionsContainer || optionsContainer.style.display === 'none') {
+        return [
+            { text: 'Yes', value: 'yes' },
+            { text: 'No', value: 'no' }
+        ];
+    }
+    
+    const option1 = document.getElementById('option1')?.textContent || 'Option A';
+    const option2 = document.getElementById('option2')?.textContent || 'Option B';
+    
+    return [
+        { text: option1, value: 'A' },
+        { text: option2, value: 'B' }
+    ];
+}
+
+// === EXPORT API FOR GAME INTEGRATION ===
+window.hostMultiplayer = {
+    isActive: () => gameState.isConnected && gameState.isHost && gameState.roomCode,
+    broadcastQuestion: broadcastQuestion,
+    revealAnswers: revealAnswers,
+    getGameState: () => ({ ...gameState })
+};
