@@ -32,8 +32,8 @@
                           "option1":  "Simple/User-Friendly",
                           "option2":  "Advanced/Customizable",
                           "images":  {
-                                         "option1":  "../assets/images/questions/Tech/",
-                                         "option2":  "../assets/images/questions/Tech/"
+                                         "option1":  "../assets/images/questions/Tech/simple.jpg",
+                                         "option2":  "../assets/images/questions/Tech/complex.jpg"
                                      }
                       },
                       {
