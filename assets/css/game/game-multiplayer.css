@@ -368,3 +368,195 @@
         transform: translateX(-50%) translateY(-20px);
     }
 }
+
+/* === ANSWER PROGRESS DISPLAY === */
+.answer-progress-container {
+    text-align: center;
+    padding: var(--space-md);
+    background: var(--background-light);
+    border: 2px solid var(--accent-light);
+    border-radius: 8px;
+    margin: var(--space-md) auto;
+    max-width: 400px;
+}
+
+#answerProgress {
+    font-size: var(--font-lg);
+    font-weight: 600;
+    color: var(--accent-dark);
+    margin: 0;
+}
+
+/* === QUESTION RESULTS BAR === */
+.question-results-bar {
+    background: var(--light);
+    border: 3px solid var(--accent-dark);
+    border-radius: 12px;
+    padding: var(--space-lg);
+    margin: var(--space-lg) auto;
+    max-width: 600px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.question-results-bar h3 {
+    margin: 0 0 var(--space-md) 0;
+    color: var(--accent-dark);
+    text-align: center;
+    font-size: var(--font-xl);
+}
+
+.result-option {
+    margin-bottom: var(--space-md);
+}
+
+.result-option:last-child {
+    margin-bottom: 0;
+}
+
+.option-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-base);
+}
+
+.progress-bar-container {
+    position: relative;
+    background: var(--background-light);
+    border: 2px solid var(--accent-light);
+    border-radius: 8px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
+    height: 100%;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: var(--space-sm);
+}
+
+.vote-count {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: var(--font-base);
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+
+/* === ALL RESULTS MODAL === */
+.all-results-display {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.results-overlay-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.results-modal {
+    position: relative;
+    background: var(--light);
+    border-radius: var(--space-lg);
+    padding: var(--space-xl);
+    max-width: 700px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.results-modal h2 {
+    margin: 0 0 var(--space-lg) 0;
+    color: var(--accent-dark);
+    text-align: center;
+    font-size: 2rem;
+}
+
+.results-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    gap: var(--space-md);
+}
+
+.nav-btn {
+    background: var(--accent-dark);
+    color: white;
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+#resultCounter {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: var(--font-lg);
+}
+
+.question-result-card {
+    background: var(--background-light);
+    border-radius: var(--space-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+}
+
+.result-question {
+    color: var(--accent-dark);
+    margin: 0 0 var(--space-lg) 0;
+    font-size: var(--font-xl);
+    text-align: center;
+}
+
+.close-results-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent-dark), var(--dark));
+    color: white;
+    border: none;
+    padding: var(--space-md);
+    border-radius: 8px;
+    font-size: var(--font-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: var(--space-md);
+}
+
+.close-results-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}

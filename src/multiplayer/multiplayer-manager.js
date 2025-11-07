@@ -11,7 +11,9 @@ var gameState = gameState || {
     roomCode: null,
     isHost: false,
     players: [],
-    currentPage: getCurrentPage()
+    currentPage: getCurrentPage(),
+    allQuestionResults: [], // Store results for all questions
+    lastViewedQuestionIndex: 0 // Track where we left off in results
 };
 
 // === UTILITIES ===
@@ -124,14 +126,35 @@ function initializeSocket() {
                     notification.style.display = 'none';
                 }, 2000);
             }
+            
+            // Auto-capture answers when all players have submitted
+            if (data.answeredCount === data.totalPlayers && data.totalPlayers > 0) {
+                console.log('All players answered - auto-capturing results');
+                setTimeout(() => {
+                    revealAnswers(); // This will capture results without displaying them
+                }, 500);
+            }
         });
         
         socket.on('answers-revealed', (data) => {
             console.log('Answers revealed:', data.results);
-            // This would be handled by game.js
-            if (typeof handleAnswersRevealed === 'function') {
-                handleAnswersRevealed(data.results, data.question);
+            // Store results for this question
+            gameState.allQuestionResults.push({
+                question: data.question,
+                results: data.results,
+                timestamp: Date.now()
+            });
+            
+            // Show the "End Game" button after first question is answered
+            const endGameBtn = document.getElementById('end_game_btn');
+            if (endGameBtn) {
+                endGameBtn.style.display = 'block';
             }
+            
+            // Reset progress for next question
+            updateAnswerProgress(0, gameState.playerNames.length);
+            
+            console.log(`Recorded results. Total questions: ${gameState.allQuestionResults.length}`);
         });
         
         return true;
@@ -309,6 +332,12 @@ function broadcastQuestionToPlayers(question) {
     gameState.waitingForAnswers = true;
     gameState.collectedAnswers = new Map();
     
+    // Show answer progress container
+    const progressContainer = document.getElementById('answerProgressContainer');
+    if (progressContainer) {
+        progressContainer.classList.remove('hidden');
+    }
+    
     // Convert question to multiplayer format - handle different question formats
     let questionText = '';
     if (typeof question === 'string') {
@@ -372,12 +401,142 @@ function updateAnswerProgress(answeredCount, totalPlayers) {
     // }
 }
 
+// Display results as a status bar
+function displayResultsBar(results, question) {
+    const resultsBar = document.getElementById('questionResultsBar');
+    const resultsContent = document.getElementById('resultsBarContent');
+    
+    if (!resultsBar || !resultsContent) return;
+    
+    // Count votes for each option
+    const voteCounts = {};
+    results.forEach(result => {
+        const answer = result.answer.text || result.answer.value || result.answer;
+        voteCounts[answer] = (voteCounts[answer] || 0) + 1;
+    });
+    
+    const totalVotes = results.length;
+    
+    // Build status bars HTML
+    let html = '';
+    Object.entries(voteCounts).forEach(([option, count]) => {
+        const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+        html += `
+            <div class="result-option">
+                <div class="option-label">${option}</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: ${percentage}%"></div>
+                    <span class="vote-count">${count} vote${count !== 1 ? 's' : ''} (${percentage}%)</span>
+                </div>
+            </div>
+        `;
+    });
+    
+    resultsContent.innerHTML = html;
+    return html; // Return HTML for reuse in all results display
+}
+
+// Display all accumulated results
+function showAllResults() {
+    if (gameState.allQuestionResults.length === 0) {
+        alert('No questions have been answered yet!');
+        return;
+    }
+    
+    const allResultsDisplay = document.getElementById('allResultsDisplay');
+    const allResultsContent = document.getElementById('allResultsContent');
+    const resultCounter = document.getElementById('resultCounter');
+    
+    if (!allResultsDisplay || !allResultsContent) return;
+    
+    // Clamp lastViewedQuestionIndex to valid range
+    let lastSeen = Math.max(0, Math.min(gameState.lastViewedQuestionIndex, gameState.allQuestionResults.length - 1));
+    // If new questions have been added since last view, start at the first new one
+    let currentQuestionIndex = lastSeen;
+    if (gameState.allQuestionResults.length > lastSeen + 1) {
+        currentQuestionIndex = lastSeen + 1;
+    }
+    
+    function displayQuestion(index) {
+        const questionData = gameState.allQuestionResults[index];
+        const question = questionData.question;
+        const results = questionData.results;
+        
+        // Update last viewed index
+        gameState.lastViewedQuestionIndex = index;
+        
+        // Count votes for each option
+        const voteCounts = {};
+        results.forEach(result => {
+            const answer = result.answer.text || result.answer.value || result.answer;
+            voteCounts[answer] = (voteCounts[answer] || 0) + 1;
+        });
+        
+        const totalVotes = results.length;
+        
+        // Build display HTML
+        let html = `
+            <div class="question-result-card">
+                <h3 class="result-question">${question.text || question.prompt || question}</h3>
+        `;
+        
+        Object.entries(voteCounts).forEach(([option, count]) => {
+            const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
+            html += `
+                <div class="result-option">
+                    <div class="option-label">${option}</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: ${percentage}%"></div>
+                        <span class="vote-count">${count} vote${count !== 1 ? 's' : ''} (${percentage}%)</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `</div>`;
+        allResultsContent.innerHTML = html;
+        
+        // Update counter
+        resultCounter.textContent = `Question ${index + 1} of ${gameState.allQuestionResults.length}`;
+        
+        // Update navigation buttons
+        document.getElementById('prevResultBtn').disabled = index === 0;
+        document.getElementById('nextResultBtn').disabled = index === gameState.allQuestionResults.length - 1;
+    }
+    
+    // Navigation handlers
+    document.getElementById('prevResultBtn').onclick = () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            displayQuestion(currentQuestionIndex);
+        }
+    };
+    
+    document.getElementById('nextResultBtn').onclick = () => {
+        if (currentQuestionIndex < gameState.allQuestionResults.length - 1) {
+            currentQuestionIndex++;
+            displayQuestion(currentQuestionIndex);
+        }
+    };
+    
+    document.getElementById('closeResultsBtn').onclick = () => {
+    allResultsDisplay.classList.add('hidden');
+    // Clamp lastViewedQuestionIndex to valid range on close
+    gameState.lastViewedQuestionIndex = Math.max(0, Math.min(currentQuestionIndex, gameState.allQuestionResults.length - 1));
+    };
+    
+    // Show modal and display first question
+    allResultsDisplay.classList.remove('hidden');
+    displayQuestion(currentQuestionIndex);
+}
+
 // Make functions globally available for HTML onclick handlers and game.js
 if (typeof window !== 'undefined') {
     window.createRoom = createRoom;
     window.startGame = startGame;
     window.broadcastQuestionToPlayers = broadcastQuestionToPlayers;
     window.revealAnswers = revealAnswers;
+    window.showAllResults = showAllResults;
 }
 
 // === INITIALIZATION ===

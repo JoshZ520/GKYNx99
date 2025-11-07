@@ -165,9 +165,30 @@ Back to Game Mode
 </div>
 <!-- Hidden field to store the selected preference -->
 <input type="hidden" id="selectedPreference" value="">
-<!-- Host does not submit answers - only reveals when ready -->
+
+<!-- Answer Progress Display for Multiplayer -->
+<div id="answerProgressContainer" class="answer-progress-container hidden">
+    <p id="answerProgress">0/0 players answered</p>
+</div>
+
+<!-- Host controls -->
 <div class="buttons">
-<button class="fin" id="final_submit" type="button">All Answers Finished</button>
+<button class="fin" id="end_game_btn" type="button" style="display: none;">End Game & Show All Results</button>
+</div>
+
+<!-- All Results Display (shows all questions at end of game) -->
+<div id="allResultsDisplay" class="all-results-display hidden">
+    <div class="results-overlay-bg"></div>
+    <div class="results-modal">
+        <h2>Game Results</h2>
+        <div class="results-navigation">
+            <button id="prevResultBtn" class="nav-btn">← Previous</button>
+            <span id="resultCounter">Question 1 of X</span>
+            <button id="nextResultBtn" class="nav-btn">Next →</button>
+        </div>
+        <div id="allResultsContent"></div>
+        <button id="closeResultsBtn" class="close-results-btn">Close Results</button>
+    </div>
 </div>
 
 <!-- Results Section (hidden during gameplay) -->

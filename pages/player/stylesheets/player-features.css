@@ -177,24 +177,51 @@
 
 .answer-status {
     text-align: center;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
+    animation: fadeIn 0.5s ease;
 }
 
 .status-icon {
-    font-size: 3rem;
+    font-size: 4rem;
     margin-bottom: 1rem;
     color: #4CAF50;
+    animation: scaleIn 0.5s ease;
+}
+
+.answer-status h3 {
+    margin: 0 0 1rem 0;
+    color: var(--accent-dark);
+    font-size: 1.5rem;
 }
 
 .answer-status p {
     margin: 0 0 0.5rem 0;
     color: var(--dark);
+    font-size: 1.1rem;
 }
 
 .small-text {
     font-size: 0.9rem;
     opacity: 0.7;
     color: var(--text-dark);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
 }
 
 /* === RESULTS SECTION === */

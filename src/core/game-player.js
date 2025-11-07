@@ -91,11 +91,18 @@ function updateSubmissionState() {
     
     // Show/hide final submit button based on completion
     if (finBtn) {
-        if (answersReceived >= totalPlayers && totalPlayers > 0) {
+        // In multiplayer mode, always show the button (host controls when to reveal)
+        if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
             finBtn.style.display = 'block';
-            finBtn.textContent = `All ${totalPlayers} Players Answered - Show Results`;
+            finBtn.textContent = `Record Answers (${answersReceived}/${totalPlayers} answered)`;
         } else {
-            finBtn.style.display = 'none';
+            // Offline mode: only show when all players answered
+            if (answersReceived >= totalPlayers && totalPlayers > 0) {
+                finBtn.style.display = 'block';
+                finBtn.textContent = `All ${totalPlayers} Players Answered - Show Results`;
+            } else {
+                finBtn.style.display = 'none';
+            }
         }
     }
     
@@ -153,15 +160,17 @@ function handleFinalSubmit() {
     // MULTIPLAYER INTEGRATION: Reveal answers to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         window.hostMultiplayer.revealAnswers();
+        // Don't show full results screen in multiplayer - status bar will display instead
+        return;
     }
     
-    // Save final session state before finishing
+    // Save final session state before finishing (offline mode only)
     if (window.gameSessionManager) {
         gameSessionManager.saveCurrentSession();
 
     }
     
-    // Show results on the same page instead of redirecting
+    // Show results on the same page instead of redirecting (offline mode only)
     showGameResults();
 }
 

@@ -186,6 +186,16 @@ function showQuestionSection(question) {
     
     showSection('questionSection');
     
+    // Reset answer status for new question
+    const answerStatus = document.getElementById('answerStatus');
+    const answerOptions = document.getElementById('answerOptions');
+    if (answerStatus) {
+        answerStatus.classList.add('hidden');
+    }
+    if (answerOptions) {
+        answerOptions.style.display = 'flex';
+    }
+    
     // Update UI
     document.getElementById('questionRoomCode').textContent = playerState.roomCode;
     

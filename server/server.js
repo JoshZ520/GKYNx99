@@ -314,10 +314,10 @@ io.on('connection', (socket) => {
         // Compile results
         const results = Array.from(room.answers.values());
         
-        console.log(`Results revealed for room ${roomCode}`);
+        console.log(`Results recorded for room ${roomCode}`);
         
-        // Send results to everyone in room
-        io.to(roomCode).emit('answers-revealed', {
+        // Send results only to host (not to players)
+        socket.emit('answers-revealed', {
             results: results,
             question: room.currentQuestion
         });

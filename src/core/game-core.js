@@ -301,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Player actions
     const submitBtn = document.getElementById('submitButton');
     const finalSubmitBtn = document.getElementById('final_submit');
+    const endGameBtn = document.getElementById('end_game_btn');
     
     if (submitBtn) {
         submitBtn.addEventListener('click', () => {
@@ -318,6 +319,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         console.log('Final submit button connected');
+    }
+    
+    if (endGameBtn) {
+        endGameBtn.addEventListener('click', () => {
+            if (window.showAllResults) {
+                window.showAllResults();
+            }
+        });
+        console.log('End game button connected');
     }
     
     // Topics pagination
