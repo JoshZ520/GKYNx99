@@ -1,7 +1,7 @@
 // player-setup.js - Enhanced player setup functionality for fallback system
-// Moved from main index.js since it's primarily used in offline mode
+// Refactored to use shared player-setup-utils.js
 
-let playerNames = [];
+import { generatePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../scripts/player-setup-utils.js';
 
 // === PLAYER SETUP SYSTEM ===
 function handleFrontPageFunctionality() {
@@ -32,71 +32,31 @@ function initializePlayerSetup() {
     const playerCountInput = document.getElementById('player_count');
     const playerNamesStep = document.getElementById('playerNamesStep');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
-    
-    if (!playerCountInput) {
-        return; // Not on a page with player setup
-    }
-    
+    if (!playerCountInput) return;
+
     playerCountInput.addEventListener('change', function(e) {
         const count = parseInt(e.target.value, 10);
-        
         // Store in session storage
         if (!Number.isNaN(count) && count >= 2 && count <= 20) {
             sessionStorage.setItem('playerCount', String(count));
         } else {
             sessionStorage.removeItem('playerCount');
         }
-        
         if (Number.isNaN(count) || count < 2 || count > 20) {
             if (playerNamesStep) playerNamesStep.classList.add('hidden');
             return;
         }
-        
-        // Show player names step
-        if (playerNamesStep) {
-            playerNamesStep.classList.remove('hidden');
-        }
-        
-        // Generate player name inputs
+        if (playerNamesStep) playerNamesStep.classList.remove('hidden');
         if (playerNamesContainer) {
-            playerNamesContainer.innerHTML = '';
-            
-            for (let i = 1; i <= count; i++) {
-                const playerDiv = document.createElement('div');
-                playerDiv.className = 'player-input-group';
-                
-                const label = document.createElement('label');
-                label.textContent = `Player ${i}:`;
-                label.htmlFor = `player_${i}`;
-                
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.id = `player_${i}`;
-                input.name = `player_${i}`;
-                input.placeholder = `Enter name for Player ${i}`;
-                input.required = true;
-                
-                playerDiv.appendChild(label);
-                playerDiv.appendChild(input);
-                playerNamesContainer.appendChild(playerDiv);
-            }
+            generatePlayerInputs(playerNamesContainer, count, updateStartButtonState);
         }
-        
-        // Update start button state
         updateStartButtonState();
-        
-        // Add input listeners for real-time validation
-        const inputs = playerNamesContainer.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.addEventListener('input', updateStartButtonState);
-        });
     });
-    
+
     // Restore stored value if available
     const stored = parseInt(sessionStorage.getItem('playerCount'), 10);
     if (!Number.isNaN(stored) && stored >= 2 && stored <= 20) {
         playerCountInput.value = String(stored);
-        // Trigger the change event to show player setup if there's a stored value
         playerCountInput.dispatchEvent(new Event('change', { bubbles: true }));
     }
 }
@@ -104,39 +64,12 @@ function initializePlayerSetup() {
 function updateStartButtonState() {
     const startButton = document.getElementById('startGame');
     const playerCount = parseInt(document.getElementById('player_count')?.value, 10);
-    
-    if (!startButton || Number.isNaN(playerCount) || playerCount < 2) {
-        if (startButton) {
-            startButton.disabled = true;
-            startButton.textContent = 'Enter player details to start';
-        }
-        return;
-    }
-    
-    // Check if all player names are filled
-    let allFilled = true;
     const names = [];
-    
     for (let i = 1; i <= playerCount; i++) {
         const input = document.getElementById(`player_${i}`);
-        if (!input || !input.value.trim()) {
-            allFilled = false;
-            break;
-        }
-        names.push(input.value.trim().toLowerCase());
+        names.push(input ? input.value : '');
     }
-    
-    // Check for duplicates
-    const uniqueNames = new Set(names);
-    const hasDuplicates = uniqueNames.size !== names.length;
-    
-    startButton.disabled = !allFilled || hasDuplicates;
-    
-    if (hasDuplicates) {
-        startButton.textContent = 'Player names must be unique';
-    } else {
-        startButton.textContent = allFilled ? 'Start Offline Game' : 'Fill all player names to start';
-    }
+    sharedUpdateStartButtonState(startButton, names);
 }
 
 function handleStartGame() {

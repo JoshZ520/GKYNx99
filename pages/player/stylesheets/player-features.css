@@ -81,7 +81,7 @@
 
 .room-info {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 1rem;
     font-size: 0.9rem;
     opacity: 0.9;

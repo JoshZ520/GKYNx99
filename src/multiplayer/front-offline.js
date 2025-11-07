@@ -1,8 +1,7 @@
-let playerNames = [];
+import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../scripts/player-setup-utils.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Front-offline.js loaded');
-    
     // Only initialize if we're in offline mode or on the main page
     if (document.getElementById('offlineSetupSection') || document.getElementById('playerCountStep')) {
         setupOfflineEventListeners();
@@ -12,48 +11,18 @@ document.addEventListener('DOMContentLoaded', function() {
 // Active player setup functionality - combines HTML script + this file
 function generatePlayerInputs(selectedValue) {
     console.log('generatePlayerInputs called with:', selectedValue);
-    
     const count = parseInt(selectedValue, 10);
     const playerNamesStep = document.getElementById('playerNamesStep');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
-    
     if (isNaN(count) || count < 2 || count > 20) {
         if (playerNamesStep) playerNamesStep.classList.add('hidden');
         return;
     }
-    
-    // Show step 2
-    if (playerNamesStep) {
-        playerNamesStep.classList.remove('hidden');
-    }
-    
-    // Generate player inputs
+    if (playerNamesStep) playerNamesStep.classList.remove('hidden');
     if (playerNamesContainer) {
-        playerNamesContainer.innerHTML = '';
-        
-        for (let i = 1; i <= count; i++) {
-            const playerDiv = document.createElement('div');
-            playerDiv.className = 'player-input-group';  // Updated to match CSS class
-            
-            const label = document.createElement('label');
-            label.textContent = `Player ${i}:`;
-            label.htmlFor = `player_${i}`;
-            
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.id = `player_${i}`;
-            input.name = `player_${i}`;
-            input.placeholder = `Enter name for Player ${i}`;
-            input.required = true;
-            
-            playerDiv.appendChild(label);
-            playerDiv.appendChild(input);
-            playerNamesContainer.appendChild(playerDiv);
-        }
-        
-        // Update start button
-        updateOfflineStartButton();
+        sharedGeneratePlayerInputs(playerNamesContainer, count, updateOfflineStartButton);
     }
+    updateOfflineStartButton();
 }
 
 // Remove the duplicate initializePlayerSetup function since player-setup.js handles this
@@ -61,38 +30,12 @@ function generatePlayerInputs(selectedValue) {
 function updateOfflineStartButton() {
     const startBtn = document.getElementById('startGame');
     const inputs = document.querySelectorAll('#playerNamesContainer input');
-    
     if (!startBtn) return;
-    
-    if (inputs.length === 0) {
-        startBtn.disabled = true;
-        startBtn.classList.add('disabled');
-        startBtn.querySelector('span').textContent = 'Enter number of players first';
-        return;
-    }
-    
-    // Check if all player names are filled
-    const allFilled = Array.from(inputs).every(input => input.value.trim().length > 0);
-    
-    // Check for duplicates
-    const names = Array.from(inputs).map(input => input.value.trim().toLowerCase());
-    const uniqueNames = new Set(names.filter(name => name !== ''));
-    const hasDuplicates = uniqueNames.size !== names.filter(name => name !== '').length;
-    
-    if (startBtn) {
-        if (hasDuplicates) {
-            startBtn.disabled = true;
-            startBtn.classList.add('disabled');
-            startBtn.querySelector('span').textContent = 'Player names must be unique';
-        } else if (allFilled && inputs.length > 0) {
-            startBtn.disabled = false;
-            startBtn.classList.remove('disabled');
-            startBtn.querySelector('span').textContent = 'Start Offline Game';
-        } else {
-            startBtn.disabled = true;
-            startBtn.classList.add('disabled');
-            startBtn.querySelector('span').textContent = 'Fill all player names to start';
-        }
+    const names = Array.from(inputs).map(input => input.value);
+    sharedUpdateStartButtonState(startBtn, names);
+    // Optionally update the button label span if you use a <span> inside the button
+    if (startBtn.querySelector('span')) {
+        startBtn.querySelector('span').textContent = startBtn.textContent;
     }
 }
 
