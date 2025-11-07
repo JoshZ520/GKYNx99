@@ -364,12 +364,12 @@ function updateAnswerProgress(answeredCount, totalPlayers) {
         progressElement.textContent = `${answeredCount}/${totalPlayers} players answered`;
     }
     
-    // Auto-reveal when all players answered
-    if (answeredCount === totalPlayers && totalPlayers > 0) {
-        setTimeout(() => {
-            revealAnswers();
-        }, 1000);
-    }
+    // Auto-reveal disabled - host must click "All Answers Finished" button
+    // if (answeredCount === totalPlayers && totalPlayers > 0) {
+    //     setTimeout(() => {
+    //         revealAnswers();
+    //     }, 1000);
+    // }
 }
 
 // Make functions globally available for HTML onclick handlers and game.js
