@@ -5,8 +5,8 @@
                           "option1":  "Fiction/Imaginative",
                           "option2":  "Non-Fiction/Real",
                           "images":  {
-                                         "option1":  "images/questions/Books/",
-                                         "option2":  "images/questions/Books/"
+                                         "option1":  "../assets/images/questions/Books/book_type/fiction.jpg",
+                                         "option2":  "../assets/images/questions/Books/book_type/nonfiction.jpg"
                                      }
                       },
                       {
@@ -14,8 +14,8 @@
                           "option1":  "Reading/Books",
                           "option2":  "Audio/Podcasts",
                           "images":  {
-                                         "option1":  "images/questions/Books/",
-                                         "option2":  "images/questions/Books/"
+                                         "option1":  "../assets/images/questions/Books/Type_of_reading/reading.jpg",
+                                         "option2":  "../assets/images/questions/Books/Type_of_reading/audio.jpg"
                                      }
                       },
                       {
@@ -23,8 +23,8 @@
                           "option1":  "Short/Concise",
                           "option2":  "Long/Detailed",
                           "images":  {
-                                         "option1":  "images/questions/Books/Length/short.jpg",
-                                         "option2":  "images/questions/Books/"
+                                         "option1":  "../assets/images/questions/Books/Length/short.jpg",
+                                         "option2":  "../assets/images/questions/Books/Length/long.jpg"
                                      }
                       },
                       {
@@ -32,8 +32,8 @@
                           "option1":  "Character-Driven",
                           "option2":  "Plot-Driven",
                           "images":  {
-                                         "option1":  "images/questions/Books/",
-                                         "option2":  "images/questions/Books/"
+                                         "option1":  "../assets/images/questions/Books/character.jpg",
+                                         "option2":  "../assets/images/questions/Books/story.jpg"
                                      }
                       },
                       {
@@ -41,8 +41,8 @@
                           "option1":  "Recommendations",
                           "option2":  "Browse/Explore",
                           "images":  {
-                                         "option1":  "images/questions/Books/",
-                                         "option2":  "images/questions/Books/"
+                                         "option1":  "../assets/images/questions/Books/recommend.jpg",
+                                         "option2":  "../assets/images/questions/Books/explore.jpg"
                                      }
                       },
                       {
@@ -50,8 +50,8 @@
                           "option1":  "Quiet/Solitary",
                           "option2":  "Social/Shared",
                           "images":  {
-                                         "option1":  "images/questions/Books/",
-                                         "option2":  "images/questions/Books/"
+                                         "option1":  "../assets/images/questions/Books/alone.jpg",
+                                         "option2":  "../assets/images/questions/Books/share.jpg"
                                      }
                       }
                   ]
