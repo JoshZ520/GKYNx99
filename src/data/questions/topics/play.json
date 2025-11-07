@@ -5,8 +5,8 @@
                           "option1":  "Digital/Video Games",
                           "option2":  "Physical/Board Games",
                           "images":  {
-                                         "option1":  "images/questions/Play/",
-                                         "option2":  "images/questions/Play/"
+                                         "option1":  "images/questions/Play/Types",
+                                         "option2":  "images/questions/Play/Types"
                                      }
                       },
                       {
