@@ -5,8 +5,8 @@
                           "option1":  "Active/Physical",
                           "option2":  "Calm/Reflective",
                           "images":  {
-                                         "option1":  "images/questions/Personal/",
-                                         "option2":  "images/questions/Personal/"
+                                         "option1":  "../assets/images/questions/Personal/Weekends/out.jpg",
+                                         "option2":  "../assets/images/questions/Personal/Weekends/in.jpg"
                                      }
                       },
                       {
@@ -14,8 +14,8 @@
                           "option1":  "Outgoing/Social",
                           "option2":  "Reserved/Private",
                           "images":  {
-                                         "option1":  "images/questions/Personal/",
-                                         "option2":  "images/questions/Personal/"
+                                         "option1":  "../assets/images/questions/Personal/Social/large.jpg",
+                                         "option2":  "../assets/images/questions/Personal/Social/small.jpg"
                                      }
                       },
                       {
@@ -23,8 +23,8 @@
                           "option1":  "Logic/Facts",
                           "option2":  "Feelings/Gut Instinct",
                           "images":  {
-                                         "option1":  "images/questions/Personal/",
-                                         "option2":  "images/questions/Personal/"
+                                         "option1":  "../assets/images/questions/Personal/logic.jpg",
+                                         "option2":  "../assets/images/questions/Personal/feeling.jpg"
                                      }
                       },
                       {
@@ -32,8 +32,8 @@
                           "option1":  "Embrace/Adapt",
                           "option2":  "Cautious/Steady",
                           "images":  {
-                                         "option1":  "images/questions/Personal/",
-                                         "option2":  "images/questions/Personal/"
+                                         "option1":  "../assets/images/questions/Personal/adapt.jpg",
+                                         "option2":  "../assets/images/questions/Personal/doubt.jpg"
                                      }
                       },
                       {
@@ -41,8 +41,8 @@
                           "option1":  "Productive/Active",
                           "option2":  "Relaxing/Restful",
                           "images":  {
-                                         "option1":  "images/questions/Personal/",
-                                         "option2":  "images/questions/Personal/"
+                                         "option1":  "../assets/images/questions/Personal/outside.jpg",
+                                         "option2":  "../assets/images/questions/Personal/Relaxation/reading.jpg"
                                      }
                       },
                       {
@@ -50,8 +50,8 @@
                           "option1":  "Achievement/Success",
                           "option2":  "Connection/Meaning",
                           "images":  {
-                                         "option1":  "images/questions/Personal/",
-                                         "option2":  "images/questions/Personal/"
+                                         "option1":  "../assets/images/questions/Personal/achieve.jpg",
+                                         "option2":  "../assets/images/questions/Personal/Social/large.jpg"
                                      }
                       }
                   ]
