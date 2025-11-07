@@ -23,7 +23,7 @@
                           "option1":  "Medieval/Historical",
                           "option2":  "Modern/Contemporary",
                           "images":  {
-                                         "option1":  "../assets/images/questions/Fantasy/",
+                                         "option1":  "../assets/images/questions/Fantasy/High_fantasy.png",
                                          "option2":  "../assets/images/questions/Fantasy/Contemp_Magic.png"
                                      }
                       },
