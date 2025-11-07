@@ -153,91 +153,18 @@
 
     <!-- Socket.io for multiplayer -->
     <script src="/socket.io/socket.io.js"></script>
+    <!-- Configuration and UI modules -->
+    <script src="../src/config/game-config.js" type="module" defer></script>
+    <script src="../src/ui/ui-mode-switcher.js" type="module" defer></script>
     <!-- Clean multiplayer manager -->
     <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
     <!-- Offline mode functionality -->
     <script src="../src/multiplayer/front-offline.js" defer></script>
     <script src="../src/multiplayer/player-setup.js" defer></script>
     
-    <!-- UI Switching Functions -->
-    <script>
-        function showOfflineSetup() {
-            // Hide multiplayer sections
-            document.getElementById('newGameSection').classList.add('hidden');
-            document.getElementById('resumeSection').classList.add('hidden');
-            document.getElementById('connectionSection').classList.add('hidden');
-            document.getElementById('offlineFallback').classList.add('hidden');
-            
-            // Show offline setup
-            document.getElementById('offlineSetupSection').classList.remove('hidden');
-            
-            // Update header content for offline mode
-            const tagline = document.querySelector('.tagline');
-            const instruction = document.getElementById('front-instruction');
-            tagline.textContent = 'Offline Mode - Single Device Game';
-            instruction.textContent = 'Everyone takes turns on this device - pass it around after each turn!';
-        }
-        
-        function showMultiplayerSetup() {
-            // Hide offline sections
-            document.getElementById('offlineSetupSection').classList.add('hidden');
-            document.getElementById('playerNamesStep').classList.add('hidden');
-            
-            // Show multiplayer sections
-            document.getElementById('newGameSection').classList.remove('hidden');
-            document.getElementById('resumeSection').classList.remove('hidden');
-            document.getElementById('connectionSection').classList.remove('hidden');
-            
-            // Reset header content for multiplayer mode
-            const tagline = document.querySelector('.tagline');
-            const instruction = document.getElementById('front-instruction');
-            tagline.textContent = 'A fun conversation game where everyone plays on their phone';
-            instruction.textContent = 'Host creates the game, everyone joins with their phones using the room code!';
-            
-            // Reset to step 1
-            document.getElementById('createRoomStep').classList.remove('hidden');
-            document.getElementById('roomCreatedStep').classList.add('hidden');
-        }
-    </script>
+    <!-- UI Switching Functions now in separate JS file -->
     
     <!-- UI Mode Switching -->
-    <script>
-        function showOfflineSetup() {
-            // Hide multiplayer sections
-            document.getElementById('newGameSection')?.classList.add('hidden');
-            document.getElementById('resumeSection')?.classList.add('hidden');
-            document.getElementById('offlineFallback')?.classList.add('hidden');
-            
-            // Show offline setup section
-            document.getElementById('offlineSetupSection')?.classList.remove('hidden');
-            
-            // Update header for offline mode
-            updateHeaderForMode('offline');
-        }
-        
-        function showMultiplayerSetup() {
-            // Hide offline sections
-            document.getElementById('offlineSetupSection')?.classList.add('hidden');
-            
-            // Show multiplayer sections
-            document.getElementById('newGameSection')?.classList.remove('hidden');
-            
-            // Update header for multiplayer mode
-            updateHeaderForMode('multiplayer');
-        }
-        
-        function updateHeaderForMode(mode) {
-            const tagline = document.querySelector('.tagline');
-            const instruction = document.getElementById('front-instruction');
-            
-            if (mode === 'offline') {
-                if (tagline) tagline.textContent = 'Offline Mode - Single Device Game';
-                if (instruction) instruction.textContent = 'Everyone takes turns on this device - pass it around after each turn!';
-            } else {
-                if (tagline) tagline.textContent = 'A fun conversation game where everyone plays on their phone';
-                if (instruction) instruction.textContent = 'Host creates the game, everyone joins with their phones using the room code!';
-            }
-        }
-    </script>
+
 </body>
 </html>

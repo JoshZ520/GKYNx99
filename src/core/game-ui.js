@@ -1,6 +1,8 @@
 // game-ui.js - User interface management: topics, preferences, and interactions
 // Handles topic selection, preference display, and UI interactions
 
+import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
+
 // === SHARED STATE ===
 let availableTopics = [];
 let currentTopicPage = 1;
@@ -9,37 +11,37 @@ const topicsPerPage = 6;
 // === TOPIC SELECTION SYSTEM ===
 function initializeTopicSelection() {
     // Load topics from JSON - use dynamic path resolution
-    const basePath = window.location.pathname.includes('/pages/') ? '../src/data/questions/topics/index.json' : 'src/data/questions/topics/index.json';
+    const basePath = CONFIG_UTILS.getTopicsPath();
     fetch(basePath)
         .then(res => res.json())
         .then(topicsIndex => {
-            console.log('Loaded topics index:', topicsIndex);
+            console.log(GAME_CONFIG.MESSAGES.LOADED_TOPICS, topicsIndex);
             // Convert to array, excluding 'default'
             availableTopics = Object.keys(topicsIndex)
-                .filter(key => key !== 'default')
+                .filter(key => key !== GAME_CONFIG.TOPICS.DEFAULT)
                 .map(key => ({
                     name: key.charAt(0).toUpperCase() + key.slice(1),
                     value: key
                 }));
             
-            console.log('Available topics:', availableTopics);
+            console.log(GAME_CONFIG.MESSAGES.AVAILABLE_TOPICS, availableTopics);
             
             // Initialize the grid with topics
             renderTopicGrid();
             
-            // Set up event listeners for pagination
-            const prevBtn = document.getElementById('prevPageBtn');
-            const nextBtn = document.getElementById('nextPageBtn');
+            // Initialize pagination controls
+            const prevBtn = CONFIG_UTILS.getElementById('PREV_PAGE_BTN');
+            const nextBtn = CONFIG_UTILS.getElementById('NEXT_PAGE_BTN');
             
             if (prevBtn) {
-                prevBtn.addEventListener('click', () => changePage('prev'));
+                prevBtn.addEventListener('click', () => changePage(GAME_CONFIG.NAVIGATION.PREV));
             }
             if (nextBtn) {
-                nextBtn.addEventListener('click', () => changePage('next'));
+                nextBtn.addEventListener('click', () => changePage(GAME_CONFIG.NAVIGATION.NEXT));
             }
         })
         .catch(err => {
-            console.error('Failed to load topics:', err);
+            console.error(GAME_CONFIG.MESSAGES.FAILED_LOAD_TOPICS, err);
             availableTopics = [];
         });
 }
@@ -47,16 +49,16 @@ function initializeTopicSelection() {
 // === PREFERENCE SYSTEM ===
 function displayQuestionOptions(question) {
     // Show preference UI (all questions now have option1 and option2)
-    const preferenceContainer = document.getElementById('preferenceContainer');
+    const preferenceContainer = CONFIG_UTILS.getElementById('PREFERENCE_CONTAINER');
     if (preferenceContainer) {
-        preferenceContainer.classList.remove('hidden');
-        preferenceContainer.classList.add('visible');
+        CONFIG_UTILS.removeClass(preferenceContainer, 'HIDDEN');
+        CONFIG_UTILS.addClass(preferenceContainer, 'VISIBLE');
         
         // Update option labels and images
-        const option1Label = document.getElementById('option1Label');
-        const option2Label = document.getElementById('option2Label');
-        const option1Image = document.getElementById('option1Image');
-        const option2Image = document.getElementById('option2Image');
+        const option1Label = CONFIG_UTILS.getElementById('OPTION1_LABEL');
+        const option2Label = CONFIG_UTILS.getElementById('OPTION2_LABEL');
+        const option1Image = CONFIG_UTILS.getElementById('OPTION1_IMAGE');
+        const option2Image = CONFIG_UTILS.getElementById('OPTION2_IMAGE');
         
         if (option1Label && question.option1) {
             option1Label.textContent = question.option1;
@@ -70,18 +72,18 @@ function displayQuestionOptions(question) {
     }
     
     // Clear any previous selection
-    document.getElementById('selectedPreference').value = '';
+    CONFIG_UTILS.getElementById('SELECTED_PREFERENCE').value = '';
     
     // Update selection highlights
     document.querySelectorAll('.preference-option').forEach(opt => {
-        opt.classList.remove('selected');
+        CONFIG_UTILS.removeClass(opt, 'SELECTED');
     });
 }
 
 function selectPreference(choice) {
     // Clear previous selections
     document.querySelectorAll('.preference-option').forEach(opt => {
-        opt.classList.remove('selected');
+        CONFIG_UTILS.removeClass(opt, 'SELECTED');
     });
     
     // Highlight selected option
