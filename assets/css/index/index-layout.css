@@ -2,11 +2,11 @@
 
 /* === TAGLINE === */
 .tagline {
-    font-size: var(--font-lg) !important;
-    color: #31a71d !important;
-    text-align: center !important;
-    font-weight: 600 !important;
-    margin: var(--space-sm) 0 var(--space-lg) 0 !important;
+    font-size: var(--font-lg);
+    color: #31a71d;
+    text-align: center;
+    font-weight: 600;
+    margin: var(--space-sm) 0 var(--space-lg) 0;
     font-style: italic;
 }
 
