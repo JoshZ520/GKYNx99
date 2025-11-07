@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Only initialize if we're in offline mode or on the main page
     if (document.getElementById('offlineSetupSection') || document.getElementById('playerCountStep')) {
-        setupEventListeners();
+        setupOfflineEventListeners();
     }
 });
 
@@ -52,13 +52,13 @@ function generatePlayerInputs(selectedValue) {
         }
         
         // Update start button
-        updateStartButton();
+        updateOfflineStartButton();
     }
 }
 
 // Remove the duplicate initializePlayerSetup function since player-setup.js handles this
 
-function updateStartButton() {
+function updateOfflineStartButton() {
     const startBtn = document.getElementById('startGame');
     const inputs = document.querySelectorAll('#playerNamesContainer input');
     
@@ -144,7 +144,7 @@ function startOfflineGame() {
     });
 }
 
-function setupEventListeners() {
+function setupOfflineEventListeners() {
     // Set up start button click handler
     const startButton = document.getElementById('startGame');
     if (startButton) {
@@ -154,7 +154,7 @@ function setupEventListeners() {
     // Add input event listeners for real-time validation
     document.addEventListener('input', function(e) {
         if (e.target.matches('#playerNamesContainer input')) {
-            updateStartButton();
+            updateOfflineStartButton();
         }
     });
 }

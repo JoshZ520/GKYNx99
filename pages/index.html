@@ -102,8 +102,8 @@
 
                     <!-- Start Game Button -->
                     <div class="start-game-container">
-                        <button class="start-btn disabled" id="startGameBtn" type="button">
-                            <span id="startGameText">Waiting for players...</span>
+                        <button class="start-btn disabled" id="startGameBtn" type="button" disabled onclick="if(window.startGame) window.startGame()">
+                            Waiting for players...
                         </button>
                         <p class="min-players-note">Need at least 2 players to start</p>
                     </div>

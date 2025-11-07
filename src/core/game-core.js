@@ -137,10 +137,17 @@ function setTopic(topic) {
     // Update topic display
     const topicNameElement = document.getElementById('currentTopicName');
     if (topicNameElement) {
-        const selectedTopic = availableTopics.find(t => t.value === topic);
-        const displayName = selectedTopic ? selectedTopic.name : 
-                           (topic === 'default' ? 'Instructions' : topic.charAt(0).toUpperCase() + topic.slice(1));
+        // Simple display name without needing availableTopics
+        const displayName = (topic === 'default' ? 'Instructions' : 
+                            topic.charAt(0).toUpperCase() + topic.slice(1));
         topicNameElement.textContent = displayName;
+    }
+    
+    // Broadcast first question to multiplayer players when topic is loaded
+    if (window.hostMultiplayer && window.hostMultiplayer.isActive() && appQuestions.length > 0) {
+        const firstQuestion = appQuestions[0];
+        window.hostMultiplayer.broadcastQuestion(firstQuestion);
+        console.log('Broadcasted first question after topic selection');
     }
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)

@@ -57,6 +57,13 @@ function setupGameEventListeners() {
         resetJoinForm();
     });
     
+    // Game started - host clicked start game button
+    socket.on('game-started', (data) => {
+        console.log('Game started:', data);
+        // Stay on waiting screen - question will come shortly
+        updateConnectionStatus('connected', 'Game starting...');
+    });
+    
     // New question received
     socket.on('new-question', (data) => {
         console.log('New question received:', data);
@@ -173,14 +180,31 @@ function showWaitingSection() {
 }
 
 function showQuestionSection(question) {
+    console.log('showQuestionSection called with:', question);
+    console.log('question.text:', question.text);
+    console.log('question.options:', question.options);
+    
     showSection('questionSection');
     
     // Update UI
     document.getElementById('questionRoomCode').textContent = playerState.roomCode;
-    document.getElementById('currentQuestion').textContent = question.text;
+    
+    // Extract the question text - handle different formats
+    let questionText = '';
+    if (typeof question.text === 'string') {
+        questionText = question.text;
+    } else if (question.text && question.text.prompt) {
+        questionText = question.text.prompt;
+    } else if (question.prompt) {
+        questionText = question.prompt;
+    } else {
+        questionText = 'No question text';
+    }
+    
+    document.getElementById('currentQuestion').textContent = questionText;
     
     // Create answer buttons
-    createAnswerButtons(question.options);
+    createAnswerButtons(question.options || []);
 }
 
 function showAnswerStatus() {

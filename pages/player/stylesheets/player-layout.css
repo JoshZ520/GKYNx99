@@ -10,19 +10,19 @@
 /* === SECTION STRUCTURE === */
 #joinSection {
     display: flex;
-    justify-self: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .section {
     display: none;
-    min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for mobile */
     padding: 1rem;
 }
 
+/* Section visibility - no more conflicts with global utilities.css */
 .section.visible {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     box-sizing: border-box;
 }

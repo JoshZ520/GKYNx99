@@ -4,8 +4,9 @@
 console.log('Table Talk App Loading...');
 
 // === GLOBAL STATE ===
-let socket = null;
-let gameState = {
+// Use var to allow redeclaration if script is loaded multiple times (shouldn't happen but prevents errors)
+var socket = socket || null;
+var gameState = gameState || {
     isConnected: false,
     roomCode: null,
     isHost: false,
@@ -62,6 +63,16 @@ function initializeSocket() {
             if (gameState.currentPage === 'index') {
                 showElement('createRoomStep');
                 hideElement('offlineFallback');
+            }
+            
+            // If on game page with existing room, rejoin
+            if (gameState.currentPage === 'game' && gameState.roomCode && gameState.isHost) {
+                socket.emit('rejoin-room', {
+                    roomCode: gameState.roomCode,
+                    isHost: true
+                });
+                console.log('Host rejoining room on connect:', gameState.roomCode);
+                // First question will be broadcast when topic is selected by the game
             }
         });
         
@@ -153,25 +164,18 @@ function updatePlayersList() {
 
 function updateStartButton() {
     const startBtn = document.getElementById('startGameBtn');
-    const startText = document.getElementById('startGameText');
     
-    console.log('updateStartButton called - players:', gameState.players.length);
-    console.log('startBtn exists:', !!startBtn, 'startText exists:', !!startText);
-    
-    if (startBtn && startText) {
+    if (startBtn) {
         const canStart = gameState.players.length >= 2;
-        
-        console.log('canStart:', canStart);
         
         if (canStart) {
             startBtn.disabled = false;
             startBtn.classList.remove('disabled');
-            startText.textContent = `Start Game (${gameState.players.length} players)`;
-            console.log('Button enabled, disabled class removed');
+            startBtn.textContent = `Start Game (${gameState.players.length} players)`;
         } else {
             startBtn.disabled = true;
             startBtn.classList.add('disabled');
-            startText.textContent = gameState.players.length === 0 
+            startBtn.textContent = gameState.players.length === 0 
                 ? 'Waiting for players...' 
                 : `Need ${2 - gameState.players.length} more player${2 - gameState.players.length === 1 ? '' : 's'}`;
         }
@@ -211,6 +215,13 @@ function startGame() {
     }
     
     console.log('Starting game...');
+    
+    // Notify all players that game is starting
+    if (socket && gameState.roomCode) {
+        socket.emit('start-game', {
+            roomCode: gameState.roomCode
+        });
+    }
     
     // Store game data for the game page
     sessionStorage.setItem('multiplayerRoom', JSON.stringify({
@@ -264,22 +275,8 @@ function setupEventListeners() {
     
     // Create Room Button
     const createRoomBtn = document.getElementById('createRoomBtn');
-    console.log('createRoomBtn element:', createRoomBtn);
     if (createRoomBtn) {
-        // Test button properties
-        console.log('Button disabled?', createRoomBtn.disabled);
-        console.log('Button classes:', createRoomBtn.className);
-        console.log('Button computed style:', window.getComputedStyle(createRoomBtn).pointerEvents);
-        
         createRoomBtn.addEventListener('click', createRoom);
-        console.log('✓ createRoom click listener attached');
-        
-        // Add a direct test
-        createRoomBtn.addEventListener('click', function() {
-            console.log('!!! BUTTON WAS CLICKED !!!');
-        });
-    } else {
-        console.log('✗ createRoomBtn not found in DOM');
     }
     
     // Start Game Button
@@ -312,13 +309,32 @@ function broadcastQuestionToPlayers(question) {
     gameState.waitingForAnswers = true;
     gameState.collectedAnswers = new Map();
     
-    // Convert question to multiplayer format
+    // Convert question to multiplayer format - handle different question formats
+    let questionText = '';
+    if (typeof question === 'string') {
+        questionText = question;
+    } else if (question.prompt) {
+        questionText = question.prompt;
+    } else if (question.text) {
+        questionText = typeof question.text === 'string' ? question.text : question.text.prompt;
+    }
+    
+    // Extract options from different formats
+    let options = [];
+    if (question.options && Array.isArray(question.options)) {
+        // Already has options array
+        options = question.options;
+    } else if (question.option1 && question.option2) {
+        // Convert option1/option2 format to array
+        options = [
+            { text: question.option1, value: 'option1', image: question.images?.option1 },
+            { text: question.option2, value: 'option2', image: question.images?.option2 }
+        ];
+    }
+    
     const multiplayerQuestion = {
-        text: question.text || question,
-        options: question.options || [
-            { text: question.option1 || 'Option A', value: 'A' },
-            { text: question.option2 || 'Option B', value: 'B' }
-        ]
+        text: questionText,
+        options: options
     };
     
     socket.emit('broadcast-question', {
@@ -396,21 +412,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.isHost = roomData.isHost;
                 gameState.players = roomData.players || [];
                 console.log('Game page initialized with room:', gameState.roomCode);
+                console.log('Players:', gameState.players);
                 
-                // Auto-broadcast first question after a short delay to ensure game is ready
-                if (gameState.isHost && gameState.isConnected) {
-                    setTimeout(() => {
-                        const questionElem = document.getElementById('question');
-                        if (questionElem && questionElem.textContent) {
-                            const currentQuestion = {
-                                text: questionElem.textContent,
-                                options: extractCurrentQuestionOptions()
-                            };
-                            broadcastQuestionToPlayers(currentQuestion);
-                            console.log('Auto-broadcasted first question to players');
-                        }
-                    }, 1000);
-                }
+                // Set up player names for the game system (like offline mode does)
+                // Wait for gamePlayer module to load
+                setTimeout(() => {
+                    if (window.gamePlayer && gameState.players.length > 0) {
+                        const playerNames = gameState.players.map(p => p.name);
+                        window.gamePlayer.setPlayerNames(playerNames);
+                        console.log('✓ Set player names for game:', playerNames);
+                    } else {
+                        console.log('✗ gamePlayer not ready or no players');
+                    }
+                }, 500);
+                
             } catch (error) {
                 console.error('Failed to parse multiplayer room data:', error);
             }

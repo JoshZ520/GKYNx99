@@ -181,6 +181,59 @@ io.on('connection', (socket) => {
         });
     });
 
+    // HOST EVENTS - Rejoin room after navigation
+    socket.on('rejoin-room', (data) => {
+        const { roomCode, isHost } = data;
+        const room = gameRooms.get(roomCode);
+        
+        if (!room) {
+            socket.emit('error', { message: 'Room not found' });
+            return;
+        }
+        
+        if (isHost) {
+            // Cancel the cleanup timeout if it exists (host reconnecting after page navigation)
+            if (room.hostDisconnectTimeout) {
+                clearTimeout(room.hostDisconnectTimeout);
+                room.hostDisconnectTimeout = null;
+                console.log(`Cancelled cleanup timeout for room ${roomCode}`);
+            }
+            
+            if (room.hostId === socket.id) {
+                // Host is already the owner, just rejoin the socket room
+                socket.join(roomCode);
+                console.log(`Host rejoined room ${roomCode}`);
+                socket.emit('rejoined-room', { roomCode: roomCode, success: true });
+            } else {
+                // Different socket ID - update host ID (happens on page reload)
+                const oldHostId = room.hostId;
+                room.hostId = socket.id;
+                socket.join(roomCode);
+                console.log(`Host reconnected to room ${roomCode} (old: ${oldHostId}, new: ${socket.id})`);
+                socket.emit('rejoined-room', { roomCode: roomCode, success: true });
+            }
+        }
+    });
+
+    // GAME EVENTS - Start game notification
+    socket.on('start-game', (data) => {
+        const { roomCode } = data;
+        const room = gameRooms.get(roomCode);
+        
+        if (!room || room.hostId !== socket.id) {
+            socket.emit('error', { message: 'Not authorized to start game' });
+            return;
+        }
+        
+        console.log(`Game starting in room ${roomCode}`);
+        
+        // Notify all players (except host) that game is starting
+        socket.to(roomCode).emit('game-started', {
+            roomCode: roomCode,
+            timestamp: new Date().toISOString()
+        });
+    });
+
     // GAME EVENTS - Question broadcasting and answers
     socket.on('broadcast-question', (data) => {
         const { roomCode, question } = data;
@@ -292,12 +345,25 @@ io.on('connection', (socket) => {
         // Clean up rooms where this socket was host or player
         for (const [roomCode, room] of gameRooms.entries()) {
             if (room.hostId === socket.id) {
-                // Host disconnected - notify players and clean up room
-                console.log(`Host left room ${roomCode}, cleaning up`);
-                socket.to(roomCode).emit('host-disconnected', {
-                    message: 'Host has left the game'
-                });
-                gameRooms.delete(roomCode);
+                // Host disconnected - give them 5 seconds to reconnect (page navigation)
+                console.log(`Host socket disconnected from room ${roomCode}, waiting for reconnection...`);
+                
+                // Set a timeout to delete the room if host doesn't reconnect
+                const cleanupTimeout = setTimeout(() => {
+                    // Check if the room still exists and host hasn't reconnected
+                    const currentRoom = gameRooms.get(roomCode);
+                    if (currentRoom && currentRoom.hostId === socket.id) {
+                        console.log(`Host didn't reconnect to room ${roomCode}, cleaning up`);
+                        socket.to(roomCode).emit('host-disconnected', {
+                            message: 'Host has left the game'
+                        });
+                        gameRooms.delete(roomCode);
+                    }
+                }, 5000); // 5 second grace period
+                
+                // Store the timeout so we can cancel it if host rejoins
+                room.hostDisconnectTimeout = cleanupTimeout;
+                
             } else {
                 // Remove player from room
                 const playerIndex = room.players.findIndex(p => p.id === socket.id);
