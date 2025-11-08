@@ -5,8 +5,8 @@
       "option1": "Adventure/Exploration",
       "option2": "Relaxation/Leisure",
       "images": {
-        "option1": "images/questions/Travel/",
-        "option2": "images/questions/"
+        "option1": "../assets/images/questions/Travel/explore.jpg",
+        "option2": "../assets/images/questions/Travel/relax.jpg"
       }
     },
     {
@@ -14,8 +14,8 @@
       "option1": "Planned Itinerary",
       "option2": "Spontaneous/Flexible",
       "images": {
-        "option1": "images/questions/",
-        "option2": "images/questions/"
+        "option1": "../assets/images/questions/Travel/plan.jpg",
+        "option2": "../assets/images/questions/Travel/no-plan.jpg"
       }
     },
     {
@@ -23,8 +23,8 @@
       "option1": "Natural/Outdoor",
       "option2": "Urban/Cultural",
       "images": {
-        "option1": "images/questions/",
-        "option2": "images/questions/"
+        "option1": "../assets/images/questions/Travel/nature.jpg",
+        "option2": "../assets/images/questions/Travel/culture.jpg"
       }
     },
     {
@@ -32,8 +32,8 @@
       "option1": "Hotels/Resorts",
       "option2": "Local/Authentic",
       "images": {
-        "option1": "images/questions/",
-        "option2": "images/questions/"
+        "option1": "../assets/images/questions/Travel/hotel.jpg",
+        "option2": "../assets/images/questions/Travel/local.jpg"
       }
     },
     {
@@ -41,8 +41,8 @@
       "option1": "Solo Travel",
       "option2": "Group Travel",
       "images": {
-        "option1": "images/questions/",
-        "option2": "images/questions/"
+        "option1": "../assets/images/questions/Travel/solo.jpg",
+        "option2": "../assets/images/questions/Travel/group.jpg"
       }
     },
     {
@@ -50,8 +50,8 @@
       "option1": "Budget-Conscious",
       "option2": "Comfort-Focused",
       "images": {
-        "option1": "images/questions/",
-        "option2": "images/questions/"
+        "option1": "../assets/images/questions/Travel/budget.jpg",
+        "option2": "../assets/images/questions/Travel/no-budget.jpg"
       }
     }
   ]

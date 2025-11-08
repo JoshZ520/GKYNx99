@@ -6,7 +6,7 @@
                           "option2":  "Action/Adventure",
                           "images":  {
                                          "option1":  "../assets/images/questions/Fantasy/Development.png",
-                                         "option2":  "../assets/images/questions/Fantasy"
+                                         "option2":  "../assets/images/questions/Fantasy/adventure.jpg"
                                      }
                       },
                       {
@@ -23,8 +23,8 @@
                           "option1":  "Medieval/Historical",
                           "option2":  "Modern/Contemporary",
                           "images":  {
-                                         "option1":  "images/questions/Fantasy",
-                                         "option2":  "images/questions/Fantasy/Contemp_Magic.png"
+                                         "option1":  "../assets/images/questions/Fantasy/High_fantasy.png",
+                                         "option2":  "../assets/images/questions/Fantasy/Contemp_Magic.png"
                                      }
                       },
                       {
@@ -32,8 +32,8 @@
                           "option1":  "Epic/Grand Scale",
                           "option2":  "Personal/Intimate",
                           "images":  {
-                                         "option1":  "images/questions/Fantasy",
-                                         "option2":  "images/questions/Fantasy"
+                                         "option1":  "../assets/images/questions/Fantasy/",
+                                         "option2":  "../assets/images/questions/Fantasy/"
                                      }
                       },
                       {
@@ -41,8 +41,8 @@
                           "option1":  "Creating Stories",
                           "option2":  "Consuming Stories",
                           "images":  {
-                                         "option1":  "images/questions/Fantasy",
-                                         "option2":  "images/questions/Fantasy"
+                                         "option1":  "../assets/images/questions/Fantasy/creating-stories.jpg",
+                                         "option2":  "../assets/images/questions/Fantasy/consuming-stories.jpg"
                                      }
                       },
                       {
@@ -50,8 +50,8 @@
                           "option1":  "Relaxation",
                           "option2":  "Excitement",
                           "images":  {
-                                         "option1":  "images/questions/Fantasy",
-                                         "option2":  "images/questions/Fantasy"
+                                         "option1":  "../assets/images/questions/Fantasy/",
+                                         "option2":  "../assets/images/questions/Fantasy/"
                                      }
                       }
                   ]

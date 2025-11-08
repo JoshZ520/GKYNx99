@@ -5,8 +5,8 @@
                           "option1":  "Team Sports",
                           "option2":  "Individual Sports",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Activity/team.jpg",
+                                         "option2":  "../assets/images/questions/Activity/solo.jpg"
                                      }
                       },
                       {
@@ -14,8 +14,8 @@
                           "option1":  "Playing/Participating",
                           "option2":  "Watching/Following",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Activity/playing.jpg",
+                                         "option2":  "../assets/images/questions/Activity/watching.jpg"
                                      }
                       },
                       {
@@ -23,8 +23,8 @@
                           "option1":  "Outdoor Activities",
                           "option2":  "Indoor Activities",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Activity/team.jpg",
+                                         "option2":  "../assets/images/questions/Activity/indoor.jpg"
                                      }
                       },
                       {
@@ -32,8 +32,8 @@
                           "option1":  "Exercise/Fitness",
                           "option2":  "Sports/Competition",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Activity/fitness.jpg",
+                                         "option2":  "../assets/images/questions/Activity/playing.jpg"
                                      }
                       },
                       {
@@ -41,8 +41,8 @@
                           "option1":  "Structured Workouts",
                           "option2":  "Casual Movement",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Activity/fitness.jpg",
+                                         "option2":  "../assets/images/questions/Activity/casual.jpg"
                                      }
                       },
                       {
@@ -50,8 +50,8 @@
                           "option1":  "Health Goals",
                           "option2":  "Fun/Social",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Activity/fitness.jpg",
+                                         "option2":  "../assets/images/questions/Activity/indoor.jpg"
                                      }
                       }
                   ]

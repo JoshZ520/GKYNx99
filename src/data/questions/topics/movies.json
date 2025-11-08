@@ -5,8 +5,8 @@
       "option1": "Movies",
       "option2": "TV Shows",
       "images": {
-        "option1": "images/questions/Movies/",
-        "option2": "images/questions/Movies/"
+        "option1": "../assets/images/questions/Movies/",
+        "option2": "../assets/images/questions/Movies/"
       }
     },
     {
@@ -14,8 +14,8 @@
       "option1": "Action",
       "option2": "Comedy",
       "images": {
-        "option1": "images/questions/Movies/",
-        "option2": "images/questions/Movies/"
+        "option1": "../assets/images/questions/Movies/action-surf.jpg",
+        "option2": "../assets/images/questions/Movies/comedy-laugh.jpg"
       }
     },
     {
@@ -23,8 +23,8 @@
       "option1": "Theater",
       "option2": "Home",
       "images": {
-        "option1": "images/questions/Movies/",
-        "option2": "images/questions/Movies/"
+        "option1": "../assets/images/questions/Movies/theater-1.jpg",
+        "option2": "../assets/images/questions/Movies/tv-at-home.jpg"
       }
     },
     {
@@ -32,8 +32,8 @@
       "option1": "Movie Series/Franchises",
       "option2": "Standalone Films",
       "images": {
-        "option1": "images/questions/Movies/",
-        "option2": "images/questions/Movies/"
+        "option1": "../assets/images/questions/Movies/",
+        "option2": "../assets/images/questions/Movies/"
       }
     },
     {
@@ -41,8 +41,8 @@
       "option1": "Classic Films",
       "option2": "Modern Cinema",
       "images": {
-        "option1": "images/questions/Movies/",
-        "option2": "images/questions/Movies/"
+        "option1": "../assets/images/questions/Movies/",
+        "option2": "../assets/images/questions/Movies/"
       }
     },
     {
@@ -50,8 +50,8 @@
       "option1": "Feel-good",
       "option2": "Thought-provoking",
       "images": {
-        "option1": "images/questions/Movies/",
-        "option2": "images/questions/Movies/"
+        "option1": "../assets/images/questions/Movies/",
+        "option2": "../assets/images/questions/Movies/"
       }
     }
   ]
