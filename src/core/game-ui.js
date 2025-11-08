@@ -73,11 +73,16 @@ function displayQuestionOptions(question) {
     
     // Clear any previous selection
     CONFIG_UTILS.getElementById('SELECTED_PREFERENCE').value = '';
-    
     // Update selection highlights
     document.querySelectorAll('.preference-option').forEach(opt => {
         CONFIG_UTILS.removeClass(opt, 'SELECTED');
     });
+    // Also update submit button state
+    const submitBtn = document.getElementById('submitButton');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('disabled');
+    }
 }
 
 function selectPreference(choice) {
@@ -97,18 +102,25 @@ function selectPreference(choice) {
     
     if (choice === 'option1') {
         const option1Label = document.getElementById('option1Label');
-        if (option1Label) {
+        if (option1Label && option1Label.textContent) {
             actualAnswer = option1Label.textContent;
         }
     } else if (choice === 'option2') {
         const option2Label = document.getElementById('option2Label');
-        if (option2Label) {
+        if (option2Label && option2Label.textContent) {
             actualAnswer = option2Label.textContent;
         }
     }
     
     // Store the actual answer text, not the option key
     document.getElementById('selectedPreference').value = actualAnswer;
+    
+    // Update submit button state if present
+    const submitBtn = document.getElementById('submitButton');
+    if (submitBtn) {
+        submitBtn.disabled = !actualAnswer || actualAnswer === 'option1' || actualAnswer === 'option2';
+        submitBtn.classList.toggle('disabled', submitBtn.disabled);
+    }
     
     console.log('Selected preference:', choice, '→ actual answer:', actualAnswer);
 }
@@ -268,5 +280,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.gameUI) {
         window.gameUI.initializeTopicSelection();
         console.log('Topic selection initialized');
+    }
+    // Enable clicking on preference images only in offline mode
+    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
+    if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
+        const option1 = document.getElementById('option1');
+        const option2 = document.getElementById('option2');
+        if (option1) option1.onclick = () => window.gameUI.selectPreference('option1');
+        if (option2) option2.onclick = () => window.gameUI.selectPreference('option2');
     }
 });

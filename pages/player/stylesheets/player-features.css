@@ -1,55 +1,6 @@
-/* Player-specific styles for mobile interface */
+/* player-features.css - Player page feature-specific components */
 
-.player-page {
-    background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-light) 100%);
-    min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    
-}
-
-.section {
-    display: none;
-    min-height: 100vh;
-    padding: 1rem;
-}
-
-.section.visible {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container {
-    width: 100%;
-    max-width: 400px;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid var(--accent-light);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-/* Join Section */
-.logo-section {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.logo-section h1 {
-    font-size: 2.5rem;
-    margin: 0 0 0.5rem 0;
-    font-weight: bold;
-    color: var(--dark);
-}
-
-.logo-section p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin: 0;
-    color: var(--text-dark);
-}
-
+/* === JOIN FORM === */
 .join-form {
     display: flex;
     flex-direction: column;
@@ -76,6 +27,8 @@
     color: var(--dark);
     font-size: 1.1rem;
     transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .input-group input::placeholder {
@@ -100,6 +53,8 @@
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .join-btn:hover {
@@ -112,10 +67,11 @@
     transform: translateY(0);
 }
 
-/* Waiting Section */
-#statusText{
+/* === WAITING SECTION === */
+#statusText {
     color: var(--dark);
 }
+
 .status-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -129,7 +85,7 @@
 
 .room-info {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 1rem;
     font-size: 0.9rem;
     opacity: 0.9;
@@ -145,11 +101,6 @@
     font-size: 3rem;
     margin-bottom: 1rem;
     animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
 }
 
 .waiting-content h3 {
@@ -175,7 +126,7 @@
     color: var(--dark);
 }
 
-/* Question Section */
+/* === QUESTION SECTION === */
 .question-header {
     text-align: right;
     margin-bottom: 2rem;
@@ -230,18 +181,27 @@
 
 .answer-status {
     text-align: center;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
+    animation: fadeIn 0.5s ease;
 }
 
 .status-icon {
-    font-size: 3rem;
+    font-size: 4rem;
     margin-bottom: 1rem;
     color: #4CAF50;
+    animation: scaleIn 0.5s ease;
+}
+
+.answer-status h3 {
+    margin: 0 0 1rem 0;
+    color: var(--accent-dark);
+    font-size: 1.5rem;
 }
 
 .answer-status p {
     margin: 0 0 0.5rem 0;
     color: var(--dark);
+    font-size: 1.1rem;
 }
 
 .small-text {
@@ -250,7 +210,25 @@
     color: var(--text-dark);
 }
 
-/* Results Section */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+/* === RESULTS SECTION === */
 .results-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -305,45 +283,7 @@
     color: var(--text-dark);
 }
 
-/* Connection Status */
-.connection-status {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 20px;
-    font-size: 0.8rem;
-    z-index: 1000;
-    color: var(--light);
-}
-
-.status-indicator {
-    font-size: 1rem;
-}
-
-.status-indicator.connecting {
-    color: #FF9800;
-    animation: blink 1s infinite;
-}
-
-.status-indicator.connected {
-    color: #4CAF50;
-}
-
-.status-indicator.disconnected {
-    color: #F44336;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-
-/* Error Messages */
+/* === ERROR MESSAGES === */
 .error-message {
     background: rgba(244, 67, 54, 0.2);
     border: 1px solid #F44336;
@@ -356,45 +296,4 @@
 
 .error-message.hidden {
     display: none;
-}
-
-/* Mobile Optimizations */
-@media (max-width: 480px) {
-    .container {
-        padding: 1.5rem;
-        margin: 0.5rem;
-    }
-    
-    .logo-section h1 {
-        font-size: 2rem;
-    }
-    
-    .question-content h2 {
-        font-size: 1.2rem;
-    }
-    
-    .answer-btn {
-        padding: 1.2rem 0.8rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* Landscape phone orientation */
-@media (max-height: 500px) and (orientation: landscape) {
-    .section {
-        min-height: auto;
-        padding: 0.5rem;
-    }
-    
-    .container {
-        padding: 1rem;
-    }
-    
-    .logo-section {
-        margin-bottom: 1rem;
-    }
-    
-    .logo-section h1 {
-        font-size: 1.8rem;
-    }
 }
