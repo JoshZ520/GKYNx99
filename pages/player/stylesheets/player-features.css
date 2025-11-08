@@ -27,6 +27,8 @@
     color: var(--dark);
     font-size: 1.1rem;
     transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .input-group input::placeholder {
@@ -51,6 +53,8 @@
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .join-btn:hover {

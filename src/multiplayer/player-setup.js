@@ -156,7 +156,7 @@ function initializePlayerSetupSystem() {
     initializePlayerSetup();
 }
 
-// Only initialize if we're NOT on the main index page (which uses front-offline.js)
+// Only initialize if we're NOT on the main index page (which uses offline/front-offline.js)
 const isMainIndexPage = window.location.pathname.includes('index.html') || 
                        window.location.pathname.endsWith('/') || 
                        window.location.pathname === '/pages/';

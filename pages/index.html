@@ -180,8 +180,12 @@
     <script src="../src/ui/ui-mode-switcher.js" type="module" defer></script>
     <!-- Clean multiplayer manager -->
     <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
-    <!-- Offline mode functionality -->
-    <script src="../src/multiplayer/front-offline.js" defer></script>
+        <!-- Offline mode functionality (module) -->
+        <script type="module">
+            import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
+            attachToWindow();
+            initOfflineAutoLoad();
+        </script>
     <script src="../src/multiplayer/player-setup.js" defer></script>
 
     <!-- UI Switching Functions now in separate JS file -->
