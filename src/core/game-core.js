@@ -137,10 +137,17 @@ function setTopic(topic) {
     // Update topic display
     const topicNameElement = document.getElementById('currentTopicName');
     if (topicNameElement) {
-        const selectedTopic = availableTopics.find(t => t.value === topic);
-        const displayName = selectedTopic ? selectedTopic.name : 
-                           (topic === 'default' ? 'Instructions' : topic.charAt(0).toUpperCase() + topic.slice(1));
+        // Simple display name without needing availableTopics
+        const displayName = (topic === 'default' ? 'Instructions' : 
+                            topic.charAt(0).toUpperCase() + topic.slice(1));
         topicNameElement.textContent = displayName;
+    }
+    
+    // Broadcast first question to multiplayer players when topic is loaded
+    if (window.hostMultiplayer && window.hostMultiplayer.isActive() && appQuestions.length > 0) {
+        const firstQuestion = appQuestions[0];
+        window.hostMultiplayer.broadcastQuestion(firstQuestion);
+        console.log('Broadcasted first question after topic selection');
     }
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)
@@ -294,6 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Player actions
     const submitBtn = document.getElementById('submitButton');
     const finalSubmitBtn = document.getElementById('final_submit');
+    const endGameBtn = document.getElementById('end_game_btn');
     
     if (submitBtn) {
         submitBtn.addEventListener('click', () => {
@@ -311,6 +319,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         console.log('Final submit button connected');
+    }
+    
+    if (endGameBtn) {
+        endGameBtn.addEventListener('click', () => {
+            if (window.showAllResults) {
+                window.showAllResults();
+            }
+        });
+        console.log('End game button connected');
     }
     
     // Topics pagination

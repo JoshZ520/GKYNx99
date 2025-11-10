@@ -6,18 +6,41 @@
 <meta name="description" content="">
 <title>Table Talk</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
-<link rel="stylesheet" href="../assets/css/core/shared.css">
-<link rel="stylesheet" href="../assets/css/core/game.css">
+<!-- Core shared styles -->
+<link rel="stylesheet" href="../assets/css/shared/variables.css">
+<link rel="stylesheet" href="../assets/css/shared/typography.css">
+<link rel="stylesheet" href="../assets/css/shared/buttons.css">
+<link rel="stylesheet" href="../assets/css/shared/forms.css">
+<link rel="stylesheet" href="../assets/css/shared/animations.css">
+<link rel="stylesheet" href="../assets/css/shared/utilities.css">
+<link rel="stylesheet" href="../assets/css/shared/responsive.css">
+<!-- Game-specific styles (split for maintainability) -->
+<link rel="stylesheet" href="../assets/css/game/game-shared.css">
+<link rel="stylesheet" href="../assets/css/game/game-layout.css">
+<link rel="stylesheet" href="../assets/css/game/game-controls.css">
+<link rel="stylesheet" href="../assets/css/game/game-topics.css">
+<link rel="stylesheet" href="../assets/css/game/game-multiplayer.css">
 <link rel="stylesheet" href="../assets/css/components/options.css">
 <link rel="stylesheet" href="../assets/css/components/images.css">
 <link rel="stylesheet" href="../assets/css/components/remote.css">
 <script src="../src/utilities/theme-utilities.js" defer></script>
+<!-- Socket.io for multiplayer -->
+<script src="/socket.io/socket.io.js"></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
 <script src="../src/core/game-core.js" type="module" defer></script>
 <script src="../src/core/game-player.js" type="module" defer></script>
 <script src="../src/core/game-ui.js" type="module" defer></script>
+<!-- Offline mode logic (consolidated) -->
+                <!-- Offline mode functionality (module) -->
+                <script type="module">
+                    import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
+                    attachToWindow();
+                    initOfflineAutoLoad();
+                </script>
 <script src="../src/core/game-loader.js" type="module" defer></script>
+<!-- Multiplayer manager -->
+<script src="../src/multiplayer/multiplayer-manager.js" defer></script>
 
 </head>
 <body class="game-page" id="root">
@@ -64,10 +87,9 @@ Back to Game Mode
 </div>
 </header>
 <main>
-<!-- Player turn indicator -->
-<div id="playerTurnIndicator" class="player-turn-indicator smooth-transition hidden">
-<span class="turn-text smooth-transition">Current Player:</span>
-<span class="current-player-name" id="currentPlayerName"></span>
+<!-- Current Player Indicator (Offline Mode Only) -->
+<div id="offlinePlayerIndicator" class="player-indicator" style="display: none; margin-bottom: 16px;">
+    <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
 </div>
 <h1 class="question" id="question"></h1>
 <div class="topic-selection">
@@ -135,27 +157,62 @@ Back to Game Mode
 </div>
 </div>
 <!-- Image-based preference selection -->
+
 <div class="preference-container" id="preferenceContainer" class="hidden">
-<div class="preference-options">
-<div class="preference-option" id="option1" data-choice="option1">
-<div class="preference-label" id="option1Label">Option 1</div>
-<div class="preference-image" id="option1Image">
-<!-- Image will be loaded here -->
+    <div class="preference-options" id="optionsContainer">
+        <!-- Options will be rendered by JS -->
+    </div>
 </div>
-</div>
-<div class="preference-option" id="option2" data-choice="option2">
-<div class="preference-label" id="option2Label">Option 2</div>
-<div class="preference-image" id="option2Image">
-<!-- Image will be loaded here -->
-</div>
-</div>
-</div>
-</div>
-<!-- Hidden field to store the selected preference -->
+<!-- Hidden field to store the selected preference (offline logic will ignore this) -->
 <input type="hidden" id="selectedPreference" value="">
+
+<!-- Answer Progress Display for Multiplayer -->
+<div id="answerProgressContainer" class="answer-progress-container hidden">
+    <p id="answerProgress">0/0 players answered</p>
+</div>
+
+<!-- Submit Answer Button (Offline Mode Only) -->
+<div class="buttons" id="offlineSubmitContainer" style="display: none;">
+    <button class="submit" id="submitButton" type="button" onclick="if(window.getSelectedAnswerOffline){window.getSelectedAnswerOffline() ? submitOfflineAnswer() : null}">Submit Answer</button>
+</div>
+<script>
+// Only wire up offline answer logic if in offline mode
+if (sessionStorage.getItem('gameMode') === 'offline') {
+    window.displayQuestionOptions = window.displayQuestionOptionsOffline;
+    window.selectPreference = window.selectAnswerOffline;
+    window.updateSubmitButton = window.updateSubmitButtonOffline;
+    // Example submit handler for offline mode
+    window.submitOfflineAnswer = function() {
+        const answer = window.getSelectedAnswerOffline();
+        if (!answer) {
+            alert('Please select an answer before submitting.');
+            return;
+        }
+        // TODO: Add your offline answer submission logic here
+        alert('Answer submitted: ' + answer);
+        // Advance to next player or question as needed
+    };
+}
+</script>
+
+<!-- Host controls -->
 <div class="buttons">
-<button class="submit smooth-transition" id="submitButton" type="submit">Submit Answer</button>
-<button class="fin" id="final_submit" type="button">All Answers Finished</button>
+<button class="fin" id="end_game_btn" type="button" style="display: none;">End Game & Show All Results</button>
+</div>
+
+<!-- All Results Display (shows all questions at end of game) -->
+<div id="allResultsDisplay" class="all-results-display hidden">
+    <div class="results-overlay-bg"></div>
+    <div class="results-modal">
+        <h2>Game Results</h2>
+        <div class="results-navigation">
+            <button id="prevResultBtn" class="nav-btn">← Previous</button>
+            <span id="resultCounter">Question 1 of X</span>
+            <button id="nextResultBtn" class="nav-btn">Next →</button>
+        </div>
+        <div id="allResultsContent"></div>
+        <button id="closeResultsBtn" class="close-results-btn">Close Results</button>
+    </div>
 </div>
 
 <!-- Results Section (hidden during gameplay) -->

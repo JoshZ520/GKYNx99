@@ -1,0 +1,49 @@
+/* variables.css - CSS custom properties and design tokens */
+
+/* === CSS VARIABLES === */
+:root {
+    /* Color Variables */
+    --background-light: #c2f7cd;
+    --accent-light: #1eb817;
+    --accent-dark: #31a71d;
+    --text-dark: #5F3A48;
+    --text-muted: #6b7280;
+    --dark: #89ab84;
+    --light: #ffffff;
+    
+    /* Status Colors */
+    --success-color: #28a745;       /* Success/completion states */
+    
+    /* Game UI Colors */
+    --button-purple: #a855f7;       /* Purple buttons */
+    --button-purple-dark: #7c3aed;  /* Purple hover */
+    --button-blue: #3b82f6;         /* Blue buttons */
+    --button-blue-dark: #2563eb;    /* Blue hover */
+    --button-green: #10b981;        /* Green buttons */
+    --button-green-dark: #059669;   /* Green hover */
+    --button-red: #ef4444;          /* Red/skip buttons */
+    --button-red-dark: #dc2626;     /* Red hover */
+    
+    /* Border & Background Colors */
+    --border-dark: #2d3748;         /* Dark borders */
+    --bg-light-gray: #f0f0f0;       /* Light backgrounds */
+    --bg-gray: #d1d5db;             /* Medium gray */
+    --text-gray: #333333;           /* Dark text */
+    
+    /* Font Sizes - Only what you use */
+    --font-sm: 14px;      /* Mobile/small text */
+    --font-base: 16px;    /* Body text */
+    --font-lg: 18px;      /* Large text */
+    --font-xl: 20px;      /* Buttons/headers */
+    
+    /* Spacing - Only essential sizes */
+    --space-sm: 8px;      /* Small padding/gaps */
+    --space-md: 16px;     /* Medium spacing */
+    --space-lg: 20px;     /* Large spacing */
+    --space-xl: 40px;     /* Extra large margins */
+    
+    /* Border Radius Variables */
+    --border-radius-sm: 4px;   /* Small border radius */
+    --border-radius-md: 8px;   /* Medium border radius */
+    --border-radius-lg: 12px;  /* Large border radius */
+}

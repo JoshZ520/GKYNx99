@@ -27,19 +27,18 @@ function advanceToNextPlayer() {
 }
 
 function updatePlayerTurnIndicator() {
-    const indicator = document.getElementById('playerTurnIndicator');
+    // Use offlinePlayerIndicator for offline mode
+    const offlineIndicator = document.getElementById('offlinePlayerIndicator');
     const playerNameElement = document.getElementById('currentPlayerName');
-    
-    if (indicator && playerNameElement && playerNames.length > 0) {
+    if (offlineIndicator && playerNameElement && playerNames.length > 0) {
         const currentPlayer = getCurrentPlayerName();
         playerNameElement.textContent = currentPlayer;
-        indicator.classList.remove('hidden');
-        
+        offlineIndicator.style.display = '';
         // Add animation class for new turn
-        indicator.classList.add('new-turn');
-        setTimeout(() => indicator.classList.remove('new-turn'), GAME_CONFIG.ANIMATIONS.TURN_INDICATOR_DURATION);
-    } else if (indicator) {
-        indicator.classList.add('hidden');
+        offlineIndicator.classList.add('new-turn');
+        setTimeout(() => offlineIndicator.classList.remove('new-turn'), GAME_CONFIG.ANIMATIONS.TURN_INDICATOR_DURATION);
+    } else if (offlineIndicator) {
+        offlineIndicator.style.display = 'none';
     }
 }
 
@@ -91,11 +90,18 @@ function updateSubmissionState() {
     
     // Show/hide final submit button based on completion
     if (finBtn) {
-        if (answersReceived >= totalPlayers && totalPlayers > 0) {
+        // In multiplayer mode, always show the button (host controls when to reveal)
+        if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
             finBtn.style.display = 'block';
-            finBtn.textContent = `All ${totalPlayers} Players Answered - Show Results`;
+            finBtn.textContent = `Record Answers (${answersReceived}/${totalPlayers} answered)`;
         } else {
-            finBtn.style.display = 'none';
+            // Offline mode: only show when all players answered
+            if (answersReceived >= totalPlayers && totalPlayers > 0) {
+                finBtn.style.display = 'block';
+                finBtn.textContent = `All ${totalPlayers} Players Answered - Show Results`;
+            } else {
+                finBtn.style.display = 'none';
+            }
         }
     }
     
@@ -153,15 +159,17 @@ function handleFinalSubmit() {
     // MULTIPLAYER INTEGRATION: Reveal answers to multiplayer players if active
     if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
         window.hostMultiplayer.revealAnswers();
+        // Don't show full results screen in multiplayer - status bar will display instead
+        return;
     }
     
-    // Save final session state before finishing
+    // Save final session state before finishing (offline mode only)
     if (window.gameSessionManager) {
         gameSessionManager.saveCurrentSession();
 
     }
     
-    // Show results on the same page instead of redirecting
+    // Show results on the same page instead of redirecting (offline mode only)
     showGameResults();
 }
 
@@ -385,18 +393,22 @@ function initializePlayerSystem() {
     if (!CONFIG_UTILS.getStorageItem('GAME_START_TIME')) {
         CONFIG_UTILS.setStorageItem('GAME_START_TIME', Date.now().toString());
     }
-    
     // Load player data from session storage (for offline mode)
     const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
-    
     if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
         const storedNames = CONFIG_UTILS.getStorageItem('PLAYER_NAMES');
-        
+        // Show submit button for offline mode
+        const offlineSubmitContainer = document.getElementById('offlineSubmitContainer');
+        if (offlineSubmitContainer) offlineSubmitContainer.style.display = '';
+        // Show current player indicator for offline mode
+        const offlinePlayerIndicator = document.getElementById('offlinePlayerIndicator');
+        if (offlinePlayerIndicator) offlinePlayerIndicator.style.display = '';
+        const submitBtn = document.getElementById('submitButton');
+        if (submitBtn) submitBtn.onclick = window.gamePlayer.submitAnswer;
         if (storedNames) {
             try {
                 const names = JSON.parse(storedNames);
                 playerNames = names;
-                
                 // Initialize the first player's turn
                 currentPlayerIndex = 0;
                 updatePlayerTurnIndicator();
