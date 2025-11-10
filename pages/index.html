@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Talk - Start!</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+    <!-- Core shared styles -->
+    <link rel="stylesheet" href="../assets/css/shared/variables.css">
+    <link rel="stylesheet" href="../assets/css/shared/typography.css">
+    <link rel="stylesheet" href="../assets/css/shared/buttons.css">
+    <link rel="stylesheet" href="../assets/css/shared/forms.css">
+    <link rel="stylesheet" href="../assets/css/shared/animations.css">
+    <link rel="stylesheet" href="../assets/css/shared/utilities.css">
+    <link rel="stylesheet" href="../assets/css/shared/responsive.css">
+    <!-- Index page styles -->
+    <link rel="stylesheet" href="../assets/css/index/index-layout.css">
+    <link rel="stylesheet" href="../assets/css/index/index-features.css">
+    <link rel="stylesheet" href="../assets/css/index/index-responsive.css">
+    <!-- Clean script architecture -->
+    <script src="../src/utilities/theme-utilities.js" defer></script>
+</head>
+
+<body class="front-page" id="root">
+    <div class="card">
+        <header>
+            <h1>Table Talk</h1>
+            <p class="tagline">A fun conversation game where everyone plays on their phone</p>
+            <p class="lead" id="front-instruction">Host creates the game, everyone joins with their phones using the
+                room code!</p>
+        </header>
+        <main>
+            <!-- Connection Status -->
+            <div id="connectionSection" class="connection-section">
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-dot" id="statusDot">●</span>
+                    <span id="statusText">Connecting to server...</span>
+                </div>
+            </div>
+
+            <!-- Resume Game Section -->
+            <div class="resume-section hidden" id="resumeSection">
+                <h3>Continue Previous Game</h3>
+                <p class="resume-instruction">Pick up where you left off with a saved game:</p>
+                <div class="saved-games-list" id="savedGamesList">
+                    <!-- Saved games will be populated here -->
+                </div>
+                <div class="resume-actions">
+                    <button type="button" class="secondary-btn" id="newGameBtn">Start Fresh Game Instead</button>
+                </div>
+            </div>
+
+            <!-- New Game Section -->
+            <div class="new-game-section" id="newGameSection">
+                <!-- Step 1: Choose Game Mode -->
+                <div class="step-section" id="createRoomStep">
+                    <h3>Step 1: Choose Game Mode</h3>
+                    <p class="step-instruction">Select how you want to play:</p>
+
+                    <div class="create-room-container">
+                        <button class="start-btn" id="createRoomBtn" type="button" onclick="createRoom()">
+                            <span>Create Multiplayer Game</span>
+                        </button>
+                        <p class="game-mode-description">Everyone joins with their phones using a room code</p>
+                    </div>
+
+                    <div class="create-room-container" style="margin-top: 20px;">
+                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="showOfflineSetup()">
+                            <span>Start Offline Mode</span>
+                        </button>
+                        <p class="game-mode-description">Single device - everyone takes turns</p>
+                    </div>
+                </div>
+
+                <!-- Step 2: Room Created - Show Code -->
+                <div class="step-section hidden" id="roomCreatedStep">
+                    <h3>Step 2: Share Room Code</h3>
+                     <!-- QR Code Section -->
+                    <div class="qr-code-section" style="text-align: center; margin: var(--space-xl) 0;">
+                        <p class="step-instruction">Scan this QR code to join:</p>
+                        <img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page" style="max-width: 200px; border-radius: 8px; border: 2px solid var(--accent-light);">
+                    </div>
+
+                    <div class="room-code-display">
+                        <div class="room-code-container">
+                            <span class="room-code-label">Room Code:</span>
+                            <div class="room-code" id="roomCodeDisplay">----</div>
+                            <button class="copy-btn" id="copyRoomCodeBtn" title="Copy to clipboard">Copy</button>
+                        </div>
+                    </div>
+
+                   
+
+                    <!-- Players Joining -->
+                    <div class="players-joining">
+                        <h4>Players Joining (<span id="joinedPlayersCount">0</span>):</h4>
+                        <div class="players-list" id="joinedPlayersList">
+                            <div class="no-players">Waiting for players to join...</div>
+                        </div>
+                    </div>
+
+                    <!-- Start Game Button -->
+                    <div class="start-game-container">
+                        <button class="start-btn disabled" id="startGameBtn" type="button" disabled onclick="if(window.startGame) window.startGame()">
+                            Waiting for players...
+                        </button>
+                        <p class="min-players-note">Need at least 2 players to start</p>
+                    </div>
+                </div>
+
+                <!-- Offline Mode Fallback -->
+                <div class="step-section hidden" id="offlineFallback">
+                    <h3>Server Connection Issue</h3>
+                    <p class="step-instruction">Can't connect to multiplayer server. Switch to offline mode:</p>
+                    <div class="offline-container">
+                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="showOfflineSetup()">
+                            <span>Switch to Offline Mode</span>
+                        </button>
+                        <p class="offline-note">Single-device gameplay with manual player turns</p>
+                        <p class="offline-note"><small>Tip: Try refreshing this page first - server might be starting
+                                up</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Offline Game Setup Section (Enhanced) -->
+            <div class="new-game-section hidden" id="offlineSetupSection">
+                <!-- Step 1: Player Count -->
+                <div class="step-section" id="playerCountStep">
+                    <h3>Step 1: Choose Players</h3>
+                    <p class="step-instruction">Select how many players will be taking turns:</p>
+                    <div class="create-room-container">
+                        <div class="player-count-selector">
+                            <label for="player_count">Number of Players:</label>
+                            <input type="number" id="player_count" min="2" max="20" placeholder="Enter number (2-20)"
+                                required oninput="generatePlayerInputs(this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Player Names -->
+                <div class="step-section hidden" id="playerNamesStep">
+                    <h3>Step 2: Enter Player Names</h3>
+                    <p class="step-instruction">Add names for each player who will be participating:</p>
+
+                    <div class="players-joining">
+                        <h4>Player Names:</h4>
+                        <div id="playerNamesContainer" class="players-list">
+                            <!-- Player name inputs will be generated here -->
+                        </div>
+                    </div>
+
+                    <!-- Start Game Button -->
+                    <div class="start-game-container">
+                        <button class="start-btn disabled" id="startGame" type="button" disabled>
+                            <span id="startGameText">Fill all player names to start</span>
+                        </button>
+                        <p class="min-players-note">All players need names to begin</p>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="step-section">
+                    <div class="offline-container">
+                        <button class="secondary-btn" id="backToMultiplayerBtn" type="button"
+                            onclick="showMultiplayerSetup()">
+                            ← Back to Multiplayer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Socket.io for multiplayer -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Configuration and UI modules -->
+    <script src="../src/config/game-config.js" type="module" defer></script>
+    <script src="../src/ui/ui-mode-switcher.js" type="module" defer></script>
+    <!-- Clean multiplayer manager -->
+    <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
+        <!-- Offline mode functionality (module) -->
+        <script type="module">
+            import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
+            attachToWindow();
+            initOfflineAutoLoad();
+        </script>
+    <script src="../src/multiplayer/player-setup.js" defer></script>
+
+    <!-- UI Switching Functions now in separate JS file -->
+
+    <!-- UI Mode Switching -->
+
+</body>
+
+</html>

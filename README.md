@@ -29,14 +29,41 @@ http://localhost:8000
 ## **Project Structure**
 ```
 Table-Talk/
-├── index.html              # Main setup page
-├── game.html               # Game interface
-├── display.html            # Results page
-├── scripts/                # JavaScript functionality
-├── stylesheets/           # CSS styling
-├── files/                 # Game data (topics, colors)
+├── index.html              # Main setup page (host interface)
+├── game.html               # Game interface (host controls)
+├── player/                 # Mobile player interface
+│   ├── index.html          # Player join/game page
+│   ├── scripts/player.js   # Player-side functionality
+│   └── stylesheets/        # Player-specific styles
+├── scripts/                # Host-side JavaScript
+│   ├── multiplayer-manager.js  # Multiplayer functionality
+│   └── index.js            # Offline functionality
+├── stylesheets/           # Shared CSS styling
+├── server/                # Node.js Socket.IO server
+├── fallback/              # Offline mode files
 └── images/               # Visual assets
 ```
+
+## **Multiplayer Architecture**
+
+### **Host Interface** (`index.html`, `game.html`)
+- Create room with 4-character codes
+- Manage connected players
+- Broadcast questions to all players
+- View aggregated results
+
+### **Player Interface** (`/player`)
+- Mobile-optimized design
+- Join rooms with room codes
+- Receive questions in real-time
+- Submit answers instantly
+
+### **Server** (`server/`)
+- Node.js + Socket.IO for real-time communication
+- Room management and player tracking
+- Question broadcasting and answer collection
+- Automatic cleanup on disconnect
+
 ## **How to Play**
 1. **Setup Phase**
    - Enter number of players (2-20)

@@ -1,0 +1,58 @@
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "How do you prefer to learn new things?",
+                          "option1":  "Structured/Formal",
+                          "option2":  "Self-Directed/Informal",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Learning/class.webp",
+                                         "option2":  "../assets/images/questions/Learning/self-study.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What type of learning content interests you?",
+                          "option1":  "Practical/Applied",
+                          "option2":  "Theoretical/Academic",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Learning/Practical.jpg",
+                                         "option2":  "../assets/images/questions/Learning/logics.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your preferred learning style?",
+                          "option1":  "Visual/Reading",
+                          "option2":  "Audio/Discussion",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Learning/christin-hume-k2Kcwkandwg-unsplash.webp",
+                                         "option2":  "../assets/images/questions/Learning/discuss.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your learning pace preference?",
+                          "option1":  "Quick/Intensive",
+                          "option2":  "Gradual/Steady",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Learning/books.jpg",
+                                         "option2":  "../assets/images/questions/Learning/self-study.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer educational content?",
+                          "option1":  "Interactive/Hands-on",
+                          "option2":  "Observational/Lecture",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Learning/discuss.jpg",
+                                         "option2":  "../assets/images/questions/Learning/class.webp"
+                                     }
+                      },
+                      {
+                          "prompt":  "What motivates your learning?",
+                          "option1":  "Career/Professional",
+                          "option2":  "Personal Interest",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Learning/career.jpg",
+                                         "option2":  "../assets/images/questions/Learning/Practical.jpg"
+                                     }
+                      }
+                  ]
+}

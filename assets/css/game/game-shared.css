@@ -1,0 +1,25 @@
+/* game-shared.css - Shared utilities and common patterns for game page */
+
+/* === UTILITY CLASSES === */
+
+/* Hidden state - used across multiple components */
+.hidden {
+    display: none;
+}
+
+/* Hide class - alternative hiding utility */
+.hide {
+    display: none;
+}
+
+/* Smooth transitions - used on multiple interactive elements */
+.smooth-transition {
+    transition: all 0.3s ease;
+}
+
+/* Flex center utility - commonly used for button content */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

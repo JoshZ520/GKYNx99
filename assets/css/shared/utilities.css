@@ -1,0 +1,56 @@
+/* utilities.css - Utility classes and helpers */
+
+/* === UTILITY CLASSES === */
+
+/* Common transitions */
+.smooth-transition {
+    transition: all 0.3s ease;
+}
+
+.hover-transition {
+    transition: all 0.2s ease;
+}
+
+/* Common flex layouts */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* === UTILITY CLASSES FOR JAVASCRIPT === */
+
+/* Display utilities */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+/* State utilities */
+.disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+.enabled {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Opacity utilities */
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+/* Success state */
+.success-state {
+    background-color: #28a745 !important;
+    color: white !important;
+}

@@ -1,0 +1,38 @@
+{
+  "default": {
+    "file": "default.json"
+  },
+  "fantasy": {
+    "file": "fantasy.json"
+  },
+  "movies": {
+    "file": "movies.json"
+  },
+  "activity": {
+    "file": "activity.json"
+  },
+  "music": {
+    "file": "music.json"
+  },
+  "tech": {
+    "file": "tech.json"
+  },
+  "travel": {
+    "file": "travel.json"
+  },
+  "learning": {
+    "file": "learning.json"
+  },
+  "stories": {
+    "file": "stories.json"
+  },
+  "play": {
+    "file": "play.json"
+  },
+  "food": {
+    "file": "food.json"
+  },
+  "personal": {
+    "file": "personal.json"
+  }
+}

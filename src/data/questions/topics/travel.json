@@ -1,0 +1,58 @@
+{
+  "questions": [
+    {
+      "prompt": "What type of travel appeals to you?",
+      "option1": "Adventure/Exploration",
+      "option2": "Relaxation/Leisure",
+      "images": {
+        "option1": "../assets/images/questions/Travel/explore.jpg",
+        "option2": "../assets/images/questions/Travel/relax.jpg"
+      }
+    },
+    {
+      "prompt": "How do you prefer to travel?",
+      "option1": "Planned Itinerary",
+      "option2": "Spontaneous/Flexible",
+      "images": {
+        "option1": "../assets/images/questions/Travel/plan.jpg",
+        "option2": "../assets/images/questions/Travel/no-plan.jpg"
+      }
+    },
+    {
+      "prompt": "What's your ideal travel destination?",
+      "option1": "Natural/Outdoor",
+      "option2": "Urban/Cultural",
+      "images": {
+        "option1": "../assets/images/questions/Travel/nature.jpg",
+        "option2": "../assets/images/questions/Travel/culture.jpg"
+      }
+    },
+    {
+      "prompt": "What's your preferred accommodation style when traveling?",
+      "option1": "Hotels/Resorts",
+      "option2": "Local/Authentic",
+      "images": {
+        "option1": "../assets/images/questions/Travel/hotel.jpg",
+        "option2": "../assets/images/questions/Travel/local.jpg"
+      }
+    },
+    {
+      "prompt": "What's your travel group preference?",
+      "option1": "Solo Travel",
+      "option2": "Group Travel",
+      "images": {
+        "option1": "../assets/images/questions/Travel/solo.jpg",
+        "option2": "../assets/images/questions/Travel/group.jpg"
+      }
+    },
+    {
+      "prompt": "How do you approach travel budgeting?",
+      "option1": "Budget-Conscious",
+      "option2": "Comfort-Focused",
+      "images": {
+        "option1": "../assets/images/questions/Travel/budget.jpg",
+        "option2": "../assets/images/questions/Travel/no-budget.jpg"
+      }
+    }
+  ]
+}
