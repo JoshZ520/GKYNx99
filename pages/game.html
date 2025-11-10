@@ -91,6 +91,13 @@ Back to Game Mode
 <div id="offlinePlayerIndicator" class="player-indicator" style="display: none; margin-bottom: 16px;">
     <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
 </div>
+<!-- Move Random Topic Button above question -->
+<div style="text-align:center; margin-bottom: 12px;">
+    <button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
+        <img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
+        <span class="remote-label">Random Topic</span>
+    </button>
+</div>
 <h1 class="question" id="question"></h1>
 <div class="topic-selection">
 <button class="smooth-transition" id="topicsToggle">Topics ▼</button>
@@ -115,14 +122,6 @@ Back to Game Mode
 <!-- Remote Control Layout -->
 <div class="remote-control">
 <div class="remote-row">
-<!-- Random Topic Button -->
-<div class="remote-button-container">
-<button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
-<img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
-</button>
-<span class="remote-label">Random Topic</span>
-</div>
-
 <!-- Previous Question Button -->
 <div class="remote-button-container">
 <button class="remote-btn smooth-transition" id="prevQuestionBtn" type="button" title="Previous Question">
@@ -130,7 +129,6 @@ Back to Game Mode
 </button>
 <span class="remote-label">Previous</span>
 </div>
-
 <!-- Random Question Button (Center) -->
 <div class="remote-button-container center">
 <button class="switch_button smooth-transition flex-center" id="switchQuestion" type="button" title="Random Question in Current Topic">
@@ -138,21 +136,12 @@ Back to Game Mode
 </button>
 <span class="remote-label">Random Question</span>
 </div>
-
 <!-- Next Question Button -->
 <div class="remote-button-container">
 <button class="remote-btn smooth-transition" id="nextQuestionBtn" type="button" title="Next Question">
 <img src="../assets/images/icons/next.svg" alt="Next" width="20" height="20">
 </button>
 <span class="remote-label">Next</span>
-</div>
-
-<!-- Skip Question Button -->
-<div class="remote-button-container">
-<button class="remote-btn smooth-transition" id="skipQuestionBtn" type="button" title="Skip This Question">
-<img src="../assets/images/icons/skip.svg" alt="Skip" width="20" height="20">
-</button>
-<span class="remote-label">Skip Question</span>
 </div>
 </div>
 </div>
@@ -172,7 +161,7 @@ Back to Game Mode
 </div>
 
 <!-- Submit Answer Button (Offline Mode Only) -->
-<div class="buttons" id="offlineSubmitContainer" style="display: none;">
+<div class="buttons" id="offlineSubmitContainer">
     <button class="submit" id="submitButton" type="button" onclick="if(window.getSelectedAnswerOffline){window.getSelectedAnswerOffline() ? submitOfflineAnswer() : null}">Submit Answer</button>
 </div>
 <script>

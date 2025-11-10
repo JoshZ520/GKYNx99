@@ -198,6 +198,9 @@ function showQuestionSection(question) {
     
     // Update UI
     document.getElementById('questionRoomCode').textContent = playerState.roomCode;
+    var playerNameElem = document.getElementById('questionPlayerName');
+    var name = playerState.name || sessionStorage.getItem('playerName') || localStorage.getItem('playerName') || '';
+    if (playerNameElem) playerNameElem.textContent = name;
     
     // Extract the question text - handle different formats
     let questionText = '';
@@ -354,6 +357,10 @@ function setupJoinForm() {
         // Clear any previous errors
         document.getElementById('joinError').classList.add('hidden');
         
+        // Save player name locally for persistence
+        sessionStorage.setItem('playerName', playerName);
+        localStorage.setItem('playerName', playerName);
+        
         // Send join request
         socket.emit('join-room', {
             playerName: playerName,
@@ -383,5 +390,17 @@ document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && socket && !socket.connected) {
         console.log('Page visible, reconnecting...');
         socket.connect();
+    }
+});
+
+window.addEventListener('beforeunload', function (e) {
+    var playerName = sessionStorage.getItem('playerName') || localStorage.getItem('playerName');
+    if (playerName) {
+        var message = 'Do you want to clear your name from this device?';
+        if (confirm(message)) {
+            sessionStorage.removeItem('playerName');
+            localStorage.removeItem('playerName');
+        }
+        // Note: returning a string or setting e.returnValue is ignored by most browsers now
     }
 });

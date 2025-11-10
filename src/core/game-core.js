@@ -151,7 +151,13 @@ function setTopic(topic) {
     }
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)
-    setTimeout(() => updateSubmissionState(), GAME_CONFIG.ANIMATIONS.UI_UPDATE_DELAY);
+    setTimeout(() => {
+        if (typeof updateSubmissionState === 'function') {
+            updateSubmissionState();
+        } else if (window.gamePlayer && typeof window.gamePlayer.updateSubmissionState === 'function') {
+            window.gamePlayer.updateSubmissionState();
+        }
+    }, GAME_CONFIG.ANIMATIONS.UI_UPDATE_DELAY);
     
     // Save session after topic change
     if (window.gameSessionManager) {
