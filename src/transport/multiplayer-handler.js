@@ -589,3 +589,58 @@ window.hostMultiplayer = {
     revealAnswers: revealAnswers,
     getGameState: () => ({ ...gameState })
 };
+
+// === TRANSPORT INTERFACE IMPLEMENTATION ===
+/**
+ * Multiplayer handler implementation of the transport interface
+ * Registers itself with the transport layer
+ */
+const multiplayerTransportHandler = {
+    /**
+     * Check if multiplayer mode is active
+     */
+    isActive() {
+        return gameState.isConnected && gameState.isHost && gameState.roomCode;
+    },
+
+    /**
+     * Get current mode
+     */
+    getMode() {
+        return 'multiplayer';
+    },
+
+    /**
+     * Broadcast question to all connected players
+     */
+    broadcastQuestion(question) {
+        broadcastQuestionToPlayers(question);
+    },
+
+    /**
+     * Submit answer - handled by socket events
+     */
+    submitAnswer(answer, playerName) {
+        // Multiplayer submission is handled by socket events
+        // This is just for interface compatibility
+    },
+
+    /**
+     * Reveal answers to all players
+     */
+    revealAnswers() {
+        revealAnswers();
+    }
+};
+
+// Register with transport interface when available
+if (window.transport) {
+    window.transport.registerHandler(multiplayerTransportHandler);
+} else {
+    // If transport not loaded yet, register on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.transport) {
+            window.transport.registerHandler(multiplayerTransportHandler);
+        }
+    });
+}

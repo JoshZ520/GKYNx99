@@ -67,9 +67,9 @@ function switchToNextQuestion() {
     
     questionElem.setAttribute('data-index', nextIndex);
     
-    // Broadcast new question to multiplayer players if active
-    if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
-        window.hostMultiplayer.broadcastQuestion(nextQuestion);
+    // Broadcast new question to players if in multiplayer mode
+    if (window.transport && window.transport.isMultiplayer()) {
+        window.transport.broadcastQuestion(nextQuestion);
     }
     
     // Ensure submit button is visible for the new question
@@ -111,9 +111,9 @@ function switchToPreviousQuestion() {
     
     questionElem.setAttribute('data-index', prevIndex);
     
-    // Broadcast previous question to multiplayer players if active
-    if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
-        window.hostMultiplayer.broadcastQuestion(prevQuestion);
+    // Broadcast previous question to players if in multiplayer mode
+    if (window.transport && window.transport.isMultiplayer()) {
+        window.transport.broadcastQuestion(prevQuestion);
     }
     
     // Ensure submit button is visible for the new question
@@ -143,10 +143,10 @@ function setTopic(topic) {
         topicNameElement.textContent = displayName;
     }
     
-    // Broadcast first question to multiplayer players when topic is loaded
-    if (window.hostMultiplayer && window.hostMultiplayer.isActive() && appQuestions.length > 0) {
+    // Broadcast first question to players if in multiplayer mode
+    if (window.transport && window.transport.isMultiplayer() && appQuestions.length > 0) {
         const firstQuestion = appQuestions[0];
-        window.hostMultiplayer.broadcastQuestion(firstQuestion);
+        window.transport.broadcastQuestion(firstQuestion);
     }
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)

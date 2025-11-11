@@ -189,16 +189,9 @@
 
 /* === GAME RESULTS SECTION === */
 .game-results {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+    min-height: 100vh;
+    background: var(--light);
     padding: var(--space-lg);
     box-sizing: border-box;
 }
@@ -207,11 +200,9 @@
     background: var(--light);
     border-radius: var(--space-lg);
     padding: var(--space-xl);
-    max-width: 600px;
+    max-width: 800px;
     width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
 }
 
 .results-header {
@@ -294,8 +285,20 @@
 
 .question-answers {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-sm);
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.answer-option {
+    padding: var(--space-sm);
+    background: white;
+    border-radius: var(--space-sm);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.answer-label {
+    font-size: var(--font-md);
+    margin-bottom: 4px;
 }
 
 .answer-chip {

@@ -91,7 +91,7 @@ function updateSubmissionState() {
     // Show/hide final submit button based on completion
     if (finBtn) {
         // In multiplayer mode, always show the button (host controls when to reveal)
-        if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
+        if (window.transport && window.transport.isMultiplayer()) {
             finBtn.style.display = 'block';
             finBtn.textContent = `Record Answers (${answersReceived}/${totalPlayers} answered)`;
         } else {
@@ -138,7 +138,7 @@ function submitAnswer() {
 
     
     // MULTIPLAYER INTEGRATION: Advance to next player if in multiplayer mode
-    if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
+    if (window.transport && window.transport.isMultiplayer()) {
         // Let multiplayer manager handle player advancement
         // This will be handled by the multiplayer system
     } else {
@@ -187,21 +187,25 @@ function handleFinalSubmit() {
     CONFIG_UTILS.setStorageItem('QUESTIONS_ORDER', JSON.stringify(questionOrder));
     CONFIG_UTILS.setStorageItem('SUBMISSIONS', JSON.stringify(submissionsByQuestion));
     
-    // MULTIPLAYER INTEGRATION: Reveal answers to multiplayer players if active
-    if (window.hostMultiplayer && window.hostMultiplayer.isActive()) {
-        window.hostMultiplayer.revealAnswers();
-        // Don't show full results screen in multiplayer - status bar will display instead
-        return;
-    }
-    
     // Save final session state before finishing (offline mode only)
-    if (window.gameSessionManager) {
+    if (window.gameSessionManager && !window.transport.isMultiplayer()) {
         gameSessionManager.saveCurrentSession();
-
     }
     
-    // Show results on the same page instead of redirecting (offline mode only)
-    showGameResults();
+    // Use transport interface to show results (works for both offline and multiplayer)
+    if (window.transport && window.transport.showResults) {
+        // Prepare results data
+        const resultsData = {
+            submissionsByQuestion: submissionsByQuestion,
+            playerNames: playerNames,
+            questionsOrder: JSON.parse(CONFIG_UTILS.getStorageItem('QUESTIONS_ORDER') || '[]')
+        };
+        
+        window.transport.showResults(resultsData);
+    } else {
+        // Fallback to old method if transport not available
+        showGameResults();
+    }
 }
 
 function showGameResults() {
@@ -315,16 +319,21 @@ function setupResultsButtons() {
 }
 
 function resumeGame() {
-    // Hide results section
-    const resultsSection = document.getElementById('gameResults');
-    if (resultsSection) {
-        resultsSection.classList.add('hidden');
-    }
-    
-    // Show the main game interface again
-    const gameContainer = document.querySelector('main > div');
-    if (gameContainer) {
-        gameContainer.style.display = '';
+    // Use transport interface to hide results
+    if (window.transport && window.transport.hideResults) {
+        window.transport.hideResults();
+    } else {
+        // Fallback: Hide results section manually
+        const resultsSection = document.getElementById('gameResults');
+        if (resultsSection) {
+            resultsSection.classList.add('hidden');
+        }
+        
+        // Show the main game interface again
+        const gameContainer = document.querySelector('main > div');
+        if (gameContainer) {
+            gameContainer.style.display = '';
+        }
     }
     
     // Find the next question that hasn't been fully answered by all players

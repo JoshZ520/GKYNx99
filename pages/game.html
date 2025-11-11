@@ -31,7 +31,8 @@
 <script src="../src/game/question-manager.js" type="module" defer></script>
 <script src="../src/game/player-manager.js" type="module" defer></script>
 <script src="../src/game/ui-manager.js" type="module" defer></script>
-<!-- Offline mode logic (consolidated) - loads early without defer -->
+<!-- Transport layer - interface loads first, then handlers register -->
+<script src="../src/transport/transport-interface.js"></script>
 <script type="module" src="../src/transport/offline-handler.js"></script>
 <script src="../src/game/game-loader.js" type="module" defer></script>
 <!-- Multiplayer manager -->
@@ -82,6 +83,7 @@ Back to Game Mode
 </div>
 </header>
 <main>
+<div id="gameContainer">
 <!-- Current Player Indicator (Offline Mode Only) -->
 <div id="offlinePlayerIndicator" class="player-indicator" style="display: none; margin-bottom: 16px;">
     <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
@@ -204,6 +206,7 @@ if (document.readyState === 'loading') {
         <button id="closeResultsBtn" class="close-results-btn">Close Results</button>
     </div>
 </div>
+</div><!-- End gameContainer -->
 
 <!-- Results Section (hidden during gameplay) -->
 <section id="gameResults" class="game-results hidden">
@@ -222,10 +225,6 @@ if (document.readyState === 'loading') {
                 <div class="stat-item">
                     <span class="stat-label">Players:</span>
                     <span class="stat-value" id="totalPlayers">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Game Duration:</span>
-                    <span class="stat-value" id="gameDuration">--</span>
                 </div>
             </div>
             

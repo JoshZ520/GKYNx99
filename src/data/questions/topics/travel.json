@@ -1,4 +1,8 @@
 {
+  "colors": {
+    "option1": "#16a085",
+    "option2": "#d35400"
+  },
   "questions": [
     {
       "prompt": "What type of travel appeals to you?",
