@@ -48,34 +48,53 @@ function initializeTopicSelection() {
 
 // === PREFERENCE SYSTEM ===
 function displayQuestionOptions(question) {
-    // Show preference UI (all questions now have option1 and option2)
-    const preferenceContainer = CONFIG_UTILS.getElementById('PREFERENCE_CONTAINER');
+    // Show preference UI
+    const preferenceContainer = document.getElementById('preferenceContainer');
     if (preferenceContainer) {
-        CONFIG_UTILS.removeClass(preferenceContainer, 'HIDDEN');
-        CONFIG_UTILS.addClass(preferenceContainer, 'VISIBLE');
-        
-        // Update option labels and images
-        const option1Label = CONFIG_UTILS.getElementById('OPTION1_LABEL');
-        const option2Label = CONFIG_UTILS.getElementById('OPTION2_LABEL');
-        const option1Image = CONFIG_UTILS.getElementById('OPTION1_IMAGE');
-        const option2Image = CONFIG_UTILS.getElementById('OPTION2_IMAGE');
-        
-        if (option1Label && question.option1) {
-            option1Label.textContent = question.option1;
-        }
-        if (option2Label && question.option2) {
-            option2Label.textContent = question.option2;
-        }
-        
-        // Handle image loading for options
-        loadOptionImages(question, option1Image, option2Image);
+        preferenceContainer.classList.remove('hidden');
+        preferenceContainer.classList.add('visible');
     }
-    
+
+    // Render options visually in optionsContainer
+    const optionsContainer = document.getElementById('optionsContainer');
+    if (optionsContainer) {
+        optionsContainer.innerHTML = '';
+        // Support both new format (question.options) and legacy option1/option2
+        const opts = [];
+        if (Array.isArray(question.options) && question.options.length > 0) {
+            question.options.forEach(o => opts.push({ label: o, image: null }));
+        } else if (question.option1 || question.option2) {
+            if (question.option1) opts.push({ label: question.option1, image: question.images && question.images.option1 });
+            if (question.option2) opts.push({ label: question.option2, image: question.images && question.images.option2 });
+        }
+        opts.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'preference-option';
+            btn.type = 'button';
+            btn.textContent = '';
+            btn.addEventListener('click', () => selectPreference(opt.label));
+            // Label above image
+            const labelDiv = document.createElement('div');
+            labelDiv.className = 'option-label';
+            labelDiv.textContent = opt.label || '';
+            btn.appendChild(labelDiv);
+            if (opt.image) {
+                const img = document.createElement('img');
+                img.src = opt.image;
+                img.alt = opt.label || '';
+                img.loading = 'lazy';
+                img.style.maxWidth = '100%';
+                btn.appendChild(img);
+            }
+            optionsContainer.appendChild(btn);
+        });
+    }
+
     // Clear any previous selection
-    CONFIG_UTILS.getElementById('SELECTED_PREFERENCE').value = '';
-    // Update selection highlights
+    const selectedPref = document.getElementById('selectedPreference');
+    if (selectedPref) selectedPref.value = '';
     document.querySelectorAll('.preference-option').forEach(opt => {
-        CONFIG_UTILS.removeClass(opt, 'SELECTED');
+        opt.classList.remove('selected');
     });
     // Also update submit button state
     const submitBtn = document.getElementById('submitButton');

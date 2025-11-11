@@ -114,7 +114,14 @@ function updateSubmissionState() {
 
 // === ANSWER SUBMISSION ===
 function submitAnswer() {
-    const selectedPreference = document.getElementById('selectedPreference').value;
+    // In offline mode, try to get answer from offline.js function first
+    let selectedPreference = '';
+    if (window.getSelectedAnswerOffline) {
+        selectedPreference = window.getSelectedAnswerOffline();
+    } else {
+        const input = document.getElementById('selectedPreference');
+        selectedPreference = input ? input.value : '';
+    }
     
     if (!selectedPreference) {
         alert('Please select an option before submitting.');
@@ -403,8 +410,7 @@ function initializePlayerSystem() {
         // Show current player indicator for offline mode
         const offlinePlayerIndicator = document.getElementById('offlinePlayerIndicator');
         if (offlinePlayerIndicator) offlinePlayerIndicator.style.display = '';
-        const submitBtn = document.getElementById('submitButton');
-        if (submitBtn) submitBtn.onclick = window.gamePlayer.submitAnswer;
+        // Submit button handler is set by game-core.js using addEventListener
         if (storedNames) {
             try {
                 const names = JSON.parse(storedNames);

@@ -294,17 +294,6 @@ h1.question {
     background: radial-gradient(circle, #059669, #047857);
 }
 
-/* Skip Question Button - Red */
-#skipQuestionBtn {
-    background: linear-gradient(145deg, #ef4444, #dc2626);
-    color: white;
-    border-color: #991b1b;
-}
-
-#skipQuestionBtn:hover {
-    background: linear-gradient(145deg, #dc2626, #b91c1c);
-}
-
 .remote-label {
     font-size: 11px;
     font-weight: 600;

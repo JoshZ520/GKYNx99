@@ -72,6 +72,7 @@ p, #header p {
 #header p {
     font-size: var(--font-lg); /* Reduced from var(--font-xl) */
 }
+
 /* === GENERAL BUTTON STYLES === */
 button {
     font-size: 16px;
@@ -154,7 +155,7 @@ input#player_count {
     color: var(--text-dark);
 }
 /* === KEYFRAME ANIMATIONS === */
-@keyframes flyAcrossScreen {
+/* @keyframes flyAcrossScreen {
     0% {
         transform: translateX(-100px) rotate(0deg);
         opacity: 1;
@@ -167,7 +168,7 @@ input#player_count {
         transform: translateX(calc(100vw + 100px)) rotate(360deg);
         opacity: 0;
     }
-}
+} */
 @keyframes fadeOutContent {
     0% {
         opacity: 1;
@@ -285,6 +286,7 @@ input#player_count {
     color: white !important;
 }
 /* Flying shapes animation variations */
+/*
 .flying-shape-slow {
     animation-duration: 1.8s !important;
 }
@@ -294,7 +296,9 @@ input#player_count {
 .flying-shape-fast {
     animation-duration: 1.2s !important;
 }
+*/
 /* Flying shape colors */
+/*
 .color-red { background: #ff6b6b !important; }
 .color-teal { background: #4ecdc4 !important; }
 .color-blue { background: #45b7d1 !important; }
@@ -309,8 +313,10 @@ input#player_count {
 .color-lime { background: #82e0aa !important; }
 .color-coral { background: #f1948a !important; }
 .color-pink { background: #d5a6bd !important; }
+*/
 /* === ANIMATION CLASSES === */
 /* Flying shapes for turn transitions */
+/*
 .flying-shape {
     position: fixed;
     top: 50%;
@@ -326,6 +332,7 @@ input#player_count {
     border-radius: 0;
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }
+*/
 /* Content fade animations */
 .content-clearing {
     animation: fadeOutContent 0.8s ease-out forwards;

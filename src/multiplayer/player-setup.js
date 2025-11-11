@@ -119,7 +119,7 @@ function handleStartGame() {
     // Load questions first, then navigate
     window.loadQuestions().then(() => {
         // Navigate to game page
-        window.location.href = '../pages/game.html';
+        window.location.href = '../../pages/game.html';
     }).catch(error => {
         console.error('Failed to load questions:', error);
         alert('Failed to load questions. Please check your internet connection and try again.');
@@ -139,7 +139,7 @@ function initializeOfflineEventListeners() {
     if (newGameBtn) {
         newGameBtn.addEventListener('click', () => {
             sessionStorage.clear();
-            window.location.href = '../pages/index.html';
+            window.location.href = '../../pages/index.html';
         });
     }
 }

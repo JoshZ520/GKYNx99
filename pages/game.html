@@ -31,13 +31,8 @@
 <script src="../src/core/game-core.js" type="module" defer></script>
 <script src="../src/core/game-player.js" type="module" defer></script>
 <script src="../src/core/game-ui.js" type="module" defer></script>
-<!-- Offline mode logic (consolidated) -->
-                <!-- Offline mode functionality (module) -->
-                <script type="module">
-                    import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
-                    attachToWindow();
-                    initOfflineAutoLoad();
-                </script>
+<!-- Offline mode logic (consolidated) - loads early without defer -->
+<script type="module" src="../offline/offline.js"></script>
 <script src="../src/core/game-loader.js" type="module" defer></script>
 <!-- Multiplayer manager -->
 <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
@@ -91,6 +86,13 @@ Back to Game Mode
 <div id="offlinePlayerIndicator" class="player-indicator" style="display: none; margin-bottom: 16px;">
     <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
 </div>
+<!-- Move Random Topic Button above question -->
+<div style="text-align:center; margin-bottom: 12px;">
+    <button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
+        <img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
+        <span class="remote-label">Random Topic</span>
+    </button>
+</div>
 <h1 class="question" id="question"></h1>
 <div class="topic-selection">
 <button class="smooth-transition" id="topicsToggle">Topics ▼</button>
@@ -115,14 +117,6 @@ Back to Game Mode
 <!-- Remote Control Layout -->
 <div class="remote-control">
 <div class="remote-row">
-<!-- Random Topic Button -->
-<div class="remote-button-container">
-<button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
-<img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
-</button>
-<span class="remote-label">Random Topic</span>
-</div>
-
 <!-- Previous Question Button -->
 <div class="remote-button-container">
 <button class="remote-btn smooth-transition" id="prevQuestionBtn" type="button" title="Previous Question">
@@ -130,7 +124,6 @@ Back to Game Mode
 </button>
 <span class="remote-label">Previous</span>
 </div>
-
 <!-- Random Question Button (Center) -->
 <div class="remote-button-container center">
 <button class="switch_button smooth-transition flex-center" id="switchQuestion" type="button" title="Random Question in Current Topic">
@@ -138,21 +131,12 @@ Back to Game Mode
 </button>
 <span class="remote-label">Random Question</span>
 </div>
-
 <!-- Next Question Button -->
 <div class="remote-button-container">
 <button class="remote-btn smooth-transition" id="nextQuestionBtn" type="button" title="Next Question">
 <img src="../assets/images/icons/next.svg" alt="Next" width="20" height="20">
 </button>
 <span class="remote-label">Next</span>
-</div>
-
-<!-- Skip Question Button -->
-<div class="remote-button-container">
-<button class="remote-btn smooth-transition" id="skipQuestionBtn" type="button" title="Skip This Question">
-<img src="../assets/images/icons/skip.svg" alt="Skip" width="20" height="20">
-</button>
-<span class="remote-label">Skip Question</span>
 </div>
 </div>
 </div>
@@ -172,26 +156,32 @@ Back to Game Mode
 </div>
 
 <!-- Submit Answer Button (Offline Mode Only) -->
-<div class="buttons" id="offlineSubmitContainer" style="display: none;">
-    <button class="submit" id="submitButton" type="button" onclick="if(window.getSelectedAnswerOffline){window.getSelectedAnswerOffline() ? submitOfflineAnswer() : null}">Submit Answer</button>
+<div class="buttons" id="offlineSubmitContainer">
+    <button class="submit" id="submitButton" type="button">Submit Answer</button>
+    <button class="fin" id="final_submit" type="button" style="display: none;">Show Results</button>
 </div>
 <script>
-// Only wire up offline answer logic if in offline mode
-if (sessionStorage.getItem('gameMode') === 'offline') {
+// Wire up offline mode when DOM is ready and module has loaded
+function initOfflineGameMode() {
+    if (sessionStorage.getItem('gameMode') !== 'offline') return;
+    
+    // Wait for offline functions to be available
+    if (!window.displayQuestionOptionsOffline) {
+        setTimeout(initOfflineGameMode, 50);
+        return;
+    }
+    
     window.displayQuestionOptions = window.displayQuestionOptionsOffline;
     window.selectPreference = window.selectAnswerOffline;
     window.updateSubmitButton = window.updateSubmitButtonOffline;
-    // Example submit handler for offline mode
-    window.submitOfflineAnswer = function() {
-        const answer = window.getSelectedAnswerOffline();
-        if (!answer) {
-            alert('Please select an answer before submitting.');
-            return;
-        }
-        // TODO: Add your offline answer submission logic here
-        alert('Answer submitted: ' + answer);
-        // Advance to next player or question as needed
-    };
+    // submitOfflineAnswer is already defined in offline.js via attachToWindow()
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOfflineGameMode);
+} else {
+    initOfflineGameMode();
 }
 </script>
 
