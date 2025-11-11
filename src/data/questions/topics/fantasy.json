@@ -32,8 +32,8 @@
                           "option1":  "Epic/Grand Scale",
                           "option2":  "Personal/Intimate",
                           "images":  {
-                                         "option1":  "../assets/images/questions/Fantasy/",
-                                         "option2":  "../assets/images/questions/Fantasy/"
+                                         "option1":  "../assets/images/questions/Fantasy/epic.jpg",
+                                         "option2":  "../assets/images/questions/Fantasy/personal.jpg"
                                      }
                       },
                       {
@@ -50,8 +50,8 @@
                           "option1":  "Relaxation",
                           "option2":  "Excitement",
                           "images":  {
-                                         "option1":  "../assets/images/questions/Fantasy/",
-                                         "option2":  "../assets/images/questions/Fantasy/"
+                                         "option1":  "../assets/images/questions/Fantasy/escapism.jpg",
+                                         "option2":  "../assets/images/questions/Fantasy/excite.jpg"
                                      }
                       }
                   ]

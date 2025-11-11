@@ -5,8 +5,8 @@
                           "option1":  "Popular/Mainstream",
                           "option2":  "Alternative/Indie",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Music/mainstream.jpg",
+                                         "option2":  "../assets/images/questions/Music/alternative.jpg"
                                      }
                       },
                       {
@@ -14,8 +14,8 @@
                           "option1":  "Live Concerts",
                           "option2":  "Recorded Music",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Music/live.jpg",
+                                         "option2":  "../assets/images/questions/Music/recorded.jpg"
                                      }
                       },
                       {
@@ -23,8 +23,8 @@
                           "option1":  "Classic/Vintage",
                           "option2":  "Modern/Current",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Music/classic.jpg",
+                                         "option2":  "../assets/images/questions/Music/modern.jpg"
                                      }
                       },
                       {
@@ -32,8 +32,8 @@
                           "option1":  "Recommendations",
                           "option2":  "Exploration",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Music/recommend.jpg",
+                                         "option2":  "../assets/images/questions/Music/explore.jpg"
                                      }
                       },
                       {
@@ -41,8 +41,8 @@
                           "option1":  "High Energy/Upbeat",
                           "option2":  "Calm/Relaxing",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Music/upbeat.jpg",
+                                         "option2":  "../assets/images/questions/Music/calm.jpg"
                                      }
                       },
                       {
@@ -50,8 +50,8 @@
                           "option1":  "Background/Ambient",
                           "option2":  "Active Listening",
                           "images":  {
-                                         "option1":  "PASTE_URL_HERE",
-                                         "option2":  "PASTE_URL_HERE"
+                                         "option1":  "../assets/images/questions/Music/work.jpg",
+                                         "option2":  "../assets/images/questions/Music/recorded.jpg"
                                      }
                       }
                   ]
