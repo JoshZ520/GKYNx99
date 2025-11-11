@@ -11,14 +11,8 @@ let appQuestions = [];
 // === QUESTION MANAGEMENT ===
 function applyQuestionsForTopic(topic) {
     const topics = window.getTopics ? window.getTopics() : {};
-    const topicData = topics[topic] || topics[GAME_CONFIG.TOPICS.DEFAULT] || {};
+    const topicData = topics[topic] || {};
     let list = topicData.questions || [];
-    
-    // For the default topic, skip the first question since it's displayed on the front page
-    // Use questions starting from index 1 for the game page
-    if (topic === GAME_CONFIG.TOPICS.DEFAULT && list.length > 1) {
-        list = list.slice(1); // Use all questions except the first one
-    }
     
     appQuestions.splice(0, appQuestions.length, ...list);
     
@@ -39,6 +33,38 @@ function applyQuestionsForTopic(topic) {
             questionElem.textContent = '';
         }
     }
+    
+    // Show question area now that topic is selected
+    showQuestionArea();
+}
+
+function showQuestionArea() {
+    const questionElem = CONFIG_UTILS.getElementById('QUESTION');
+    const preferenceContainer = CONFIG_UTILS.getElementById('PREFERENCE_CONTAINER');
+    const submitButton = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
+    const remoteControl = document.querySelector('.remote-control');
+    
+    if (questionElem) questionElem.style.display = '';
+    if (preferenceContainer) preferenceContainer.style.display = '';
+    if (submitButton) submitButton.style.display = '';
+    if (remoteControl) remoteControl.style.display = '';
+}
+
+function hideQuestionArea() {
+    const questionElem = CONFIG_UTILS.getElementById('QUESTION');
+    const preferenceContainer = CONFIG_UTILS.getElementById('PREFERENCE_CONTAINER');
+    const submitButton = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
+    const remoteControl = document.querySelector('.remote-control');
+    const topicNameElement = document.getElementById('currentTopicName');
+    
+    if (questionElem) {
+        questionElem.style.display = 'none';
+        questionElem.textContent = 'Please select a topic to begin';
+    }
+    if (preferenceContainer) preferenceContainer.style.display = 'none';
+    if (submitButton) submitButton.style.display = 'none';
+    if (remoteControl) remoteControl.style.display = 'none';
+    if (topicNameElement) topicNameElement.textContent = 'No topic selected';
 }
 
 function switchToNextQuestion() {
@@ -138,8 +164,7 @@ function setTopic(topic) {
     const topicNameElement = document.getElementById('currentTopicName');
     if (topicNameElement) {
         // Simple display name without needing availableTopics
-        const displayName = (topic === 'default' ? 'Instructions' : 
-                            topic.charAt(0).toUpperCase() + topic.slice(1));
+        const displayName = topic.charAt(0).toUpperCase() + topic.slice(1);
         topicNameElement.textContent = displayName;
     }
     
@@ -364,9 +389,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Load current topic and apply questions
-        const currentTopic = localStorage.getItem('currentTopic') || 'default';
-        if (window.gameCore) {
+        const currentTopic = localStorage.getItem('currentTopic');
+        if (currentTopic && window.gameCore) {
             window.gameCore.setTopic(currentTopic);
+        } else {
+            // No topic selected - hide question area and prompt user
+            hideQuestionArea();
         }
         
         // Update initial submission state

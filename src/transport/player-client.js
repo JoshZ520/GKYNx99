@@ -306,12 +306,10 @@ function displayResults(results) {
     });
 }
 
-// Update players list (placeholder for now)
 function updatePlayersList() {
     const container = document.getElementById('playersList');
     if (container) {
-        // This would need to be populated by server data
-        // For now, just show that we're connected
+        // Display current player (server would populate full list in multiplayer)
         container.innerHTML = `<div>${playerState.name} (you)</div>`;
     }
 }

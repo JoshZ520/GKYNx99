@@ -25,19 +25,14 @@ function loadQuestions() {
                 .then(topicData => {
                     // Create topic structure
                     topics[topicName] = {
-                        questions: topicData.questions || []
+                        questions: topicData.questions || [],
+                        colors: topicData.colors || { option1: '#3b82f6', option2: '#10b981' }
                     };
                 });
         });
         return Promise.all(topicPromises);
     })
     .then(() => {
-        // Ensure default exists with proper structure
-        if (!topics.default) {
-            topics['default'] = {
-                questions: []
-            };
-        }
         // Update global references
         window.topics = topics;
 
@@ -46,11 +41,7 @@ function loadQuestions() {
     .catch(err => {
         console.error('Error loading questions from modular files:', err);
         // Final fallback with empty data
-        topics = { 
-            default: {
-                questions: []
-            }
-        };
+        topics = {};
 
         return { topics };
     });

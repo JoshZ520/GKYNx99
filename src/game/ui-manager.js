@@ -15,9 +15,8 @@ function initializeTopicSelection() {
     fetch(basePath)
         .then(res => res.json())
         .then(topicsIndex => {
-            // Convert to array, excluding 'default'
+            // Convert to array
             availableTopics = Object.keys(topicsIndex)
-                .filter(key => key !== GAME_CONFIG.TOPICS.DEFAULT)
                 .map(key => ({
                     name: key.charAt(0).toUpperCase() + key.slice(1),
                     value: key
@@ -252,11 +251,8 @@ function closeTopicsPanel() {
 
 function pickRandomTopic() {
     if (availableTopics.length === 0) {
-        // Fall back to default if no topics available
-        if (window.gameCore) {
-            window.gameCore.setTopic('default');
-        }
-        return 'default';
+        console.error('No topics available');
+        return null;
     }
     
     // Choose a random topic

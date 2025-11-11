@@ -149,9 +149,6 @@ function initializePlayerSetupSystem() {
     // Initialize offline event listeners
     initializeOfflineEventListeners();
     
-    // Handle front page functionality (for offline fallback pages)
-    // Note: handleFrontPageFunctionality() merged into initializePlayerSetup()
-    
     // Initialize player setup system
     initializePlayerSetup();
 }

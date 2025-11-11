@@ -1,136 +1,197 @@
-// src/features/customize/customize.js - Custom game setup interface
-// Handles the customize game page UI and configuration creation
+// src/features/customize/customize.js - Game customization utility
+// Provides functions for customizing game configuration (topics, question count, style)
+// Can be used as a dropdown or inline configuration on index/game pages
 
-// === SETUP STATE ===
-let selectedTopics = new Set();
-let questionCount = 10;
-let gameStyle = 'balanced';
+// === GAME CONFIGURATION STATE ===
+let gameConfig = {
+    selectedTopics: new Set(),
+    questionCount: 10,
+    gameStyle: 'balanced',
+    isCustomGame: false
+};
 
-// === TOPIC SELECTION ===
-function loadAvailableTopicsForSetup() {
-    // TODO: Load topics from the main topic system
-    // Display checkboxes for each topic
-    // Show question counts per topic
+// === PRESET CONFIGURATIONS ===
+const GAME_PRESETS = {
+    quickStart: {
+        name: 'Quick Start',
+        description: '5 questions, random topics',
+        questionCount: 5,
+        topics: [], // Will use all available
+        style: 'random'
+    },
+    standard: {
+        name: 'Standard Game',
+        description: '10 questions, balanced mix',
+        questionCount: 10,
+        topics: [],
+        style: 'balanced'
+    },
+    deepDive: {
+        name: 'Deep Dive',
+        description: '15 questions, progressive depth',
+        questionCount: 15,
+        topics: [],
+        style: 'progressive'
+    },
+    foodFocused: {
+        name: 'Food & Dining',
+        description: 'All food-related questions',
+        questionCount: 10,
+        topics: ['food'],
+        style: 'random'
+    },
+    travelAdventure: {
+        name: 'Travel & Adventure',
+        description: 'Explore wanderlust topics',
+        questionCount: 10,
+        topics: ['travel', 'activity'],
+        style: 'balanced'
+    }
+};
+
+/**
+ * Apply a preset configuration
+ * @param {string} presetName - Name of the preset to apply
+ * @returns {Object} The applied configuration
+ */
+export function applyPreset(presetName) {
+    const preset = GAME_PRESETS[presetName];
+    if (!preset) {
+        console.error(`Preset "${presetName}" not found`);
+        return null;
+    }
+    
+    gameConfig.questionCount = preset.questionCount;
+    gameConfig.gameStyle = preset.style;
+    gameConfig.selectedTopics = new Set(preset.topics);
+    gameConfig.isCustomGame = true;
+    
+    return { ...gameConfig, selectedTopics: Array.from(gameConfig.selectedTopics) };
 }
 
-function toggleTopicSelection(topicValue) {
-    if (selectedTopics.has(topicValue)) {
-        selectedTopics.delete(topicValue);
+/**
+ * Get all available presets
+ * @returns {Object} All preset configurations
+ */
+export function getPresets() {
+    return GAME_PRESETS;
+}
+
+/**
+ * Set question count for custom game
+ * @param {number} count - Number of questions
+ */
+export function setQuestionCount(count) {
+    gameConfig.questionCount = parseInt(count, 10) || 10;
+    gameConfig.isCustomGame = true;
+}
+
+/**
+ * Set game style
+ * @param {string} style - 'balanced', 'random', or 'progressive'
+ */
+export function setGameStyle(style) {
+    gameConfig.gameStyle = style;
+    gameConfig.isCustomGame = true;
+}
+
+/**
+ * Add or remove a topic from selection
+ * @param {string} topicValue - Topic identifier
+ */
+export function toggleTopic(topicValue) {
+    if (gameConfig.selectedTopics.has(topicValue)) {
+        gameConfig.selectedTopics.delete(topicValue);
     } else {
-        selectedTopics.add(topicValue);
+        gameConfig.selectedTopics.add(topicValue);
+    }
+    gameConfig.isCustomGame = true;
+}
+
+/**
+ * Get current game configuration
+ * @returns {Object} Current configuration with selectedTopics as array
+ */
+export function getCurrentConfig() {
+    return {
+        ...gameConfig,
+        selectedTopics: Array.from(gameConfig.selectedTopics)
+    };
+}
+
+/**
+ * Generate and save custom game configuration to session storage
+ * @returns {Object|null} The generated config or null if invalid
+ */
+export function generateAndSaveConfig() {
+    // Validate configuration
+    if (gameConfig.selectedTopics.size === 0) {
+        gameConfig.selectedTopics = new Set(); // Use all topics
     }
     
-    validateSelection();
-    updatePreview();
-}
-
-function selectAllTopics() {
-    // TODO: Add all available topics to selection
-}
-
-function selectNoTopics() {
-    selectedTopics.clear();
-    validateSelection();
-    updatePreview();
-}
-
-// === QUESTION COUNT MANAGEMENT ===
-function setQuestionCount(count) {
-    questionCount = parseInt(count, 10) || 10;
-    validateSelection();
-    updatePreview();
-}
-
-function setGameStyle(style) {
-    gameStyle = style;
-    updatePreview();
-}
-
-// === VALIDATION AND PREVIEW ===
-function validateSelection() {
-    const isValid = selectedTopics.size > 0 && questionCount > 0;
-    
-    // Update start button state
-    const startButton = document.getElementById('startCustomGameBtn');
-    if (startButton) {
-        startButton.disabled = !isValid;
-        startButton.classList.toggle('disabled', !isValid);
-    }
-    
-    return isValid;
-}
-
-function updatePreview() {
-    // TODO: Show preview of what the game will include
-    // - Questions per topic
-    // - Estimated time
-    // - Warnings about availability
-}
-
-// === CONFIGURATION GENERATION ===
-function generateCustomGameConfig() {
-    if (!validateSelection()) {
-        alert('Please select at least one topic and set a question count.');
+    if (gameConfig.questionCount < 1) {
+        console.error('Question count must be at least 1');
         return null;
     }
     
     const config = {
-        isCustomGame: true,
-        questionLimit: questionCount,
-        selectedTopics: Array.from(selectedTopics),
-        gameStyle: gameStyle,
+        isCustomGame: gameConfig.isCustomGame,
+        questionLimit: gameConfig.questionCount,
+        selectedTopics: Array.from(gameConfig.selectedTopics),
+        gameStyle: gameConfig.gameStyle,
         createdAt: new Date().toISOString()
     };
+    
+    // Save to session storage
+    sessionStorage.setItem('customGameConfig', JSON.stringify(config));
     
     return config;
 }
 
-function startCustomGame() {
-    const config = generateCustomGameConfig();
-    if (!config) return;
-    
-    // Save configuration to session storage
-    sessionStorage.setItem('customGameConfig', JSON.stringify(config));
-    
-    // TODO: Redirect to appropriate game page
-    // Check if this should be multiplayer or offline
-    const gameMode = sessionStorage.getItem('gameMode') || 'offline';
-    
-    if (gameMode === 'multiplayer') {
-        // TODO: Redirect to multiplayer game with custom config
-        window.location.href = '../../pages/game.html';
-    } else {
-        // TODO: Redirect to offline game with custom config
-        window.location.href = '../../pages/game.html';
+/**
+ * Reset configuration to defaults
+ */
+export function resetConfig() {
+    gameConfig = {
+        selectedTopics: new Set(),
+        questionCount: 10,
+        gameStyle: 'balanced',
+        isCustomGame: false
+    };
+}
+
+/**
+ * Check if a custom game configuration exists in session storage
+ * @returns {boolean}
+ */
+export function hasCustomConfig() {
+    return sessionStorage.getItem('customGameConfig') !== null;
+}
+
+/**
+ * Load custom configuration from session storage
+ * @returns {Object|null}
+ */
+export function loadCustomConfig() {
+    try {
+        const stored = sessionStorage.getItem('customGameConfig');
+        return stored ? JSON.parse(stored) : null;
+    } catch (error) {
+        console.error('Failed to load custom config:', error);
+        return null;
     }
 }
 
-// === EVENT LISTENERS ===
-function setupEventListeners() {
-    // TODO: Implement event listeners when customize functionality is needed
-}
-
-// === INITIALIZATION ===
-function initializeCustomizeGame() {
-    loadAvailableTopicsForSetup();
-    setupEventListeners();
-    validateSelection();
-}
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', initializeCustomizeGame);
-
-// === EXPORTS ===
-window.gameSetup = {
-    loadAvailableTopicsForSetup,
-    toggleTopicSelection,
-    selectAllTopics,
-    selectNoTopics,
+// === EXPORTS FOR GLOBAL ACCESS ===
+window.gameCustomize = {
+    applyPreset,
+    getPresets,
     setQuestionCount,
     setGameStyle,
-    validateSelection,
-    updatePreview,
-    generateCustomGameConfig,
-    startCustomGame,
-    initializeCustomizeGame
+    toggleTopic,
+    getCurrentConfig,
+    generateAndSaveConfig,
+    resetConfig,
+    hasCustomConfig,
+    loadCustomConfig
 };

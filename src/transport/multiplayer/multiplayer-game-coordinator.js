@@ -1,0 +1,129 @@
+// src/transport/multiplayer-game-coordinator.js
+// Handles game flow: question broadcasting, answer collection, progress tracking
+
+// === QUESTION BROADCASTING ===
+export function broadcastQuestionToPlayers(question, socket, gameState) {
+    if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) {
+        console.log('Not in multiplayer mode, skipping broadcast');
+        return;
+    }
+    
+    gameState.currentQuestion = question;
+    gameState.waitingForAnswers = true;
+    gameState.collectedAnswers = new Map();
+    
+    // Show answer progress container
+    const progressContainer = document.getElementById('answerProgressContainer');
+    if (progressContainer) {
+        progressContainer.classList.remove('hidden');
+    }
+    
+    // Convert question to multiplayer format - handle different question formats
+    let questionText = '';
+    if (typeof question === 'string') {
+        questionText = question;
+    } else if (question.prompt) {
+        questionText = question.prompt;
+    } else if (question.text) {
+        questionText = typeof question.text === 'string' ? question.text : question.text.prompt;
+    }
+    
+    // Extract options from different formats
+    let options = [];
+    if (question.options && Array.isArray(question.options)) {
+        // Already has options array
+        options = question.options;
+    } else if (question.option1 && question.option2) {
+        // Convert option1/option2 format to array
+        options = [
+            { text: question.option1, value: 'option1', image: question.images?.option1 },
+            { text: question.option2, value: 'option2', image: question.images?.option2 }
+        ];
+    }
+    
+    const multiplayerQuestion = {
+        text: questionText,
+        options: options
+    };
+    
+    socket.emit('broadcast-question', {
+        roomCode: gameState.roomCode,
+        question: multiplayerQuestion
+    });
+}
+
+// === ANSWER MANAGEMENT ===
+export function revealAnswers(socket, gameState) {
+    if (!gameState.isHost || !socket || !gameState.isConnected) {
+        console.log('Not authorized to reveal answers');
+        return;
+    }
+    
+    socket.emit('reveal-answers', {
+        roomCode: gameState.roomCode
+    });
+}
+
+export function updateAnswerProgress(answeredCount, totalPlayers) {
+    const progressElement = document.getElementById('answerProgress');
+    if (progressElement) {
+        progressElement.textContent = `${answeredCount}/${totalPlayers} players answered`;
+    }
+}
+
+// === ANSWER RECEIVED HANDLER ===
+export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
+    updateAnswerProgress(data.answeredCount, data.totalPlayers);
+    
+    // Show notification
+    const notification = document.getElementById('playerAnsweredNotification');
+    if (notification) {
+        notification.textContent = `${data.playerName} answered!`;
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 2000);
+    }
+    
+    // Auto-capture answers when all players have submitted
+    if (data.answeredCount === data.totalPlayers && data.totalPlayers > 0) {
+        setTimeout(() => {
+            revealAnswersCallback(); // This will capture results without displaying them
+        }, 500);
+    }
+}
+
+// === ANSWERS REVEALED HANDLER ===
+export function handleAnswersRevealed(data, gameState) {
+    // Store results for this question
+    gameState.allQuestionResults.push({
+        question: data.question,
+        results: data.results,
+        timestamp: Date.now()
+    });
+    
+    // Show the "End Game" button after first question is answered
+    const endGameBtn = document.getElementById('end_game_btn');
+    if (endGameBtn) {
+        endGameBtn.style.display = 'block';
+    }
+    
+    // Reset progress for next question
+    updateAnswerProgress(0, gameState.playerNames?.length || 0);
+}
+
+// === HELPER FUNCTION ===
+export function getCurrentQuestionOptions() {
+    // Extract current question options from the page
+    const option1Label = document.getElementById('option1Label');
+    const option2Label = document.getElementById('option2Label');
+    
+    if (option1Label && option2Label) {
+        return [
+            { text: option1Label.textContent, value: 'option1' },
+            { text: option2Label.textContent, value: 'option2' }
+        ];
+    }
+    
+    return [];
+}
