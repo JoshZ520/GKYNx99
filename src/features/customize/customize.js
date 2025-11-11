@@ -1,4 +1,4 @@
-// customize.js - Custom game setup interface
+// src/features/customize/customize.js - Custom game setup interface
 // Handles the customize game page UI and configuration creation
 
 // === SETUP STATE ===
@@ -11,7 +11,6 @@ function loadAvailableTopicsForSetup() {
     // TODO: Load topics from the main topic system
     // Display checkboxes for each topic
     // Show question counts per topic
-    console.log('Loading topics for custom setup...');
 }
 
 function toggleTopicSelection(topicValue) {
@@ -27,7 +26,6 @@ function toggleTopicSelection(topicValue) {
 
 function selectAllTopics() {
     // TODO: Add all available topics to selection
-    console.log('Selecting all topics...');
 }
 
 function selectNoTopics() {
@@ -67,11 +65,6 @@ function updatePreview() {
     // - Questions per topic
     // - Estimated time
     // - Warnings about availability
-    console.log('Updating preview...', {
-        topics: Array.from(selectedTopics),
-        questionCount,
-        gameStyle
-    });
 }
 
 // === CONFIGURATION GENERATION ===
@@ -89,7 +82,6 @@ function generateCustomGameConfig() {
         createdAt: new Date().toISOString()
     };
     
-    console.log('Generated custom game config:', config);
     return config;
 }
 
@@ -120,7 +112,6 @@ function setupEventListeners() {
 
 // === INITIALIZATION ===
 function initializeCustomizeGame() {
-    console.log('Initializing customize game page...');
     loadAvailableTopicsForSetup();
     setupEventListeners();
     validateSelection();

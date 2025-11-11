@@ -1,4 +1,5 @@
-import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../scripts/player-setup-utils.js';
+// src/transport/offline-handler.js - Offline mode handler
+import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../utilities/player-setup-utils.js';
 
 // Module-level state for offline mode
 let selectedAnswer = null;

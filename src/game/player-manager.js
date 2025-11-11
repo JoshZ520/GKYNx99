@@ -1,4 +1,4 @@
-// game-player.js - Player management: turns, submissions, and answer tracking
+// src/game/player-manager.js - Player management: turns, submissions, and answer tracking
 // Handles player progression, answer recording, and submission state
 
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
@@ -142,12 +142,36 @@ function submitAnswer() {
         // Let multiplayer manager handle player advancement
         // This will be handled by the multiplayer system
     } else {
-        // Single player mode - proceed normally
+        // Offline mode - show flying shapes and advance to next player
+        spawnFlyingShapes();
         advanceToNextPlayer();
     }
     
     // Update UI
     updateSubmissionState();
+}
+
+// Spawn flying shapes animation for offline mode
+function spawnFlyingShapes() {
+    const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#ef4444', '#f59e0b'];
+    const numShapes = 3;
+    
+    for (let i = 0; i < numShapes; i++) {
+        setTimeout(() => {
+            const shape = document.createElement('div');
+            shape.className = 'flying-shape star';
+            shape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            shape.style.top = `${20 + Math.random() * 60}%`;
+            shape.style.animationDelay = `${i * 0.1}s`;
+            
+            document.body.appendChild(shape);
+            
+            // Remove shape after animation completes
+            setTimeout(() => {
+                shape.remove();
+            }, 2000);
+        }, i * 200);
+    }
 }
 
 function handleFinalSubmit() {
@@ -285,7 +309,7 @@ function setupResultsButtons() {
         backToMenuBtn.addEventListener('click', () => {
             // Clear all game data and go to main menu
             sessionStorage.clear();
-            window.location.href = 'index.html';
+            window.location.href = '../pages/index.html';
         });
     }
 }
@@ -410,7 +434,7 @@ function initializePlayerSystem() {
         // Show current player indicator for offline mode
         const offlinePlayerIndicator = document.getElementById('offlinePlayerIndicator');
         if (offlinePlayerIndicator) offlinePlayerIndicator.style.display = '';
-        // Submit button handler is set by game-core.js using addEventListener
+        // Submit button handler is set by question-manager.js using addEventListener
         if (storedNames) {
             try {
                 const names = JSON.parse(storedNames);

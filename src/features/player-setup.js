@@ -1,7 +1,7 @@
 // player-setup.js - Enhanced player setup functionality for fallback system
 // Refactored to use shared player-setup-utils.js
 
-import { generatePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../scripts/player-setup-utils.js';
+import { generatePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../utilities/player-setup-utils.js';
 
 // === PLAYER SETUP SYSTEM ===
 function handleFrontPageFunctionality() {

@@ -1,4 +1,4 @@
-// scripts/player-setup-utils.js
+// src/utilities/player-setup-utils.js
 // Shared utility functions for player setup (input generation, validation, UI updates)
 
 /**

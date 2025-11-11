@@ -1,4 +1,4 @@
-// game-ui.js - User interface management: topics, preferences, and interactions
+// src/game/ui-manager.js - User interface management: topics, preferences, and interactions
 // Handles topic selection, preference display, and UI interactions
 
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
@@ -15,7 +15,6 @@ function initializeTopicSelection() {
     fetch(basePath)
         .then(res => res.json())
         .then(topicsIndex => {
-            console.log(GAME_CONFIG.MESSAGES.LOADED_TOPICS, topicsIndex);
             // Convert to array, excluding 'default'
             availableTopics = Object.keys(topicsIndex)
                 .filter(key => key !== GAME_CONFIG.TOPICS.DEFAULT)
@@ -23,8 +22,6 @@ function initializeTopicSelection() {
                     name: key.charAt(0).toUpperCase() + key.slice(1),
                     value: key
                 }));
-            
-            console.log(GAME_CONFIG.MESSAGES.AVAILABLE_TOPICS, availableTopics);
             
             // Initialize the grid with topics
             renderTopicGrid();
@@ -140,8 +137,6 @@ function selectPreference(choice) {
         submitBtn.disabled = !actualAnswer || actualAnswer === 'option1' || actualAnswer === 'option2';
         submitBtn.classList.toggle('disabled', submitBtn.disabled);
     }
-    
-    console.log('Selected preference:', choice, '→ actual answer:', actualAnswer);
 }
 
 // === IMAGE LOADING ===
@@ -295,10 +290,8 @@ window.gameUI = {
 // === AUTO-INITIALIZATION ===
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing Game UI...');
     if (window.gameUI) {
         window.gameUI.initializeTopicSelection();
-        console.log('Topic selection initialized');
     }
     // Enable clicking on preference images only in offline mode
     const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');

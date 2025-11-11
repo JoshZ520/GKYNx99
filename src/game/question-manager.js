@@ -1,4 +1,4 @@
-// game-core.js - Core game functionality: question management and navigation
+// src/game/question-manager.js - Core game functionality: question management and navigation
 // Handles loading, displaying, and navigating between questions
 //
 // LOGGING POLICY: Only keep essential logs (initialization, connections, errors)
@@ -147,7 +147,6 @@ function setTopic(topic) {
     if (window.hostMultiplayer && window.hostMultiplayer.isActive() && appQuestions.length > 0) {
         const firstQuestion = appQuestions[0];
         window.hostMultiplayer.broadcastQuestion(firstQuestion);
-        console.log('Broadcasted first question after topic selection');
     }
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)
@@ -301,7 +300,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.selectPreference('option2');
             }
         });
-        console.log('Option 2 selection connected');
     }
     
     // Player actions
@@ -320,7 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gamePlayer.submitAnswer();
             }
         });
-        console.log('Submit answer button connected via addEventListener');
     }
     
     if (finalSubmitBtn) {
@@ -329,7 +326,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gamePlayer.handleFinalSubmit();
             }
         });
-        console.log('Final submit button connected');
     }
     
     if (endGameBtn) {
@@ -338,7 +334,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.showAllResults();
             }
         });
-        console.log('End game button connected');
     }
     
     // Topics pagination
@@ -351,7 +346,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.changePage('prev');
             }
         });
-        console.log('Previous page button connected');
     }
     
     if (nextPageBtn) {
@@ -360,10 +354,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.changePage('next');
             }
         });
-        console.log('Next page button connected');
     }
-    
-    console.log('Game Core event listeners setup complete!');
     
     // Perform final initialization after all modules are set up
     setTimeout(() => {
@@ -382,7 +373,5 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.gamePlayer && window.gamePlayer.updateSubmissionState) {
             window.gamePlayer.updateSubmissionState();
         }
-        
-        console.log('Final game initialization complete!');
     }, 100); // Small delay to ensure all modules are loaded
 });

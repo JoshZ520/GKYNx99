@@ -1,7 +1,5 @@
-// multiplayer-manager.js - Clean multiplayer system
+// src/transport/multiplayer-handler.js - Multiplayer system
 // Handles all multiplayer functionality - room creation, player management, game integration
-
-console.log('Table Talk App Loading...');
 
 // === GLOBAL STATE ===
 // Use var to allow redeclaration if script is loaded multiple times (shouldn't happen but prevents errors)
@@ -43,13 +41,11 @@ function updateStatus(message, type = 'info') {
     if (statusDot) {
         statusDot.className = `status-dot ${type}`;
     }
-    console.log(`Status: ${message}`);
 }
 
 // === SOCKET CONNECTION ===
 function initializeSocket() {
     if (typeof io === 'undefined') {
-        console.log('Socket.IO not available');
         updateStatus('Server unavailable - Offline mode only', 'offline');
         return false;
     }
@@ -58,7 +54,6 @@ function initializeSocket() {
         socket = io();
         
         socket.on('connect', () => {
-            console.log('Connected to server');
             gameState.isConnected = true;
             updateStatus('Connected to server', 'connected');
             
@@ -73,19 +68,16 @@ function initializeSocket() {
                     roomCode: gameState.roomCode,
                     isHost: true
                 });
-                console.log('Host rejoining room on connect:', gameState.roomCode);
                 // First question will be broadcast when topic is selected by the game
             }
         });
         
         socket.on('disconnect', () => {
-            console.log('Disconnected from server');
             gameState.isConnected = false;
             updateStatus('Disconnected from server', 'disconnected');
         });
         
         socket.on('room-created', (data) => {
-            console.log('Room created:', data.roomCode);
             gameState.roomCode = data.roomCode;
             gameState.isHost = true;
             
@@ -99,14 +91,12 @@ function initializeSocket() {
         });
         
         socket.on('player-joined', (data) => {
-            console.log('Player joined:', data.player.name);
             gameState.players.push(data.player);
             updatePlayersList();
             updateStartButton();
         });
         
         socket.on('player-left', (data) => {
-            console.log('Player left:', data.player.name);
             gameState.players = gameState.players.filter(p => p.id !== data.player.id);
             updatePlayersList();
             updateStartButton();
@@ -129,7 +119,6 @@ function initializeSocket() {
             
             // Auto-capture answers when all players have submitted
             if (data.answeredCount === data.totalPlayers && data.totalPlayers > 0) {
-                console.log('All players answered - auto-capturing results');
                 setTimeout(() => {
                     revealAnswers(); // This will capture results without displaying them
                 }, 500);
@@ -137,7 +126,6 @@ function initializeSocket() {
         });
         
         socket.on('answers-revealed', (data) => {
-            console.log('Answers revealed:', data.results);
             // Store results for this question
             gameState.allQuestionResults.push({
                 question: data.question,
@@ -153,8 +141,6 @@ function initializeSocket() {
             
             // Reset progress for next question
             updateAnswerProgress(0, gameState.playerNames.length);
-            
-            console.log(`Recorded results. Total questions: ${gameState.allQuestionResults.length}`);
         });
         
         return true;
@@ -213,11 +199,9 @@ function createRoom() {
     
     if (!socket || !gameState.isConnected) {
         updateStatus('Not connected to server', 'error');
-        console.log('Cannot create room - not connected');
         return;
     }
     
-    console.log('Creating room...');
     updateStatus('Creating room...', 'connecting');
     
     const createBtn = document.getElementById('createRoomBtn');
@@ -236,8 +220,6 @@ function startGame() {
         updateStatus('Need at least 2 players to start', 'error');
         return;
     }
-    
-    console.log('Starting game...');
     
     // Notify all players that game is starting
     if (socket && gameState.roomCode) {
@@ -258,8 +240,6 @@ function startGame() {
 }
 
 function startOfflineMode() {
-    console.log('Starting offline mode...');
-    
     // Clear any multiplayer data
     sessionStorage.removeItem('multiplayerRoom');
     sessionStorage.setItem('gameMode', 'offline');
@@ -370,8 +350,6 @@ function broadcastQuestionToPlayers(question) {
         roomCode: gameState.roomCode,
         question: multiplayerQuestion
     });
-    
-    console.log('Question broadcasted to players:', multiplayerQuestion);
 }
 
 function revealAnswers() {
@@ -383,8 +361,6 @@ function revealAnswers() {
     socket.emit('reveal-answers', {
         roomCode: gameState.roomCode
     });
-    
-    console.log('Revealing answers to all players');
 }
 
 function updateAnswerProgress(answeredCount, totalPlayers) {
@@ -570,8 +546,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.roomCode = roomData.roomCode;
                 gameState.isHost = roomData.isHost;
                 gameState.players = roomData.players || [];
-                console.log('Game page initialized with room:', gameState.roomCode);
-                console.log('Players:', gameState.players);
                 
                 // Set up player names for the game system (like offline mode does)
                 // Wait for gamePlayer module to load
@@ -579,9 +553,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (window.gamePlayer && gameState.players.length > 0) {
                         const playerNames = gameState.players.map(p => p.name);
                         window.gamePlayer.setPlayerNames(playerNames);
-                        console.log('✓ Set player names for game:', playerNames);
-                    } else {
-                        console.log('✗ gamePlayer not ready or no players');
                     }
                 }, 500);
                 
@@ -590,8 +561,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-    
-    console.log('Table Talk initialized');
 });
 
 // Helper function to extract current question options from the page

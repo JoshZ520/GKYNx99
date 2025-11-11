@@ -1,4 +1,4 @@
-// game-loader.js - Dynamic script loading for game page
+// src/game/game-loader.js - Dynamic script loading for game page
 // Handles conditional loading of multiplayer scripts based on game mode
 
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
@@ -17,19 +17,16 @@ function initializeGameScripts() {
 
         socketScript.onload = function() {
             const multiplayerScript = document.createElement('script');
-            multiplayerScript.src = '../src/multiplayer/multiplayer-manager.js';
+            multiplayerScript.src = '../src/transport/multiplayer-handler.js';
             multiplayerScript.defer = true;
             document.head.appendChild(multiplayerScript);
         };
 
         socketScript.onerror = function() {
-            console.log(GAME_CONFIG.MESSAGES.CONNECTION_FAILED);
             CONFIG_UTILS.setStorageItem('OFFLINE_MODE', 'true');
             CONFIG_UTILS.setStorageItem('GAME_MODE', GAME_CONFIG.MODES.OFFLINE);
             window.location.reload();
         };
-    } else {
-        console.log('Offline mode - skipping multiplayer scripts');
     }
 }
 

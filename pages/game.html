@@ -28,14 +28,14 @@
 <script src="/socket.io/socket.io.js"></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
-<script src="../src/core/game-core.js" type="module" defer></script>
-<script src="../src/core/game-player.js" type="module" defer></script>
-<script src="../src/core/game-ui.js" type="module" defer></script>
+<script src="../src/game/question-manager.js" type="module" defer></script>
+<script src="../src/game/player-manager.js" type="module" defer></script>
+<script src="../src/game/ui-manager.js" type="module" defer></script>
 <!-- Offline mode logic (consolidated) - loads early without defer -->
-<script type="module" src="../offline/offline.js"></script>
-<script src="../src/core/game-loader.js" type="module" defer></script>
+<script type="module" src="../src/transport/offline-handler.js"></script>
+<script src="../src/game/game-loader.js" type="module" defer></script>
 <!-- Multiplayer manager -->
-<script src="../src/multiplayer/multiplayer-manager.js" defer></script>
+<script src="../src/transport/multiplayer-handler.js" defer></script>
 
 </head>
 <body class="game-page" id="root">

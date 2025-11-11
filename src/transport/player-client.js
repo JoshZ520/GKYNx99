@@ -1,4 +1,4 @@
-// Player-side JavaScript for Table Talk multiplayer
+// src/transport/player-client.js - Player-side client for multiplayer
 console.log('Player client loaded');
 
 // Global state
