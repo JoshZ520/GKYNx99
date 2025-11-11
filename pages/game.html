@@ -31,13 +31,8 @@
 <script src="../src/core/game-core.js" type="module" defer></script>
 <script src="../src/core/game-player.js" type="module" defer></script>
 <script src="../src/core/game-ui.js" type="module" defer></script>
-<!-- Offline mode logic (consolidated) -->
-                <!-- Offline mode functionality (module) -->
-                <script type="module">
-                    import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
-                    attachToWindow();
-                    initOfflineAutoLoad();
-                </script>
+<!-- Offline mode logic (consolidated) - loads early without defer -->
+<script type="module" src="../offline/offline.js"></script>
 <script src="../src/core/game-loader.js" type="module" defer></script>
 <!-- Multiplayer manager -->
 <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
@@ -162,25 +157,31 @@ Back to Game Mode
 
 <!-- Submit Answer Button (Offline Mode Only) -->
 <div class="buttons" id="offlineSubmitContainer">
-    <button class="submit" id="submitButton" type="button" onclick="if(window.getSelectedAnswerOffline){window.getSelectedAnswerOffline() ? submitOfflineAnswer() : null}">Submit Answer</button>
+    <button class="submit" id="submitButton" type="button">Submit Answer</button>
+    <button class="fin" id="final_submit" type="button" style="display: none;">Show Results</button>
 </div>
 <script>
-// Only wire up offline answer logic if in offline mode
-if (sessionStorage.getItem('gameMode') === 'offline') {
+// Wire up offline mode when DOM is ready and module has loaded
+function initOfflineGameMode() {
+    if (sessionStorage.getItem('gameMode') !== 'offline') return;
+    
+    // Wait for offline functions to be available
+    if (!window.displayQuestionOptionsOffline) {
+        setTimeout(initOfflineGameMode, 50);
+        return;
+    }
+    
     window.displayQuestionOptions = window.displayQuestionOptionsOffline;
     window.selectPreference = window.selectAnswerOffline;
     window.updateSubmitButton = window.updateSubmitButtonOffline;
-    // Example submit handler for offline mode
-    window.submitOfflineAnswer = function() {
-        const answer = window.getSelectedAnswerOffline();
-        if (!answer) {
-            alert('Please select an answer before submitting.');
-            return;
-        }
-        // TODO: Add your offline answer submission logic here
-        alert('Answer submitted: ' + answer);
-        // Advance to next player or question as needed
-    };
+    // submitOfflineAnswer is already defined in offline.js via attachToWindow()
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOfflineGameMode);
+} else {
+    initOfflineGameMode();
 }
 </script>
 

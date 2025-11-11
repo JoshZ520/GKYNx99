@@ -82,15 +82,9 @@ app.get('/', (req, res) => {
 });
 
 // Route for phone players to join games
+// This redirects to the full path so relative URLs work correctly
 app.get('/player', (req, res) => {
-    try {
-        const playerPath = path.join(__dirname, '../pages/player/index.html');
-        console.log('Serving player page from:', playerPath);
-        res.sendFile(playerPath);
-    } catch (error) {
-        console.error('Error serving player.html:', error);
-        res.status(500).send('Server Error: Cannot serve player.html');
-    }
+    res.redirect('/pages/player/index.html');
 });
 
 // Health check endpoint for Render

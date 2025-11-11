@@ -310,12 +310,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const endGameBtn = document.getElementById('end_game_btn');
     
     if (submitBtn) {
-        submitBtn.addEventListener('click', () => {
+        // Use addEventListener with { once: false } to ensure it only fires once per click
+        // Remove any existing listeners first by cloning the button
+        const newSubmitBtn = submitBtn.cloneNode(true);
+        submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
+        
+        newSubmitBtn.addEventListener('click', () => {
             if (window.gamePlayer && window.gamePlayer.submitAnswer) {
                 window.gamePlayer.submitAnswer();
             }
         });
-        console.log('Submit answer button connected');
+        console.log('Submit answer button connected via addEventListener');
     }
     
     if (finalSubmitBtn) {

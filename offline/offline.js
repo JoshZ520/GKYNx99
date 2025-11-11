@@ -1,9 +1,11 @@
-import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../scripts/player-setup-utils.js';
+import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../scripts/player-setup-utils.js';
+
+// Module-level state for offline mode
+let selectedAnswer = null;
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Front-offline.js loaded');
     // Only initialize if we're in offline mode or on the main page
-        if (document.getElementById('offlineSetupSection') || document.getElementById('playerCountStep')) {
+    if (document.getElementById('offlineSetupSection') || document.getElementById('playerCountStep')) {
         setupOfflineEventListeners();
     }
 });
@@ -120,12 +122,23 @@ function setupOfflineEventListeners() {
         startButton.addEventListener('click', startOfflineGame);
         startButton._offlineWired = true;
     }
+    
+    // Set up player count input handler
+    const playerCountInput = document.getElementById('player_count');
+    if (playerCountInput && !playerCountInput._offlineWired) {
+        playerCountInput.addEventListener('input', function(e) {
+            generatePlayerInputs(e.target.value);
+        });
+        playerCountInput._offlineWired = true;
+    }
+    
     // Add input event listeners for real-time validation
     document.addEventListener('input', function(e) {
         if (e.target.matches('#playerNamesContainer input')) {
             updateOfflineStartButton();
         }
     });
+}
 // --- Preference selection logic ---
 function displayQuestionOptionsOffline(question) {
     const optionsContainer = document.getElementById('optionsContainer');
@@ -169,7 +182,10 @@ function displayQuestionOptionsOffline(question) {
 
 function selectAnswerOffline(answer, btn) {
     selectedAnswer = answer;
-    document.getElementById('selectedPreference').value = answer;
+    const input = document.getElementById('selectedPreference');
+    if (input) {
+        input.value = answer;
+    }
     document.querySelectorAll('.preference-option').forEach(opt => opt.classList.remove('selected'));
     if (btn && btn.classList) btn.classList.add('selected');
     updateSubmitButtonOffline();
@@ -242,7 +258,10 @@ function attachToWindow() {
     window.loadOfflineIndexHtmlElements = loadOfflineIndexHtmlElements;
     window.submitOfflineAnswer = function submitOfflineAnswer() {
         const ans = getSelectedAnswerOffline();
-        if (!ans) { alert('Please select an answer before submitting.'); return; }
+        if (!ans) { 
+            alert('Please select an answer before submitting.'); 
+            return; 
+        }
         alert('Answer submitted: ' + ans);
     };
     function wireIndexStartButton() {
@@ -284,7 +303,13 @@ window.checkOfflineMode = function checkOfflineMode() {
         console.error('checkOfflineMode failed:', e);
     }
 };
-}
 
 // Make generatePlayerInputs available globally for HTML oninput attribute
 window.generatePlayerInputs = generatePlayerInputs;
+
+// Call attachToWindow immediately when module loads
+attachToWindow();
+initOfflineAutoLoad();
+
+// Export for module imports
+export { attachToWindow, initOfflineAutoLoad };

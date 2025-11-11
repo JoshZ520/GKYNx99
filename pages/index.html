@@ -134,7 +134,7 @@
                         <div class="player-count-selector">
                             <label for="player_count">Number of Players:</label>
                             <input type="number" id="player_count" min="2" max="20" placeholder="Enter number (2-20)"
-                                required oninput="generatePlayerInputs(this.value)">
+                                required>
                         </div>
                     </div>
                 </div>
@@ -178,14 +178,10 @@
     <!-- Configuration and UI modules -->
     <script src="../src/config/game-config.js" type="module" defer></script>
     <script src="../src/ui/ui-mode-switcher.js" type="module" defer></script>
+    <!-- Offline mode functionality (module) - loads early to provide global functions -->
+    <script type="module" src="../offline/offline.js"></script>
     <!-- Clean multiplayer manager -->
     <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
-        <!-- Offline mode functionality (module) -->
-        <script type="module">
-            import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
-            attachToWindow();
-            initOfflineAutoLoad();
-        </script>
     <script src="../src/multiplayer/player-setup.js" defer></script>
 
     <!-- UI Switching Functions now in separate JS file -->
