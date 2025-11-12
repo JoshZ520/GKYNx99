@@ -220,9 +220,13 @@ document.addEventListener('DOMContentLoaded', () => {
 const multiplayerTransportHandler = {
     /**
      * Check if multiplayer mode is active
+     * Returns true if NOT in offline mode (multiplayer is the default)
      */
     isActive() {
-        return gameState.isConnected && gameState.isHost && gameState.roomCode;
+        const gameMode = sessionStorage.getItem('gameMode');
+        const isOffline = gameMode === 'offline';
+        // Active if we're on game page and NOT in offline mode
+        return gameState.currentPage === 'game' && !isOffline;
     },
 
     /**

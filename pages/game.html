@@ -35,8 +35,10 @@
     const gameMode = sessionStorage.getItem('gameMode');
     const isOffline = gameMode === 'offline';
     
+    console.log(' Game page mode detection:', { gameMode, isOffline });
+    
     if (isOffline) {
-        // Add style to hide multiplayer elements immediately
+        // OFFLINE MODE: Hide multiplayer, show offline
         const style = document.createElement('style');
         style.textContent = `
             #multiplayerInfo,
@@ -61,6 +63,18 @@
                 currentPlayerName.textContent = playerNames[0];
             }
         });
+    } else {
+        // ONLINE/MULTIPLAYER MODE (default): Hide offline elements only
+        // Let multiplayer-handler.js show the multiplayer elements when ready
+        const style = document.createElement('style');
+        style.textContent = `
+            #offlineSubmitContainer,
+            #offlinePlayerIndicator,
+            #offlineModeNotice {
+                display: none !important;
+            }
+        `;
+        document.head.appendChild(style);
     }
 })();
 </script>
