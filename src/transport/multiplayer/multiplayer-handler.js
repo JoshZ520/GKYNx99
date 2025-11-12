@@ -81,8 +81,6 @@ function showAllResults() {
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
-    console.log('Setting up event listeners...');
-    
     // Create Room Button
     const createRoomBtn = document.getElementById('createRoomBtn');
     if (createRoomBtn) {
@@ -115,8 +113,6 @@ function broadcastQuestion(question) {
 
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
-    console.log(`Table Talk initializing on ${gameState.currentPage} page`);
-    
     // Make functions globally available for HTML onclick handlers and game.js
     if (typeof window !== 'undefined') {
         window.createRoom = createRoom;

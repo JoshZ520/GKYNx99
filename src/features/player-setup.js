@@ -4,30 +4,6 @@
 import { generatePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../utilities/player-setup-utils.js';
 
 // === PLAYER SETUP SYSTEM ===
-function handleFrontPageFunctionality() {
-    const input = document.getElementById('player_count');
-    if (!input) return; // Not on front page
-    
-    // When the input changes, store the value as an integer in sessionStorage
-    input.addEventListener('input', function (e) {
-        const rawValue = e.target.value;
-        const val = parseInt(rawValue, 10);
-        if (!Number.isNaN(val) && val >= 2 && val <= 20) {
-            sessionStorage.setItem('playerCount', String(val));
-        } else {
-            sessionStorage.removeItem('playerCount');
-        }
-    });
-    
-    // If the user navigates to this page and then back, pre-fill the stored value
-    const stored = parseInt(sessionStorage.getItem('playerCount'), 10);
-    if (!Number.isNaN(stored) && stored >= 2 && stored <= 20) {
-        input.value = String(stored);
-        // Trigger the input event to show player setup if there's a stored value
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-}
-
 function initializePlayerSetup() {
     const playerCountInput = document.getElementById('player_count');
     const playerNamesStep = document.getElementById('playerNamesStep');

@@ -1,5 +1,4 @@
 // src/transport/player-client.js - Player-side client for multiplayer
-console.log('Player client loaded');
 
 // Global state
 let socket = null;
@@ -16,12 +15,10 @@ function initializePlayerSocket() {
         socket = io();
         
         socket.on('connect', () => {
-            console.log('Connected to server');
             updateConnectionStatus('connected', 'Connected');
         });
         
         socket.on('disconnect', () => {
-            console.log('Disconnected from server');
             updateConnectionStatus('disconnected', 'Disconnected');
         });
         
@@ -43,7 +40,6 @@ function initializePlayerSocket() {
 function setupGameEventListeners() {
     // Join success
     socket.on('joined-room', (data) => {
-        console.log('Successfully joined room:', data);
         playerState.name = data.playerName;
         playerState.roomCode = data.roomCode;
         
@@ -59,14 +55,12 @@ function setupGameEventListeners() {
     
     // Game started - host clicked start game button
     socket.on('game-started', (data) => {
-        console.log('Game started:', data);
         // Stay on waiting screen - question will come shortly
         updateConnectionStatus('connected', 'Game starting...');
     });
     
     // New question received
     socket.on('new-question', (data) => {
-        console.log('New question received:', data);
         playerState.currentQuestion = data.question;
         playerState.hasAnswered = false;
         
@@ -75,31 +69,26 @@ function setupGameEventListeners() {
     
     // Answer confirmation
     socket.on('answer-confirmed', (data) => {
-        console.log('Answer confirmed:', data);
         playerState.hasAnswered = true;
         showAnswerStatus();
     });
     
     // Results revealed
     socket.on('answers-revealed', (data) => {
-        console.log('Results revealed:', data);
         showResults(data);
     });
     
     // Other players joining/leaving
     socket.on('player-joined', (data) => {
-        console.log('Player joined:', data);
         updatePlayersList();
     });
     
     socket.on('player-left', (data) => {
-        console.log('Player left:', data);
         updatePlayersList();
     });
     
     // Host disconnected
     socket.on('host-disconnected', (data) => {
-        console.log('Host disconnected:', data);
         showPlayerError('Host has left the game. Please rejoin or start a new game.');
         setTimeout(() => {
             showJoinSection();
@@ -108,7 +97,6 @@ function setupGameEventListeners() {
     
     // General errors
     socket.on('error', (data) => {
-        console.log('Error:', data);
         showPlayerError(data.message);
     });
 }
@@ -180,10 +168,6 @@ function showWaitingSection() {
 }
 
 function showQuestionSection(question) {
-    console.log('showQuestionSection called with:', question);
-    console.log('question.text:', question.text);
-    console.log('question.options:', question.options);
-    
     showSection('questionSection');
     
     // Reset answer status for new question
@@ -279,8 +263,6 @@ function submitAnswer(selectedOption, index) {
             index: index
         }
     });
-    
-    console.log('Answer submitted:', selectedOption);
 }
 
 // Display results
@@ -364,15 +346,11 @@ function setupJoinForm() {
             playerName: playerName,
             roomCode: roomCode
         });
-        
-        console.log('Join request sent:', { playerName, roomCode });
     });
 }
 
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Player page initialized');
-    
     // Initialize socket connection
     initializePlayerSocket();
     
@@ -386,7 +364,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Handle page visibility changes (important for mobile)
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && socket && !socket.connected) {
-        console.log('Page visible, reconnecting...');
         socket.connect();
     }
 });

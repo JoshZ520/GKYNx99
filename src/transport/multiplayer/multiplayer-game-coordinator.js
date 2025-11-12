@@ -64,15 +64,10 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
         }
     }
     
-    // Log for debugging
-    console.log('Extracted options for broadcast:', options);
-    
     const multiplayerQuestion = {
         text: questionText,
         options: options
     };
-    
-    console.log('Broadcasting question to players:', multiplayerQuestion);
     
     socket.emit('broadcast-question', {
         roomCode: gameState.roomCode,
@@ -83,7 +78,6 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
 // === ANSWER MANAGEMENT ===
 export function revealAnswers(socket, gameState) {
     if (!gameState.isHost || !socket || !gameState.isConnected) {
-        console.log('Not authorized to reveal answers');
         return;
     }
     
