@@ -1,4 +1,8 @@
 {
+  "colors": {
+    "option1": "#f39c12",
+    "option2": "#8e44ad"
+  },
   "questions": [
     {
       "prompt": "What's your preferred movie format?",

@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#27ae60",
+        "option2": "#e67e22"
+    },
     "questions":  [
                       {
                           "prompt":  "What type of physical activities do you prefer?",

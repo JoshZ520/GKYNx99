@@ -1,4 +1,8 @@
 {
+  "colors": {
+    "option1": "#795548",
+    "option2": "#009688"
+  },
   "questions": [
     {
       "prompt": "How many questions would you like per topic?",

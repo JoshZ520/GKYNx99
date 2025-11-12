@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#3498db",
+        "option2": "#c0392b"
+    },
     "questions":  [
                       {
                           "prompt":  "How do you prefer to learn new things?",

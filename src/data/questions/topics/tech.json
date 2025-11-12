@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#2196f3",
+        "option2": "#ff5722"
+    },
     "questions":  [
                       {
                           "prompt":  "What type of technology interests you most?",

@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#e91e63",
+        "option2": "#00bcd4"
+    },
     "questions":  [
                       {
                           "prompt":  "What type of music do you prefer?",

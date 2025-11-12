@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#607d8b",
+        "option2": "#cddc39"
+    },
     "questions":  [
                       {
                           "prompt":  "How do you handle stress?",

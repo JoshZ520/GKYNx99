@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#673ab7",
+        "option2": "#4caf50"
+    },
     "questions":  [
                       {
                           "prompt":  "What type of games do you enjoy?",
