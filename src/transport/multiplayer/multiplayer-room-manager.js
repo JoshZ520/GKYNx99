@@ -1,8 +1,9 @@
+import { CONFIG_UTILS } from '../../config/game-config.js';
+
 function updateStatus(message, type = 'info') {
-    const statusText = document.getElementById('statusText');
-    const statusDot = document.getElementById('statusDot');
+    const statusText = CONFIG_UTILS.setText('statusText', message);
+    const statusDot = CONFIG_UTILS.getElement('statusDot');
     
-    if (statusText) statusText.textContent = message;
     if (statusDot) {
         statusDot.className = `status-dot ${type}`;
     }
@@ -73,20 +74,12 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             }
             
             // Update UI
-            const roomCodeDisplay = document.getElementById('roomCodeDisplay');
-            if (roomCodeDisplay) roomCodeDisplay.textContent = data.roomCode;
+            CONFIG_UTILS.setText('roomCodeDisplay', data.roomCode);
             
             // Show multiplayer info panel and hide create button on game page
             if (gameState.currentPage === 'game') {
-                const multiplayerInfo = document.getElementById('multiplayerInfo');
-                if (multiplayerInfo) {
-                    multiplayerInfo.classList.remove('hidden');
-                }
-                
-                const createRoomSection = document.getElementById('createRoomSection');
-                if (createRoomSection) {
-                    createRoomSection.classList.add('hidden');
-                }
+                CONFIG_UTILS.show('multiplayerInfo');
+                CONFIG_UTILS.hide('createRoomSection');
             }
             
             // For index page (old flow, still supported)
@@ -128,11 +121,11 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
 }
 
 export function updatePlayersList(gameState) {
-    const indexPlayersList = document.getElementById('joinedPlayersList');
-    const indexPlayersCount = document.getElementById('joinedPlayersCount');
+    const indexPlayersList = CONFIG_UTILS.getElement('joinedPlayersList');
+    const indexPlayersCount = CONFIG_UTILS.getElement('joinedPlayersCount');
     
-    const gamePlayersList = document.getElementById('connectedPlayersList');
-    const gamePlayersCount = document.getElementById('playerCount');
+    const gamePlayersList = CONFIG_UTILS.getElement('connectedPlayersList');
+    const gamePlayersCount = CONFIG_UTILS.getElement('playerCount');
     
     if (indexPlayersCount) {
         indexPlayersCount.textContent = gameState.players.length;
@@ -164,35 +157,31 @@ export function updatePlayersList(gameState) {
     
     // Show/hide game controls based on player count (multiplayer mode on game page)
     if (gameState.currentPage === 'game' && gameState.isHost) {
-        const waitingMessage = document.getElementById('waitingForPlayers');
-        const gameContainer = document.getElementById('gameContainer');
-        
         const hasEnoughPlayers = gameState.players.length >= 2;
         
+        const waitingMessage = CONFIG_UTILS.getElement('waitingForPlayers');
         if (waitingMessage) {
-            waitingMessage.style.display = hasEnoughPlayers ? 'none' : 'block';
-            waitingMessage.classList.toggle('hidden', hasEnoughPlayers);
+            CONFIG_UTILS.setDisplay(waitingMessage, hasEnoughPlayers ? 'none' : 'block');
+            CONFIG_UTILS.toggle(waitingMessage, !hasEnoughPlayers);
         }
         
-        if (gameContainer) {
-            gameContainer.style.display = hasEnoughPlayers ? '' : 'none';
-        }
+        CONFIG_UTILS.setDisplay('gameContainer', hasEnoughPlayers ? '' : 'none');
     }
 }
 
 export function updateStartButton(gameState) {
-    const startBtn = document.getElementById('startGameBtn');
+    const startBtn = CONFIG_UTILS.getElement('startGameBtn');
     
     if (startBtn) {
         const canStart = gameState.players.length >= 2;
         
         if (canStart) {
             startBtn.disabled = false;
-            startBtn.classList.remove('disabled');
+            CONFIG_UTILS.removeClass(startBtn, 'DISABLED');
             startBtn.textContent = `Start Game (${gameState.players.length} players)`;
         } else {
             startBtn.disabled = true;
-            startBtn.classList.add('disabled');
+            CONFIG_UTILS.addClass(startBtn, 'DISABLED');
             startBtn.textContent = gameState.players.length === 0 
                 ? 'Waiting for players...' 
                 : `Need ${2 - gameState.players.length} more player${2 - gameState.players.length === 1 ? '' : 's'}`;
@@ -208,7 +197,7 @@ export function createRoom(socket, gameState) {
     
     updateStatus('Creating room...', 'connecting');
     
-    const createBtn = document.getElementById('createRoomBtn');
+    const createBtn = CONFIG_UTILS.getElement('createRoomBtn');
     if (createBtn) {
         createBtn.disabled = true;
         createBtn.textContent = 'Creating room...';
@@ -247,7 +236,7 @@ export function copyRoomCode(gameState) {
     if (!gameState.roomCode) return;
     
     navigator.clipboard.writeText(gameState.roomCode).then(() => {
-        const copyBtn = document.getElementById('copyRoomCodeBtn');
+        const copyBtn = CONFIG_UTILS.getElement('copyRoomCodeBtn');
         if (copyBtn) {
             const originalText = copyBtn.textContent;
             copyBtn.textContent = 'Copied!';

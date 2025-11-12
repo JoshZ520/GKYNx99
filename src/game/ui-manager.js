@@ -45,14 +45,14 @@ function initializeTopicSelection() {
 // === PREFERENCE SYSTEM ===
 function displayQuestionOptions(question) {
     // Show preference UI
-    const preferenceContainer = document.getElementById('preferenceContainer');
+    const preferenceContainer = CONFIG_UTILS.getElement('preferenceContainer');
     if (preferenceContainer) {
-        preferenceContainer.classList.remove('hidden');
+        CONFIG_UTILS.show(preferenceContainer);
         preferenceContainer.classList.add('visible');
     }
 
     // Render options visually in optionsContainer
-    const optionsContainer = document.getElementById('optionsContainer');
+    const optionsContainer = CONFIG_UTILS.getElement('optionsContainer');
     if (optionsContainer) {
         optionsContainer.innerHTML = '';
         // Support both new format (question.options) and legacy option1/option2
@@ -87,16 +87,16 @@ function displayQuestionOptions(question) {
     }
 
     // Clear any previous selection
-    const selectedPref = document.getElementById('selectedPreference');
+    const selectedPref = CONFIG_UTILS.getElement('selectedPreference');
     if (selectedPref) selectedPref.value = '';
     document.querySelectorAll('.preference-option').forEach(opt => {
-        opt.classList.remove('selected');
+        CONFIG_UTILS.removeClass(opt, 'SELECTED');
     });
     // Also update submit button state
-    const submitBtn = document.getElementById('submitButton');
+    const submitBtn = CONFIG_UTILS.getElement('submitButton');
     if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.classList.add('disabled');
+        CONFIG_UTILS.addClass(submitBtn, 'DISABLED');
     }
 }
 
@@ -107,34 +107,35 @@ function selectPreference(choice) {
     });
     
     // Highlight selected option
-    const selectedOption = document.getElementById(choice);
+    const selectedOption = CONFIG_UTILS.getElement(choice);
     if (selectedOption) {
-        selectedOption.classList.add('selected');
+        CONFIG_UTILS.addClass(selectedOption, 'SELECTED');
     }
     
     // Get the actual text value instead of the option key
     let actualAnswer = choice; // fallback to choice if we can't find the text
     
     if (choice === 'option1') {
-        const option1Label = document.getElementById('option1Label');
+        const option1Label = CONFIG_UTILS.getElement('option1Label');
         if (option1Label && option1Label.textContent) {
             actualAnswer = option1Label.textContent;
         }
     } else if (choice === 'option2') {
-        const option2Label = document.getElementById('option2Label');
+        const option2Label = CONFIG_UTILS.getElement('option2Label');
         if (option2Label && option2Label.textContent) {
             actualAnswer = option2Label.textContent;
         }
     }
     
     // Store the actual answer text, not the option key
-    document.getElementById('selectedPreference').value = actualAnswer;
+    const selectedPrefInput = CONFIG_UTILS.getElement('selectedPreference');
+    if (selectedPrefInput) selectedPrefInput.value = actualAnswer;
     
     // Update submit button state if present
-    const submitBtn = document.getElementById('submitButton');
+    const submitBtn = CONFIG_UTILS.getElement('submitButton');
     if (submitBtn) {
         submitBtn.disabled = !actualAnswer || actualAnswer === 'option1' || actualAnswer === 'option2';
-        submitBtn.classList.toggle('disabled', submitBtn.disabled);
+        CONFIG_UTILS.toggle(submitBtn, submitBtn.disabled);
     }
 }
 
@@ -158,7 +159,7 @@ function loadOptionImages(question, option1Image, option2Image) {
 
 // === TOPIC GRID AND PAGINATION ===
 function renderTopicGrid() {
-    const grid = document.getElementById('topicsGrid');
+    const grid = CONFIG_UTILS.getElement('topicsGrid');
     if (!grid) {
         console.error('Topics grid element not found');
         return;
@@ -194,18 +195,14 @@ function renderTopicGrid() {
 }
 
 function updatePaginationControls(totalPages) {
-    const pageInfo = document.getElementById('pageInfo');
-    const prevBtn = document.getElementById('prevPageBtn');
-    const nextBtn = document.getElementById('nextPageBtn');
+    CONFIG_UTILS.setText('pageInfo', `Page ${currentTopicPage} of ${totalPages}`);
     
-    if (pageInfo) {
-        pageInfo.textContent = `Page ${currentTopicPage} of ${totalPages}`;
-    }
-    
+    const prevBtn = CONFIG_UTILS.getElement('prevPageBtn');
     if (prevBtn) {
         prevBtn.disabled = currentTopicPage <= 1;
     }
     
+    const nextBtn = CONFIG_UTILS.getElement('nextPageBtn');
     if (nextBtn) {
         nextBtn.disabled = currentTopicPage >= totalPages;
     }
@@ -224,12 +221,12 @@ function changePage(direction) {
 }
 
 function toggleTopicsPanel() {
-    const panel = document.getElementById('topicsPanel');
-    const toggle = document.getElementById('topicsToggle');
+    const panel = CONFIG_UTILS.getElement('topicsPanel');
+    const toggle = CONFIG_UTILS.getElement('topicsToggle');
     
     if (panel && toggle) {
         if (panel.classList.contains('hidden')) {
-            panel.classList.remove('hidden');
+            CONFIG_UTILS.show(panel);
             panel.classList.add('visible');
             toggle.textContent = 'Topics ▲';
         } else {
@@ -239,11 +236,11 @@ function toggleTopicsPanel() {
 }
 
 function closeTopicsPanel() {
-    const panel = document.getElementById('topicsPanel');
-    const toggle = document.getElementById('topicsToggle');
+    const panel = CONFIG_UTILS.getElement('topicsPanel');
+    const toggle = CONFIG_UTILS.getElement('topicsToggle');
     
     if (panel && toggle) {
-        panel.classList.add('hidden');
+        CONFIG_UTILS.hide(panel);
         panel.classList.remove('visible');
         toggle.textContent = 'Topics ▼';
     }
@@ -292,8 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Enable clicking on preference images only in offline mode
     const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
     if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
-        const option1 = document.getElementById('option1');
-        const option2 = document.getElementById('option2');
+        const option1 = CONFIG_UTILS.getElement('option1');
+        const option2 = CONFIG_UTILS.getElement('option2');
         if (option1) option1.onclick = () => window.gameUI.selectPreference('option1');
         if (option2) option2.onclick = () => window.gameUI.selectPreference('option2');
     }

@@ -11,7 +11,7 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     
     CONFIG_UTILS.show('answerProgressContainer');
     
-    const revealBtn = document.getElementById('revealAnswersBtn');
+    const revealBtn = CONFIG_UTILS.getElement('revealAnswersBtn');
     if (revealBtn && gameState.isHost) {
         CONFIG_UTILS.setDisplay(revealBtn, 'inline-block');
         // Wire up the reveal button if not already done
@@ -91,21 +91,17 @@ export function revealAnswers(socket, gameState) {
 }
 
 export function updateAnswerProgress(answeredCount, totalPlayers) {
-    const progressElement = document.getElementById('answerProgress');
-    if (progressElement) {
-        progressElement.textContent = `${answeredCount}/${totalPlayers} players answered`;
-    }
+    CONFIG_UTILS.setText('answerProgress', `${answeredCount}/${totalPlayers} players answered`);
 }
 
 export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
     updateAnswerProgress(data.answeredCount, data.totalPlayers);
     
-    const notification = document.getElementById('playerAnsweredNotification');
+    const notification = CONFIG_UTILS.setText('playerAnsweredNotification', `${data.playerName} answered!`);
     if (notification) {
-        notification.textContent = `${data.playerName} answered!`;
-        notification.style.display = 'block';
+        CONFIG_UTILS.setDisplay(notification, 'block');
         setTimeout(() => {
-            notification.style.display = 'none';
+            CONFIG_UTILS.hideDisplay(notification);
         }, 2000);
     }
     
@@ -131,23 +127,17 @@ export function handleAnswersRevealed(data, gameState) {
     }
     
     // Hide the reveal button after answers are shown
-    const revealBtn = document.getElementById('revealAnswersBtn');
-    if (revealBtn) {
-        revealBtn.style.display = 'none';
-    }
+    CONFIG_UTILS.hideDisplay('revealAnswersBtn');
     
     // Show the "End Game" button after first question is answered
-    const endGameBtn = document.getElementById('end_game_btn');
-    if (endGameBtn) {
-        endGameBtn.style.display = 'block';
-    }
+    CONFIG_UTILS.setDisplay('end_game_btn', 'block');
     
     updateAnswerProgress(0, gameState.playerNames?.length || 0);
 }
 
 export function getCurrentQuestionOptions() {
-    const option1Label = document.getElementById('option1Label');
-    const option2Label = document.getElementById('option2Label');
+    const option1Label = CONFIG_UTILS.getElement('option1Label');
+    const option2Label = CONFIG_UTILS.getElement('option2Label');
     
     if (option1Label && option2Label) {
         return [
