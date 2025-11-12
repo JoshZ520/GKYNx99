@@ -107,6 +107,65 @@ function isOffline() {
 }
 
 /**
+ * Initialize UI elements based on current mode
+ * Shows/hides elements that are mode-specific
+ */
+function initializeModeUI() {
+    const mode = getMode();
+    
+    // Elements that should only show in offline mode
+    const offlineOnlyElements = [
+        'offlineSubmitContainer',
+        'offlinePlayerIndicator',
+        'preferenceContainer'
+    ];
+    
+    // Elements that should only show in multiplayer mode
+    const multiplayerOnlyElements = [
+        'answerProgressContainer',
+        'multiplayerInfo'
+    ];
+    
+    if (mode === 'multiplayer') {
+        // Hide offline elements
+        offlineOnlyElements.forEach(id => {
+            const elem = document.getElementById(id);
+            if (elem) {
+                elem.style.display = 'none';
+                elem.classList.add('hidden');
+            }
+        });
+        
+        // Show multiplayer elements
+        multiplayerOnlyElements.forEach(id => {
+            const elem = document.getElementById(id);
+            if (elem) {
+                elem.style.display = '';
+                elem.classList.remove('hidden');
+            }
+        });
+    } else if (mode === 'offline') {
+        // Show offline elements
+        offlineOnlyElements.forEach(id => {
+            const elem = document.getElementById(id);
+            if (elem) {
+                elem.style.display = '';
+                elem.classList.remove('hidden');
+            }
+        });
+        
+        // Hide multiplayer elements
+        multiplayerOnlyElements.forEach(id => {
+            const elem = document.getElementById(id);
+            if (elem) {
+                elem.style.display = 'none';
+                elem.classList.add('hidden');
+            }
+        });
+    }
+}
+
+/**
  * Show results section
  * Hides the game interface and displays the results section
  * Delegates to the current handler to populate results
@@ -166,6 +225,7 @@ window.transport = {
     getMode,
     isMultiplayer,
     isOffline,
+    initializeModeUI,
     showResults,
     hideResults
 };

@@ -17,8 +17,8 @@ function initializeGameScripts() {
 
         socketScript.onload = function() {
             const multiplayerScript = document.createElement('script');
-            multiplayerScript.src = '../src/transport/multiplayer-handler.js';
-            multiplayerScript.defer = true;
+            multiplayerScript.src = '../src/transport/multiplayer/multiplayer-handler.js';
+            multiplayerScript.type = 'module';
             document.head.appendChild(multiplayerScript);
         };
 

@@ -156,11 +156,15 @@ window.offlineTransportHandler = offlineTransportHandler;
 // Register with transport interface when available
 if (window.transport) {
     window.transport.registerHandler(offlineTransportHandler);
+    // Initialize UI for the current mode
+    window.transport.initializeModeUI();
 } else {
     // If transport not loaded yet, register on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
         if (window.transport) {
             window.transport.registerHandler(offlineTransportHandler);
+            // Initialize UI for the current mode
+            window.transport.initializeModeUI();
         }
     });
 }

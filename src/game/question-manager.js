@@ -32,6 +32,11 @@ function applyQuestionsForTopic(topic) {
         } else {
             questionElem.textContent = '';
         }
+        
+        // Broadcast first question to players if in multiplayer mode
+        if (currentQuestion && window.transport && window.transport.isMultiplayer()) {
+            window.transport.broadcastQuestion(currentQuestion);
+        }
     }
     
     // Show question area now that topic is selected

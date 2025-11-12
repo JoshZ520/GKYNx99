@@ -31,20 +31,48 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     // Extract options from different formats
     let options = [];
     if (question.options && Array.isArray(question.options)) {
-        // Already has options array
-        options = question.options;
+        // If options array exists, ensure each option has proper structure
+        options = question.options.map((opt, index) => {
+            // Handle if option is already an object with text property
+            if (typeof opt === 'object' && opt.text) {
+                return {
+                    text: opt.text,
+                    value: opt.value || `option${index + 1}`,
+                    image: opt.image || null
+                };
+            }
+            // Handle if option is a string
+            return {
+                text: typeof opt === 'string' ? opt : (opt.label || String(opt)),
+                value: `option${index + 1}`,
+                image: null
+            };
+        });
     } else if (question.option1 && question.option2) {
         // Convert option1/option2 format to array
         options = [
             { text: question.option1, value: 'option1', image: question.images?.option1 },
             { text: question.option2, value: 'option2', image: question.images?.option2 }
         ];
+    } else if (question.option1 || question.option2) {
+        // Handle edge case where only one option exists
+        if (question.option1) {
+            options.push({ text: question.option1, value: 'option1', image: question.images?.option1 });
+        }
+        if (question.option2) {
+            options.push({ text: question.option2, value: 'option2', image: question.images?.option2 });
+        }
     }
+    
+    // Log for debugging
+    console.log('Extracted options for broadcast:', options);
     
     const multiplayerQuestion = {
         text: questionText,
         options: options
     };
+    
+    console.log('Broadcasting question to players:', multiplayerQuestion);
     
     socket.emit('broadcast-question', {
         roomCode: gameState.roomCode,

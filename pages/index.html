@@ -59,7 +59,7 @@
                     <p class="step-instruction">Select how you want to play:</p>
 
                     <div class="create-room-container">
-                        <button class="start-btn" id="createRoomBtn" type="button" onclick="createRoom()">
+                        <button class="start-btn" id="createRoomBtn" type="button">
                             <span>Create Multiplayer Game</span>
                         </button>
                         <p class="game-mode-description">Everyone joins with their phones using a room code</p>
@@ -102,7 +102,7 @@
 
                     <!-- Start Game Button -->
                     <div class="start-game-container">
-                        <button class="start-btn disabled" id="startGameBtn" type="button" disabled onclick="if(window.startGame) window.startGame()">
+                        <button class="start-btn disabled" id="startGameBtn" type="button" disabled>
                             Waiting for players...
                         </button>
                         <p class="min-players-note">Need at least 2 players to start</p>
@@ -176,14 +176,14 @@
     <!-- Socket.io for multiplayer -->
     <script src="/socket.io/socket.io.js"></script>
     <!-- Configuration and UI modules -->
-    <script src="../src/config/game-config.js" type="module" defer></script>
-    <script src="../src/utilities/ui-mode-switcher.js" type="module" defer></script>
+    <script src="../src/config/game-config.js" type="module"></script>
+    <script src="../src/utilities/ui-mode-switcher.js" type="module"></script>
     <!-- Transport layer - interface loads first, then handlers register -->
     <script src="../src/transport/transport-interface.js"></script>
     <script type="module" src="../src/transport/offline-handler.js"></script>
     <!-- Multiplayer transport and setup -->
-    <script src="../src/transport/multiplayer-handler.js" defer></script>
-    <script src="../src/features/player-setup.js" defer></script>
+    <script src="../src/transport/multiplayer/multiplayer-handler.js" type="module"></script>
+    <script src="../src/features/player-setup.js" type="module"></script>
 
     <!-- UI Switching Functions now in separate JS file -->
 

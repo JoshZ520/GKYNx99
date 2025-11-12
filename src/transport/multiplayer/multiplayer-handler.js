@@ -113,18 +113,18 @@ function broadcastQuestion(question) {
     broadcastQuestionToPlayers(question, socket, gameState);
 }
 
-// Make functions globally available for HTML onclick handlers and game.js
-if (typeof window !== 'undefined') {
-    window.createRoom = createRoom;
-    window.startGame = startGame;
-    window.broadcastQuestionToPlayers = broadcastQuestion;
-    window.revealAnswers = revealAnswers;
-    window.showAllResults = showAllResults;
-}
-
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
     console.log(`Table Talk initializing on ${gameState.currentPage} page`);
+    
+    // Make functions globally available for HTML onclick handlers and game.js
+    if (typeof window !== 'undefined') {
+        window.createRoom = createRoom;
+        window.startGame = startGame;
+        window.broadcastQuestionToPlayers = broadcastQuestion;
+        window.revealAnswers = revealAnswers;
+        window.showAllResults = showAllResults;
+    }
     
     // Setup event listeners
     setupEventListeners();
@@ -144,6 +144,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameState.roomCode = roomData.roomCode;
                 gameState.isHost = roomData.isHost;
                 gameState.players = roomData.players || [];
+                
+                // Initialize UI for multiplayer mode via transport interface
+                if (window.transport && window.transport.initializeModeUI) {
+                    window.transport.initializeModeUI();
+                }
                 
                 // Set up player names for the game system (like offline mode does)
                 // Wait for gamePlayer module to load
@@ -215,11 +220,15 @@ const multiplayerTransportHandler = {
 // Register with transport interface when available
 if (window.transport) {
     window.transport.registerHandler(multiplayerTransportHandler);
+    // Initialize UI for the current mode
+    window.transport.initializeModeUI();
 } else {
     // If transport not loaded yet, register on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
         if (window.transport) {
             window.transport.registerHandler(multiplayerTransportHandler);
+            // Initialize UI for the current mode
+            window.transport.initializeModeUI();
         }
     });
 }
