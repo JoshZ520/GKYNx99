@@ -134,12 +134,11 @@ function initializeModeUI() {
     // Fallback: if no handler registered yet, check sessionStorage
     if (mode === 'unknown') {
         const multiplayerRoom = sessionStorage.getItem('multiplayerRoom');
-        const offlineMode = sessionStorage.getItem('offlineMode');
         const gameMode = sessionStorage.getItem('gameMode');
         
         if (multiplayerRoom) {
             mode = 'multiplayer';
-        } else if (offlineMode === 'true' || gameMode === 'offline') {
+        } else if (gameMode === 'offline') {
             mode = 'offline';
         }
     }
@@ -155,7 +154,8 @@ function initializeModeUI() {
     // Elements that should only show in multiplayer mode
     const multiplayerOnlyElements = [
         'answerProgressContainer',
-        'multiplayerInfo'
+        'multiplayerInfo',
+        'createRoomSection'
     ];
     
     if (mode === 'multiplayer') {

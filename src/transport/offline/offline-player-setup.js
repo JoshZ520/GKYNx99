@@ -1,5 +1,6 @@
 // src/transport/offline/offline-player-setup.js - Player setup and game initialization
 import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../utilities/player-setup-utils.js';
+import { CONFIG_UTILS } from '../../config/game-config.js';
 
 /**
  * Generate player input fields based on selected player count
@@ -119,16 +120,15 @@ export function startOfflineGame() {
     }
     
     window.loadQuestions().then(() => {
-        sessionStorage.setItem('gameMode', 'offline');
-        sessionStorage.setItem('offlineMode', 'true');
-        sessionStorage.setItem('playerNames', JSON.stringify(players.map(p => p.name)));
-        sessionStorage.setItem('playerData', JSON.stringify(players));
-        sessionStorage.setItem('playerCount', players.length);
+        CONFIG_UTILS.setStorageItem('GAME_MODE', 'offline');
+        CONFIG_UTILS.setStorageItem('PLAYER_NAMES', JSON.stringify(players.map(p => p.name)));
+        CONFIG_UTILS.setStorageItem('PLAYER_DATA', JSON.stringify(players));
+        CONFIG_UTILS.setStorageItem('PLAYER_COUNT', players.length.toString());
         
         // Clear any previously selected topic for fresh game
         localStorage.removeItem('currentTopic');
         
-        window.location.href = '../pages/game.html';
+        window.location.href = '/pages/game.html';
     }).catch(err => {
         console.error('Failed to load questions:', err);
         alert('Failed to load questions. Please check your connection and try again.');

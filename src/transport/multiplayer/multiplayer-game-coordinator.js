@@ -20,10 +20,22 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     gameState.waitingForAnswers = true;
     gameState.collectedAnswers = new Map();
     
-    // Show answer progress container
+    // Show answer progress container and reveal button
     const progressContainer = document.getElementById('answerProgressContainer');
     if (progressContainer) {
         progressContainer.classList.remove('hidden');
+    }
+    
+    const revealBtn = document.getElementById('revealAnswersBtn');
+    if (revealBtn && gameState.isHost) {
+        revealBtn.style.display = 'inline-block';
+        // Wire up the reveal button if not already done
+        if (!revealBtn.hasAttribute('data-wired')) {
+            revealBtn.addEventListener('click', () => {
+                revealAnswers(socket, gameState);
+            });
+            revealBtn.setAttribute('data-wired', 'true');
+        }
     }
     
     // Convert question to multiplayer format - handle different question formats
@@ -125,12 +137,28 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
 
 // === ANSWERS REVEALED HANDLER ===
 export function handleAnswersRevealed(data, gameState) {
+    console.log('📊 Answers revealed, displaying results:', data);
+    
     // Store results for this question
     gameState.allQuestionResults.push({
         question: data.question,
         results: data.results,
         timestamp: Date.now()
     });
+    
+    // Display the results bar with the answers
+    if (data.results && data.results.length > 0) {
+        // Import and call displayResultsBar
+        import('./multiplayer-results-display.js').then(module => {
+            module.displayResultsBar(data.results, data.question);
+        });
+    }
+    
+    // Hide the reveal button after answers are shown
+    const revealBtn = document.getElementById('revealAnswersBtn');
+    if (revealBtn) {
+        revealBtn.style.display = 'none';
+    }
     
     // Show the "End Game" button after first question is answered
     const endGameBtn = document.getElementById('end_game_btn');

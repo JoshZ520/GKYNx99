@@ -163,7 +163,7 @@ function switchToPreviousQuestion() {
 function setTopic(topic) {
     window.currentTopic = topic;
     applyQuestionsForTopic(topic);
-    CONFIG_UTILS.setLocalStorageItem('CURRENT_TOPIC', topic);
+    // Topic is stored in memory only - no localStorage needed
     
     // Update topic display
     const topicNameElement = document.getElementById('currentTopicName');
@@ -393,14 +393,8 @@ document.addEventListener('DOMContentLoaded', function() {
             window.checkOfflineMode();
         }
         
-        // Load current topic and apply questions
-        const currentTopic = localStorage.getItem('currentTopic');
-        if (currentTopic && window.gameCore) {
-            window.gameCore.setTopic(currentTopic);
-        } else {
-            // No topic selected - hide question area and prompt user
-            hideQuestionArea();
-        }
+        // No topic selected on load - hide question area and prompt user to select
+        hideQuestionArea();
         
         // Update initial submission state
         if (window.gamePlayer && window.gamePlayer.updateSubmissionState) {

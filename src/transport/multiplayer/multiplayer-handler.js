@@ -5,7 +5,8 @@ import {
     initializeSocket,
     createRoom as roomManagerCreateRoom,
     startGame as roomManagerStartGame,
-    copyRoomCode
+    copyRoomCode,
+    updateStartButton
 } from './multiplayer-room-manager.js';
 
 import {
@@ -75,6 +76,33 @@ function showAllResults() {
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
+    // "Host Multiplayer Game" button on index page - shows host name step
+    const createRoomBtn = document.getElementById('createRoomBtn');
+    if (createRoomBtn && gameState.currentPage === 'index') {
+        createRoomBtn.addEventListener('click', () => {
+            console.log('📝 Showing host name step');
+            const createRoomStep = document.getElementById('createRoomStep');
+            const hostNameStep = document.getElementById('hostNameStep');
+            if (createRoomStep && hostNameStep) {
+                createRoomStep.classList.add('hidden');
+                hostNameStep.classList.remove('hidden');
+            }
+        });
+    }
+    
+    // "Create Room" button on game page - actually creates the room
+    if (createRoomBtn && gameState.currentPage === 'game') {
+        createRoomBtn.addEventListener('click', () => {
+            console.log('🎮 Create Room button clicked');
+            if (socket && socket.connected) {
+                createRoom();
+            } else {
+                console.log('Socket not connected yet, waiting...');
+                gameState.needsRoomCreation = true;
+            }
+        });
+    }
+    
     // Host Name Input - Enable continue button when name is entered
     const hostNameInput = document.getElementById('host_name');
     const continueBtn = document.getElementById('continueToGameBtn');
@@ -94,17 +122,8 @@ function setupEventListeners() {
                 sessionStorage.setItem('isHost', 'true');
                 
                 // Navigate to game page where room will be created
-                window.location.href = './game.html';
+                window.location.href = '../pages/game.html';
             }
-        });
-    }
-    
-    // "Host Multiplayer Game" button - shows host name step
-    const createRoomBtn = document.getElementById('createRoomBtn');
-    if (createRoomBtn) {
-        createRoomBtn.addEventListener('click', () => {
-            document.getElementById('createRoomStep').classList.add('hidden');
-            document.getElementById('hostNameStep').classList.remove('hidden');
         });
     }
     
@@ -168,20 +187,27 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error('Failed to parse multiplayer room data:', error);
             }
-        } else if (isHost && gameMode === 'multiplayer' && connected) {
-            // New multiplayer session - create room automatically
-            console.log('🎮 Creating new multiplayer room on game page');
-            const hostName = sessionStorage.getItem('hostName') || 'Host';
+        } else if (isHost && gameMode === 'multiplayer') {
+            // New multiplayer session - show create room button
+            console.log('🎮 New multiplayer session detected on game page');
             
-            // Wait a moment for socket to be fully ready
-            setTimeout(() => {
-                if (socket && socket.connected) {
-                    createRoom();
-                } else {
-                    console.log('Socket not ready, waiting for connection...');
-                    // Will be handled by socket 'connect' event
-                }
-            }, 500);
+            // Initialize UI for multiplayer mode FIRST
+            if (window.transport && window.transport.initializeModeUI) {
+                window.transport.initializeModeUI();
+            }
+            
+            // Then show create room section and hide multiplayer info (until room is created)
+            const createRoomSection = document.getElementById('createRoomSection');
+            const multiplayerInfo = document.getElementById('multiplayerInfo');
+            
+            if (createRoomSection) {
+                createRoomSection.classList.remove('hidden');
+                createRoomSection.style.display = '';
+            }
+            if (multiplayerInfo) {
+                multiplayerInfo.classList.add('hidden');
+                multiplayerInfo.style.display = 'none';
+            }
         }
     }
 });

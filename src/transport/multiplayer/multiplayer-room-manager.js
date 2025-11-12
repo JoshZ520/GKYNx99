@@ -93,10 +93,17 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             const roomCodeDisplay = document.getElementById('roomCodeDisplay');
             if (roomCodeDisplay) roomCodeDisplay.textContent = data.roomCode;
             
-            // Show multiplayer info panel on game page
-            const multiplayerInfo = document.getElementById('multiplayerInfo');
-            if (multiplayerInfo && gameState.currentPage === 'game') {
-                multiplayerInfo.classList.remove('hidden');
+            // Show multiplayer info panel and hide create button on game page
+            if (gameState.currentPage === 'game') {
+                const multiplayerInfo = document.getElementById('multiplayerInfo');
+                if (multiplayerInfo) {
+                    multiplayerInfo.classList.remove('hidden');
+                }
+                
+                const createRoomSection = document.getElementById('createRoomSection');
+                if (createRoomSection) {
+                    createRoomSection.classList.add('hidden');
+                }
             }
             
             // For index page (old flow, still supported)
@@ -178,6 +185,23 @@ export function updatePlayersList(gameState) {
             ).join('');
         }
     }
+    
+    // Show/hide game controls based on player count (multiplayer mode on game page)
+    if (gameState.currentPage === 'game' && gameState.isHost) {
+        const waitingMessage = document.getElementById('waitingForPlayers');
+        const gameContainer = document.getElementById('gameContainer');
+        
+        const hasEnoughPlayers = gameState.players.length >= 2;
+        
+        if (waitingMessage) {
+            waitingMessage.style.display = hasEnoughPlayers ? 'none' : 'block';
+            waitingMessage.classList.toggle('hidden', hasEnoughPlayers);
+        }
+        
+        if (gameContainer) {
+            gameContainer.style.display = hasEnoughPlayers ? '' : 'none';
+        }
+    }
 }
 
 export function updateStartButton(gameState) {
@@ -243,9 +267,6 @@ export function startGame(gameState, socket) {
         isHost: true,
         players: gameState.players
     }));
-    
-    // Clear any previously selected topic for fresh game
-    localStorage.removeItem('currentTopic');
     
     // Navigate to game page
     window.location.href = '../../pages/game.html';

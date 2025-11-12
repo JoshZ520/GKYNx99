@@ -17,22 +17,23 @@ export function displayResultsBar(results, question) {
     
     const totalVotes = results.length;
     
-    // Build status bars HTML
+    // Build status bars HTML with better styling
     let html = '';
     Object.entries(voteCounts).forEach(([option, count]) => {
         const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
         html += `
-            <div class="result-option">
-                <div class="option-label">${option}</div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" style="width: ${percentage}%"></div>
-                    <span class="vote-count">${count} vote${count !== 1 ? 's' : ''} (${percentage}%)</span>
+            <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div style="font-weight: 600; margin-bottom: 8px; color: #333;">${option}</div>
+                <div style="background: #e9ecef; border-radius: 20px; height: 24px; position: relative; overflow: hidden;">
+                    <div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); height: 100%; width: ${percentage}%; border-radius: 20px; transition: width 0.3s ease;"></div>
+                    <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; font-weight: 600; color: ${percentage > 50 ? 'white' : '#333'};">${count} vote${count !== 1 ? 's' : ''} (${percentage}%)</span>
                 </div>
             </div>
         `;
     });
     
     resultsContent.innerHTML = html;
+    resultsBar.style.display = 'block'; // Show the results bar
     return html; // Return HTML for reuse in all results display
 }
 

@@ -20,12 +20,6 @@ import {
     populateResults
 } from './offline/offline-results.js';
 
-import {
-    loadOfflineHtmlElements,
-    loadOfflineIndexHtmlElements,
-    initOfflineAutoLoad
-} from './offline/offline-html-loader.js';
-
 // === DOM INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', function() {
     // Only initialize if we're in offline mode or on the main page
@@ -49,10 +43,6 @@ function attachToWindow() {
     window.updateSubmitButtonOffline = updateSubmitButtonOffline;
     window.getSelectedAnswerOffline = getSelectedAnswerOffline;
     window.submitOfflineAnswer = submitOfflineAnswer;
-    
-    // HTML loader functions
-    window.loadOfflineHtmlElements = loadOfflineHtmlElements;
-    window.loadOfflineIndexHtmlElements = loadOfflineIndexHtmlElements;
     
     // Wire index start button
     function wireIndexStartButton() {
@@ -78,8 +68,13 @@ function attachToWindow() {
 // === OFFLINE MODE CHECKER ===
 window.checkOfflineMode = function checkOfflineMode() {
     try {
-        const isOffline = sessionStorage.getItem('gameMode') === 'offline' || sessionStorage.getItem('offlineMode') === 'true';
+        const isOffline = sessionStorage.getItem('gameMode') === 'offline';
         if (!isOffline) return;
+        
+        // Hide multiplayer UI elements and show offline elements
+        if (window.transport && window.transport.initializeModeUI) {
+            window.transport.initializeModeUI();
+        }
         
         if (window.gameUI) {
             window.gameUI.displayQuestionOptions = displayQuestionOptionsOffline;
@@ -108,7 +103,7 @@ const offlineTransportHandler = {
      */
     isActive() {
         const gameMode = sessionStorage.getItem('gameMode');
-        return gameMode === 'offline' || sessionStorage.getItem('offlineMode') === 'true';
+        return gameMode === 'offline';
     },
 
     /**
@@ -154,24 +149,29 @@ const offlineTransportHandler = {
 window.offlineTransportHandler = offlineTransportHandler;
 
 // Register with transport interface when available
+function registerOfflineHandler() {
+    if (window.transport) {
+        window.transport.registerHandler(offlineTransportHandler);
+        // Initialize UI for the current mode - force it after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            if (window.transport.initializeModeUI) {
+                window.transport.initializeModeUI();
+            }
+        }, 100);
+    }
+}
+
 if (window.transport) {
-    window.transport.registerHandler(offlineTransportHandler);
-    // Initialize UI for the current mode
-    window.transport.initializeModeUI();
+    registerOfflineHandler();
 } else {
     // If transport not loaded yet, register on DOMContentLoaded
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.transport) {
-            window.transport.registerHandler(offlineTransportHandler);
-            // Initialize UI for the current mode
-            window.transport.initializeModeUI();
-        }
-    });
+    document.addEventListener('DOMContentLoaded', registerOfflineHandler);
+    // Also try again after a short delay in case transport loads after this script
+    setTimeout(registerOfflineHandler, 200);
 }
 
 // Call initialization functions when module loads
 attachToWindow();
-initOfflineAutoLoad();
 
 // Export for module imports
-export { attachToWindow, initOfflineAutoLoad, offlineTransportHandler };
+export { attachToWindow, offlineTransportHandler };

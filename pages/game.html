@@ -6,26 +6,16 @@
 <meta name="description" content="">
 <title>Table Talk</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
-<!-- Core shared styles -->
-<link rel="stylesheet" href="../assets/css/shared/variables.css">
-<link rel="stylesheet" href="../assets/css/shared/typography.css">
+<!-- Consolidated styles -->
+<link rel="stylesheet" href="../assets/css/shared.css">
 <link rel="stylesheet" href="../assets/css/shared/buttons.css">
 <link rel="stylesheet" href="../assets/css/shared/forms.css">
 <link rel="stylesheet" href="../assets/css/shared/animations.css">
-<link rel="stylesheet" href="../assets/css/shared/utilities.css">
 <link rel="stylesheet" href="../assets/css/shared/responsive.css">
-<!-- Game-specific styles (split for maintainability) -->
-<link rel="stylesheet" href="../assets/css/game/game-shared.css">
-<link rel="stylesheet" href="../assets/css/game/game-layout.css">
-<link rel="stylesheet" href="../assets/css/game/game-controls.css">
-<link rel="stylesheet" href="../assets/css/game/game-topics.css">
-<link rel="stylesheet" href="../assets/css/game/game-multiplayer.css">
-<link rel="stylesheet" href="../assets/css/components/options.css">
-<link rel="stylesheet" href="../assets/css/components/images.css">
-<link rel="stylesheet" href="../assets/css/components/remote.css">
+<link rel="stylesheet" href="../assets/css/game-ui.css">
+<link rel="stylesheet" href="../assets/css/game-multiplayer.css">
+<link rel="stylesheet" href="../assets/css/components.css">
 <script src="../src/utilities/theme-utilities.js" defer></script>
-<!-- Socket.io for multiplayer -->
-<script src="/socket.io/socket.io.js"></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
 <script src="../src/game/question-manager.js" type="module" defer></script>
@@ -34,12 +24,46 @@
 <!-- Transport layer - interface loads first, then handlers register -->
 <script src="../src/transport/transport-interface.js"></script>
 <script type="module" src="../src/transport/offline-handler.js"></script>
+<!-- Game loader conditionally loads socket.io and multiplayer-handler based on mode -->
 <script src="../src/game/game-loader.js" type="module" defer></script>
-<!-- Multiplayer manager -->
-<script src="../src/transport/multiplayer/multiplayer-handler.js" type="module" defer></script>
 
 </head>
 <body class="game-page" id="root">
+<script>
+// Immediately hide/show elements based on game mode (before page renders)
+(function() {
+    const gameMode = sessionStorage.getItem('gameMode');
+    const isOffline = gameMode === 'offline';
+    
+    if (isOffline) {
+        // Add style to hide multiplayer elements immediately
+        const style = document.createElement('style');
+        style.textContent = `
+            #multiplayerInfo,
+            #createRoomSection,
+            #waitingForPlayers,
+            #answerProgressContainer {
+                display: none !important;
+            }
+            #offlineSubmitContainer,
+            #offlinePlayerIndicator,
+            #offlineModeNotice {
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize player indicator when DOM is ready
+        window.addEventListener('DOMContentLoaded', function() {
+            const playerNames = JSON.parse(sessionStorage.getItem('playerNames') || '[]');
+            const currentPlayerName = document.getElementById('currentPlayerName');
+            if (currentPlayerName && playerNames.length > 0) {
+                currentPlayerName.textContent = playerNames[0];
+            }
+        });
+    }
+})();
+</script>
 <header id="header">
 <div class="direction">
 <h1>Directions: </h1>
@@ -58,18 +82,24 @@ Back to Game Mode
 </div>
 
 <!-- Offline Mode Notice -->
-<div id="offlineModeNotice" class="offline-notice hidden" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; margin: 10px 0; border-radius: 5px;">
+<div id="offlineModeNotice" class="offline-notice hidden">
 <p><strong>Offline Mode:</strong> Pass this device between players for their turns. Everyone takes turns on the same screen.</p>
 </div>
+</div>
+
+<!-- Create Room Button (shown before room is created) -->
+<div id="createRoomSection" class="create-room-section hidden">
+<p>Ready to start your multiplayer game?</p>
+<button id="createRoomBtn" class="btn-primary">Create Room</button>
 </div>
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
 <div id="multiplayerInfo" class="multiplayer-info hidden">
 <div class="room-display">
 <!-- QR Code Section -->
-<div class="qr-code-section" style="text-align: center; margin: 20px 0;">
-<p style="font-size: 14px; margin-bottom: 10px;">Scan to join on your phone:</p>
-<img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page" style="max-width: 150px; border-radius: 8px; border: 2px solid var(--accent-light);">
+<div class="qr-code-section">
+<p>Scan to join on your phone:</p>
+<img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page">
 </div>
 <div class="room-code-section">
 <span class="room-label">Room Code:</span>
@@ -86,9 +116,17 @@ Back to Game Mode
 <main>
 <div id="gameContainer">
 <!-- Current Player Indicator (Offline Mode Only) -->
-<div id="offlinePlayerIndicator" class="player-indicator" style="display: none; margin-bottom: 16px;">
+<div id="offlinePlayerIndicator" class="player-indicator">
     <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
 </div>
+
+<!-- Waiting for Players (Multiplayer Mode Only) -->
+<div id="waitingForPlayers" class="waiting-message hidden">
+    <h3>⏳ Waiting for Players...</h3>
+    <p>Need at least 2 players to start the game.</p>
+    <p>Share the room code with your friends!</p>
+</div>
+
 <!-- Random Topic Button - Centered -->
 <div class="random-topic-container">
     <button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
@@ -156,12 +194,19 @@ Back to Game Mode
 <!-- Answer Progress Display for Multiplayer -->
 <div id="answerProgressContainer" class="answer-progress-container hidden">
     <p id="answerProgress">0/0 players answered</p>
+    <button class="fin" id="revealAnswersBtn" type="button">Reveal All Answers</button>
 </div>
 
 <!-- Submit Answer Button (Offline Mode Only) -->
 <div class="buttons" id="offlineSubmitContainer">
     <button class="submit" id="submitButton" type="button">Submit Answer</button>
-    <button class="fin" id="final_submit" type="button" style="display: none;">Show Results</button>
+    <button class="fin" id="final_submit" type="button">Show Results</button>
+</div>
+
+<!-- Question Results Bar (Multiplayer - shows after revealing answers) -->
+<div id="questionResultsBar" class="question-results-bar">
+    <h4>📊 Results:</h4>
+    <div id="resultsBarContent"></div>
 </div>
 <script>
 // Wire up offline mode when DOM is ready and module has loaded
@@ -190,7 +235,7 @@ if (document.readyState === 'loading') {
 
 <!-- Host controls -->
 <div class="buttons">
-<button class="fin" id="end_game_btn" type="button" style="display: none;">End Game & Show All Results</button>
+<button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button>
 </div>
 
 <!-- All Results Display (shows all questions at end of game) -->
