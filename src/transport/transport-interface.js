@@ -1,3 +1,5 @@
+import { CONFIG_UTILS } from '../config/game-config.js';
+
 let currentHandler = null;
 let isInitialized = false;
 
@@ -81,44 +83,29 @@ function initializeModeUI() {
     
     if (mode === 'multiplayer') {
         offlineOnlyElements.forEach(id => {
-            const elem = document.getElementById(id);
-            if (elem) {
-                elem.style.display = 'none';
-                elem.classList.add('hidden');
-            }
+            CONFIG_UTILS.hideDisplay(id);
+            CONFIG_UTILS.hide(id);
         });
         
         multiplayerOnlyElements.forEach(id => {
-            const elem = document.getElementById(id);
-            if (elem) {
-                elem.style.display = '';
-                elem.classList.remove('hidden');
-            }
+            CONFIG_UTILS.showDisplay(id);
+            CONFIG_UTILS.show(id);
         });
     } else if (mode === 'offline') {
         offlineOnlyElements.forEach(id => {
-            const elem = document.getElementById(id);
-            if (elem) {
-                elem.style.display = '';
-                elem.classList.remove('hidden');
-            }
+            CONFIG_UTILS.showDisplay(id);
+            CONFIG_UTILS.show(id);
         });
         
         multiplayerOnlyElements.forEach(id => {
-            const elem = document.getElementById(id);
-            if (elem) {
-                elem.style.display = 'none';
-                elem.classList.add('hidden');
-            }
+            CONFIG_UTILS.hideDisplay(id);
+            CONFIG_UTILS.hide(id);
         });
     }
 }
 
 function showResults(resultsData) {
-    const gameContainer = document.getElementById('gameContainer');
-    if (gameContainer) {
-        gameContainer.style.display = 'none';
-    }
+    CONFIG_UTILS.hideDisplay('gameContainer');
     
     const resultsSection = document.getElementById('gameResults');
     if (!resultsSection) {
@@ -126,7 +113,7 @@ function showResults(resultsData) {
         return;
     }
     
-    resultsSection.classList.remove('hidden');
+    CONFIG_UTILS.show(resultsSection);
     
     if (currentHandler && currentHandler.populateResults) {
         currentHandler.populateResults(resultsData);
@@ -136,15 +123,8 @@ function showResults(resultsData) {
 }
 
 function hideResults() {
-    const resultsSection = document.getElementById('gameResults');
-    if (resultsSection) {
-        resultsSection.classList.add('hidden');
-    }
-    
-    const gameContainer = document.getElementById('gameContainer');
-    if (gameContainer) {
-        gameContainer.style.display = '';
-    }
+    CONFIG_UTILS.hide('gameResults');
+    CONFIG_UTILS.showDisplay('gameContainer');
 }
 
 window.transport = {

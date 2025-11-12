@@ -1,3 +1,5 @@
+import { CONFIG_UTILS } from '../../config/game-config.js';
+
 export function broadcastQuestionToPlayers(question, socket, gameState) {
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) {
         return;
@@ -7,15 +9,11 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     gameState.waitingForAnswers = true;
     gameState.collectedAnswers = new Map();
     
-    // Show answer progress container and reveal button
-    const progressContainer = document.getElementById('answerProgressContainer');
-    if (progressContainer) {
-        progressContainer.classList.remove('hidden');
-    }
+    CONFIG_UTILS.show('answerProgressContainer');
     
     const revealBtn = document.getElementById('revealAnswersBtn');
     if (revealBtn && gameState.isHost) {
-        revealBtn.style.display = 'inline-block';
+        CONFIG_UTILS.setDisplay(revealBtn, 'inline-block');
         // Wire up the reveal button if not already done
         if (!revealBtn.hasAttribute('data-wired')) {
             revealBtn.addEventListener('click', () => {

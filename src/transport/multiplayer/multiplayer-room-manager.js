@@ -1,13 +1,3 @@
-function showElement(id) {
-    const element = document.getElementById(id);
-    if (element) element.classList.remove('hidden');
-}
-
-function hideElement(id) {
-    const element = document.getElementById(id);
-    if (element) element.classList.add('hidden');
-}
-
 function updateStatus(message, type = 'info') {
     const statusText = document.getElementById('statusText');
     const statusDot = document.getElementById('statusDot');

@@ -1,3 +1,5 @@
+import { CONFIG_UTILS } from '../../config/game-config.js';
+
 export function displayResultsBar(results, question) {
     const resultsBar = document.getElementById('questionResultsBar');
     const resultsContent = document.getElementById('resultsBarContent');
@@ -28,14 +30,9 @@ export function displayResultsBar(results, question) {
     });
     
     resultsContent.innerHTML = html;
-    resultsBar.style.display = 'flex';
+    CONFIG_UTILS.setDisplay(resultsBar, 'flex');
 }
 
-export function showAllResults(gameState) {
-    return html; // Return HTML for reuse in all results display
-}
-
-// === ALL RESULTS MODAL ===
 export function showAllResults(gameState) {
     if (gameState.allQuestionResults.length === 0) {
         alert('No questions have been answered yet!');
@@ -119,12 +116,10 @@ export function showAllResults(gameState) {
     };
     
     document.getElementById('closeResultsBtn').onclick = () => {
-        allResultsDisplay.classList.add('hidden');
-        // Clamp lastViewedQuestionIndex to valid range on close
+        CONFIG_UTILS.hide(allResultsDisplay);
         gameState.lastViewedQuestionIndex = Math.max(0, Math.min(currentQuestionIndex, gameState.allQuestionResults.length - 1));
     };
     
-    // Show modal and display first question
-    allResultsDisplay.classList.remove('hidden');
+    CONFIG_UTILS.show(allResultsDisplay);
     displayQuestion(currentQuestionIndex);
 }

@@ -1,4 +1,4 @@
-// Multiplayer system coordinator
+import { CONFIG_UTILS } from '../../config/game-config.js';
 import {
     initializeSocket,
     createRoom as roomManagerCreateRoom,
@@ -71,12 +71,8 @@ function setupEventListeners() {
     const createRoomBtn = document.getElementById('createRoomBtn');
     if (createRoomBtn && gameState.currentPage === 'index') {
         createRoomBtn.addEventListener('click', () => {
-            const createRoomStep = document.getElementById('createRoomStep');
-            const hostNameStep = document.getElementById('hostNameStep');
-            if (createRoomStep && hostNameStep) {
-                createRoomStep.classList.add('hidden');
-                hostNameStep.classList.remove('hidden');
-            }
+            CONFIG_UTILS.hide('createRoomStep');
+            CONFIG_UTILS.show('hostNameStep');
         });
     }
     
@@ -160,17 +156,10 @@ function initializeMultiplayerHandler() {
                 window.transport.initializeModeUI();
             }
             
-            const createRoomSection = document.getElementById('createRoomSection');
-            const multiplayerInfo = document.getElementById('multiplayerInfo');
-            
-            if (createRoomSection) {
-                createRoomSection.classList.remove('hidden');
-                createRoomSection.style.display = '';
-            }
-            if (multiplayerInfo) {
-                multiplayerInfo.classList.add('hidden');
-                multiplayerInfo.style.display = 'none';
-            }
+            CONFIG_UTILS.show('createRoomSection');
+            CONFIG_UTILS.showDisplay('createRoomSection');
+            CONFIG_UTILS.hide('multiplayerInfo');
+            CONFIG_UTILS.hideDisplay('multiplayerInfo');
         }
     }
 }
