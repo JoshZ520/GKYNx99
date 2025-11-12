@@ -36,6 +36,17 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             gameState.isConnected = true;
             updateStatus('Connected to server', 'connected');
             
+            // Re-register handler when socket connects (important for game page on load)
+            if (window.multiplayerTransportHandler && window.transport && gameState.roomCode) {
+                console.log('🔄 Re-registering handler after socket connection');
+                window.transport.registerHandler(window.multiplayerTransportHandler);
+                
+                // Initialize UI if on game page
+                if (gameState.currentPage === 'game' && window.transport.initializeModeUI) {
+                    window.transport.initializeModeUI();
+                }
+            }
+            
             if (gameState.currentPage === 'index') {
                 showElement('createRoomStep');
                 hideElement('offlineFallback');
@@ -59,10 +70,36 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             gameState.roomCode = data.roomCode;
             gameState.isHost = true;
             
+            // Save to sessionStorage
+            const roomData = {
+                roomCode: data.roomCode,
+                isHost: true,
+                players: gameState.players || []
+            };
+            sessionStorage.setItem('multiplayerRoom', JSON.stringify(roomData));
+            
+            // Re-register the handler now that we're connected and have a room
+            if (window.multiplayerTransportHandler && window.transport) {
+                console.log('🔄 Re-registering handler after room creation');
+                window.transport.registerHandler(window.multiplayerTransportHandler);
+                
+                // Initialize UI now that handler is registered
+                if (window.transport.initializeModeUI) {
+                    window.transport.initializeModeUI();
+                }
+            }
+            
             // Update UI
             const roomCodeDisplay = document.getElementById('roomCodeDisplay');
             if (roomCodeDisplay) roomCodeDisplay.textContent = data.roomCode;
             
+            // Show multiplayer info panel on game page
+            const multiplayerInfo = document.getElementById('multiplayerInfo');
+            if (multiplayerInfo && gameState.currentPage === 'game') {
+                multiplayerInfo.classList.remove('hidden');
+            }
+            
+            // For index page (old flow, still supported)
             showElement('roomCreatedStep');
             hideElement('createRoomStep');
             updateStatus(`Room ${data.roomCode} created`, 'connected');
@@ -104,18 +141,39 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
 
 // === PLAYER MANAGEMENT ===
 export function updatePlayersList(gameState) {
-    const playersList = document.getElementById('joinedPlayersList');
-    const playersCount = document.getElementById('joinedPlayersCount');
+    // Index page elements
+    const indexPlayersList = document.getElementById('joinedPlayersList');
+    const indexPlayersCount = document.getElementById('joinedPlayersCount');
     
-    if (playersCount) {
-        playersCount.textContent = gameState.players.length;
+    // Game page elements
+    const gamePlayersList = document.getElementById('connectedPlayersList');
+    const gamePlayersCount = document.getElementById('playerCount');
+    
+    // Update index page if elements exist
+    if (indexPlayersCount) {
+        indexPlayersCount.textContent = gameState.players.length;
     }
     
-    if (playersList) {
+    if (indexPlayersList) {
         if (gameState.players.length === 0) {
-            playersList.innerHTML = '<div class="no-players">Waiting for players to join...</div>';
+            indexPlayersList.innerHTML = '<div class="no-players">Waiting for players to join...</div>';
         } else {
-            playersList.innerHTML = gameState.players.map(player => 
+            indexPlayersList.innerHTML = gameState.players.map(player => 
+                `<div class="player-item">${player.name}</div>`
+            ).join('');
+        }
+    }
+    
+    // Update game page if elements exist
+    if (gamePlayersCount) {
+        gamePlayersCount.textContent = gameState.players.length;
+    }
+    
+    if (gamePlayersList) {
+        if (gameState.players.length === 0) {
+            gamePlayersList.innerHTML = '<div class="no-players">Waiting for players to join...</div>';
+        } else {
+            gamePlayersList.innerHTML = gameState.players.map(player => 
                 `<div class="player-item">${player.name}</div>`
             ).join('');
         }

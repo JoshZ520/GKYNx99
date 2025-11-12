@@ -3,25 +3,19 @@
 
 import {
     initializeSocket,
-    updatePlayersList,
-    updateStartButton,
     createRoom as roomManagerCreateRoom,
     startGame as roomManagerStartGame,
-    copyRoomCode,
-    startOfflineMode
+    copyRoomCode
 } from './multiplayer-room-manager.js';
 
 import {
     broadcastQuestionToPlayers,
     revealAnswers as gameRevealAnswers,
-    updateAnswerProgress,
     handleAnswerReceived,
-    handleAnswersRevealed,
-    getCurrentQuestionOptions
+    handleAnswersRevealed
 } from './multiplayer-game-coordinator.js';
 
 import {
-    displayResultsBar,
     showAllResults as resultsShowAll
 } from './multiplayer-results-display.js';
 
@@ -81,26 +75,41 @@ function showAllResults() {
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
-    // Create Room Button
+    // Host Name Input - Enable continue button when name is entered
+    const hostNameInput = document.getElementById('host_name');
+    const continueBtn = document.getElementById('continueToGameBtn');
+    if (hostNameInput && continueBtn) {
+        hostNameInput.addEventListener('input', () => {
+            const hasName = hostNameInput.value.trim().length > 0;
+            continueBtn.disabled = !hasName;
+            continueBtn.classList.toggle('disabled', !hasName);
+        });
+        
+        continueBtn.addEventListener('click', () => {
+            const hostName = hostNameInput.value.trim();
+            if (hostName) {
+                // Save host name to sessionStorage
+                sessionStorage.setItem('hostName', hostName);
+                sessionStorage.setItem('gameMode', 'multiplayer');
+                sessionStorage.setItem('isHost', 'true');
+                
+                // Navigate to game page where room will be created
+                window.location.href = './game.html';
+            }
+        });
+    }
+    
+    // "Host Multiplayer Game" button - shows host name step
     const createRoomBtn = document.getElementById('createRoomBtn');
     if (createRoomBtn) {
-        createRoomBtn.addEventListener('click', createRoom);
+        createRoomBtn.addEventListener('click', () => {
+            document.getElementById('createRoomStep').classList.add('hidden');
+            document.getElementById('hostNameStep').classList.remove('hidden');
+        });
     }
     
-    // Start Game Button
-    const startGameBtn = document.getElementById('startGameBtn');
-    if (startGameBtn) {
-        startGameBtn.addEventListener('click', startGame);
-    }
-    
-    // Offline Game Button
-    const offlineGameBtn = document.getElementById('offlineGameBtn');
-    if (offlineGameBtn) {
-        offlineGameBtn.addEventListener('click', startOfflineMode);
-    }
-    
-    // Copy Room Code Button
-    const copyRoomCodeBtn = document.getElementById('copyRoomCodeBtn');
+    // Copy Room Code Button (on game page)
+    const copyRoomCodeBtn = document.getElementById('copyCodeBtn');
     if (copyRoomCodeBtn) {
         copyRoomCodeBtn.addEventListener('click', () => copyRoomCode(gameState));
     }
@@ -113,15 +122,6 @@ function broadcastQuestion(question) {
 
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
-    // Make functions globally available for HTML onclick handlers and game.js
-    if (typeof window !== 'undefined') {
-        window.createRoom = createRoom;
-        window.startGame = startGame;
-        window.broadcastQuestionToPlayers = broadcastQuestion;
-        window.revealAnswers = revealAnswers;
-        window.showAllResults = showAllResults;
-    }
-    
     // Setup event listeners
     setupEventListeners();
     
@@ -134,12 +134,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Game page specific initialization
     if (gameState.currentPage === 'game') {
         const multiplayerRoom = sessionStorage.getItem('multiplayerRoom');
+        const isHost = sessionStorage.getItem('isHost') === 'true';
+        const gameMode = sessionStorage.getItem('gameMode');
+        
         if (multiplayerRoom) {
+            // Existing room - rejoin it
             try {
                 const roomData = JSON.parse(multiplayerRoom);
                 gameState.roomCode = roomData.roomCode;
                 gameState.isHost = roomData.isHost;
                 gameState.players = roomData.players || [];
+                
+                // Re-register handler now that gameState is restored
+                if (window.transport && window.multiplayerTransportHandler) {
+                    console.log('🔄 Re-registering handler on game page load');
+                    window.transport.registerHandler(window.multiplayerTransportHandler);
+                }
                 
                 // Initialize UI for multiplayer mode via transport interface
                 if (window.transport && window.transport.initializeModeUI) {
@@ -158,17 +168,23 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error('Failed to parse multiplayer room data:', error);
             }
+        } else if (isHost && gameMode === 'multiplayer' && connected) {
+            // New multiplayer session - create room automatically
+            console.log('🎮 Creating new multiplayer room on game page');
+            const hostName = sessionStorage.getItem('hostName') || 'Host';
+            
+            // Wait a moment for socket to be fully ready
+            setTimeout(() => {
+                if (socket && socket.connected) {
+                    createRoom();
+                } else {
+                    console.log('Socket not ready, waiting for connection...');
+                    // Will be handled by socket 'connect' event
+                }
+            }, 500);
         }
     }
 });
-
-// === EXPORT API FOR GAME INTEGRATION ===
-window.hostMultiplayer = {
-    isActive: () => gameState.isConnected && gameState.isHost && gameState.roomCode,
-    broadcastQuestion: broadcastQuestion,
-    revealAnswers: revealAnswers,
-    getGameState: () => ({ ...gameState })
-};
 
 // === TRANSPORT INTERFACE IMPLEMENTATION ===
 /**
@@ -212,6 +228,9 @@ const multiplayerTransportHandler = {
         revealAnswers();
     }
 };
+
+// Expose handler on window so it can be re-registered after room creation
+window.multiplayerTransportHandler = multiplayerTransportHandler;
 
 // Register with transport interface when available
 if (window.transport) {

@@ -66,6 +66,11 @@ Back to Game Mode
 <!-- Multiplayer Room Info (hidden until room is created) -->
 <div id="multiplayerInfo" class="multiplayer-info hidden">
 <div class="room-display">
+<!-- QR Code Section -->
+<div class="qr-code-section" style="text-align: center; margin: 20px 0;">
+<p style="font-size: 14px; margin-bottom: 10px;">Scan to join on your phone:</p>
+<img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page" style="max-width: 150px; border-radius: 8px; border: 2px solid var(--accent-light);">
+</div>
 <div class="room-code-section">
 <span class="room-label">Room Code:</span>
 <span class="room-code" id="roomCodeDisplay">----</span>
@@ -75,10 +80,6 @@ Back to Game Mode
 <span class="players-label">Connected Players (<span id="playerCount">0</span>):</span>
 <div class="players-list" id="connectedPlayersList"></div>
 </div>
-</div>
-<div class="multiplayer-actions">
-<button class="create-room-btn" id="createRoomBtn">Create Room for Phones</button>
-<button class="close-room-btn hidden" id="closeRoomBtn">Close Room</button>
 </div>
 </div>
 </header>

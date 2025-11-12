@@ -3,8 +3,16 @@
 
 // === QUESTION BROADCASTING ===
 export function broadcastQuestionToPlayers(question, socket, gameState) {
+    console.log('🔥 broadcastQuestionToPlayers called:', { 
+        currentPage: gameState.currentPage, 
+        isHost: gameState.isHost, 
+        hasSocket: !!socket, 
+        isConnected: gameState.isConnected,
+        question: question 
+    });
+    
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) {
-        console.log('Not in multiplayer mode, skipping broadcast');
+        console.log('❌ Not in multiplayer mode, skipping broadcast');
         return;
     }
     

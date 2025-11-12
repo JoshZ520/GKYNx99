@@ -35,9 +35,19 @@ function initialize() {
  * @param {Object} handler - The handler object with required methods
  */
 function registerHandler(handler) {
+    console.log('📝 Attempting to register handler:', {
+        hasHandler: !!handler,
+        hasIsActive: !!(handler && handler.isActive),
+        isActive: handler && handler.isActive ? handler.isActive() : false,
+        mode: handler && handler.getMode ? handler.getMode() : 'unknown'
+    });
+    
     // Only register if the handler is actually active for the current mode
     if (handler && handler.isActive && handler.isActive()) {
         currentHandler = handler;
+        console.log('✅ Handler registered successfully:', handler.getMode ? handler.getMode() : 'unknown');
+    } else {
+        console.log('❌ Handler NOT registered (not active)');
     }
 }
 
@@ -54,8 +64,16 @@ function isActive() {
  * @param {Object} question - The question object to broadcast
  */
 function broadcastQuestion(question) {
+    console.log('🚀 Transport broadcastQuestion called:', { 
+        hasHandler: !!currentHandler, 
+        hasBroadcastMethod: !!(currentHandler && currentHandler.broadcastQuestion),
+        question: question 
+    });
+    
     if (currentHandler && currentHandler.broadcastQuestion) {
         currentHandler.broadcastQuestion(question);
+    } else {
+        console.log('❌ No handler or broadcastQuestion method available');
     }
 }
 
@@ -111,13 +129,27 @@ function isOffline() {
  * Shows/hides elements that are mode-specific
  */
 function initializeModeUI() {
-    const mode = getMode();
+    let mode = getMode();
+    
+    // Fallback: if no handler registered yet, check sessionStorage
+    if (mode === 'unknown') {
+        const multiplayerRoom = sessionStorage.getItem('multiplayerRoom');
+        const offlineMode = sessionStorage.getItem('offlineMode');
+        const gameMode = sessionStorage.getItem('gameMode');
+        
+        if (multiplayerRoom) {
+            mode = 'multiplayer';
+        } else if (offlineMode === 'true' || gameMode === 'offline') {
+            mode = 'offline';
+        }
+    }
+    
+    console.log('🎨 initializeModeUI called, mode:', mode);
     
     // Elements that should only show in offline mode
     const offlineOnlyElements = [
         'offlineSubmitContainer',
-        'offlinePlayerIndicator',
-        'preferenceContainer'
+        'offlinePlayerIndicator'
     ];
     
     // Elements that should only show in multiplayer mode
@@ -127,10 +159,12 @@ function initializeModeUI() {
     ];
     
     if (mode === 'multiplayer') {
+        console.log('🎮 Setting up MULTIPLAYER UI');
         // Hide offline elements
         offlineOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
+                console.log(`  ❌ Hiding offline element: ${id}`);
                 elem.style.display = 'none';
                 elem.classList.add('hidden');
             }
@@ -140,15 +174,18 @@ function initializeModeUI() {
         multiplayerOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
+                console.log(`  ✅ Showing multiplayer element: ${id}`);
                 elem.style.display = '';
                 elem.classList.remove('hidden');
             }
         });
     } else if (mode === 'offline') {
+        console.log('🏠 Setting up OFFLINE UI');
         // Show offline elements
         offlineOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
+                console.log(`  ✅ Showing offline element: ${id}`);
                 elem.style.display = '';
                 elem.classList.remove('hidden');
             }
@@ -158,10 +195,13 @@ function initializeModeUI() {
         multiplayerOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
+                console.log(`  ❌ Hiding multiplayer element: ${id}`);
                 elem.style.display = 'none';
                 elem.classList.add('hidden');
             }
         });
+    } else {
+        console.log('⚠️ Mode is unknown, not changing UI elements');
     }
 }
 
