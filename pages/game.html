@@ -226,30 +226,6 @@ Back to Game Mode
     <h4>📊 Results:</h4>
     <div id="resultsBarContent"></div>
 </div>
-<script>
-// Wire up offline mode when DOM is ready and module has loaded
-function initOfflineGameMode() {
-    if (sessionStorage.getItem('gameMode') !== 'offline') return;
-    
-    // Wait for offline functions to be available
-    if (!window.displayQuestionOptionsOffline) {
-        setTimeout(initOfflineGameMode, 50);
-        return;
-    }
-    
-    window.displayQuestionOptions = window.displayQuestionOptionsOffline;
-    window.selectPreference = window.selectAnswerOffline;
-    window.updateSubmitButton = window.updateSubmitButtonOffline;
-    // submitOfflineAnswer is already defined in offline.js via attachToWindow()
-}
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initOfflineGameMode);
-} else {
-    initOfflineGameMode();
-}
-</script>
 
 <!-- Host controls -->
 <div class="buttons">

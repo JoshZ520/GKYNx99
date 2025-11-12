@@ -1,7 +1,3 @@
-// src/transport/multiplayer-game-coordinator.js
-// Handles game flow: question broadcasting, answer collection, progress tracking
-
-// === QUESTION BROADCASTING ===
 export function broadcastQuestionToPlayers(question, socket, gameState) {
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) {
         return;
@@ -86,7 +82,6 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     });
 }
 
-// === ANSWER MANAGEMENT ===
 export function revealAnswers(socket, gameState) {
     if (!gameState.isHost || !socket || !gameState.isConnected) {
         return;
@@ -104,11 +99,9 @@ export function updateAnswerProgress(answeredCount, totalPlayers) {
     }
 }
 
-// === ANSWER RECEIVED HANDLER ===
 export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
     updateAnswerProgress(data.answeredCount, data.totalPlayers);
     
-    // Show notification
     const notification = document.getElementById('playerAnsweredNotification');
     if (notification) {
         notification.textContent = `${data.playerName} answered!`;
@@ -126,18 +119,14 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
     }
 }
 
-// === ANSWERS REVEALED HANDLER ===
 export function handleAnswersRevealed(data, gameState) {
-    // Store results for this question
     gameState.allQuestionResults.push({
         question: data.question,
         results: data.results,
         timestamp: Date.now()
     });
     
-    // Display the results bar with the answers
     if (data.results && data.results.length > 0) {
-        // Import and call displayResultsBar
         import('./multiplayer-results-display.js').then(module => {
             module.displayResultsBar(data.results, data.question);
         });
@@ -155,13 +144,10 @@ export function handleAnswersRevealed(data, gameState) {
         endGameBtn.style.display = 'block';
     }
     
-    // Reset progress for next question
     updateAnswerProgress(0, gameState.playerNames?.length || 0);
 }
 
-// === HELPER FUNCTION ===
 export function getCurrentQuestionOptions() {
-    // Extract current question options from the page
     const option1Label = document.getElementById('option1Label');
     const option2Label = document.getElementById('option2Label');
     

@@ -1,7 +1,3 @@
-// src/transport/multiplayer-results-display.js
-// Handles results visualization and navigation
-
-// === RESULTS BAR DISPLAY ===
 export function displayResultsBar(results, question) {
     const resultsBar = document.getElementById('questionResultsBar');
     const resultsContent = document.getElementById('resultsBarContent');
@@ -17,7 +13,6 @@ export function displayResultsBar(results, question) {
     
     const totalVotes = results.length;
     
-    // Build status bars HTML with better styling
     let html = '';
     Object.entries(voteCounts).forEach(([option, count]) => {
         const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
@@ -33,7 +28,10 @@ export function displayResultsBar(results, question) {
     });
     
     resultsContent.innerHTML = html;
-    resultsBar.style.display = 'block'; // Show the results bar
+    resultsBar.style.display = 'flex';
+}
+
+export function showAllResults(gameState) {
     return html; // Return HTML for reuse in all results display
 }
 

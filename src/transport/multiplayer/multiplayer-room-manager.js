@@ -1,7 +1,3 @@
-// src/transport/multiplayer-room-manager.js
-// Handles room creation, player management, and socket connection
-
-// === UTILITIES ===
 function showElement(id) {
     const element = document.getElementById(id);
     if (element) element.classList.remove('hidden');
@@ -22,7 +18,6 @@ function updateStatus(message, type = 'info') {
     }
 }
 
-// === SOCKET CONNECTION ===
 export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed) {
     if (typeof io === 'undefined') {
         updateStatus('Server unavailable - Offline mode only', 'offline');
@@ -142,17 +137,13 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
     }
 }
 
-// === PLAYER MANAGEMENT ===
 export function updatePlayersList(gameState) {
-    // Index page elements
     const indexPlayersList = document.getElementById('joinedPlayersList');
     const indexPlayersCount = document.getElementById('joinedPlayersCount');
     
-    // Game page elements
     const gamePlayersList = document.getElementById('connectedPlayersList');
     const gamePlayersCount = document.getElementById('playerCount');
     
-    // Update index page if elements exist
     if (indexPlayersCount) {
         indexPlayersCount.textContent = gameState.players.length;
     }
@@ -167,7 +158,6 @@ export function updatePlayersList(gameState) {
         }
     }
     
-    // Update game page if elements exist
     if (gamePlayersCount) {
         gamePlayersCount.textContent = gameState.players.length;
     }
@@ -220,7 +210,6 @@ export function updateStartButton(gameState) {
     }
 }
 
-// === ROOM ACTIONS ===
 export function createRoom(socket, gameState) {
     if (!socket || !gameState.isConnected) {
         updateStatus('Not connected to server', 'error');
