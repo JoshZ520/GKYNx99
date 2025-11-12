@@ -1,4 +1,8 @@
 {
+  "colors": {
+    "option1": "#ff6b6b",
+    "option2": "#4ecdc4"
+  },
   "questions": [
     {
       "prompt": "What type of cuisine do you prefer?",

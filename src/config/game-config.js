@@ -63,11 +63,6 @@ export const GAME_CONFIG = {
         MULTIPLAYER: 'multiplayer'
     },
 
-    // === TOPICS ===
-    TOPICS: {
-        DEFAULT: 'default'
-    },
-
     // === NAVIGATION DIRECTIONS ===
     NAVIGATION: {
         PREV: 'prev',

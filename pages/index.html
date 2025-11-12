@@ -6,18 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Talk - Start!</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
-    <!-- Core shared styles -->
-    <link rel="stylesheet" href="../assets/css/shared/variables.css">
-    <link rel="stylesheet" href="../assets/css/shared/typography.css">
+    <!-- Consolidated styles -->
+    <link rel="stylesheet" href="../assets/css/shared.css">
     <link rel="stylesheet" href="../assets/css/shared/buttons.css">
     <link rel="stylesheet" href="../assets/css/shared/forms.css">
     <link rel="stylesheet" href="../assets/css/shared/animations.css">
-    <link rel="stylesheet" href="../assets/css/shared/utilities.css">
     <link rel="stylesheet" href="../assets/css/shared/responsive.css">
-    <!-- Index page styles -->
-    <link rel="stylesheet" href="../assets/css/index/index-layout.css">
-    <link rel="stylesheet" href="../assets/css/index/index-features.css">
-    <link rel="stylesheet" href="../assets/css/index/index-responsive.css">
+    <link rel="stylesheet" href="../assets/css/index.css">
     <!-- Clean script architecture -->
     <script src="../src/utilities/theme-utilities.js" defer></script>
 </head>
@@ -59,13 +54,13 @@
                     <p class="step-instruction">Select how you want to play:</p>
 
                     <div class="create-room-container">
-                        <button class="start-btn" id="createRoomBtn" type="button" onclick="createRoom()">
-                            <span>Create Multiplayer Game</span>
+                        <button class="start-btn" id="createRoomBtn" type="button">
+                            <span>Host Multiplayer Game</span>
                         </button>
-                        <p class="game-mode-description">Everyone joins with their phones using a room code</p>
+                        <p class="game-mode-description">Everyone joins with their phones - you'll get a room code on the next screen</p>
                     </div>
 
-                    <div class="create-room-container" style="margin-top: 20px;">
+                    <div class="create-room-container margin-top-20">
                         <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="showOfflineSetup()">
                             <span>Start Offline Mode</span>
                         </button>
@@ -73,39 +68,24 @@
                     </div>
                 </div>
 
-                <!-- Step 2: Room Created - Show Code -->
-                <div class="step-section hidden" id="roomCreatedStep">
-                    <h3>Step 2: Share Room Code</h3>
-                     <!-- QR Code Section -->
-                    <div class="qr-code-section" style="text-align: center; margin: var(--space-xl) 0;">
-                        <p class="step-instruction">Scan this QR code to join:</p>
-                        <img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page" style="max-width: 200px; border-radius: 8px; border: 2px solid var(--accent-light);">
-                    </div>
+                <!-- Step 2: Enter Host Name -->
+                <div class="step-section hidden" id="hostNameStep">
+                    <h3>Step 2: Enter Your Name</h3>
+                    <p class="step-instruction">What should we call you as the host?</p>
 
-                    <div class="room-code-display">
-                        <div class="room-code-container">
-                            <span class="room-code-label">Room Code:</span>
-                            <div class="room-code" id="roomCodeDisplay">----</div>
-                            <button class="copy-btn" id="copyRoomCodeBtn" title="Copy to clipboard">Copy</button>
+                    <div class="create-room-container">
+                        <div class="player-count-selector">
+                            <label for="host_name">Your Name:</label>
+                            <input type="text" id="host_name" placeholder="Enter your name" required maxlength="20">
                         </div>
                     </div>
 
-                   
-
-                    <!-- Players Joining -->
-                    <div class="players-joining">
-                        <h4>Players Joining (<span id="joinedPlayersCount">0</span>):</h4>
-                        <div class="players-list" id="joinedPlayersList">
-                            <div class="no-players">Waiting for players to join...</div>
-                        </div>
-                    </div>
-
-                    <!-- Start Game Button -->
+                    <!-- Continue Button -->
                     <div class="start-game-container">
-                        <button class="start-btn disabled" id="startGameBtn" type="button" disabled onclick="if(window.startGame) window.startGame()">
-                            Waiting for players...
+                        <button class="start-btn disabled" id="continueToGameBtn" type="button" disabled>
+                            Continue to Game Setup
                         </button>
-                        <p class="min-players-note">Need at least 2 players to start</p>
+                        <p class="min-players-note">Room will be created on the next screen</p>
                     </div>
                 </div>
 
@@ -134,7 +114,7 @@
                         <div class="player-count-selector">
                             <label for="player_count">Number of Players:</label>
                             <input type="number" id="player_count" min="2" max="20" placeholder="Enter number (2-20)"
-                                required oninput="generatePlayerInputs(this.value)">
+                                required>
                         </div>
                     </div>
                 </div>
@@ -176,17 +156,14 @@
     <!-- Socket.io for multiplayer -->
     <script src="/socket.io/socket.io.js"></script>
     <!-- Configuration and UI modules -->
-    <script src="../src/config/game-config.js" type="module" defer></script>
-    <script src="../src/ui/ui-mode-switcher.js" type="module" defer></script>
-    <!-- Clean multiplayer manager -->
-    <script src="../src/multiplayer/multiplayer-manager.js" defer></script>
-        <!-- Offline mode functionality (module) -->
-        <script type="module">
-            import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
-            attachToWindow();
-            initOfflineAutoLoad();
-        </script>
-    <script src="../src/multiplayer/player-setup.js" defer></script>
+    <script src="../src/config/game-config.js" type="module"></script>
+    <script src="../src/utilities/ui-mode-switcher.js" type="module"></script>
+    <!-- Transport layer - interface loads first, then handlers register -->
+    <script src="../src/transport/transport-interface.js"></script>
+    <script type="module" src="../src/transport/offline-handler.js"></script>
+    <!-- Multiplayer transport and setup -->
+    <script src="../src/transport/multiplayer/multiplayer-handler.js" type="module"></script>
+    <script src="../src/features/player-setup.js" type="module"></script>
 
     <!-- UI Switching Functions now in separate JS file -->
 

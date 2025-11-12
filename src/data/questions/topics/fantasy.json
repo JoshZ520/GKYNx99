@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#9b59b6",
+        "option2": "#e74c3c"
+    },
     "questions":  [
                       {
                           "prompt":  "What aspect of fantasy stories appeals to you most?",

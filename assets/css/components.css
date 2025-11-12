@@ -1,0 +1,403 @@
+/* components.css - Consolidated component styles */
+/* Combines: remote, images, options */
+
+/* ============================================================================
+   REMOTE CONTROL PANEL
+   ============================================================================ */
+
+/* === REMOTE CONTROL PANEL === */
+.remote-control-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid #007bff;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    min-width: 280px;
+    max-width: 320px;
+}
+
+.remote-control-panel.hidden {
+    display: none;
+}
+
+/* === HEADER === */
+.remote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: #007bff;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    margin: 0;
+}
+
+.remote-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.remote-toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.remote-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* === CONTENT === */
+.remote-content {
+    padding: var(--space-md);
+    max-height: 400px;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+.remote-content.collapsed {
+    display: none;
+}
+
+/* === SECTIONS === */
+.remote-section {
+    margin-bottom: 20px;
+}
+
+.remote-section:last-child {
+    margin-bottom: 0;
+}
+
+.remote-section h4 {
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* === BUTTONS === */
+.remote-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.remote-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.remote-btn.primary {
+    background: #007bff;
+    color: white;
+}
+
+.remote-btn.primary:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+}
+
+.remote-btn.secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.remote-btn.secondary:hover {
+    background: #545b62;
+    transform: translateY(-1px);
+}
+
+.remote-btn.accent {
+    background: #28a745;
+    color: white;
+}
+
+.remote-btn.accent:hover {
+    background: #1e7e34;
+    transform: translateY(-1px);
+}
+
+.remote-btn.warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.remote-btn.warning:hover {
+    background: #e0a800;
+    transform: translateY(-1px);
+}
+
+.remote-btn.info {
+    background: #17a2b8;
+    color: white;
+}
+
+.remote-btn.info:hover {
+    background: #117a8b;
+    transform: translateY(-1px);
+}
+
+.remote-btn:active {
+    transform: translateY(0);
+}
+
+.remote-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* === FEEDBACK MESSAGES === */
+.remote-feedback {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    z-index: 1001;
+    animation: slideInRight 0.3s ease;
+}
+
+.remote-feedback.success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.remote-feedback.error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+@keyframes slideInRight {
+    from { 
+        transform: translateX(100%); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+/* ============================================================================
+   PREFERENCE OPTIONS & IMAGES
+   ============================================================================ */
+
+/* === PREFERENCE-BASED IMAGE SYSTEM === */
+.preference-container {
+    margin: var(--space-md) 0;
+    width: 100%;
+    position: relative;
+    height: 320px;
+}
+
+.preference-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+.preference-option {
+    width: 300px;
+    height: 300px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: var(--space-md);
+    overflow: hidden;
+    background: var(--background-light);
+    border: 2px solid var(--accent-light);
+    display: flex;
+    flex-direction: column;
+}
+
+.preference-label {
+    background: var(--background-light);
+    color: var(--text-dark);
+    padding: var(--space-md) var(--space-sm);
+    text-align: center;
+    font-weight: 700;
+    font-size: var(--font-xl);
+    border-bottom: 2px solid var(--accent-light);
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.preference-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.preference-option:active,
+.preference-option.selected {
+    border: 4px solid #16a34a;
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
+}
+
+/* === IMAGE STYLES === */
+.preference-image {
+    width: 100%;
+    flex-grow: 1;
+    margin: 0;
+    background-image: url('https://placekittens.com/300/300');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--accent-light);
+    border-radius: 0;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Image hover effects */
+.preference-image:hover {
+    transform: scale(1.02);
+    filter: brightness(1.1) contrast(1.05);
+}
+
+/* === SPECIFIC IMAGE CATEGORIES === */
+.preference-image.food {
+    border: 2px solid var(--accent-light);
+}
+
+.preference-image.tech {
+    filter: grayscale(10%);
+}
+
+.preference-image.travel {
+    border-radius: 15px;
+}
+
+/* === DEFAULT PLACEHOLDER IMAGES === */
+.preference-image.placeholder-1 {
+    background-image: url('https://picsum.photos/300/250?random=1');
+}
+
+.preference-image.placeholder-2 {
+    background-image: url('https://picsum.photos/300/250?random=2');
+}
+
+/* === IMAGE LOADING STATES === */
+.preference-image.loading {
+    background-image: none;
+    background-color: var(--accent-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preference-image.loading::before {
+    content: "Loading...";
+    color: var(--text-dark);
+    font-size: var(--font-sm);
+    opacity: 0.7;
+}
+
+/* Error state for failed image loads */
+.preference-image.error {
+    background-image: none;
+    background-color: #fee2e2;
+    border: 2px dashed #dc2626;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preference-image.error::before {
+    content: "Image not found";
+    color: #dc2626;
+    font-size: var(--font-sm);
+    text-align: center;
+}
+
+/* === ANIMATION CLASSES === */
+.preference-image.fade-in {
+    animation: imagesFadeIn 0.5s ease-in-out;
+}
+
+@keyframes imagesFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Selected image highlighting */
+.preference-option.selected .preference-image {
+    box-shadow: inset 0 0 0 5px #16a34a;
+    transform: scale(1.04);
+    filter: brightness(1.05) saturate(1.1);
+}
+
+/* ============================================================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    .remote-control-panel {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: none;
+    }
+    
+    .remote-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    
+    .remote-btn {
+        font-size: 0.8rem;
+        padding: var(--space-sm) 10px;
+    }
+    
+    .remote-feedback {
+        left: 10px;
+        right: 10px;
+        top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .remote-buttons {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,228 @@
+/* shared.css - Consolidated shared styles and global settings */
+/* Combines: variables, typography, utilities */
+
+/* ============================================================================
+   CSS VARIABLES & DESIGN TOKENS
+   ============================================================================ */
+
+:root {
+    /* Color Variables */
+    --background-light: #c2f7cd;
+    --accent-light: #1eb817;
+    --accent-dark: #31a71d;
+    --text-dark: #5F3A48;
+    --text-muted: #6b7280;
+    --dark: #89ab84;
+    --light: #ffffff;
+    
+    /* Additional Page Colors */
+    --primary: #667eea;
+    --primary-dark: #5a67d8;
+    --text-light: #f3f4f6;
+    --background-dark: #1f2937;
+    
+    /* Status Colors */
+    --success-color: #28a745;
+    
+    /* Game UI Colors */
+    --button-purple: #a855f7;
+    --button-purple-dark: #7c3aed;
+    --button-blue: #3b82f6;
+    --button-blue-dark: #2563eb;
+    --button-green: #10b981;
+    --button-green-dark: #059669;
+    --button-red: #ef4444;
+    --button-red-dark: #dc2626;
+    
+    /* Border & Background Colors */
+    --border-dark: #2d3748;
+    --bg-light-gray: #f0f0f0;
+    --bg-gray: #d1d5db;
+    --text-gray: #333333;
+    
+    /* Font Sizes */
+    --font-sm: 14px;
+    --font-base: 16px;
+    --font-md: 17px;
+    --font-lg: 18px;
+    --font-xl: 20px;
+    --font-xxl: 24px;
+    
+    /* Spacing */
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 20px;
+    --space-xl: 40px;
+    
+    /* Border Radius */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 15px;
+    
+    /* Additional Colors for consolidation */
+    --green-600: #10b981;
+    --green-700: #059669;
+    --green-800: #047857;
+    --green-900: #065f46;
+    --red-500: #ef4444;
+    --red-600: #dc2626;
+    --red-700: #dc3545;
+    --blue-600: #3b82f6;
+    --blue-700: #1d4ed8;
+    --blue-800: #1e40af;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --white: #ffffff;
+}
+
+
+/* ============================================================================
+   GLOBAL TYPOGRAPHY & TEXT STYLING
+   ============================================================================ */
+
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light) !important;
+    line-height: 1.3;
+}
+
+/* Game and display pages get different background */
+.game-page,
+.display-page {
+    background-color: var(--accent-light);
+    padding: var(--space-sm);
+}
+
+/* === HEADINGS === */
+h1, h2 {
+    text-align: center;
+    color: var(--dark);
+}
+
+/* === PARAGRAPHS === */
+p, #header p {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: var(--font-base);
+    color: var(--text-dark);
+    margin: 5px 0;
+}
+
+#header p {
+    font-size: var(--font-lg);
+}
+
+/* === LABELS === */
+label, .topic label {
+    font-size: 18px;
+    margin-right: 8px;
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+
+.topic label {
+    margin-right: 10px;
+}
+
+
+/* ============================================================================
+   UTILITY CLASSES & HELPERS
+   ============================================================================ */
+
+/* === TRANSITIONS === */
+.smooth-transition {
+    transition: all 0.3s ease;
+}
+
+.hover-transition {
+    transition: all 0.2s ease;
+}
+
+/* === LAYOUT UTILITIES === */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* === DISPLAY UTILITIES === */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+/* === STATE UTILITIES === */
+.disabled {
+    opacity: 0.5 !important;
+    pointer-events: none !important;
+}
+
+.enabled {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* === OPACITY UTILITIES === */
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+/* === SUCCESS STATE === */
+.success-state {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+/* === SPACING UTILITIES === */
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+/* === TEXT UTILITIES === */
+.uppercase-input {
+    text-transform: uppercase;
+}
+
+/* === COMMON BORDER RADIUS === */
+.rounded-sm { border-radius: var(--border-radius-sm); }
+.rounded-md { border-radius: var(--border-radius-md); }
+.rounded-lg { border-radius: var(--border-radius-lg); }
+.rounded-xl { border-radius: var(--border-radius-xl); }
+
+/* === COMMON CARD STYLES === */
+.card-base {
+    background: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: var(--space-xl);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* === COMMON HOVER EFFECTS === */
+.hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hover-brighten:hover {
+    filter: brightness(1.1);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
