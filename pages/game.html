@@ -35,8 +35,6 @@
     const gameMode = sessionStorage.getItem('gameMode');
     const isOffline = gameMode === 'offline';
     
-    console.log(' Game page mode detection:', { gameMode, isOffline });
-    
     if (isOffline) {
         // OFFLINE MODE: Hide multiplayer, show offline
         const style = document.createElement('style');
@@ -110,7 +108,7 @@ Back to Game Mode
 <!-- Create Room Button (shown before room is created) -->
 <div id="createRoomSection" class="create-room-section hidden">
 <p>Ready to start your multiplayer game?</p>
-<button id="createRoomBtn" class="start-btn" onclick="console.log('🔴 DIRECT CLICK TEST: Button is clickable!')">Create Room</button>
+<button id="createRoomBtn" class="start-btn">Create Room</button>
 </div>
 
 <!-- Multiplayer Room Info (hidden until room is created) -->

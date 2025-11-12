@@ -35,29 +35,8 @@ function initialize() {
  * @param {Object} handler - The handler object with required methods
  */
 function registerHandler(handler) {
-    console.log('📝 Attempting to register handler:', {
-        hasHandler: !!handler,
-        hasIsActive: !!(handler && handler.isActive),
-        isActive: handler && handler.isActive ? handler.isActive() : false,
-        mode: handler && handler.getMode ? handler.getMode() : 'unknown'
-    });
-    
-    if (handler && handler.isActive) {
-        const active = handler.isActive();
-        console.log('  Handler isActive() returned:', active);
-        
-        if (active) {
-            currentHandler = handler;
-            console.log('✅ Handler registered successfully:', handler.getMode ? handler.getMode() : 'unknown');
-        } else {
-            console.log('❌ Handler NOT registered - isActive() returned false');
-            console.log('  Checking why isActive is false...');
-            if (handler.getMode) {
-                console.log('    Handler mode:', handler.getMode());
-            }
-        }
-    } else {
-        console.log('❌ Handler NOT registered - missing handler or isActive method');
+    if (handler && handler.isActive && handler.isActive()) {
+        currentHandler = handler;
     }
 }
 

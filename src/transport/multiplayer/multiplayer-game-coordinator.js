@@ -3,16 +3,7 @@
 
 // === QUESTION BROADCASTING ===
 export function broadcastQuestionToPlayers(question, socket, gameState) {
-    console.log('🔥 broadcastQuestionToPlayers called:', { 
-        currentPage: gameState.currentPage, 
-        isHost: gameState.isHost, 
-        hasSocket: !!socket, 
-        isConnected: gameState.isConnected,
-        question: question 
-    });
-    
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) {
-        console.log('❌ Not in multiplayer mode, skipping broadcast');
         return;
     }
     
@@ -137,8 +128,6 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
 
 // === ANSWERS REVEALED HANDLER ===
 export function handleAnswersRevealed(data, gameState) {
-    console.log('📊 Answers revealed, displaying results:', data);
-    
     // Store results for this question
     gameState.allQuestionResults.push({
         question: data.question,

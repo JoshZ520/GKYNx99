@@ -38,7 +38,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             
             // Re-register handler when socket connects (important for game page on load)
             if (window.multiplayerTransportHandler && window.transport && gameState.roomCode) {
-                console.log('🔄 Re-registering handler after socket connection');
                 window.transport.registerHandler(window.multiplayerTransportHandler);
                 
                 // Initialize UI if on game page
@@ -80,7 +79,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             
             // Re-register the handler now that we're connected and have a room
             if (window.multiplayerTransportHandler && window.transport) {
-                console.log('🔄 Re-registering handler after room creation');
                 window.transport.registerHandler(window.multiplayerTransportHandler);
                 
                 // Initialize UI now that handler is registered
@@ -126,7 +124,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
         
         // Game page specific socket events
         socket.on('answer-received', (data) => {
-            console.log('Answer received:', data.playerName);
             if (onAnswerReceived) {
                 onAnswerReceived(data);
             }
@@ -140,7 +137,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
         
         return { success: true, socket };
     } catch (error) {
-        console.log('Socket connection failed:', error);
         updateStatus('Connection failed - Offline mode only', 'offline');
         return { success: false, socket: null };
     }
@@ -226,10 +222,6 @@ export function updateStartButton(gameState) {
 
 // === ROOM ACTIONS ===
 export function createRoom(socket, gameState) {
-    console.log('createRoom() called');
-    console.log('Socket:', socket);
-    console.log('Connected:', gameState.isConnected);
-    
     if (!socket || !gameState.isConnected) {
         updateStatus('Not connected to server', 'error');
         return;
