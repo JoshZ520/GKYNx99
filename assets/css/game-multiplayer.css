@@ -163,14 +163,17 @@
     min-height: 100vh;
     background: var(--light);
     padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
 }
 
 .results-container {
     background: var(--light);
     border-radius: var(--space-lg);
     padding: var(--space-xl);
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .results-header {
@@ -236,8 +239,7 @@
 }
 
 .questions-list {
-    max-height: 300px;
-    overflow-y: auto;
+    overflow: visible;
     border: 1px solid var(--accent-light);
     border-radius: var(--space-md);
     padding: var(--space-md);

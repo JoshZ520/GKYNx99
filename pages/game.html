@@ -22,7 +22,7 @@
 <script src="../src/game/player-manager.js" type="module" defer></script>
 <script src="../src/game/ui-manager.js" type="module" defer></script>
 <!-- Transport layer - interface loads first, then handlers register -->
-<script src="../src/transport/transport-interface.js"></script>
+<script src="../src/transport/transport-interface.js" type="module"></script>
 <script type="module" src="../src/transport/offline-handler.js"></script>
 <!-- Game loader conditionally loads socket.io and multiplayer-handler based on mode -->
 <script src="../src/game/game-loader.js" type="module" defer></script>
@@ -200,7 +200,6 @@ Back to Game Mode
 </div>
 </div>
 <!-- Image-based preference selection -->
-
 <div class="preference-container" id="preferenceContainer" class="hidden">
     <div class="preference-options" id="optionsContainer">
         <!-- Options will be rendered by JS -->
