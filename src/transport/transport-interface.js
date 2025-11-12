@@ -42,12 +42,22 @@ function registerHandler(handler) {
         mode: handler && handler.getMode ? handler.getMode() : 'unknown'
     });
     
-    // Only register if the handler is actually active for the current mode
-    if (handler && handler.isActive && handler.isActive()) {
-        currentHandler = handler;
-        console.log('✅ Handler registered successfully:', handler.getMode ? handler.getMode() : 'unknown');
+    if (handler && handler.isActive) {
+        const active = handler.isActive();
+        console.log('  Handler isActive() returned:', active);
+        
+        if (active) {
+            currentHandler = handler;
+            console.log('✅ Handler registered successfully:', handler.getMode ? handler.getMode() : 'unknown');
+        } else {
+            console.log('❌ Handler NOT registered - isActive() returned false');
+            console.log('  Checking why isActive is false...');
+            if (handler.getMode) {
+                console.log('    Handler mode:', handler.getMode());
+            }
+        }
     } else {
-        console.log('❌ Handler NOT registered (not active)');
+        console.log('❌ Handler NOT registered - missing handler or isActive method');
     }
 }
 
@@ -63,17 +73,9 @@ function isActive() {
  * Broadcast a question to all players
  * @param {Object} question - The question object to broadcast
  */
-function broadcastQuestion(question) {
-    console.log('🚀 Transport broadcastQuestion called:', { 
-        hasHandler: !!currentHandler, 
-        hasBroadcastMethod: !!(currentHandler && currentHandler.broadcastQuestion),
-        question: question 
-    });
-    
+function broadcastQuestion(question) {   
     if (currentHandler && currentHandler.broadcastQuestion) {
         currentHandler.broadcastQuestion(question);
-    } else {
-        console.log('❌ No handler or broadcastQuestion method available');
     }
 }
 
@@ -143,8 +145,6 @@ function initializeModeUI() {
         }
     }
     
-    console.log('🎨 initializeModeUI called, mode:', mode);
-    
     // Elements that should only show in offline mode
     const offlineOnlyElements = [
         'offlineSubmitContainer',
@@ -159,12 +159,10 @@ function initializeModeUI() {
     ];
     
     if (mode === 'multiplayer') {
-        console.log('🎮 Setting up MULTIPLAYER UI');
         // Hide offline elements
         offlineOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
-                console.log(`  ❌ Hiding offline element: ${id}`);
                 elem.style.display = 'none';
                 elem.classList.add('hidden');
             }
@@ -174,18 +172,15 @@ function initializeModeUI() {
         multiplayerOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
-                console.log(`  ✅ Showing multiplayer element: ${id}`);
                 elem.style.display = '';
                 elem.classList.remove('hidden');
             }
         });
     } else if (mode === 'offline') {
-        console.log('🏠 Setting up OFFLINE UI');
         // Show offline elements
         offlineOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
-                console.log(`  ✅ Showing offline element: ${id}`);
                 elem.style.display = '';
                 elem.classList.remove('hidden');
             }
@@ -195,13 +190,10 @@ function initializeModeUI() {
         multiplayerOnlyElements.forEach(id => {
             const elem = document.getElementById(id);
             if (elem) {
-                console.log(`  ❌ Hiding multiplayer element: ${id}`);
                 elem.style.display = 'none';
                 elem.classList.add('hidden');
             }
         });
-    } else {
-        console.log('⚠️ Mode is unknown, not changing UI elements');
     }
 }
 

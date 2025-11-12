@@ -36,14 +36,17 @@ var gameState = gameState || {
 // === UTILITIES ===
 function getCurrentPage() {
     const path = window.location.pathname;
+    console.log('🔍 getCurrentPage - pathname:', path);
     if (path.includes('index.html') || path === '/') return 'index';
     if (path.includes('game.html')) return 'game';
     if (path.includes('player.html')) return 'player';
+    console.warn('⚠️ getCurrentPage returned unknown for path:', path);
     return 'unknown';
 }
 
 // === WRAPPER FUNCTIONS FOR SOCKET INITIALIZATION ===
 function initSocket() {
+    console.log('🔌 initSocket called');
     const onAnswerReceived = (data) => {
         handleAnswerReceived(data, gameState, () => revealAnswers());
     };
@@ -54,11 +57,22 @@ function initSocket() {
     
     const result = initializeSocket(gameState, onAnswerReceived, onAnswersRevealed);
     socket = result.socket;
+    console.log('  Socket initialization result:', {
+        success: result.success,
+        socketExists: !!socket,
+        connected: socket ? socket.connected : 'no socket'
+    });
     return result.success;
 }
 
 // === WRAPPER FUNCTIONS FOR GAME ACTIONS ===
 function createRoom() {
+    console.log('🏠 createRoom called');
+    console.log('  Socket state:', {
+        socketExists: !!socket,
+        connected: socket ? socket.connected : 'no socket',
+        gameState: gameState
+    });
     roomManagerCreateRoom(socket, gameState);
 }
 
@@ -76,9 +90,15 @@ function showAllResults() {
 
 // === EVENT LISTENERS ===
 function setupEventListeners() {
+    console.log('🔍 setupEventListeners DEBUG:', {
+        currentPage: gameState.currentPage,
+        createRoomBtnExists: !!document.getElementById('createRoomBtn')
+    });
+    
     // "Host Multiplayer Game" button on index page - shows host name step
     const createRoomBtn = document.getElementById('createRoomBtn');
     if (createRoomBtn && gameState.currentPage === 'index') {
+        console.log('  Setting up index page createRoomBtn listener');
         createRoomBtn.addEventListener('click', () => {
             console.log('📝 Showing host name step');
             const createRoomStep = document.getElementById('createRoomStep');
@@ -92,12 +112,24 @@ function setupEventListeners() {
     
     // "Create Room" button on game page - actually creates the room
     if (createRoomBtn && gameState.currentPage === 'game') {
+        console.log('  Setting up game page createRoomBtn listener');
+        console.log('  Socket state:', { 
+            socketExists: !!socket, 
+            connected: socket ? socket.connected : 'no socket' 
+        });
+        
         createRoomBtn.addEventListener('click', () => {
-            console.log('🎮 Create Room button clicked');
+            console.log('🎮 Create Room button clicked on game page');
+            console.log('  Socket status:', {
+                socketExists: !!socket,
+                connected: socket ? socket.connected : 'no socket'
+            });
+            
             if (socket && socket.connected) {
+                console.log('  ✓ Socket connected, calling createRoom()');
                 createRoom();
             } else {
-                console.log('Socket not connected yet, waiting...');
+                console.log('  ⚠️ Socket not connected yet, setting needsRoomCreation flag');
                 gameState.needsRoomCreation = true;
             }
         });
@@ -140,18 +172,24 @@ function broadcastQuestion(question) {
 }
 
 // === INITIALIZATION ===
-document.addEventListener('DOMContentLoaded', () => {
+function initializeMultiplayerHandler() {
+    console.log('🚀 multiplayer-handler.js initializing');
+    console.log('  Current page:', gameState.currentPage);
+    console.log('  Document ready state:', document.readyState);
+    
     // Setup event listeners
     setupEventListeners();
     
     // Initialize socket connection
     const connected = initSocket();
+    console.log('  Socket connection initialized:', connected);
     
     // Initialize UI state
     updateStartButton(gameState);
     
     // Game page specific initialization
     if (gameState.currentPage === 'game') {
+        console.log('  📄 Game page initialization...');
         const multiplayerRoom = sessionStorage.getItem('multiplayerRoom');
         const isHost = sessionStorage.getItem('isHost') === 'true';
         const gameMode = sessionStorage.getItem('gameMode');
@@ -210,7 +248,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-});
+}
+
+// Run initialization immediately if DOM is already loaded, otherwise wait
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeMultiplayerHandler);
+} else {
+    // DOM already loaded (script loaded dynamically after DOMContentLoaded)
+    console.log('⚡ DOM already loaded, initializing immediately');
+    initializeMultiplayerHandler();
+}
 
 // === TRANSPORT INTERFACE IMPLEMENTATION ===
 /**
@@ -220,9 +267,21 @@ document.addEventListener('DOMContentLoaded', () => {
 const multiplayerTransportHandler = {
     /**
      * Check if multiplayer mode is active
+     * Returns true if NOT in offline mode (multiplayer is the default)
      */
     isActive() {
-        return gameState.isConnected && gameState.isHost && gameState.roomCode;
+        const gameMode = sessionStorage.getItem('gameMode');
+        const isOffline = gameMode === 'offline';
+        const result = gameState.currentPage === 'game' && !isOffline;
+        
+        console.log('🔍 multiplayerTransportHandler.isActive() DEBUG:', {
+            currentPage: gameState.currentPage,
+            gameMode: gameMode,
+            isOffline: isOffline,
+            result: result
+        });
+        
+        return result;
     },
 
     /**

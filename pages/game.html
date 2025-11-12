@@ -35,8 +35,10 @@
     const gameMode = sessionStorage.getItem('gameMode');
     const isOffline = gameMode === 'offline';
     
+    console.log(' Game page mode detection:', { gameMode, isOffline });
+    
     if (isOffline) {
-        // Add style to hide multiplayer elements immediately
+        // OFFLINE MODE: Hide multiplayer, show offline
         const style = document.createElement('style');
         style.textContent = `
             #multiplayerInfo,
@@ -61,6 +63,24 @@
                 currentPlayerName.textContent = playerNames[0];
             }
         });
+    } else {
+        // ONLINE/MULTIPLAYER MODE (default): Show multiplayer, hide offline
+        const style = document.createElement('style');
+        style.textContent = `
+            /* Hide offline-only elements */
+            #offlineSubmitContainer,
+            #offlinePlayerIndicator,
+            #offlineModeNotice {
+                display: none !important;
+            }
+            /* Override .hidden class for multiplayer elements */
+            #createRoomSection.hidden,
+            #multiplayerInfo.hidden,
+            #answerProgressContainer.hidden {
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
     }
 })();
 </script>
@@ -90,7 +110,7 @@ Back to Game Mode
 <!-- Create Room Button (shown before room is created) -->
 <div id="createRoomSection" class="create-room-section hidden">
 <p>Ready to start your multiplayer game?</p>
-<button id="createRoomBtn" class="btn-primary">Create Room</button>
+<button id="createRoomBtn" class="start-btn" onclick="console.log('🔴 DIRECT CLICK TEST: Button is clickable!')">Create Room</button>
 </div>
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
