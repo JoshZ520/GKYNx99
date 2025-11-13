@@ -33,8 +33,8 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             }
             
             if (gameState.currentPage === 'index') {
-                showElement('createRoomStep');
-                hideElement('offlineFallback');
+                CONFIG_UTILS.show('createRoomStep');
+                CONFIG_UTILS.hide('offlineFallback');
             }
             
             // If on game page with existing room, rejoin
@@ -83,8 +83,8 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             }
             
             // For index page (old flow, still supported)
-            showElement('roomCreatedStep');
-            hideElement('createRoomStep');
+            CONFIG_UTILS.show('roomCreatedStep');
+            CONFIG_UTILS.hide('createRoomStep');
             updateStatus(`Room ${data.roomCode} created`, 'connected');
         });
         

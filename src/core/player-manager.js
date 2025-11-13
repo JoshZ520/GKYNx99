@@ -1,4 +1,4 @@
-// src/game/player-manager.js - Player management coordinator
+// src/core/player-manager.js - Player management coordinator
 // Main coordinator that imports and orchestrates all player modules
 
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
@@ -11,7 +11,7 @@ import {
     setCurrentPlayerIndex,
     advanceToNextPlayer,
     updatePlayerTurnIndicator
-} from './player/player-turn-manager.js';
+} from '../player/player-turn-manager.js';
 
 import {
     getSubmissionsByQuestion,
@@ -19,13 +19,13 @@ import {
     updateSubmissionState as updateSubmissionStateModule,
     submitAnswer as submitAnswerModule,
     handleFinalSubmit as handleFinalSubmitModule
-} from './player/answer-recorder.js';
+} from '../player/answer-recorder.js';
 
 import {
     setupResultsButtons,
     resumeGame,
     showGameResumedMessage
-} from './player/game-resume-manager.js';
+} from '../player/game-resume-manager.js';
 
 // === WRAPPER FUNCTIONS ===
 function updateSubmissionState() {
@@ -47,17 +47,17 @@ function showGameResults() {
     // Hide the main game interface
     const gameContainer = document.querySelector('main > div');
     if (gameContainer) {
-        gameContainer.style.display = 'none';
+        CONFIG_UTILS.hide(gameContainer);
     }
     
     // Show results section
-    const resultsSection = document.getElementById('gameResults');
+    const resultsSection = CONFIG_UTILS.getElement('gameResults');
     if (!resultsSection) {
         console.error('Results section not found');
         return;
     }
     
-    resultsSection.classList.remove('hidden');
+    CONFIG_UTILS.show(resultsSection);
     
     // Populate game stats
     const submissionsByQuestion = getSubmissionsByQuestion();
@@ -65,19 +65,19 @@ function showGameResults() {
     const totalQuestions = Object.keys(submissionsByQuestion).length;
     const totalPlayers = playerNames.length;
     
-    document.getElementById('totalQuestions').textContent = totalQuestions;
-    document.getElementById('totalPlayers').textContent = totalPlayers;
+    CONFIG_UTILS.setText('totalQuestions', totalQuestions);
+    CONFIG_UTILS.setText('totalPlayers', totalPlayers);
     
     // Calculate game duration (basic implementation)
     const gameStart = CONFIG_UTILS.getStorageItem('GAME_START_TIME');
     const gameDuration = gameStart ? 
         Math.round((Date.now() - parseInt(gameStart)) / 60000) + ' minutes' : 
         'Unknown';
-    document.getElementById('gameDuration').textContent = gameDuration;
+    CONFIG_UTILS.setText('gameDuration', gameDuration);
     
     // Populate questions and answers
-    const questionsList = document.getElementById('questionsList');
-    questionsList.innerHTML = '';
+    const questionsList = CONFIG_UTILS.getElement('questionsList');
+    if (questionsList) questionsList.innerHTML = '';
     
     // Get questions in chronological order
     const questionsInOrder = JSON.parse(CONFIG_UTILS.getStorageItem('QUESTIONS_ORDER') || '[]');
@@ -116,7 +116,7 @@ function showGameResults() {
             
             questionItem.appendChild(questionTextDiv);
             questionItem.appendChild(answersDiv);
-            questionsList.appendChild(questionItem);
+            if (questionsList) questionsList.appendChild(questionItem);
         }
     });
     
@@ -135,11 +135,11 @@ function initializePlayerSystem() {
     if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
         const storedNames = CONFIG_UTILS.getStorageItem('PLAYER_NAMES');
         // Show submit button for offline mode
-        const offlineSubmitContainer = document.getElementById('offlineSubmitContainer');
-        if (offlineSubmitContainer) offlineSubmitContainer.style.display = '';
-        // Show current player indicator for offline mode
-        const offlinePlayerIndicator = document.getElementById('offlinePlayerIndicator');
-        if (offlinePlayerIndicator) offlinePlayerIndicator.style.display = '';
+    const offlineSubmitContainer = CONFIG_UTILS.getElement('offlineSubmitContainer');
+    if (offlineSubmitContainer) CONFIG_UTILS.show(offlineSubmitContainer);
+    // Show current player indicator for offline mode
+    const offlinePlayerIndicator = CONFIG_UTILS.getElement('offlinePlayerIndicator');
+    if (offlinePlayerIndicator) CONFIG_UTILS.show(offlinePlayerIndicator);
         // Submit button handler is set by question-manager.js using addEventListener
         if (storedNames) {
             try {

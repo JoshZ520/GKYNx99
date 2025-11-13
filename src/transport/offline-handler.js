@@ -4,7 +4,7 @@ import {
     updateOfflineStartButton,
     startOfflineGame,
     setupOfflineEventListeners
-} from './offline/offline-player-setup.js';
+} from './offline/player-setup.js';
 
 import {
     displayQuestionOptionsOffline,
@@ -12,11 +12,11 @@ import {
     updateSubmitButtonOffline,
     getSelectedAnswerOffline,
     submitOfflineAnswer
-} from './offline/offline-game-handler.js';
+} from './offline/game-handler.js';
 
 import {
     populateResults
-} from './offline/offline-results.js';
+} from './offline/results.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('offlineSetupSection') || document.getElementById('playerCountStep')) {

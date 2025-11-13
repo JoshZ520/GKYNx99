@@ -121,7 +121,7 @@ export function handleAnswersRevealed(data, gameState) {
     });
     
     if (data.results && data.results.length > 0) {
-        import('./multiplayer-results-display.js').then(module => {
+        import('./results-display.js').then(module => {
             module.displayResultsBar(data.results, data.question);
         });
     }

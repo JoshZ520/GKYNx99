@@ -15,17 +15,17 @@
 <link rel="stylesheet" href="../assets/css/game-ui.css">
 <link rel="stylesheet" href="../assets/css/game-multiplayer.css">
 <link rel="stylesheet" href="../assets/css/components.css">
-<script src="../src/utilities/theme-utilities.js" defer></script>
+<script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
-<script src="../src/game/question-manager.js" type="module" defer></script>
-<script src="../src/game/player-manager.js" type="module" defer></script>
-<script src="../src/game/ui-manager.js" type="module" defer></script>
+<script src="../src/core/question-manager.js" type="module" defer></script>
+<script src="../src/core/player-manager.js" type="module" defer></script>
+<script src="../src/ui/ui-manager.js" type="module" defer></script>
 <!-- Transport layer - interface loads first, then handlers register -->
 <script src="../src/transport/transport-interface.js" type="module"></script>
 <script type="module" src="../src/transport/offline-handler.js"></script>
 <!-- Game loader conditionally loads socket.io and multiplayer-handler based on mode -->
-<script src="../src/game/game-loader.js" type="module" defer></script>
+<script src="../src/core/game-loader.js" type="module" defer></script>
 
 </head>
 <body class="game-page" id="root">
@@ -107,6 +107,10 @@ Back to Game Mode
 
 <!-- Create Room Button (shown before room is created) -->
 <div id="createRoomSection" class="create-room-section hidden">
+<button class="back-to-mode-btn smooth-transition" id="backToModeBtn" type="button">
+<img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
+Back to Game Mode
+</button>
 <p>Ready to start your multiplayer game?</p>
 <button id="createRoomBtn" class="start-btn">Create Room</button>
 </div>

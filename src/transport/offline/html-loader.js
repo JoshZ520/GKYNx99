@@ -1,4 +1,4 @@
-// src/transport/offline/offline-html-loader.js - HTML injection for offline mode
+// src/transport/offline/html-loader.js - HTML injection for offline mode
 
 /**
  * Load offline HTML elements into game.html

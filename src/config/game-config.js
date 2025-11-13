@@ -147,6 +147,14 @@ export const CONFIG_UTILS = {
     // DOM element access with proper IDs
     getElementById: (elementKey) => document.getElementById(GAME_CONFIG.DOM_IDS[elementKey]),
     
+    // Direct element access (accepts either ID string or element)
+    getElement: (elementOrId) => {
+        if (typeof elementOrId === 'string') {
+            return document.getElementById(elementOrId);
+        }
+        return elementOrId;
+    },
+    
     // CSS class manipulation helpers
     addClass: (element, classKey) => element?.classList.add(GAME_CONFIG.CSS_CLASSES[classKey]),
     removeClass: (element, classKey) => element?.classList.remove(GAME_CONFIG.CSS_CLASSES[classKey]),

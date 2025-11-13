@@ -5,18 +5,18 @@ import {
     startGame as roomManagerStartGame,
     copyRoomCode,
     updateStartButton
-} from './multiplayer-room-manager.js';
+} from './room-manager.js';
 
 import {
     broadcastQuestionToPlayers,
     revealAnswers as gameRevealAnswers,
     handleAnswerReceived,
     handleAnswersRevealed
-} from './multiplayer-game-coordinator.js';
+} from './game-coordinator.js';
 
 import {
     showAllResults as resultsShowAll
-} from './multiplayer-results-display.js';
+} from './results-display.js';
 
 var socket = socket || null;
 var gameState = gameState || {
@@ -83,6 +83,20 @@ function setupEventListeners() {
             } else {
                 gameState.needsRoomCreation = true;
             }
+        });
+    }
+    
+    // Back to mode button (same as offline mode)
+    const backToModeBtn = document.getElementById('backToModeBtn');
+    if (backToModeBtn && gameState.currentPage === 'game') {
+        backToModeBtn.addEventListener('click', () => {
+            // Clear multiplayer session data
+            sessionStorage.removeItem('gameMode');
+            sessionStorage.removeItem('multiplayerRoom');
+            sessionStorage.removeItem('isHost');
+            sessionStorage.removeItem('hostName');
+            // Navigate back to index
+            window.location.href = '../pages/index.html';
         });
     }
     

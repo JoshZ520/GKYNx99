@@ -375,9 +375,31 @@
     margin-top: 10px;
 }
 
+.room-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+    align-items: center;
+}
+
 #createRoomBtn {
     padding: 12px 24px;
     font-size: var(--font-base);
+}
+
+#backToMenuBtn {
+    padding: 12px 24px;
+    font-size: var(--font-base);
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#backToMenuBtn:hover {
+    background: #5a6268;
 }
 
 /* === QR CODE === */
