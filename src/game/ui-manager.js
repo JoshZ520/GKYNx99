@@ -3,6 +3,12 @@
 
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
 
+// popup
+const closePopupBtn = document.querySelector('#close');
+closePopupBtn.addEventListener('click', () => {
+    popup.style.display = 'none';
+});
+
 // === SHARED STATE ===
 let availableTopics = [];
 let currentTopicPage = 1;
