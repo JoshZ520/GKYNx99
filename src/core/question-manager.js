@@ -1,4 +1,4 @@
-// src/game/question-manager.js - Core game functionality: question management and navigation
+// src/core/question-manager.js - Core game functionality: question management and navigation
 // Handles loading, displaying, and navigating between questions
 //
 // LOGGING POLICY: Only keep essential logs (initialization, connections, errors)
@@ -49,10 +49,10 @@ function showQuestionArea() {
     const submitButton = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
     const remoteControl = document.querySelector('.remote-control');
     
-    if (questionElem) questionElem.style.display = '';
-    if (preferenceContainer) preferenceContainer.style.display = '';
-    if (submitButton) submitButton.style.display = '';
-    if (remoteControl) remoteControl.style.display = '';
+    if (questionElem) CONFIG_UTILS.show(questionElem);
+    if (preferenceContainer) CONFIG_UTILS.show(preferenceContainer);
+    if (submitButton) CONFIG_UTILS.show(submitButton);
+    if (remoteControl) CONFIG_UTILS.show(remoteControl);
 }
 
 function hideQuestionArea() {
@@ -60,16 +60,16 @@ function hideQuestionArea() {
     const preferenceContainer = CONFIG_UTILS.getElementById('PREFERENCE_CONTAINER');
     const submitButton = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
     const remoteControl = document.querySelector('.remote-control');
-    const topicNameElement = document.getElementById('currentTopicName');
+    const topicNameElement = CONFIG_UTILS.getElement('currentTopicName');
     
     if (questionElem) {
-        questionElem.style.display = 'none';
-        questionElem.textContent = 'Please select a topic to begin';
+        CONFIG_UTILS.hide(questionElem);
+        CONFIG_UTILS.setText(questionElem, 'Please select a topic to begin');
     }
-    if (preferenceContainer) preferenceContainer.style.display = 'none';
-    if (submitButton) submitButton.style.display = 'none';
-    if (remoteControl) remoteControl.style.display = 'none';
-    if (topicNameElement) topicNameElement.textContent = 'No topic selected';
+    if (preferenceContainer) CONFIG_UTILS.hide(preferenceContainer);
+    if (submitButton) CONFIG_UTILS.hide(submitButton);
+    if (remoteControl) CONFIG_UTILS.hide(remoteControl);
+    if (topicNameElement) CONFIG_UTILS.setText(topicNameElement, 'No topic selected');
 }
 
 function switchToNextQuestion() {
@@ -106,7 +106,7 @@ function switchToNextQuestion() {
     // Ensure submit button is visible for the new question
     const submitBtn = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
     if (submitBtn) {
-        submitBtn.style.display = GAME_CONFIG.DISPLAY.BLOCK;
+        CONFIG_UTILS.setDisplay(submitBtn, GAME_CONFIG.DISPLAY.BLOCK);
     }
     
     // Clear any previous submissions/answers
@@ -119,7 +119,7 @@ function switchToNextQuestion() {
 function switchToPreviousQuestion() {
     if (appQuestions.length === 0) return;
     
-    const questionElem = document.getElementById('question');
+    const questionElem = CONFIG_UTILS.getElementById('QUESTION');
     if (!questionElem) return;
     
     const currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
@@ -150,7 +150,7 @@ function switchToPreviousQuestion() {
     // Ensure submit button is visible for the new question
     const submitBtn = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
     if (submitBtn) {
-        submitBtn.style.display = GAME_CONFIG.DISPLAY.BLOCK;
+        CONFIG_UTILS.setDisplay(submitBtn, GAME_CONFIG.DISPLAY.BLOCK);
     }
     
     // Clear any previous submissions/answers
@@ -166,11 +166,11 @@ function setTopic(topic) {
     // Topic is stored in memory only - no localStorage needed
     
     // Update topic display
-    const topicNameElement = document.getElementById('currentTopicName');
+    const topicNameElement = CONFIG_UTILS.getElement('currentTopicName');
     if (topicNameElement) {
         // Simple display name without needing availableTopics
         const displayName = topic.charAt(0).toUpperCase() + topic.slice(1);
-        topicNameElement.textContent = displayName;
+        CONFIG_UTILS.setText(topicNameElement, displayName);
     }
     
     // Broadcast first question to players if in multiplayer mode
@@ -199,14 +199,10 @@ function setTopic(topic) {
 
 // === UTILITY FUNCTIONS ===
 function clearCurrentSelection() {
-    const selectedPrefElement = document.getElementById('selectedPreference');
-    if (selectedPrefElement) {
-        selectedPrefElement.value = '';
-    }
+    const selectedPrefElement = CONFIG_UTILS.getElement('selectedPreference');
+    if (selectedPrefElement) selectedPrefElement.value = '';
     
-    document.querySelectorAll('.preference-option').forEach(opt => {
-        opt.classList.remove('selected');
-    });
+    document.querySelectorAll('.preference-option').forEach(opt => CONFIG_UTILS.removeClass(opt, 'SELECTED'));
 }
 
 function clearPreviousAnswers() {
@@ -214,9 +210,9 @@ function clearPreviousAnswers() {
 }
 
 function hidePreferenceContainer() {
-    const preferenceContainer = document.getElementById('preferenceContainer');
+    const preferenceContainer = CONFIG_UTILS.getElement('preferenceContainer');
     if (preferenceContainer) {
-        preferenceContainer.classList.add('hidden');
+        CONFIG_UTILS.hide(preferenceContainer);
         preferenceContainer.classList.remove('visible');
     }
 }
@@ -243,7 +239,7 @@ window.gameCore = {
     // Getters for shared state
     getAppQuestions: () => appQuestions,
     getCurrentQuestionIndex: () => {
-        const questionElem = document.getElementById('question');
+        const questionElem = CONFIG_UTILS.getElementById('QUESTION');
         return questionElem ? parseInt(questionElem.getAttribute('data-index')) || 0 : 0;
     }
 };
@@ -257,11 +253,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Question navigation controls
-    const switchBtn = document.getElementById('switchQuestion');
-    const randomTopicBtn = document.getElementById('randomTopicBtn');
-    const prevQuestionBtn = document.getElementById('prevQuestionBtn');
-    const nextQuestionBtn = document.getElementById('nextQuestionBtn');
-    const skipQuestionBtn = document.getElementById('skipQuestionBtn');
+    const switchBtn = CONFIG_UTILS.getElement('switchQuestion');
+    const randomTopicBtn = CONFIG_UTILS.getElement('randomTopicBtn');
+    const prevQuestionBtn = CONFIG_UTILS.getElement('prevQuestionBtn');
+    const nextQuestionBtn = CONFIG_UTILS.getElement('nextQuestionBtn');
+    const skipQuestionBtn = CONFIG_UTILS.getElement('skipQuestionBtn');
     
     if (switchBtn) {
         switchBtn.addEventListener('click', () => {
@@ -301,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Topics and UI controls
-    const topicsToggleBtn = document.getElementById('topicsToggle');
+    const topicsToggleBtn = CONFIG_UTILS.getElement('topicsToggle');
     if (topicsToggleBtn) {
         topicsToggleBtn.addEventListener('click', () => {
             if (window.gameUI && window.gameUI.toggleTopicsPanel) {
@@ -312,8 +308,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Preference selection
-    const option1 = document.getElementById('option1');
-    const option2 = document.getElementById('option2');
+    const option1 = CONFIG_UTILS.getElement('option1');
+    const option2 = CONFIG_UTILS.getElement('option2');
     
     if (option1) {
         option1.addEventListener('click', () => {
@@ -333,9 +329,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Player actions
-    const submitBtn = document.getElementById('submitButton');
-    const finalSubmitBtn = document.getElementById('final_submit');
-    const endGameBtn = document.getElementById('end_game_btn');
+    const submitBtn = CONFIG_UTILS.getElement('submitButton');
+    const finalSubmitBtn = CONFIG_UTILS.getElement('final_submit');
+    const endGameBtn = CONFIG_UTILS.getElement('end_game_btn');
     
     if (submitBtn) {
         // Use addEventListener with { once: false } to ensure it only fires once per click

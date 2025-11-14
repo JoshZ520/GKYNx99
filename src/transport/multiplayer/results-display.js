@@ -1,7 +1,5 @@
-// src/transport/multiplayer-results-display.js
-// Handles results visualization and navigation
+import { CONFIG_UTILS } from '../../config/game-config.js';
 
-// === RESULTS BAR DISPLAY ===
 export function displayResultsBar(results, question) {
     const resultsBar = document.getElementById('questionResultsBar');
     const resultsContent = document.getElementById('resultsBarContent');
@@ -17,7 +15,6 @@ export function displayResultsBar(results, question) {
     
     const totalVotes = results.length;
     
-    // Build status bars HTML with better styling
     let html = '';
     Object.entries(voteCounts).forEach(([option, count]) => {
         const percentage = totalVotes > 0 ? Math.round((count / totalVotes) * 100) : 0;
@@ -33,11 +30,9 @@ export function displayResultsBar(results, question) {
     });
     
     resultsContent.innerHTML = html;
-    resultsBar.style.display = 'block'; // Show the results bar
-    return html; // Return HTML for reuse in all results display
+    CONFIG_UTILS.setDisplay(resultsBar, 'flex');
 }
 
-// === ALL RESULTS MODAL ===
 export function showAllResults(gameState) {
     if (gameState.allQuestionResults.length === 0) {
         alert('No questions have been answered yet!');
@@ -121,12 +116,10 @@ export function showAllResults(gameState) {
     };
     
     document.getElementById('closeResultsBtn').onclick = () => {
-        allResultsDisplay.classList.add('hidden');
-        // Clamp lastViewedQuestionIndex to valid range on close
+        CONFIG_UTILS.hide(allResultsDisplay);
         gameState.lastViewedQuestionIndex = Math.max(0, Math.min(currentQuestionIndex, gameState.allQuestionResults.length - 1));
     };
     
-    // Show modal and display first question
-    allResultsDisplay.classList.remove('hidden');
+    CONFIG_UTILS.show(allResultsDisplay);
     displayQuestion(currentQuestionIndex);
 }

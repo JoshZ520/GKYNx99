@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../assets/css/shared/responsive.css">
     <link rel="stylesheet" href="../assets/css/index.css">
     <!-- Clean script architecture -->
-    <script src="../src/utilities/theme-utilities.js" defer></script>
+    <script src="../src/ui/theme-utilities.js" defer></script>
 </head>
 
 <body class="front-page" id="root">
@@ -70,6 +70,10 @@
 
                 <!-- Step 2: Enter Host Name -->
                 <div class="step-section hidden" id="hostNameStep">
+                    <button class="back-to-mode-btn smooth-transition" id="backFromHostNameBtn" type="button" onclick="window.location.href='index.html'">
+                        <img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
+                        Back to Game Mode
+                    </button>
                     <h3>Step 2: Enter Your Name</h3>
                     <p class="step-instruction">What should we call you as the host?</p>
 
@@ -157,13 +161,13 @@
     <script src="/socket.io/socket.io.js"></script>
     <!-- Configuration and UI modules -->
     <script src="../src/config/game-config.js" type="module"></script>
-    <script src="../src/utilities/ui-mode-switcher.js" type="module"></script>
+    <script src="../src/ui/ui-mode-switcher.js" type="module"></script>
     <!-- Transport layer - interface loads first, then handlers register -->
-    <script src="../src/transport/transport-interface.js"></script>
+    <script src="../src/transport/transport-interface.js" type="module"></script>
     <script type="module" src="../src/transport/offline-handler.js"></script>
     <!-- Multiplayer transport and setup -->
-    <script src="../src/transport/multiplayer/multiplayer-handler.js" type="module"></script>
-    <script src="../src/features/player-setup.js" type="module"></script>
+    <script src="../src/transport/multiplayer/handler.js" type="module"></script>
+    <script src="../src/player/player-setup.js" type="module"></script>
 
     <!-- UI Switching Functions now in separate JS file -->
 

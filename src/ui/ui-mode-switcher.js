@@ -1,9 +1,5 @@
-// ui-mode-switcher.js - UI mode switching for index page
-// Handles switching between multiplayer and offline setup modes
-
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
 
-// === DOM IDS FOR INDEX PAGE ===
 const INDEX_DOM_IDS = {
     NEW_GAME_SECTION: 'newGameSection',
     RESUME_SECTION: 'resumeSection',
@@ -16,9 +12,7 @@ const INDEX_DOM_IDS = {
     FRONT_INSTRUCTION: 'front-instruction'
 };
 
-// === UI MODE SWITCHING ===
 function showOfflineSetup() {
-    // Hide multiplayer sections
     const elementsToHide = [
         INDEX_DOM_IDS.NEW_GAME_SECTION,
         INDEX_DOM_IDS.RESUME_SECTION,
@@ -86,13 +80,10 @@ function updateHeaderForMode(mode) {
     }
 }
 
-// === EXPORTS ===
-// Make functions available globally for HTML onclick handlers
 window.showOfflineSetup = showOfflineSetup;
 window.showMultiplayerSetup = showMultiplayerSetup;
 window.updateHeaderForMode = updateHeaderForMode;
 
-// Also export as module
 window.uiModeSwitcher = {
     showOfflineSetup,
     showMultiplayerSetup,

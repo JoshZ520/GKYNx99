@@ -15,17 +15,17 @@
 <link rel="stylesheet" href="../assets/css/game-ui.css">
 <link rel="stylesheet" href="../assets/css/game-multiplayer.css">
 <link rel="stylesheet" href="../assets/css/components.css">
-<script src="../src/utilities/theme-utilities.js" defer></script>
+<script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
-<script src="../src/game/question-manager.js" type="module" defer></script>
-<script src="../src/game/player-manager.js" type="module" defer></script>
-<script src="../src/game/ui-manager.js" type="module" defer></script>
+<script src="../src/core/question-manager.js" type="module" defer></script>
+<script src="../src/core/player-manager.js" type="module" defer></script>
+<script src="../src/ui/ui-manager.js" type="module" defer></script>
 <!-- Transport layer - interface loads first, then handlers register -->
-<script src="../src/transport/transport-interface.js"></script>
+<script src="../src/transport/transport-interface.js" type="module"></script>
 <script type="module" src="../src/transport/offline-handler.js"></script>
 <!-- Game loader conditionally loads socket.io and multiplayer-handler based on mode -->
-<script src="../src/game/game-loader.js" type="module" defer></script>
+<script src="../src/core/game-loader.js" type="module" defer></script>
 
 </head>
 <body class="game-page" id="root">
@@ -34,8 +34,6 @@
 (function() {
     const gameMode = sessionStorage.getItem('gameMode');
     const isOffline = gameMode === 'offline';
-    
-    console.log(' Game page mode detection:', { gameMode, isOffline });
     
     if (isOffline) {
         // OFFLINE MODE: Hide multiplayer, show offline
@@ -97,7 +95,7 @@
 <!-- Create Room Button (shown before room is created) -->
 <div id="createRoomSection" class="create-room-section hidden">
 <p>Ready to start your multiplayer game?</p>
-<button id="createRoomBtn" class="start-btn" onclick="console.log('🔴 DIRECT CLICK TEST: Button is clickable!')">Create Room</button>
+<button id="createRoomBtn" class="start-btn">Create Room</button>
 </div>
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
@@ -219,7 +217,6 @@
 </div>
 </div>
 <!-- Image-based preference selection -->
-
 <div class="preference-container" id="preferenceContainer" class="hidden">
     <div class="preference-options" id="optionsContainer">
         <!-- Options will be rendered by JS -->
@@ -245,30 +242,6 @@
     <h4>📊 Results:</h4>
     <div id="resultsBarContent"></div>
 </div>
-<script>
-// Wire up offline mode when DOM is ready and module has loaded
-function initOfflineGameMode() {
-    if (sessionStorage.getItem('gameMode') !== 'offline') return;
-    
-    // Wait for offline functions to be available
-    if (!window.displayQuestionOptionsOffline) {
-        setTimeout(initOfflineGameMode, 50);
-        return;
-    }
-    
-    window.displayQuestionOptions = window.displayQuestionOptionsOffline;
-    window.selectPreference = window.selectAnswerOffline;
-    window.updateSubmitButton = window.updateSubmitButtonOffline;
-    // submitOfflineAnswer is already defined in offline.js via attachToWindow()
-}
-
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initOfflineGameMode);
-} else {
-    initOfflineGameMode();
-}
-</script>
 
 <!-- Host controls -->
 <div class="buttons">

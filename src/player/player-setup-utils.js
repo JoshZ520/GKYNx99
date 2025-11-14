@@ -1,12 +1,3 @@
-// src/utilities/player-setup-utils.js
-// Shared utility functions for player setup (input generation, validation, UI updates)
-
-/**
- * Generate player input fields dynamically.
- * @param {HTMLElement} container - The DOM element to append inputs to.
- * @param {number} count - Number of player inputs to generate.
- * @param {function} [onInput] - Optional callback for input events.
- */
 export function generatePlayerInputs(container, count, onInput) {
     container.innerHTML = '';
     for (let i = 1; i <= count; i++) {
@@ -28,11 +19,6 @@ export function generatePlayerInputs(container, count, onInput) {
     }
 }
 
-/**
- * Validate player names for uniqueness and non-empty values.
- * @param {string[]} names - Array of player names.
- * @returns {{allFilled: boolean, hasDuplicates: boolean}}
- */
 export function validatePlayerNames(names) {
     const allFilled = names.every(name => name.trim() !== '');
     const uniqueNames = new Set(names.map(name => name.trim().toLowerCase()));
@@ -40,11 +26,6 @@ export function validatePlayerNames(names) {
     return { allFilled, hasDuplicates };
 }
 
-/**
- * Update the start button state based on player names.
- * @param {HTMLButtonElement} startButton - The button to update.
- * @param {string[]} names - Array of player names.
- */
 export function updateStartButtonState(startButton, names) {
     const { allFilled, hasDuplicates } = validatePlayerNames(names);
     if (!allFilled) {

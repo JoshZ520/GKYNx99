@@ -1,28 +1,14 @@
-// src/transport/multiplayer-room-manager.js
-// Handles room creation, player management, and socket connection
-
-// === UTILITIES ===
-function showElement(id) {
-    const element = document.getElementById(id);
-    if (element) element.classList.remove('hidden');
-}
-
-function hideElement(id) {
-    const element = document.getElementById(id);
-    if (element) element.classList.add('hidden');
-}
+import { CONFIG_UTILS } from '../../config/game-config.js';
 
 function updateStatus(message, type = 'info') {
-    const statusText = document.getElementById('statusText');
-    const statusDot = document.getElementById('statusDot');
+    const statusText = CONFIG_UTILS.setText('statusText', message);
+    const statusDot = CONFIG_UTILS.getElement('statusDot');
     
-    if (statusText) statusText.textContent = message;
     if (statusDot) {
         statusDot.className = `status-dot ${type}`;
     }
 }
 
-// === SOCKET CONNECTION ===
 export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed) {
     if (typeof io === 'undefined') {
         updateStatus('Server unavailable - Offline mode only', 'offline');
@@ -38,7 +24,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             
             // Re-register handler when socket connects (important for game page on load)
             if (window.multiplayerTransportHandler && window.transport && gameState.roomCode) {
-                console.log('🔄 Re-registering handler after socket connection');
                 window.transport.registerHandler(window.multiplayerTransportHandler);
                 
                 // Initialize UI if on game page
@@ -48,8 +33,8 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             }
             
             if (gameState.currentPage === 'index') {
-                showElement('createRoomStep');
-                hideElement('offlineFallback');
+                CONFIG_UTILS.show('createRoomStep');
+                CONFIG_UTILS.hide('offlineFallback');
             }
             
             // If on game page with existing room, rejoin
@@ -80,7 +65,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             
             // Re-register the handler now that we're connected and have a room
             if (window.multiplayerTransportHandler && window.transport) {
-                console.log('🔄 Re-registering handler after room creation');
                 window.transport.registerHandler(window.multiplayerTransportHandler);
                 
                 // Initialize UI now that handler is registered
@@ -90,25 +74,17 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             }
             
             // Update UI
-            const roomCodeDisplay = document.getElementById('roomCodeDisplay');
-            if (roomCodeDisplay) roomCodeDisplay.textContent = data.roomCode;
+            CONFIG_UTILS.setText('roomCodeDisplay', data.roomCode);
             
             // Show multiplayer info panel and hide create button on game page
             if (gameState.currentPage === 'game') {
-                const multiplayerInfo = document.getElementById('multiplayerInfo');
-                if (multiplayerInfo) {
-                    multiplayerInfo.classList.remove('hidden');
-                }
-                
-                const createRoomSection = document.getElementById('createRoomSection');
-                if (createRoomSection) {
-                    createRoomSection.classList.add('hidden');
-                }
+                CONFIG_UTILS.show('multiplayerInfo');
+                CONFIG_UTILS.hide('createRoomSection');
             }
             
             // For index page (old flow, still supported)
-            showElement('roomCreatedStep');
-            hideElement('createRoomStep');
+            CONFIG_UTILS.show('roomCreatedStep');
+            CONFIG_UTILS.hide('createRoomStep');
             updateStatus(`Room ${data.roomCode} created`, 'connected');
         });
         
@@ -126,7 +102,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
         
         // Game page specific socket events
         socket.on('answer-received', (data) => {
-            console.log('Answer received:', data.playerName);
             if (onAnswerReceived) {
                 onAnswerReceived(data);
             }
@@ -140,23 +115,18 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
         
         return { success: true, socket };
     } catch (error) {
-        console.log('Socket connection failed:', error);
         updateStatus('Connection failed - Offline mode only', 'offline');
         return { success: false, socket: null };
     }
 }
 
-// === PLAYER MANAGEMENT ===
 export function updatePlayersList(gameState) {
-    // Index page elements
-    const indexPlayersList = document.getElementById('joinedPlayersList');
-    const indexPlayersCount = document.getElementById('joinedPlayersCount');
+    const indexPlayersList = CONFIG_UTILS.getElement('joinedPlayersList');
+    const indexPlayersCount = CONFIG_UTILS.getElement('joinedPlayersCount');
     
-    // Game page elements
-    const gamePlayersList = document.getElementById('connectedPlayersList');
-    const gamePlayersCount = document.getElementById('playerCount');
+    const gamePlayersList = CONFIG_UTILS.getElement('connectedPlayersList');
+    const gamePlayersCount = CONFIG_UTILS.getElement('playerCount');
     
-    // Update index page if elements exist
     if (indexPlayersCount) {
         indexPlayersCount.textContent = gameState.players.length;
     }
@@ -171,7 +141,6 @@ export function updatePlayersList(gameState) {
         }
     }
     
-    // Update game page if elements exist
     if (gamePlayersCount) {
         gamePlayersCount.textContent = gameState.players.length;
     }
@@ -188,35 +157,31 @@ export function updatePlayersList(gameState) {
     
     // Show/hide game controls based on player count (multiplayer mode on game page)
     if (gameState.currentPage === 'game' && gameState.isHost) {
-        const waitingMessage = document.getElementById('waitingForPlayers');
-        const gameContainer = document.getElementById('gameContainer');
-        
         const hasEnoughPlayers = gameState.players.length >= 2;
         
+        const waitingMessage = CONFIG_UTILS.getElement('waitingForPlayers');
         if (waitingMessage) {
-            waitingMessage.style.display = hasEnoughPlayers ? 'none' : 'block';
-            waitingMessage.classList.toggle('hidden', hasEnoughPlayers);
+            CONFIG_UTILS.setDisplay(waitingMessage, hasEnoughPlayers ? 'none' : 'block');
+            CONFIG_UTILS.toggle(waitingMessage, !hasEnoughPlayers);
         }
         
-        if (gameContainer) {
-            gameContainer.style.display = hasEnoughPlayers ? '' : 'none';
-        }
+        CONFIG_UTILS.setDisplay('gameContainer', hasEnoughPlayers ? '' : 'none');
     }
 }
 
 export function updateStartButton(gameState) {
-    const startBtn = document.getElementById('startGameBtn');
+    const startBtn = CONFIG_UTILS.getElement('startGameBtn');
     
     if (startBtn) {
         const canStart = gameState.players.length >= 2;
         
         if (canStart) {
             startBtn.disabled = false;
-            startBtn.classList.remove('disabled');
+            CONFIG_UTILS.removeClass(startBtn, 'DISABLED');
             startBtn.textContent = `Start Game (${gameState.players.length} players)`;
         } else {
             startBtn.disabled = true;
-            startBtn.classList.add('disabled');
+            CONFIG_UTILS.addClass(startBtn, 'DISABLED');
             startBtn.textContent = gameState.players.length === 0 
                 ? 'Waiting for players...' 
                 : `Need ${2 - gameState.players.length} more player${2 - gameState.players.length === 1 ? '' : 's'}`;
@@ -224,12 +189,7 @@ export function updateStartButton(gameState) {
     }
 }
 
-// === ROOM ACTIONS ===
 export function createRoom(socket, gameState) {
-    console.log('createRoom() called');
-    console.log('Socket:', socket);
-    console.log('Connected:', gameState.isConnected);
-    
     if (!socket || !gameState.isConnected) {
         updateStatus('Not connected to server', 'error');
         return;
@@ -237,7 +197,7 @@ export function createRoom(socket, gameState) {
     
     updateStatus('Creating room...', 'connecting');
     
-    const createBtn = document.getElementById('createRoomBtn');
+    const createBtn = CONFIG_UTILS.getElement('createRoomBtn');
     if (createBtn) {
         createBtn.disabled = true;
         createBtn.textContent = 'Creating room...';
@@ -276,7 +236,7 @@ export function copyRoomCode(gameState) {
     if (!gameState.roomCode) return;
     
     navigator.clipboard.writeText(gameState.roomCode).then(() => {
-        const copyBtn = document.getElementById('copyRoomCodeBtn');
+        const copyBtn = CONFIG_UTILS.getElement('copyRoomCodeBtn');
         if (copyBtn) {
             const originalText = copyBtn.textContent;
             copyBtn.textContent = 'Copied!';
