@@ -1,20 +1,14 @@
-// shared.js - Common functionality used across all pages
-// Contains utility functions and shared data loading
-// === GLOBAL VARIABLES ===
 let topics = {};
-// === DATA LOADING ===
+
 function loadQuestions() {
-    // Determine the correct path based on current page location
-    const isInPages = window.location.pathname.includes('/pages/');
-    const isInFallback = window.location.pathname.includes('/fallback/');
-    const basePath = (isInPages || isInFallback) ? '../src/data/questions/topics/' : 'src/data/questions/topics/';
+    // Use absolute path from server root for consistency
+    const basePath = '/src/data/questions/topics/';
     
     return fetch(basePath + 'index.json').then(res => {
         if (!res.ok) throw new Error('Failed to load topics/index.json');
         return res.json();
     })
     .then(topicsIndex => {
-        // Load individual topic files
         const topicPromises = Object.keys(topicsIndex).map(topicName => {
             const topicInfo = topicsIndex[topicName];
             return fetch(`${basePath}${topicInfo.file}`)
@@ -23,7 +17,6 @@ function loadQuestions() {
                     return res.json();
                 })
                 .then(topicData => {
-                    // Create topic structure
                     topics[topicName] = {
                         questions: topicData.questions || [],
                         colors: topicData.colors || { option1: '#3b82f6', option2: '#10b981' }
@@ -33,24 +26,18 @@ function loadQuestions() {
         return Promise.all(topicPromises);
     })
     .then(() => {
-        // Update global references
         window.topics = topics;
 
         return { topics };
     })
     .catch(err => {
         console.error('Error loading questions from modular files:', err);
-        // Final fallback with empty data
         topics = {};
 
         return { topics };
     });
 }
 
-// Helper function to determine if a color is dark
-
-// === COMMON UI UTILITIES ===
-// Dropdown toggle functionality (used on game page)
 function initializeDropdown() {
     const dropdownBtn = document.querySelector('#open_page');
     const directions = document.querySelector('#directions');
@@ -84,25 +71,16 @@ function initializeDropdown() {
         dropdownBtn.addEventListener('click', dropdown);
     }
     
-    // Auto-close directions when user starts playing
-    // Close when switching questions
     const switchBtn = document.querySelector('#switchQuestion');
     if (switchBtn) {
         switchBtn.addEventListener('click', closeDirections);
     }
 }
-// === INITIALIZATION ===
-// Load color scheme for all pages
-window.addEventListener('DOMContentLoaded', function () {
 
-    // Initialize dropdown if present
+window.addEventListener('DOMContentLoaded', function () {
     initializeDropdown();
-    // Load questions
     loadQuestions();
 });
 
-// === EXPORTS ===
-// Make functions available globally
 window.loadQuestions = loadQuestions;
-// Make data available globally
 window.getTopics = () => topics;

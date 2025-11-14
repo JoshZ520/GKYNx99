@@ -1,4 +1,4 @@
-// src/game/game-loader.js - Dynamic script loading for game page
+// src/core/game-loader.js - Dynamic script loading for game page
 // Handles conditional loading of multiplayer scripts based on game mode
 
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
@@ -16,7 +16,7 @@ function initializeGameScripts() {
 
         socketScript.onload = function() {
             const multiplayerScript = document.createElement('script');
-            multiplayerScript.src = '../src/transport/multiplayer/multiplayer-handler.js';
+            multiplayerScript.src = '../src/transport/multiplayer/handler.js';
             multiplayerScript.type = 'module';
             document.head.appendChild(multiplayerScript);
         };

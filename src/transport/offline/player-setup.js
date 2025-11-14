@@ -1,5 +1,5 @@
-// src/transport/offline/offline-player-setup.js - Player setup and game initialization
-import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../utilities/player-setup-utils.js';
+// src/transport/offline/player-setup.js - Player setup and game initialization
+import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../player/player-setup-utils.js';
 import { CONFIG_UTILS } from '../../config/game-config.js';
 
 /**

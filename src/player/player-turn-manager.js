@@ -1,6 +1,6 @@
-// src/game/player/player-turn-manager.js - Player turn management and indicators
+// src/player/player-turn-manager.js - Player turn management and indicators
 
-import { GAME_CONFIG } from '../../config/game-config.js';
+import { GAME_CONFIG } from '../config/game-config.js';
 
 // Shared state
 let playerNames = [];

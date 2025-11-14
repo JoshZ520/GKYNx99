@@ -1,5 +1,7 @@
 // src/transport/player-client.js - Player-side client for multiplayer
 
+import { CONFIG_UTILS } from '../config/game-config.js';
+
 // Global state
 let socket = null;
 let playerState = {
@@ -103,8 +105,8 @@ function setupGameEventListeners() {
 
 // Update connection status indicator
 function updateConnectionStatus(status, text) {
-    const indicator = document.getElementById('statusIndicator');
-    const statusText = document.getElementById('statusText');
+    const indicator = CONFIG_UTILS.getElement('statusIndicator');
+    const statusText = CONFIG_UTILS.getElement('statusText');
     
     if (indicator && statusText) {
         indicator.className = `status-indicator ${status}`;
@@ -114,21 +116,20 @@ function updateConnectionStatus(status, text) {
 
 // Show error message
 function showPlayerError(message) {
-    const errorDiv = document.getElementById('joinError');
+    const errorDiv = CONFIG_UTILS.setText('joinError', message);
     if (errorDiv) {
-        errorDiv.textContent = message;
-        errorDiv.classList.remove('hidden');
+        CONFIG_UTILS.show(errorDiv);
         
         // Auto-hide after 5 seconds
         setTimeout(() => {
-            errorDiv.classList.add('hidden');
+            CONFIG_UTILS.hide('joinError');
         }, 5000);
     }
 }
 
 // Reset join form
 function resetJoinForm() {
-    const joinBtn = document.getElementById('joinBtn');
+    const joinBtn = CONFIG_UTILS.getElement('joinBtn');
     if (joinBtn) {
         joinBtn.disabled = false;
         joinBtn.innerHTML = '<span>Join Game</span>';
@@ -141,13 +142,13 @@ function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
     sections.forEach(section => {
         section.classList.remove('visible');
-        section.classList.add('hidden');
+        CONFIG_UTILS.hide(section);
     });
     
     // Show target section
-    const targetSection = document.getElementById(sectionId);
+    const targetSection = CONFIG_UTILS.getElement(sectionId);
     if (targetSection) {
-        targetSection.classList.remove('hidden');
+        CONFIG_UTILS.show(targetSection);
         targetSection.classList.add('visible');
     }
 }
@@ -161,8 +162,8 @@ function showWaitingSection() {
     showSection('waitingSection');
     
     // Update UI with current info
-    document.getElementById('currentRoomCode').textContent = playerState.roomCode;
-    document.getElementById('currentPlayerName').textContent = playerState.name;
+    CONFIG_UTILS.setText('currentRoomCode', playerState.roomCode);
+    CONFIG_UTILS.setText('currentPlayerName', playerState.name);
     
     updatePlayersList();
 }
@@ -171,20 +172,13 @@ function showQuestionSection(question) {
     showSection('questionSection');
     
     // Reset answer status for new question
-    const answerStatus = document.getElementById('answerStatus');
-    const answerOptions = document.getElementById('answerOptions');
-    if (answerStatus) {
-        answerStatus.classList.add('hidden');
-    }
-    if (answerOptions) {
-        answerOptions.style.display = 'flex';
-    }
+    CONFIG_UTILS.hide('answerStatus');
+    CONFIG_UTILS.showDisplay('answerOptions', 'flex');
     
     // Update UI
-    document.getElementById('questionRoomCode').textContent = playerState.roomCode;
-    var playerNameElem = document.getElementById('questionPlayerName');
+    CONFIG_UTILS.setText('questionRoomCode', playerState.roomCode);
     var name = playerState.name || sessionStorage.getItem('playerName') || localStorage.getItem('playerName') || '';
-    if (playerNameElem) playerNameElem.textContent = name;
+    CONFIG_UTILS.setText('questionPlayerName', name);
     
     // Extract the question text - handle different formats
     let questionText = '';
@@ -198,27 +192,22 @@ function showQuestionSection(question) {
         questionText = 'No question text';
     }
     
-    document.getElementById('currentQuestion').textContent = questionText;
+    CONFIG_UTILS.setText('currentQuestion', questionText);
     
     // Create answer buttons
     createAnswerButtons(question.options || []);
 }
 
 function showAnswerStatus() {
-    const answerOptions = document.getElementById('answerOptions');
-    const answerStatus = document.getElementById('answerStatus');
-    
-    if (answerOptions && answerStatus) {
-        answerOptions.style.display = 'none';
-        answerStatus.classList.remove('hidden');
-    }
+    CONFIG_UTILS.hideDisplay('answerOptions');
+    CONFIG_UTILS.show('answerStatus');
 }
 
 function showResults(data) {
     showSection('resultsSection');
     
     // Update question recap
-    document.getElementById('resultsQuestion').textContent = data.question.text;
+    CONFIG_UTILS.setText('resultsQuestion', data.question.text);
     
     // Show results
     displayResults(data.results);
@@ -226,11 +215,11 @@ function showResults(data) {
 
 // Create answer buttons based on question options
 function createAnswerButtons(options) {
-    const container = document.getElementById('answerOptions');
+    const container = CONFIG_UTILS.getElement('answerOptions');
     if (!container) return;
     
     container.innerHTML = '';
-    container.style.display = 'flex';
+    CONFIG_UTILS.showDisplay(container, 'flex');
     
     options.forEach((option, index) => {
         const button = document.createElement('button');
@@ -267,7 +256,7 @@ function submitAnswer(selectedOption, index) {
 
 // Display results
 function displayResults(results) {
-    const container = document.getElementById('resultsContent');
+    const container = CONFIG_UTILS.getElement('resultsContent');
     if (!container) return;
     
     container.innerHTML = '';
@@ -289,7 +278,7 @@ function displayResults(results) {
 }
 
 function updatePlayersList() {
-    const container = document.getElementById('playersList');
+    const container = CONFIG_UTILS.getElement('playersList');
     if (container) {
         // Display current player (server would populate full list in multiplayer)
         container.innerHTML = `<div>${playerState.name} (you)</div>`;
@@ -298,9 +287,9 @@ function updatePlayersList() {
 
 // Join form handling
 function setupJoinForm() {
-    const joinForm = document.getElementById('joinForm');
-    const playerNameInput = document.getElementById('playerName');
-    const roomCodeInput = document.getElementById('roomCode');
+    const joinForm = CONFIG_UTILS.getElement('joinForm');
+    const playerNameInput = CONFIG_UTILS.getElement('playerName');
+    const roomCodeInput = CONFIG_UTILS.getElement('roomCode');
     
     if (!joinForm) return;
     
@@ -328,14 +317,14 @@ function setupJoinForm() {
         }
         
         // Update button to show loading
-        const joinBtn = document.getElementById('joinBtn');
+        const joinBtn = CONFIG_UTILS.getElement('joinBtn');
         if (joinBtn) {
             joinBtn.disabled = true;
             joinBtn.innerHTML = '<span>Joining...</span>';
         }
         
         // Clear any previous errors
-        document.getElementById('joinError').classList.add('hidden');
+        CONFIG_UTILS.hide('joinError');
         
         // Save player name locally for persistence
         sessionStorage.setItem('playerName', playerName);

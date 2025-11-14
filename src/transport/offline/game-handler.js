@@ -1,6 +1,8 @@
-// src/transport/offline/offline-game-handler.js - Answer selection and submission logic
+// src/transport/offline/game-handler.js - Answer selection and submission logic
 
 // Module-level state for selected answer
+import { CONFIG_UTILS } from '../../config/game-config.js';
+
 let selectedAnswer = null;
 
 /**
@@ -8,7 +10,7 @@ let selectedAnswer = null;
  * @param {Object} question - The question object with options
  */
 export function displayQuestionOptionsOffline(question) {
-    const optionsContainer = document.getElementById('optionsContainer');
+    const optionsContainer = CONFIG_UTILS.getElement('optionsContainer');
     if (!optionsContainer || !question) return;
     
     optionsContainer.innerHTML = '';
@@ -32,9 +34,9 @@ export function displayQuestionOptionsOffline(question) {
     }
     
     // Show preference container
-    const preferenceContainer = document.getElementById('preferenceContainer');
+    const preferenceContainer = CONFIG_UTILS.getElement('preferenceContainer');
     if (preferenceContainer) {
-        preferenceContainer.classList.remove('hidden');
+        CONFIG_UTILS.show(preferenceContainer);
         preferenceContainer.classList.add('visible');
     }
     
@@ -72,13 +74,11 @@ export function displayQuestionOptionsOffline(question) {
 export function selectAnswerOffline(answer, btn) {
     selectedAnswer = answer;
     
-    const input = document.getElementById('selectedPreference');
-    if (input) {
-        input.value = answer;
-    }
+    const input = CONFIG_UTILS.getElement('selectedPreference');
+    if (input) input.value = answer;
     
-    document.querySelectorAll('.preference-option').forEach(opt => opt.classList.remove('selected'));
-    if (btn && btn.classList) btn.classList.add('selected');
+    document.querySelectorAll('.preference-option').forEach(opt => CONFIG_UTILS.removeClass(opt, 'SELECTED'));
+    if (btn && btn.classList) CONFIG_UTILS.addClass(btn, 'SELECTED');
     
     updateSubmitButtonOffline();
 }
@@ -87,12 +87,12 @@ export function selectAnswerOffline(answer, btn) {
  * Update submit button state based on whether an answer is selected
  */
 export function updateSubmitButtonOffline() {
-    const submitBtn = document.getElementById('submitButton');
+    const submitBtn = CONFIG_UTILS.getElement('submitButton');
     if (!submitBtn) return;
-    
+
     const disabled = !selectedAnswer;
     submitBtn.disabled = disabled;
-    submitBtn.classList.toggle('disabled', disabled);
+    if (disabled) CONFIG_UTILS.addClass(submitBtn, 'DISABLED'); else CONFIG_UTILS.removeClass(submitBtn, 'DISABLED');
 }
 
 /**
@@ -100,7 +100,7 @@ export function updateSubmitButtonOffline() {
  * @returns {string|null} The selected answer or null
  */
 export function getSelectedAnswerOffline() {
-    const input = document.getElementById('selectedPreference');
+    const input = CONFIG_UTILS.getElement('selectedPreference');
     return input ? input.value : selectedAnswer;
 }
 

@@ -1,18 +1,11 @@
-// src/transport/multiplayer-game-coordinator.js
-// Handles game flow: question broadcasting, answer collection, progress tracking
+import { CONFIG_UTILS } from '../../config/game-config.js';
 
-// === QUESTION BROADCASTING ===
+export function updateAnswerProgress(answeredCount, totalPlayers) {
+    CONFIG_UTILS.setText('answerProgress', `${answeredCount}/${totalPlayers} players answered`);
+}
+
 export function broadcastQuestionToPlayers(question, socket, gameState) {
-    console.log('🔥 broadcastQuestionToPlayers called:', { 
-        currentPage: gameState.currentPage, 
-        isHost: gameState.isHost, 
-        hasSocket: !!socket, 
-        isConnected: gameState.isConnected,
-        question: question 
-    });
-    
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) {
-        console.log('❌ Not in multiplayer mode, skipping broadcast');
         return;
     }
     
@@ -20,15 +13,15 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     gameState.waitingForAnswers = true;
     gameState.collectedAnswers = new Map();
     
-    // Show answer progress container and reveal button
-    const progressContainer = document.getElementById('answerProgressContainer');
-    if (progressContainer) {
-        progressContainer.classList.remove('hidden');
-    }
+    CONFIG_UTILS.show('answerProgressContainer');
     
-    const revealBtn = document.getElementById('revealAnswersBtn');
+    // Initialize answer progress display
+    const totalPlayers = gameState.players?.length || 0;
+    updateAnswerProgress(0, totalPlayers);
+    
+    const revealBtn = CONFIG_UTILS.getElement('revealAnswersBtn');
     if (revealBtn && gameState.isHost) {
-        revealBtn.style.display = 'inline-block';
+        CONFIG_UTILS.setDisplay(revealBtn, 'inline-block');
         // Wire up the reveal button if not already done
         if (!revealBtn.hasAttribute('data-wired')) {
             revealBtn.addEventListener('click', () => {
@@ -95,7 +88,6 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     });
 }
 
-// === ANSWER MANAGEMENT ===
 export function revealAnswers(socket, gameState) {
     if (!gameState.isHost || !socket || !gameState.isConnected) {
         return;
@@ -106,24 +98,14 @@ export function revealAnswers(socket, gameState) {
     });
 }
 
-export function updateAnswerProgress(answeredCount, totalPlayers) {
-    const progressElement = document.getElementById('answerProgress');
-    if (progressElement) {
-        progressElement.textContent = `${answeredCount}/${totalPlayers} players answered`;
-    }
-}
-
-// === ANSWER RECEIVED HANDLER ===
 export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
     updateAnswerProgress(data.answeredCount, data.totalPlayers);
     
-    // Show notification
-    const notification = document.getElementById('playerAnsweredNotification');
+    const notification = CONFIG_UTILS.setText('playerAnsweredNotification', `${data.playerName} answered!`);
     if (notification) {
-        notification.textContent = `${data.playerName} answered!`;
-        notification.style.display = 'block';
+        CONFIG_UTILS.setDisplay(notification, 'block');
         setTimeout(() => {
-            notification.style.display = 'none';
+            CONFIG_UTILS.hideDisplay(notification);
         }, 2000);
     }
     
@@ -135,46 +117,28 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
     }
 }
 
-// === ANSWERS REVEALED HANDLER ===
 export function handleAnswersRevealed(data, gameState) {
-    console.log('📊 Answers revealed, displaying results:', data);
-    
-    // Store results for this question
     gameState.allQuestionResults.push({
         question: data.question,
         results: data.results,
         timestamp: Date.now()
     });
     
-    // Display the results bar with the answers
-    if (data.results && data.results.length > 0) {
-        // Import and call displayResultsBar
-        import('./multiplayer-results-display.js').then(module => {
-            module.displayResultsBar(data.results, data.question);
-        });
-    }
+    // Store results but don't display them automatically
+    // Results will be shown when user clicks "End Game" button
     
-    // Hide the reveal button after answers are shown
-    const revealBtn = document.getElementById('revealAnswersBtn');
-    if (revealBtn) {
-        revealBtn.style.display = 'none';
-    }
+    // Hide the reveal button after answers are captured
+    CONFIG_UTILS.hideDisplay('revealAnswersBtn');
     
     // Show the "End Game" button after first question is answered
-    const endGameBtn = document.getElementById('end_game_btn');
-    if (endGameBtn) {
-        endGameBtn.style.display = 'block';
-    }
+    CONFIG_UTILS.setDisplay('end_game_btn', 'block');
     
-    // Reset progress for next question
     updateAnswerProgress(0, gameState.playerNames?.length || 0);
 }
 
-// === HELPER FUNCTION ===
 export function getCurrentQuestionOptions() {
-    // Extract current question options from the page
-    const option1Label = document.getElementById('option1Label');
-    const option2Label = document.getElementById('option2Label');
+    const option1Label = CONFIG_UTILS.getElement('option1Label');
+    const option2Label = CONFIG_UTILS.getElement('option2Label');
     
     if (option1Label && option2Label) {
         return [

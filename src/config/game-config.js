@@ -147,6 +147,14 @@ export const CONFIG_UTILS = {
     // DOM element access with proper IDs
     getElementById: (elementKey) => document.getElementById(GAME_CONFIG.DOM_IDS[elementKey]),
     
+    // Direct element access (accepts either ID string or element)
+    getElement: (elementOrId) => {
+        if (typeof elementOrId === 'string') {
+            return document.getElementById(elementOrId);
+        }
+        return elementOrId;
+    },
+    
     // CSS class manipulation helpers
     addClass: (element, classKey) => element?.classList.add(GAME_CONFIG.CSS_CLASSES[classKey]),
     removeClass: (element, classKey) => element?.classList.remove(GAME_CONFIG.CSS_CLASSES[classKey]),
@@ -162,5 +170,72 @@ export const CONFIG_UTILS = {
     
     // Validation helpers
     isValidPlayerCount: (count) => count >= GAME_CONFIG.PLAYERS.MIN_COUNT && 
-                                  count <= GAME_CONFIG.PLAYERS.MAX_COUNT
+                                  count <= GAME_CONFIG.PLAYERS.MAX_COUNT,
+    
+    // DOM visibility helpers (classList-based)
+    show: (elementOrId) => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.classList.remove(GAME_CONFIG.CSS_CLASSES.HIDDEN);
+        return el;
+    },
+    
+    hide: (elementOrId) => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.classList.add(GAME_CONFIG.CSS_CLASSES.HIDDEN);
+        return el;
+    },
+    
+    toggle: (elementOrId, force) => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.classList.toggle(GAME_CONFIG.CSS_CLASSES.HIDDEN, force);
+        return el;
+    },
+    
+    // DOM display style helpers (style.display-based)
+    setDisplay: (elementOrId, displayValue = '') => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.style.display = displayValue;
+        return el;
+    },
+    
+    showDisplay: (elementOrId, displayValue = '') => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.style.display = displayValue;
+        return el;
+    },
+    
+    hideDisplay: (elementOrId) => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.style.display = 'none';
+        return el;
+    },
+    
+    // Text content helpers
+    setText: (elementOrId, text) => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.textContent = text;
+        return el;
+    },
+    
+    setHTML: (elementOrId, html) => {
+        const el = typeof elementOrId === 'string' 
+            ? document.getElementById(elementOrId) 
+            : elementOrId;
+        if (el) el.innerHTML = html;
+        return el;
+    }
 };
