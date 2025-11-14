@@ -1,5 +1,9 @@
 import { CONFIG_UTILS } from '../../config/game-config.js';
 
+export function updateAnswerProgress(answeredCount, totalPlayers) {
+    CONFIG_UTILS.setText('answerProgress', `${answeredCount}/${totalPlayers} players answered`);
+}
+
 export function broadcastQuestionToPlayers(question, socket, gameState) {
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) {
         return;
@@ -10,6 +14,10 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     gameState.collectedAnswers = new Map();
     
     CONFIG_UTILS.show('answerProgressContainer');
+    
+    // Initialize answer progress display
+    const totalPlayers = gameState.players?.length || 0;
+    updateAnswerProgress(0, totalPlayers);
     
     const revealBtn = CONFIG_UTILS.getElement('revealAnswersBtn');
     if (revealBtn && gameState.isHost) {
@@ -88,10 +96,6 @@ export function revealAnswers(socket, gameState) {
     socket.emit('reveal-answers', {
         roomCode: gameState.roomCode
     });
-}
-
-export function updateAnswerProgress(answeredCount, totalPlayers) {
-    CONFIG_UTILS.setText('answerProgress', `${answeredCount}/${totalPlayers} players answered`);
 }
 
 export function handleAnswerReceived(data, gameState, revealAnswersCallback) {

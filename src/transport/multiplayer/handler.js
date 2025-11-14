@@ -209,6 +209,9 @@ const multiplayerTransportHandler = {
 
 window.multiplayerTransportHandler = multiplayerTransportHandler;
 
+// Expose showAllResults to global scope for end game button
+window.showAllResults = showAllResults;
+
 if (window.transport) {
     window.transport.registerHandler(multiplayerTransportHandler);
     window.transport.initializeModeUI();

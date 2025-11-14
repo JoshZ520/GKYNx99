@@ -1,9 +1,8 @@
 let topics = {};
 
 function loadQuestions() {
-    const isInPages = window.location.pathname.includes('/pages/');
-    const isInFallback = window.location.pathname.includes('/fallback/');
-    const basePath = (isInPages || isInFallback) ? '../src/data/questions/topics/' : 'src/data/questions/topics/';
+    // Use absolute path from server root for consistency
+    const basePath = '/src/data/questions/topics/';
     
     return fetch(basePath + 'index.json').then(res => {
         if (!res.ok) throw new Error('Failed to load topics/index.json');

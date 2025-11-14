@@ -1,6 +1,6 @@
-// src/game/player/game-resume-manager.js - Game resume and results display
+// src/player/game-resume-manager.js - Game resume and results display
 
-import { CONFIG_UTILS, GAME_CONFIG } from '../../config/game-config.js';
+import { CONFIG_UTILS, GAME_CONFIG } from '../config/game-config.js';
 
 /**
  * Set up results button event listeners

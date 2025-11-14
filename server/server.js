@@ -48,6 +48,15 @@ app.use('/stylesheets', express.static(path.join(__dirname, '../stylesheets'), {
 app.use('/scripts', express.static(path.join(__dirname, '../scripts')));
 app.use('/images', express.static(path.join(__dirname, '../images')));
 app.use('/pages', express.static(path.join(__dirname, '../pages')));
+app.use('/src', express.static(path.join(__dirname, '../src'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.js')) {
+            res.setHeader('Content-Type', 'text/javascript');
+        } else if (filePath.endsWith('.json')) {
+            res.setHeader('Content-Type', 'application/json');
+        }
+    }
+}));
 app.use('/assets', express.static(path.join(__dirname, '../assets'), {
     setHeaders: (res, filePath) => {
         if (filePath.endsWith('.css')) {
