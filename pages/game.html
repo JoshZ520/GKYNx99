@@ -83,21 +83,8 @@
 })();
 </script>
 <header id="header">
-<div class="direction">
-<h1>Directions: </h1>
-</div>
-<div class="header-controls">
-<button id="open_page" type="button"><img src="../assets/images/icons/chevron-down.svg" alt="open page"></button>
-</div>
-<div id="directions">
-<p>Choose a topic from the dropdown or use Random to get started. Click the circular switch button to get a new question. When it's your turn, select your preferred option and click Submit. After everyone has answered, click 'All Answers Finished' to see everyone's choices and discuss the results!</p>
-<div class="game-navigation">
-<button class="back-to-mode-btn smooth-transition" id="backToModeBtn" type="button" onclick="window.location.href='index.html'">
-<img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
-Back to Game Mode
-</button>
-<p class="setup-link"><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
-</div>
+
+
 
 <!-- Offline Mode Notice -->
 <div id="offlineModeNotice" class="offline-notice hidden">
@@ -132,18 +119,48 @@ Back to Game Mode
 </div>
 </header>
 <main>
-<div id="gameContainer">
-<!-- Current Player Indicator (Offline Mode Only) -->
-<div id="offlinePlayerIndicator" class="player-indicator">
-    <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
-</div>
+    <div class="popup" id="popup">
+        <div class="direction">
+            <button id="close"><svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M6.2253 4.81108C5.83477 4.42056 5.20161 4.42056 4.81108 4.81108C4.42056 5.20161 4.42056 5.83477 4.81108 6.2253L10.5858 12L4.81114 17.7747C4.42062 18.1652 4.42062 18.7984 4.81114 19.1889C5.20167 19.5794 5.83483 19.5794 6.22535 19.1889L12 13.4142L17.7747 19.1889C18.1652 19.5794 18.7984 19.5794 19.1889 19.1889C19.5794 18.7984 19.5794 18.1652 19.1889 17.7747L13.4142 12L19.189 6.2253C19.5795 5.83477 19.5795 5.20161 19.189 4.81108C18.7985 4.42056 18.1653 4.42056 17.7748 4.81108L12 10.5858L6.2253 4.81108Z"
+    fill="currentColor"
+  />
+</svg></button>
+            <h1>Directions: </h1>
+            <ol>
+                <li>Choose a topic to start.</li>
+                <li>Answer to the question you choose.</li>
+                <li>You can finish the game by pressing "All Answers Finished", but you can still continue it by changing a question.</li>
+                <li>Discuss the result you get!</li>
+            </ol>
+            <div class="game-navigation">
+                <button class="back-to-mode-btn smooth-transition" id="backToModeBtn" type="button" onclick="window.location.href='index.html'">
+                <img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
+                Back to Game Mode
+                </button>
+                <p class="setup-link"><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
+            </div>
+        </div>
+    </div>
+    <div id="gameContainer">
+    <!-- Current Player Indicator (Offline Mode Only) -->
+    <div id="offlinePlayerIndicator" class="player-indicator">
+        <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
+    </div>
 
-<!-- Waiting for Players (Multiplayer Mode Only) -->
-<div id="waitingForPlayers" class="waiting-message hidden">
-    <h3>⏳ Waiting for Players...</h3>
-    <p>Need at least 2 players to start the game.</p>
-    <p>Share the room code with your friends!</p>
-</div>
+    <!-- Waiting for Players (Multiplayer Mode Only) -->
+    <div id="waitingForPlayers" class="waiting-message hidden">
+        <h3>⏳ Waiting for Players...</h3>
+        <p>Need at least 2 players to start the game.</p>
+        <p>Share the room code with your friends!</p>
+    </div>
 
 <!-- Random Topic Button - Centered -->
 <div class="random-topic-container">

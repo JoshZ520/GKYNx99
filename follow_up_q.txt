@@ -1,0 +1,143 @@
+Fantasy
+    What type of fantasy characters do you prefer? magic/physical
+        What about that type of character appeals to you?
+    What fantasy time period appeals to you? medieval/modern
+        What aspects of that time setting help immerse you most in a fantasy world?
+    What fantasy world scope appeals to you? epic/personal
+        How do you feel the story scale affects your connection to the characters or events?
+    How do you prefer to engage with fantasy? creating/reading
+        What is it about that type of engagement that you prefer?
+    What draws you to fantasy content? relaxation/excitement
+        a
+    What aspect of fantasy stories appeals to you most? characters/action
+        What makes that element stand out to you in a good fantasy story?
+Movies
+    What's your preferred movie format? movie/tv show
+        What makes that format more engaging for you?
+    What's your favorite movie genre? action/comedy
+        What qualities in that genre keep you entertained?
+    Where do you prefer to watch movies? theater/home
+        What about that environment improves your viewing experience?
+    What type of movie series do you prefer? series/standalone
+        What makes that structure more enjoyable for you?
+    What movie era do you prefer? classic/modern
+        What do you think defines the charm of that era for you?
+    What movie mood do you prefer? feel good/thought provoking
+        a
+Activty
+    What type of physical activities do you prefer? team/individual
+        What about that style of activity motivates you most?
+    How do you prefer to engage with activities? playing/watching
+        What do you enjoy most about engaging with activities in that way?
+    What's your activity environment preference? outdoor/indoor
+        What makes that environment feel better for the activity you enjoy?
+    What type of physical activity appeals to you? exercise/sports
+        What do you look for in that type of physical experience?
+    How do you prefer to stay active? workout/casual 
+        a
+    What motivates your activity choices? health/fun
+        a
+Music
+    What type of music do you prefer? popular/alternative
+        What draws you toward that style of music?
+    How do you prefer to experience music? concerts/recorded
+        What do you value most about experiencing music in that format?
+    What's your musical era preference? classic/modern
+        What do you think characterizes your favorite music from that era?
+    How do you discover new music? recomendations/exploration
+        a
+    What type of musical energy do you prefer? high energy/low energy
+        a
+    How do you prefer to enjoy music? background/actively
+        What role does music typically play in your daily routine?
+Tech
+    What type of technology interests you most? electronics/apps
+        a
+    How do you approach new technology? early adopt/wait
+        a
+    What's your tech usage preference? professional/entertainment
+        What do you look for most when using tech for that purpose?
+    How do you prefer tech complexity? simple/complex
+        How does that level of complexity affect your enjoyment or productivity?
+    What tech platform do you prefer? mobile/desktop
+        What makes that platform feel most convenient for you?
+    How do you stay updated with tech? news/hands on
+        a
+Travel
+    What type of travel appeals to you? adventure/relaxation
+        a
+    How do you prefer to travel? planned/spontaneous
+        What makes that style of travel feel more comfortable or exciting for you?
+    What's your ideal travel destination? nature/urban
+        What atmosphere draws you most when choosing a destination?
+    What's your preferred accommodation style when traveling? hotels/local
+        What do you appreciate most about that type of accommodation?
+    What's your travel group preference? solo/group
+        What do you enjoy about traveling with that dynamic?
+    How do you approach travel budgeting? budget focus/comfort focus
+        What helps you decide how to prioritize spending when traveling?
+Learning
+    How do you prefer to learn new things? structured/self
+        What helps you learn most effectively in that format?
+    What type of learning content interests you? applied/academic
+        What makes that type of content more rewarding for you?
+    What's your preferred learning style? visual/audio
+        What helps you stay engaged with that learning style?
+    What's your learning pace preference? quick/gradual
+        What about that preference makes information stick?
+    How do you prefer educational content? interactive/observation
+        What do you find most helpful about learning in that way?
+    What motivates your learning? career/personal
+        a
+Stories
+    What type of stories do you enjoy? fiction/non
+        What attracts you most to that type of storytelling?
+    How do you prefer to consume stories? reading/audio
+        What makes that format more immersive for you?
+    What story length do you prefer? short/long
+        What makes that story length most enjoyable?
+    What type of narrative appeals to you? character/plot
+        a
+    How do you discover new stories? recomendations/exploration
+        a
+    What's your reading environment preference? quiet/social
+        Why does that environment speak to you the most?
+Play
+    What type of games do you enjoy? digital/physical
+        What aspects of that type of game do you find most fun?
+    How do you prefer to play games? competitive/casual
+        a
+    What's your gaming social preference? solo/multi
+        What do you enjoy about that style of playing?
+    What type of game experience appeals to you? strategy/action
+        What about that type of challenge or pace appeals to you?
+    How much time do you prefer for gaming sessions? quick/long
+        What determines the ideal session length for you when gaming?
+    What motivates your game choices? acheivement/fun
+        a
+Food
+    What type of cuisine do you prefer? traditional/modern
+        What aspects of that cuisine style do you enjoy most?
+    How do you approach trying new foods? adventurous/conservative
+        What influences your decision to try—or skip—new foods?
+    What's your meal preparation preference? home/dining
+        What do enjoy most about that preference?
+    How do you prefer your food experience? simple/elaborate
+        What do you appreciate most about food prepared in that way?
+    What motivates your food choices? health/taste
+        a
+    How do you discover new foods? recomendations/exploration
+        a
+Personal
+    How do you handle stress? active/calm
+        a
+    What's your social energy preference? outgoing/reserved
+        a
+    What drives your personal decisions? logic/feeling
+        a
+    What's your approach to change? embrace/cautious
+        a
+    How do you prefer to spend free time? productive/relaxing
+        What makes that style of free time feel satisfying?
+    What motivates you most? acheivement/connections
+        a
