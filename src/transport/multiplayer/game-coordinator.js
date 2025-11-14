@@ -120,13 +120,10 @@ export function handleAnswersRevealed(data, gameState) {
         timestamp: Date.now()
     });
     
-    if (data.results && data.results.length > 0) {
-        import('./results-display.js').then(module => {
-            module.displayResultsBar(data.results, data.question);
-        });
-    }
+    // Store results but don't display them automatically
+    // Results will be shown when user clicks "End Game" button
     
-    // Hide the reveal button after answers are shown
+    // Hide the reveal button after answers are captured
     CONFIG_UTILS.hideDisplay('revealAnswersBtn');
     
     // Show the "End Game" button after first question is answered
