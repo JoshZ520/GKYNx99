@@ -1,0 +1,58 @@
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "What type of technology interests you most?",
+                          "option1":  "Consumer Electronics",
+                          "option2":  "Software/Apps",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Tech/Consumer-Electronics.jpeg",
+                                         "option2":  "../assets/images/questions/Tech/apps.webp"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you approach new technology?",
+                          "option1":  "Early Adopter",
+                          "option2":  "Wait and See",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Tech/early.jpg",
+                                         "option2":  "../assets/images/questions/Tech/wait_see.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your tech usage preference?",
+                          "option1":  "Professional/Productivity",
+                          "option2":  "Entertainment/Leisure",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Tech/professional.jpg",
+                                         "option2":  "../assets/images/questions/Tech/entertainment.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer tech complexity?",
+                          "option1":  "Simple/User-Friendly",
+                          "option2":  "Advanced/Customizable",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Tech/simple.jpg",
+                                         "option2":  "../assets/images/questions/Tech/complex.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What tech platform do you prefer?",
+                          "option1":  "Mobile/Portable",
+                          "option2":  "Desktop/Fixed",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Tech/phones.webp",
+                                         "option2":  "../assets/images/questions/Tech/desktop.webp"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you stay updated with tech?",
+                          "option1":  "News/Reviews",
+                          "option2":  "Hands-on Experience",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Tech/review.jpg",
+                                         "option2":  "../assets/images/questions/Tech/use.jpg"
+                                     }
+                      }
+                  ]
+}

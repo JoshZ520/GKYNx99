@@ -1,0 +1,58 @@
+{
+  "questions": [
+    {
+      "prompt": "What's your preferred movie format?",
+      "option1": "Movies",
+      "option2": "TV Shows",
+      "images": {
+        "option1": "../assets/images/questions/Movies/movie-img.jpg",
+        "option2": "../assets/images/questions/Movies/tv-at-home.jpg"
+      }
+    },
+    {
+      "prompt": "What's your favorite movie genre?",
+      "option1": "Action",
+      "option2": "Comedy",
+      "images": {
+        "option1": "../assets/images/questions/Movies/action.jpg",
+        "option2": "../assets/images/questions/Movies/comedy.jpg"
+      }
+    },
+    {
+      "prompt": "Where do you prefer to watch movies?",
+      "option1": "Theater",
+      "option2": "Home",
+      "images": {
+        "option1": "../assets/images/questions/Movies/movie-theater.jpg",
+        "option2": "../assets/images/questions/Movies/netflix-tv.jpg"
+      }
+    },
+    {
+      "prompt": "What type of movie series do you prefer?",
+      "option1": "Movie Series/Franchises",
+      "option2": "Standalone Films",
+      "images": {
+        "option1": "../assets/images/questions/Movies/harry-potter.jpg",
+        "option2": "../assets/images/questions/Movies/Inception.jpg"
+      }
+    },
+    {
+      "prompt": "What movie era do you prefer?",
+      "option1": "Classic Films",
+      "option2": "Modern Cinema",
+      "images": {
+        "option1": "../assets/images/questions/Movies/classic.jpg",
+        "option2": "../assets/images/questions/Movies/modern.jpg"
+      }
+    },
+    {
+      "prompt": "What movie mood do you prefer?",
+      "option1": "Feel-good",
+      "option2": "Thought-provoking",
+      "images": {
+        "option1": "../assets/images/questions/Movies/feel-good.jpg",
+        "option2": "../assets/images/questions/Movies/thought.jpg"
+      }
+    }
+  ]
+}

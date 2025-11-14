@@ -1,0 +1,53 @@
+/* buttons.css - Button styles used across pages */
+
+/* === GENERAL BUTTON STYLES === */
+button {
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+/* === COMMON BUTTON STYLES === */
+.start-btn {
+    display: inline-block;
+    background-color: var(--accent-dark);
+    color: var(--light);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.start-btn:hover:not([style*="pointer-events: none"]) { 
+    opacity: 0.95; 
+}
+
+.start-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Secondary button style */
+.secondary-btn {
+    display: inline-block;
+    background-color: var(--bg-gray);
+    color: var(--text-dark);
+    padding: 12px 20px;
+    border: 2px solid var(--border-dark);
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background-color: var(--bg-light-gray);
+    opacity: 0.9;
+}

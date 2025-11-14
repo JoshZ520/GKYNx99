@@ -1,0 +1,58 @@
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "What type of stories do you enjoy?",
+                          "option1":  "Fiction/Imaginative",
+                          "option2":  "Non-Fiction/Real",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Books/book_type/fiction.jpg",
+                                         "option2":  "../assets/images/questions/Books/book_type/nonfiction.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to consume stories?",
+                          "option1":  "Reading/Books",
+                          "option2":  "Audio/Podcasts",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Books/Type_of_reading/reading.jpg",
+                                         "option2":  "../assets/images/questions/Books/Type_of_reading/audio.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What story length do you prefer?",
+                          "option1":  "Short/Concise",
+                          "option2":  "Long/Detailed",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Books/Length/short.jpg",
+                                         "option2":  "../assets/images/questions/Books/Length/long.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What type of narrative appeals to you?",
+                          "option1":  "Character-Driven",
+                          "option2":  "Plot-Driven",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Books/character.jpg",
+                                         "option2":  "../assets/images/questions/Books/story.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you discover new stories?",
+                          "option1":  "Recommendations",
+                          "option2":  "Browse/Explore",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Books/recommend.jpg",
+                                         "option2":  "../assets/images/questions/Books/explore.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your reading environment preference?",
+                          "option1":  "Quiet/Solitary",
+                          "option2":  "Social/Shared",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Books/alone.jpg",
+                                         "option2":  "../assets/images/questions/Books/share.jpg"
+                                     }
+                      }
+                  ]
+}

@@ -1,0 +1,58 @@
+﻿{
+    "questions":  [
+                      {
+                          "prompt":  "What type of games do you enjoy?",
+                          "option1":  "Digital/Video Games",
+                          "option2":  "Physical/Board Games",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Play/Types_of_games/video.jpg",
+                                         "option2":  "../assets/images/questions/Play/Types_of_games/board.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "How do you prefer to play games?",
+                          "option1":  "Competitive/Challenging",
+                          "option2":  "Casual/Relaxing",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Play/Preference/comp.jpg",
+                                         "option2":  "../assets/images/questions/Play/Type_of_play/creative.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What's your gaming social preference?",
+                          "option1":  "Solo/Single Player",
+                          "option2":  "Multiplayer/Social",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Play/Motivation/brain.jpg",
+                                         "option2":  "../assets/images/questions/Play/Preference/coop.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What type of game experience appeals to you?",
+                          "option1":  "Strategy/Thinking",
+                          "option2":  "Action/Reaction",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Play/Motivation/brain.jpg",
+                                         "option2":  "../assets/images/questions/Play/Motivation/social.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "How much time do you prefer for gaming sessions?",
+                          "option1":  "Quick/Short Sessions",
+                          "option2":  "Extended/Long Sessions",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Play/Complexity/simple.jpg",
+                                         "option2":  "../assets/images/questions/Play/Complexity/complex.jpg"
+                                     }
+                      },
+                      {
+                          "prompt":  "What motivates your game choices?",
+                          "option1":  "Achievement/Progress",
+                          "option2":  "Fun/Entertainment",
+                          "images":  {
+                                         "option1":  "../assets/images/questions/Play/achieve.jpg",
+                                         "option2":  "../assets/images/questions/Play/Type_of_play/creative.jpg"
+                                     }
+                      }
+                  ]
+}
