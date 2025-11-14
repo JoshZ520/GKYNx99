@@ -8,7 +8,7 @@ Fantasy
     How do you prefer to engage with fantasy? creating/reading
         What is it about that type of engagement that you prefer?
     What draws you to fantasy content? relaxation/excitement
-        a
+        What do you look for in a story that meets that criteria?
     What aspect of fantasy stories appeals to you most? characters/action
         What makes that element stand out to you in a good fantasy story?
 Movies
@@ -23,7 +23,7 @@ Movies
     What movie era do you prefer? classic/modern
         What do you think defines the charm of that era for you?
     What movie mood do you prefer? feel good/thought provoking
-        a
+        What parts of a movie give you that feeling?
 Activty
     What type of physical activities do you prefer? team/individual
         What about that style of activity motivates you most?
@@ -34,9 +34,9 @@ Activty
     What type of physical activity appeals to you? exercise/sports
         What do you look for in that type of physical experience?
     How do you prefer to stay active? workout/casual 
-        a
+        What are some activities that fit your preference that you do?
     What motivates your activity choices? health/fun
-        a
+        With that motivation, what makes an activity more satisfying?
 Music
     What type of music do you prefer? popular/alternative
         What draws you toward that style of music?
@@ -44,17 +44,17 @@ Music
         What do you value most about experiencing music in that format?
     What's your musical era preference? classic/modern
         What do you think characterizes your favorite music from that era?
-    How do you discover new music? recomendations/exploration
-        a
+    How do you discover new music? recommendations/exploration
+        What decides whether you trust a recommendation or what you explore?
     What type of musical energy do you prefer? high energy/low energy
-        a
+        What qualities stand out the most to you about that type of energy?
     How do you prefer to enjoy music? background/actively
         What role does music typically play in your daily routine?
 Tech
     What type of technology interests you most? electronics/apps
-        a
+        What kind of impact does that interest have in your day-to-day life?
     How do you approach new technology? early adopt/wait
-        a
+        What factors influence your decision?
     What's your tech usage preference? professional/entertainment
         What do you look for most when using tech for that purpose?
     How do you prefer tech complexity? simple/complex
@@ -62,10 +62,10 @@ Tech
     What tech platform do you prefer? mobile/desktop
         What makes that platform feel most convenient for you?
     How do you stay updated with tech? news/hands on
-        a
+        How often do you update yourself on new tech?
 Travel
     What type of travel appeals to you? adventure/relaxation
-        a
+        What is it you like most about that type of travel?
     How do you prefer to travel? planned/spontaneous
         What makes that style of travel feel more comfortable or exciting for you?
     What's your ideal travel destination? nature/urban
@@ -88,7 +88,7 @@ Learning
     How do you prefer educational content? interactive/observation
         What do you find most helpful about learning in that way?
     What motivates your learning? career/personal
-        a
+        How do you think that motivation shapes how you approach learning?
 Stories
     What type of stories do you enjoy? fiction/non
         What attracts you most to that type of storytelling?
@@ -97,16 +97,16 @@ Stories
     What story length do you prefer? short/long
         What makes that story length most enjoyable?
     What type of narrative appeals to you? character/plot
-        a
+        What draws you in to a story with that type of narrative?
     How do you discover new stories? recomendations/exploration
-        a
+        How often do try new genres or authors outside of your comfort zone?
     What's your reading environment preference? quiet/social
         Why does that environment speak to you the most?
 Play
     What type of games do you enjoy? digital/physical
         What aspects of that type of game do you find most fun?
     How do you prefer to play games? competitive/casual
-        a
+        What is it about that preference that draws you to it?
     What's your gaming social preference? solo/multi
         What do you enjoy about that style of playing?
     What type of game experience appeals to you? strategy/action
@@ -114,7 +114,7 @@ Play
     How much time do you prefer for gaming sessions? quick/long
         What determines the ideal session length for you when gaming?
     What motivates your game choices? acheivement/fun
-        a
+        What about that do you find the most satisfying or enjoyable?
 Food
     What type of cuisine do you prefer? traditional/modern
         What aspects of that cuisine style do you enjoy most?
@@ -125,19 +125,19 @@ Food
     How do you prefer your food experience? simple/elaborate
         What do you appreciate most about food prepared in that way?
     What motivates your food choices? health/taste
-        a
+        How does that motivation impact the types of foods you enjoy?
     How do you discover new foods? recomendations/exploration
-        a
+        Do you tend to try more new things if they are recommended to you or if you find them yourself?
 Personal
     How do you handle stress? active/calm
-        a
+        What about how you handle stress helps you the most?
     What's your social energy preference? outgoing/reserved
-        a
+        How do you go about doing things that go against this preference?
     What drives your personal decisions? logic/feeling
-        a
+        Do you tend to make decisions hastily or cautiously?
     What's your approach to change? embrace/cautious
-        a
+        What is an example of when you embraced or were cautious to change?
     How do you prefer to spend free time? productive/relaxing
         What makes that style of free time feel satisfying?
     What motivates you most? acheivement/connections
-        a
+        What makes an experience feel the most meaningful when you are motivated that way?
