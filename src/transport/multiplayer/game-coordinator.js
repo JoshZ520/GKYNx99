@@ -109,12 +109,7 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
         }, 2000);
     }
     
-    // Auto-capture answers when all players have submitted
-    if (data.answeredCount === data.totalPlayers && data.totalPlayers > 0) {
-        setTimeout(() => {
-            revealAnswersCallback(); // This will capture results without displaying them
-        }, 500);
-    }
+    // Don't auto-reveal - wait for host to click "Reveal Answers" button
 }
 
 export function handleAnswersRevealed(data, gameState) {

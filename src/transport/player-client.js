@@ -75,6 +75,11 @@ function setupGameEventListeners() {
         showAnswerStatus();
     });
     
+    // Your individual answer revealed
+    socket.on('your-answer-revealed', (data) => {
+        showYourAnswer(data.answer);
+    });
+    
     // Results revealed
     socket.on('answers-revealed', (data) => {
         showResults(data);
@@ -173,6 +178,7 @@ function showQuestionSection(question) {
     
     // Reset answer status for new question
     CONFIG_UTILS.hide('answerStatus');
+    CONFIG_UTILS.hide('yourAnswerDisplay');
     CONFIG_UTILS.showDisplay('answerOptions', 'flex');
     
     // Update UI
@@ -201,6 +207,20 @@ function showQuestionSection(question) {
 function showAnswerStatus() {
     CONFIG_UTILS.hideDisplay('answerOptions');
     CONFIG_UTILS.show('answerStatus');
+}
+
+function showYourAnswer(answer) {
+    // Hide the "Answer Submitted!" status when revealing the answer
+    CONFIG_UTILS.hide('answerStatus');
+    
+    // Show the player what they answered
+    const answerText = answer.text || answer.value || answer;
+    const yourAnswerDiv = CONFIG_UTILS.getElement('yourAnswerDisplay');
+    
+    if (yourAnswerDiv) {
+        CONFIG_UTILS.setText('yourAnswerText', answerText);
+        CONFIG_UTILS.show('yourAnswerDisplay');
+    }
 }
 
 function showResults(data) {

@@ -324,6 +324,14 @@ io.on('connection', (socket) => {
             results: results,
             question: room.currentQuestion
         });
+        
+        // Send each player their individual answer
+        room.answers.forEach((answerData, playerId) => {
+            io.to(playerId).emit('your-answer-revealed', {
+                answer: answerData.answer,
+                question: room.currentQuestion
+            });
+        });
     });
 
     // LEGACY - Keep existing test message functionality
