@@ -11,7 +11,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Tech/Consumer-Electronics.jpeg",
                                          "option2":  "../assets/images/questions/Tech/apps.webp"
-                                     }
+                                     },
+                          "followUpQuestion":  "What kind of impact does that interest have in your day-to-day life?"
                       },
                       {
                           "prompt":  "How do you approach new technology?",
@@ -20,7 +21,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Tech/early.jpg",
                                          "option2":  "../assets/images/questions/Tech/wait_see.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What factors influence your decision?"
                       },
                       {
                           "prompt":  "What's your tech usage preference?",
@@ -29,7 +31,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Tech/professional.jpg",
                                          "option2":  "../assets/images/questions/Tech/entertainment.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What do you look for most when using tech for that purpose?"
                       },
                       {
                           "prompt":  "How do you prefer tech complexity?",
@@ -38,7 +41,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Tech/simple.jpg",
                                          "option2":  "../assets/images/questions/Tech/complex.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "How does that level of complexity affect your enjoyment or productivity?"
                       },
                       {
                           "prompt":  "What tech platform do you prefer?",
@@ -47,7 +51,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Tech/phones.webp",
                                          "option2":  "../assets/images/questions/Tech/desktop.webp"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes that platform feel most convenient for you?"
                       },
                       {
                           "prompt":  "How do you stay updated with tech?",
@@ -56,7 +61,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Tech/review.jpg",
                                          "option2":  "../assets/images/questions/Tech/use.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "How often do you update yourself on new tech?"
                       }
                   ]
 }

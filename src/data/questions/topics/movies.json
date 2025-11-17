@@ -11,7 +11,8 @@
       "images": {
         "option1": "../assets/images/questions/Movies/movie-img.jpg",
         "option2": "../assets/images/questions/Movies/tv-at-home.jpg"
-      }
+      },
+      "followUpQuestion": "What makes that format more engaging for you?"
     },
     {
       "prompt": "What's your favorite movie genre?",
@@ -20,7 +21,8 @@
       "images": {
         "option1": "../assets/images/questions/Movies/action.jpg",
         "option2": "../assets/images/questions/Movies/comedy.jpg"
-      }
+      },
+      "followUpQuestion": "What qualities in that genre keep you entertained?"
     },
     {
       "prompt": "Where do you prefer to watch movies?",
@@ -29,7 +31,8 @@
       "images": {
         "option1": "../assets/images/questions/Movies/movie-theater.jpg",
         "option2": "../assets/images/questions/Movies/netflix-tv.jpg"
-      }
+      },
+      "followUpQuestion": "What about that environment improves your viewing experience?"
     },
     {
       "prompt": "What type of movie series do you prefer?",
@@ -38,7 +41,8 @@
       "images": {
         "option1": "../assets/images/questions/Movies/harry-potter.jpg",
         "option2": "../assets/images/questions/Movies/Inception.jpg"
-      }
+      },
+      "followUpQuestion": "What makes that structure more enjoyable for you?"
     },
     {
       "prompt": "What movie era do you prefer?",
@@ -47,7 +51,8 @@
       "images": {
         "option1": "../assets/images/questions/Movies/classic.jpg",
         "option2": "../assets/images/questions/Movies/modern.jpg"
-      }
+      },
+      "followUpQuestion": "What do you think defines the charm of that era for you?"
     },
     {
       "prompt": "What movie mood do you prefer?",
@@ -56,7 +61,8 @@
       "images": {
         "option1": "../assets/images/questions/Movies/feel-good.jpg",
         "option2": "../assets/images/questions/Movies/thought.jpg"
-      }
+      },
+      "followUpQuestion": "What parts of a movie give you that feeling?"
     }
   ]
 }

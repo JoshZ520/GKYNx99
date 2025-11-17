@@ -54,7 +54,7 @@ function displayQuestionOptions(question) {
     const preferenceContainer = CONFIG_UTILS.getElement('preferenceContainer');
     if (preferenceContainer) {
         CONFIG_UTILS.show(preferenceContainer);
-        preferenceContainer.classList.add('visible');
+        CONFIG_UTILS.addClass(preferenceContainer, 'VISIBLE');
     }
 
     // Render options visually in optionsContainer
@@ -233,7 +233,7 @@ function toggleTopicsPanel() {
     if (panel && toggle) {
         if (panel.classList.contains('hidden')) {
             CONFIG_UTILS.show(panel);
-            panel.classList.add('visible');
+            CONFIG_UTILS.addClass(panel, 'VISIBLE');
             toggle.textContent = 'Topics ▲';
         } else {
             closeTopicsPanel();
@@ -247,7 +247,7 @@ function closeTopicsPanel() {
     
     if (panel && toggle) {
         CONFIG_UTILS.hide(panel);
-        panel.classList.remove('visible');
+        CONFIG_UTILS.removeClass(panel, 'VISIBLE');
         toggle.textContent = 'Topics ▼';
     }
 }

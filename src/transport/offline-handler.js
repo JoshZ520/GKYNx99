@@ -43,7 +43,7 @@ function attachToWindow() {
 }
 
 function wireOfflineFunctions() {
-    if (sessionStorage.getItem('gameMode') !== 'offline') return;
+    if (CONFIG_UTILS.getStorageItem('GAME_MODE') !== 'offline') return;
     
     if (!window.displayQuestionOptionsOffline) {
         setTimeout(wireOfflineFunctions, 50);
@@ -57,7 +57,7 @@ function wireOfflineFunctions() {
 
 function wireIndexStartButton() {
     try {
-        const btn = document.getElementById('startGame');
+        const btn = CONFIG_UTILS.getElement('startGame');
         if (btn && !btn._offlineWired) {
             btn.addEventListener('click', startOfflineGame);
             btn._offlineWired = true;
@@ -77,7 +77,7 @@ if (typeof document !== 'undefined') {
 
 window.checkOfflineMode = function checkOfflineMode() {
     try {
-        const isOffline = sessionStorage.getItem('gameMode') === 'offline';
+        const isOffline = CONFIG_UTILS.getStorageItem('GAME_MODE') === 'offline';
         if (!isOffline) return;
         
         if (window.transport && window.transport.initializeModeUI) {
@@ -102,7 +102,7 @@ window.checkOfflineMode = function checkOfflineMode() {
 
 const offlineTransportHandler = {
     isActive() {
-        const gameMode = sessionStorage.getItem('gameMode');
+        const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
         return gameMode === 'offline';
     },
 

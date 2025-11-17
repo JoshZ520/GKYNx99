@@ -11,7 +11,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Personal/Weekends/out.jpg",
                                          "option2":  "../assets/images/questions/Personal/Weekends/in.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What about how you handle stress helps you the most?"
                       },
                       {
                           "prompt":  "What's your social energy preference?",
@@ -20,7 +21,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Personal/Social/large.jpg",
                                          "option2":  "../assets/images/questions/Personal/Social/small.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "How do you go about doing things that go against this preference?"
                       },
                       {
                           "prompt":  "What drives your personal decisions?",
@@ -29,7 +31,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Personal/logic.jpg",
                                          "option2":  "../assets/images/questions/Personal/feeling.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "Do you tend to make decisions hastily or cautiously?"
                       },
                       {
                           "prompt":  "What's your approach to change?",
@@ -38,7 +41,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Personal/adapt.jpg",
                                          "option2":  "../assets/images/questions/Personal/doubt.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What is an example of when you embraced or were cautious to change?"
                       },
                       {
                           "prompt":  "How do you prefer to spend free time?",
@@ -47,7 +51,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Personal/outside.jpg",
                                          "option2":  "../assets/images/questions/Personal/Relaxation/reading.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes that style of free time feel satisfying?"
                       },
                       {
                           "prompt":  "What motivates you most?",
@@ -56,7 +61,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Personal/achieve.jpg",
                                          "option2":  "../assets/images/questions/Personal/Social/large.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes an experience feel the most meaningful when you are motivated that way?"
                       }
                   ]
 }

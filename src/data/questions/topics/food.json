@@ -11,7 +11,8 @@
       "images": {
         "option1": "../assets/images/questions/Food/traditional.jpg",
         "option2": "../assets/images/questions/Food/modern.jpg"
-      }
+      },
+      "followUpQuestion": "What aspects of that cuisine style do you enjoy most?"
     },
     {
       "prompt": "How do you approach trying new foods?",
@@ -20,7 +21,8 @@
       "images": {
         "option1": "../assets/images/questions/Food/challenge.jpg",
         "option2": "../assets/images/questions/Food/familiar.jpg"
-      }
+      },
+      "followUpQuestion": "What influences your decision to try—or skip—new foods?"
     },
     {
       "prompt": "What's your meal preparation preference?",
@@ -29,7 +31,8 @@
       "images": {
         "option1": "../assets/images/questions/Food/Dining/home.jpg",
         "option2": "../assets/images/questions/Food/Dining/dine.jpg"
-      }
+      },
+      "followUpQuestion": "What do enjoy most about that preference?"
     },
     {
       "prompt": "How do you prefer your food experience?",
@@ -38,7 +41,8 @@
       "images": {
         "option1": "../assets/images/questions/Food/fast.jpg",
         "option2": "../assets/images/questions/Food/slow.jpg"
-      }
+      },
+      "followUpQuestion": "What do you appreciate most about food prepared in that way?"
     },
     {
       "prompt": "What motivates your food choices?",
@@ -47,7 +51,8 @@
       "images": {
         "option1": "../assets/images/questions/Food/healthy.jpg",
         "option2": "../assets/images/questions/Food/taste.jpg"
-      }
+      },
+      "followUpQuestion": "How does that motivation impact the types of foods you enjoy?"
     },
     {
       "prompt": "How do you discover new foods?",
@@ -56,7 +61,8 @@
       "images": {
         "option1": "../assets/images/questions/Food/recommandation.jpg",
         "option2": "../assets/images/questions/Food/explore.jpg"
-      }
+      },
+      "followUpQuestion": "Do you tend to try more new things if they are recommended to you or if you find them yourself?"
     }
   ]
 }

@@ -11,7 +11,8 @@
       "images": {
         "option1": "../assets/images/questions/Travel/explore.jpg",
         "option2": "../assets/images/questions/Travel/relax.jpg"
-      }
+      },
+      "followUpQuestion": "What is it you like most about that type of travel?"
     },
     {
       "prompt": "How do you prefer to travel?",
@@ -20,7 +21,8 @@
       "images": {
         "option1": "../assets/images/questions/Travel/plan.jpg",
         "option2": "../assets/images/questions/Travel/no-plan.jpg"
-      }
+      },
+      "followUpQuestion": "What makes that style of travel feel more comfortable or exciting for you?"
     },
     {
       "prompt": "What's your ideal travel destination?",
@@ -29,7 +31,8 @@
       "images": {
         "option1": "../assets/images/questions/Travel/nature.jpg",
         "option2": "../assets/images/questions/Travel/culture.jpg"
-      }
+      },
+      "followUpQuestion": "What atmosphere draws you most when choosing a destination?"
     },
     {
       "prompt": "What's your preferred accommodation style when traveling?",
@@ -38,7 +41,8 @@
       "images": {
         "option1": "../assets/images/questions/Travel/hotel.jpg",
         "option2": "../assets/images/questions/Travel/local.jpg"
-      }
+      },
+      "followUpQuestion": "What do you appreciate most about that type of accommodation?"
     },
     {
       "prompt": "What's your travel group preference?",
@@ -47,7 +51,8 @@
       "images": {
         "option1": "../assets/images/questions/Travel/solo.jpg",
         "option2": "../assets/images/questions/Travel/group.jpg"
-      }
+      },
+      "followUpQuestion": "What do you enjoy about traveling with that dynamic?"
     },
     {
       "prompt": "How do you approach travel budgeting?",
@@ -56,7 +61,8 @@
       "images": {
         "option1": "../assets/images/questions/Travel/budget.jpg",
         "option2": "../assets/images/questions/Travel/no-budget.jpg"
-      }
+      },
+      "followUpQuestion": "What helps you decide how to prioritize spending when traveling?"
     }
   ]
 }
