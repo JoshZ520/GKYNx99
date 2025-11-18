@@ -6,70 +6,106 @@
 <meta name="description" content="">
 <title>Table Talk</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
-<!-- Core shared styles -->
-<link rel="stylesheet" href="../assets/css/shared/variables.css">
-<link rel="stylesheet" href="../assets/css/shared/typography.css">
+<!-- Consolidated styles -->
+<link rel="stylesheet" href="../assets/css/shared.css">
 <link rel="stylesheet" href="../assets/css/shared/buttons.css">
 <link rel="stylesheet" href="../assets/css/shared/forms.css">
 <link rel="stylesheet" href="../assets/css/shared/animations.css">
-<link rel="stylesheet" href="../assets/css/shared/utilities.css">
 <link rel="stylesheet" href="../assets/css/shared/responsive.css">
-<!-- Game-specific styles (split for maintainability) -->
-<link rel="stylesheet" href="../assets/css/game/game-shared.css">
-<link rel="stylesheet" href="../assets/css/game/game-layout.css">
-<link rel="stylesheet" href="../assets/css/game/game-controls.css">
-<link rel="stylesheet" href="../assets/css/game/game-topics.css">
-<link rel="stylesheet" href="../assets/css/game/game-multiplayer.css">
-<link rel="stylesheet" href="../assets/css/components/options.css">
-<link rel="stylesheet" href="../assets/css/components/images.css">
-<link rel="stylesheet" href="../assets/css/components/remote.css">
-<script src="../src/utilities/theme-utilities.js" defer></script>
-<!-- Socket.io for multiplayer -->
-<script src="/socket.io/socket.io.js"></script>
+<link rel="stylesheet" href="../assets/css/game-ui.css">
+<link rel="stylesheet" href="../assets/css/game-multiplayer.css">
+<link rel="stylesheet" href="../assets/css/components.css">
+<script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
-<script src="../src/core/game-core.js" type="module" defer></script>
-<script src="../src/core/game-player.js" type="module" defer></script>
-<script src="../src/core/game-ui.js" type="module" defer></script>
-<!-- Offline mode logic (consolidated) -->
-                <!-- Offline mode functionality (module) -->
-                <script type="module">
-                    import { attachToWindow, initOfflineAutoLoad } from '../offline/offline.js';
-                    attachToWindow();
-                    initOfflineAutoLoad();
-                </script>
+<script src="../src/core/question-manager.js" type="module" defer></script>
+<script src="../src/core/player-manager.js" type="module" defer></script>
+<script src="../src/ui/ui-manager.js" type="module" defer></script>
+<!-- Transport layer - interface loads first, then handlers register -->
+<script src="../src/transport/transport-interface.js" type="module"></script>
+<script type="module" src="../src/transport/offline-handler.js"></script>
+<!-- Game loader conditionally loads socket.io and multiplayer-handler based on mode -->
 <script src="../src/core/game-loader.js" type="module" defer></script>
-<!-- Multiplayer manager -->
-<script src="../src/multiplayer/multiplayer-manager.js" defer></script>
 
 </head>
 <body class="game-page" id="root">
+<script>
+// Immediately hide/show elements based on game mode (before page renders)
+(function() {
+    const gameMode = sessionStorage.getItem('gameMode');
+    const isOffline = gameMode === 'offline';
+    
+    if (isOffline) {
+        // OFFLINE MODE: Hide multiplayer, show offline
+        const style = document.createElement('style');
+        style.textContent = `
+            #multiplayerInfo,
+            #createRoomSection,
+            #waitingForPlayers,
+            #answerProgressContainer {
+                display: none !important;
+            }
+            #offlineSubmitContainer,
+            #offlinePlayerIndicator,
+            #offlineModeNotice {
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize player indicator when DOM is ready
+        window.addEventListener('DOMContentLoaded', function() {
+            const playerNames = JSON.parse(sessionStorage.getItem('playerNames') || '[]');
+            const currentPlayerName = document.getElementById('currentPlayerName');
+            if (currentPlayerName && playerNames.length > 0) {
+                currentPlayerName.textContent = playerNames[0];
+            }
+        });
+    } else {
+        // ONLINE/MULTIPLAYER MODE (default): Show multiplayer, hide offline
+        const style = document.createElement('style');
+        style.textContent = `
+            /* Hide offline-only elements */
+            #offlineSubmitContainer,
+            #offlinePlayerIndicator,
+            #offlineModeNotice {
+                display: none !important;
+            }
+            /* Override .hidden class for multiplayer elements */
+            #createRoomSection.hidden,
+            #multiplayerInfo.hidden,
+            #answerProgressContainer.hidden {
+                display: block !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+})();
+</script>
 <header id="header">
-<div class="direction">
-<h1>Directions: </h1>
-</div>
-<div class="header-controls">
-<button id="open_page" type="button"><img src="../assets/images/icons/chevron-down.svg" alt="open page"></button>
-</div>
-<div id="directions">
-<p>Choose a topic from the dropdown or use Random to get started. Click the circular switch button to get a new question. When it's your turn, select your preferred option and click Submit. After everyone has answered, click 'All Answers Finished' to see everyone's choices and discuss the results!</p>
-<div class="game-navigation">
-<button class="back-to-mode-btn smooth-transition" id="backToModeBtn" type="button" onclick="window.location.href='index.html'">
-<img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
-Back to Game Mode
-</button>
-<p class="setup-link"><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
-</div>
+
+
 
 <!-- Offline Mode Notice -->
-<div id="offlineModeNotice" class="offline-notice hidden" style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 10px; margin: 10px 0; border-radius: 5px;">
+<div id="offlineModeNotice" class="offline-notice hidden">
 <p><strong>Offline Mode:</strong> Pass this device between players for their turns. Everyone takes turns on the same screen.</p>
 </div>
+</div>
+
+<!-- Create Room Button (shown before room is created) -->
+<div id="createRoomSection" class="create-room-section hidden">
+<p>Ready to start your multiplayer game?</p>
+<button id="createRoomBtn" class="start-btn">Create Room</button>
 </div>
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
 <div id="multiplayerInfo" class="multiplayer-info hidden">
 <div class="room-display">
+<!-- QR Code Section -->
+<div class="qr-code-section">
+<p>Scan to join on your phone:</p>
+<img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page">
+</div>
 <div class="room-code-section">
 <span class="room-label">Room Code:</span>
 <span class="room-code" id="roomCodeDisplay">----</span>
@@ -80,18 +116,60 @@ Back to Game Mode
 <div class="players-list" id="connectedPlayersList"></div>
 </div>
 </div>
-<div class="multiplayer-actions">
-<button class="create-room-btn" id="createRoomBtn">Create Room for Phones</button>
-<button class="close-room-btn hidden" id="closeRoomBtn">Close Room</button>
-</div>
 </div>
 </header>
 <main>
-<!-- Current Player Indicator (Offline Mode Only) -->
-<div id="offlinePlayerIndicator" class="player-indicator" style="display: none; margin-bottom: 16px;">
-    <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
+    <div class="popup" id="popup">
+        <div class="direction">
+            <button id="close"><svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M6.2253 4.81108C5.83477 4.42056 5.20161 4.42056 4.81108 4.81108C4.42056 5.20161 4.42056 5.83477 4.81108 6.2253L10.5858 12L4.81114 17.7747C4.42062 18.1652 4.42062 18.7984 4.81114 19.1889C5.20167 19.5794 5.83483 19.5794 6.22535 19.1889L12 13.4142L17.7747 19.1889C18.1652 19.5794 18.7984 19.5794 19.1889 19.1889C19.5794 18.7984 19.5794 18.1652 19.1889 17.7747L13.4142 12L19.189 6.2253C19.5795 5.83477 19.5795 5.20161 19.189 4.81108C18.7985 4.42056 18.1653 4.42056 17.7748 4.81108L12 10.5858L6.2253 4.81108Z"
+    fill="currentColor"
+  />
+</svg></button>
+            <h1>Directions: </h1>
+            <ol>
+                <li>Choose a topic to start.</li>
+                <li>Answer to the question you choose.</li>
+                <li>You can finish the game by pressing "All Answers Finished", but you can still continue it by changing a question.</li>
+                <li>Discuss the result you get!</li>
+            </ol>
+            <div class="game-navigation">
+                <button class="back-to-mode-btn smooth-transition" id="backToModeBtn" type="button" onclick="window.location.href='index.html'">
+                <img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
+                Back to Game Mode
+                </button>
+                <p class="setup-link"><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
+            </div>
+        </div>
+    </div>
+    <div id="gameContainer">
+    <!-- Current Player Indicator (Offline Mode Only) -->
+    <div id="offlinePlayerIndicator" class="player-indicator">
+        <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
+    </div>
+
+    <!-- Waiting for Players (Multiplayer Mode Only) -->
+    <div id="waitingForPlayers" class="waiting-message hidden">
+        <h3>⏳ Waiting for Players...</h3>
+        <p>Need at least 2 players to start the game.</p>
+        <p>Share the room code with your friends!</p>
+    </div>
+
+<!-- Random Topic Button - Centered -->
+<div class="random-topic-container">
+    <button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
+        <img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
+        <span class="remote-label">Random Topic</span>
+    </button>
 </div>
-<h1 class="question" id="question"></h1>
+<h1 class="question" id="question">Please select a topic to begin</h1>
 <div class="topic-selection">
 <button class="smooth-transition" id="topicsToggle">Topics ▼</button>
 <!-- Collapsible topic grid with pagination -->
@@ -110,19 +188,11 @@ Back to Game Mode
 </div>
 <!-- Topic display -->
 <div id="currentTopicDisplay" class="current-topic-display">
-<span class="topic-name" id="currentTopicName">Instructions</span>
+<span class="topic-name" id="currentTopicName">No topic selected</span>
 </div>
 <!-- Remote Control Layout -->
 <div class="remote-control">
 <div class="remote-row">
-<!-- Random Topic Button -->
-<div class="remote-button-container">
-<button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
-<img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
-</button>
-<span class="remote-label">Random Topic</span>
-</div>
-
 <!-- Previous Question Button -->
 <div class="remote-button-container">
 <button class="remote-btn smooth-transition" id="prevQuestionBtn" type="button" title="Previous Question">
@@ -130,7 +200,6 @@ Back to Game Mode
 </button>
 <span class="remote-label">Previous</span>
 </div>
-
 <!-- Random Question Button (Center) -->
 <div class="remote-button-container center">
 <button class="switch_button smooth-transition flex-center" id="switchQuestion" type="button" title="Random Question in Current Topic">
@@ -138,7 +207,6 @@ Back to Game Mode
 </button>
 <span class="remote-label">Random Question</span>
 </div>
-
 <!-- Next Question Button -->
 <div class="remote-button-container">
 <button class="remote-btn smooth-transition" id="nextQuestionBtn" type="button" title="Next Question">
@@ -146,18 +214,9 @@ Back to Game Mode
 </button>
 <span class="remote-label">Next</span>
 </div>
-
-<!-- Skip Question Button -->
-<div class="remote-button-container">
-<button class="remote-btn smooth-transition" id="skipQuestionBtn" type="button" title="Skip This Question">
-<img src="../assets/images/icons/skip.svg" alt="Skip" width="20" height="20">
-</button>
-<span class="remote-label">Skip Question</span>
-</div>
 </div>
 </div>
 <!-- Image-based preference selection -->
-
 <div class="preference-container" id="preferenceContainer" class="hidden">
     <div class="preference-options" id="optionsContainer">
         <!-- Options will be rendered by JS -->
@@ -169,35 +228,24 @@ Back to Game Mode
 <!-- Answer Progress Display for Multiplayer -->
 <div id="answerProgressContainer" class="answer-progress-container hidden">
     <p id="answerProgress">0/0 players answered</p>
+    <button class="fin" id="revealAnswersBtn" type="button">Reveal All Answers</button>
 </div>
 
 <!-- Submit Answer Button (Offline Mode Only) -->
-<div class="buttons" id="offlineSubmitContainer" style="display: none;">
-    <button class="submit" id="submitButton" type="button" onclick="if(window.getSelectedAnswerOffline){window.getSelectedAnswerOffline() ? submitOfflineAnswer() : null}">Submit Answer</button>
+<div class="buttons" id="offlineSubmitContainer">
+    <button class="submit" id="submitButton" type="button">Submit Answer</button>
+    <button class="fin" id="final_submit" type="button">Show Results</button>
 </div>
-<script>
-// Only wire up offline answer logic if in offline mode
-if (sessionStorage.getItem('gameMode') === 'offline') {
-    window.displayQuestionOptions = window.displayQuestionOptionsOffline;
-    window.selectPreference = window.selectAnswerOffline;
-    window.updateSubmitButton = window.updateSubmitButtonOffline;
-    // Example submit handler for offline mode
-    window.submitOfflineAnswer = function() {
-        const answer = window.getSelectedAnswerOffline();
-        if (!answer) {
-            alert('Please select an answer before submitting.');
-            return;
-        }
-        // TODO: Add your offline answer submission logic here
-        alert('Answer submitted: ' + answer);
-        // Advance to next player or question as needed
-    };
-}
-</script>
+
+<!-- Question Results Bar (Multiplayer - shows after revealing answers) -->
+<div id="questionResultsBar" class="question-results-bar">
+    <h4>📊 Results:</h4>
+    <div id="resultsBarContent"></div>
+</div>
 
 <!-- Host controls -->
 <div class="buttons">
-<button class="fin" id="end_game_btn" type="button" style="display: none;">End Game & Show All Results</button>
+<button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button>
 </div>
 
 <!-- All Results Display (shows all questions at end of game) -->
@@ -214,6 +262,7 @@ if (sessionStorage.getItem('gameMode') === 'offline') {
         <button id="closeResultsBtn" class="close-results-btn">Close Results</button>
     </div>
 </div>
+</div><!-- End gameContainer -->
 
 <!-- Results Section (hidden during gameplay) -->
 <section id="gameResults" class="game-results hidden">
@@ -232,10 +281,6 @@ if (sessionStorage.getItem('gameMode') === 'offline') {
                 <div class="stat-item">
                     <span class="stat-label">Players:</span>
                     <span class="stat-value" id="totalPlayers">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Game Duration:</span>
-                    <span class="stat-value" id="gameDuration">--</span>
                 </div>
             </div>
             

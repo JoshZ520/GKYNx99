@@ -1,4 +1,8 @@
 ﻿{
+    "colors": {
+        "option1": "#9c27b0",
+        "option2": "#ff9800"
+    },
     "questions":  [
                       {
                           "prompt":  "What type of stories do you enjoy?",

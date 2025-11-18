@@ -48,6 +48,15 @@ app.use('/stylesheets', express.static(path.join(__dirname, '../stylesheets'), {
 app.use('/scripts', express.static(path.join(__dirname, '../scripts')));
 app.use('/images', express.static(path.join(__dirname, '../images')));
 app.use('/pages', express.static(path.join(__dirname, '../pages')));
+app.use('/src', express.static(path.join(__dirname, '../src'), {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.js')) {
+            res.setHeader('Content-Type', 'text/javascript');
+        } else if (filePath.endsWith('.json')) {
+            res.setHeader('Content-Type', 'application/json');
+        }
+    }
+}));
 app.use('/assets', express.static(path.join(__dirname, '../assets'), {
     setHeaders: (res, filePath) => {
         if (filePath.endsWith('.css')) {
@@ -82,15 +91,9 @@ app.get('/', (req, res) => {
 });
 
 // Route for phone players to join games
+// This redirects to the full path so relative URLs work correctly
 app.get('/player', (req, res) => {
-    try {
-        const playerPath = path.join(__dirname, '../pages/player/index.html');
-        console.log('Serving player page from:', playerPath);
-        res.sendFile(playerPath);
-    } catch (error) {
-        console.error('Error serving player.html:', error);
-        res.status(500).send('Server Error: Cannot serve player.html');
-    }
+    res.redirect('/pages/player/index.html');
 });
 
 // Health check endpoint for Render

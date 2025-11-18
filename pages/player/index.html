@@ -5,19 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Talk - Player</title>
-    <!-- Core shared styles -->
-    <link rel="stylesheet" href="/assets/css/shared/variables.css">
-    <link rel="stylesheet" href="/assets/css/shared/typography.css">
-    <link rel="stylesheet" href="/assets/css/shared/buttons.css">
-    <link rel="stylesheet" href="/assets/css/shared/forms.css">
-    <link rel="stylesheet" href="/assets/css/shared/animations.css">
-    <link rel="stylesheet" href="/assets/css/shared/responsive.css">
-    <!-- Player page styles -->
-    <link rel="stylesheet" href="/pages/player/stylesheets/player-utilities.css">
-    <link rel="stylesheet" href="/pages/player/stylesheets/player-layout.css">
-    <link rel="stylesheet" href="/pages/player/stylesheets/player-features.css">
-    <link rel="stylesheet" href="/pages/player/stylesheets/player-responsive.css">
-    <script src="/src/utilities/theme-utilities.js" defer></script>
+    <!-- Consolidated styles -->
+    <link rel="stylesheet" href="../../assets/css/shared.css">
+    <link rel="stylesheet" href="../../assets/css/shared/buttons.css">
+    <link rel="stylesheet" href="../../assets/css/shared/forms.css">
+    <link rel="stylesheet" href="../../assets/css/shared/animations.css">
+    <link rel="stylesheet" href="../../assets/css/shared/responsive.css">
+    <link rel="stylesheet" href="player.css">
+    <script src="../../src/ui/theme-utilities.js" defer></script>
 </head>
 
 <body class="player-page">
@@ -37,8 +32,7 @@
 
                 <div class="input-group">
                     <label for="roomCode">Room Code</label>
-                    <input type="text" id="roomCode" placeholder="4-letter code" maxlength="4"
-                        style="text-transform: uppercase;" required>
+                    <input type="text" id="roomCode" placeholder="4-letter code" maxlength="4" class="uppercase-input" required>
                 </div>
 
                 <button type="submit" class="join-btn" id="joinBtn">
@@ -80,6 +74,8 @@
             <div class="question-header">
                 <div class="room-info">
                     Room: <strong id="questionRoomCode"></strong>
+                    &nbsp;|&nbsp;
+                    Player: <strong id="currentPlayerName"></strong>
                 </div>
             </div>
 
@@ -108,7 +104,7 @@
 
     <!-- Socket.io Client -->
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/pages/player/scripts/player.js"></script>
+    <script src="../../src/transport/player-client.js" type="module"></script>
 </body>
 
 </html>
