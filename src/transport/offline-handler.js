@@ -1,4 +1,6 @@
 // Offline mode coordinator
+import { CONFIG_UTILS } from '../config/game-config.js';
+
 import {
     generatePlayerInputs,
     updateOfflineStartButton,
