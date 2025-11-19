@@ -455,6 +455,31 @@
     animation: fadeIn 0.5s ease;
 }
 
+.follow-up-question .discussion-prompt {
+    margin: 0 0 1rem 0;
+    color: var(--accent-light);
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.follow-up-question .discussion-prompt strong {
+    color: var(--light);
+    font-weight: 700;
+}
+
+.follow-up-question .follow-up-text {
+    margin: 0;
+    color: var(--light);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    font-style: italic;
+    text-align: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
 .follow-up-question h4 {
     margin: 0 0 0.75rem 0;
     color: var(--accent-light);
