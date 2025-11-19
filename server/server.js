@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -62,28 +63,40 @@ function generateRoomCode() {
     return result;
 }
 
-function createDerangement(arr) {
-    if (arr.length === 0) return [];
-    if (arr.length === 1) return arr;
+function createPairs(playerIds) {
+    // Create mutual pairs where A gets B's answer and B gets A's answer
+    // playerIds should already include host if they answered
     
-    const shuffled = [...arr];
-    let isDerangement = false;
-    let attempts = 0;
-    const maxAttempts = 100;
-    
-    while (!isDerangement && attempts < maxAttempts) {
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        isDerangement = arr.every((id, index) => shuffled[index] !== id);
-        attempts++;
+    if (playerIds.length === 0) return new Map();
+    if (playerIds.length === 1) {
+        // Single player - no pairing possible
+        return new Map();
     }
     
-    if (!isDerangement) {
-        return [...arr.slice(1), arr[0]];
+    // Shuffle the player IDs for randomness
+    const shuffled = [...playerIds];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    return shuffled;
+    
+    const pairs = new Map();
+    
+    // Create pairs from shuffled list
+    for (let i = 0; i < shuffled.length - 1; i += 2) {
+        const player1 = shuffled[i];
+        const player2 = shuffled[i + 1];
+        pairs.set(player1, player2);
+        pairs.set(player2, player1);
+    }
+    
+    // If odd number, the last person doesn't get paired this round
+    if (shuffled.length % 2 === 1) {
+        const lastPlayer = shuffled[shuffled.length - 1];
+        pairs.set(lastPlayer, null); // Mark as unpaired
+    }
+    
+    return pairs;
 }
 
 app.get('/', (req, res) => {
@@ -103,6 +116,12 @@ app.get('/health', (req, res) => {
         status: 'OK', 
         timestamp: new Date().toISOString(),
         rooms: gameRooms.size 
+    });
+});
+
+app.get('/api/env', (req, res) => {
+    res.json({ 
+        isDev: process.env.NODE_ENV !== 'production'
     });
 });
 
@@ -266,7 +285,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('reveal-answers', (data) => {
-        const { roomCode } = data;
+        const { roomCode, hostAnswer } = data;
         const room = gameRooms.get(roomCode);
         
         if (!room || room.hostId !== socket.id) {
@@ -275,6 +294,23 @@ io.on('connection', (socket) => {
         }
         
         room.questionInProgress = false;
+        
+        // Get player IDs (excluding host initially)
+        const playerIds = Array.from(room.answers.keys()).filter(id => id !== room.hostId);
+        
+        // If odd number of players and host provided an answer, include host
+        if (playerIds.length % 2 === 1 && hostAnswer) {
+            // Add host's answer to the pool
+            room.answers.set(room.hostId, {
+                playerId: room.hostId,
+                playerName: room.hostName || 'Host',
+                answer: hostAnswer,
+                timestamp: new Date().toISOString(),
+                isHost: true
+            });
+            playerIds.push(room.hostId);
+        }
+        
         const results = Array.from(room.answers.values());
         
         socket.emit('answers-revealed', {
@@ -282,19 +318,34 @@ io.on('connection', (socket) => {
             question: room.currentQuestion
         });
         
-        const playerIds = Array.from(room.answers.keys());
-        const shuffledIds = createDerangement(playerIds);
+        const pairs = createPairs(playerIds);
         
-        playerIds.forEach((playerId, index) => {
-            const otherPlayerId = shuffledIds[index];
-            const otherPlayerData = room.answers.get(otherPlayerId);
+        // Send matched answers to all participants
+        playerIds.forEach((playerId) => {
+            const pairedPlayerId = pairs.get(playerId);
             
-            io.to(playerId).emit('your-answer-revealed', {
-                answer: otherPlayerData.answer,
-                playerName: otherPlayerData.playerName,
-                followUpQuestion: room.currentQuestion?.followUpQuestion || null,
-                question: room.currentQuestion
-            });
+            // If no pair (odd one out - shouldn't happen now), send a message
+            if (pairedPlayerId === null || pairedPlayerId === undefined) {
+                io.to(playerId).emit('your-answer-revealed', {
+                    answer: { text: "You're the odd one out this round - no match!" },
+                    playerName: 'System',
+                    followUpQuestion: room.currentQuestion?.followUpQuestion || null,
+                    question: room.currentQuestion,
+                    isUnpaired: true
+                });
+            } else {
+                // Normal pairing
+                const pairedPlayerData = room.answers.get(pairedPlayerId);
+                
+                if (pairedPlayerData) {
+                    io.to(playerId).emit('your-answer-revealed', {
+                        answer: pairedPlayerData.answer,
+                        playerName: pairedPlayerData.playerName,
+                        followUpQuestion: room.currentQuestion?.followUpQuestion || null,
+                        question: room.currentQuestion
+                    });
+                }
+            }
         });
     });
 

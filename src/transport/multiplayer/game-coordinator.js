@@ -93,9 +93,41 @@ export function revealAnswers(socket, gameState) {
         return;
     }
     
-    socket.emit('reveal-answers', {
+    // Get host's selected answer if they chose one
+    const selectedPref = document.getElementById('selectedPreference');
+    const hostAnswer = selectedPref ? selectedPref.value : null;
+    
+    // Only send host answer if it exists (they selected something)
+    const revealData = {
         roomCode: gameState.roomCode
-    });
+    };
+    
+    if (hostAnswer) {
+        // Find which option was selected
+        const option1Label = document.getElementById('option1Label');
+        const option2Label = document.getElementById('option2Label');
+        
+        let answerData = null;
+        if (option1Label && option1Label.textContent === hostAnswer) {
+            answerData = {
+                text: hostAnswer,
+                value: hostAnswer,
+                index: 0
+            };
+        } else if (option2Label && option2Label.textContent === hostAnswer) {
+            answerData = {
+                text: hostAnswer,
+                value: hostAnswer,
+                index: 1
+            };
+        }
+        
+        if (answerData) {
+            revealData.hostAnswer = answerData;
+        }
+    }
+    
+    socket.emit('reveal-answers', revealData);
 }
 
 export function handleAnswerReceived(data, gameState, revealAnswersCallback) {

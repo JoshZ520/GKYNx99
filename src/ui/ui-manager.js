@@ -56,6 +56,13 @@ function displayQuestionOptions(question) {
         CONFIG_UTILS.show(preferenceContainer);
         CONFIG_UTILS.addClass(preferenceContainer, 'VISIBLE');
     }
+    
+    // Show host hint in multiplayer mode
+    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
+    const hostHint = CONFIG_UTILS.getElement('hostAnswerHint');
+    if (hostHint && gameMode === 'multiplayer') {
+        hostHint.style.display = 'block';
+    }
 
     // Render options visually in optionsContainer
     const optionsContainer = CONFIG_UTILS.getElement('optionsContainer');
@@ -143,6 +150,9 @@ function selectPreference(choice) {
         submitBtn.disabled = !actualAnswer || actualAnswer === 'option1' || actualAnswer === 'option2';
         CONFIG_UTILS.toggle(submitBtn, submitBtn.disabled);
     }
+    
+    // Host selection is stored but not automatically submitted
+    // It will only be used if needed for pairing (odd number of players)
 }
 
 // === IMAGE LOADING ===
