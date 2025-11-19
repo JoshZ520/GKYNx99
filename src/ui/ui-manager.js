@@ -56,13 +56,6 @@ function displayQuestionOptions(question) {
         CONFIG_UTILS.show(preferenceContainer);
         CONFIG_UTILS.addClass(preferenceContainer, 'VISIBLE');
     }
-    
-    // Show host hint in multiplayer mode
-    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
-    const hostHint = CONFIG_UTILS.getElement('hostAnswerHint');
-    if (hostHint && gameMode === 'multiplayer') {
-        hostHint.style.display = 'block';
-    }
 
     // Render options visually in optionsContainer
     const optionsContainer = CONFIG_UTILS.getElement('optionsContainer');
