@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -103,6 +104,12 @@ app.get('/health', (req, res) => {
         status: 'OK', 
         timestamp: new Date().toISOString(),
         rooms: gameRooms.size 
+    });
+});
+
+app.get('/api/env', (req, res) => {
+    res.json({ 
+        isDev: process.env.NODE_ENV !== 'production'
     });
 });
 
