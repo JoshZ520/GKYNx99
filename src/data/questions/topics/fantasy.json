@@ -11,7 +11,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Fantasy/Development.png",
                                          "option2":  "../assets/images/questions/Fantasy/adventure.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes that element stand out to you in a good fantasy story?"
                       },
                       {
                           "prompt":  "What type of fantasy character do you prefer?",
@@ -20,7 +21,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Fantasy/Magic.png",
                                          "option2":  "../assets/images/questions/Fantasy/Fighter.png"
-                                     }
+                                     },
+                          "followUpQuestion":  "What about that type of character appeals to you?"
                       },
                       {
                           "prompt":  "What fantasy time period appeals to you?",
@@ -29,7 +31,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Fantasy/High_fantasy.png",
                                          "option2":  "../assets/images/questions/Fantasy/Contemp_Magic.png"
-                                     }
+                                     },
+                          "followUpQuestion":  "What aspects of that time setting help immerse you most in a fantasy world?"
                       },
                       {
                           "prompt":  "What fantasy world scope appeals to you?",
@@ -38,7 +41,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Fantasy/epic.jpg",
                                          "option2":  "../assets/images/questions/Fantasy/personal.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "How do you feel the story scale affects your connection to the characters or events?"
                       },
                       {
                           "prompt":  "How do you prefer to engage with fantasy?",
@@ -47,7 +51,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Fantasy/creating-stories.jpg",
                                          "option2":  "../assets/images/questions/Fantasy/consuming-stories.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What is it about that type of engagement that you prefer?"
                       },
                       {
                           "prompt":  "What draws you to fantasy content?",
@@ -56,7 +61,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Fantasy/escapism.jpg",
                                          "option2":  "../assets/images/questions/Fantasy/excite.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What do you look for in a story that meets that criteria?"
                       }
                   ]
 }

@@ -11,7 +11,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Activity/team.jpg",
                                          "option2":  "../assets/images/questions/Activity/solo.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What about that style of activity motivates you most?"
                       },
                       {
                           "prompt":  "How do you prefer to engage with activities?",
@@ -20,7 +21,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Activity/playing.jpg",
                                          "option2":  "../assets/images/questions/Activity/watching.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What do you enjoy most about engaging with activities in that way?"
                       },
                       {
                           "prompt":  "What's your activity environment preference?",
@@ -29,7 +31,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Activity/team.jpg",
                                          "option2":  "../assets/images/questions/Activity/indoor.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes that environment feel better for the activity you enjoy?"
                       },
                       {
                           "prompt":  "What type of physical activity appeals to you?",
@@ -38,7 +41,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Activity/fitness.jpg",
                                          "option2":  "../assets/images/questions/Activity/playing.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What do you look for in that type of physical experience?"
                       },
                       {
                           "prompt":  "How do you prefer to stay active?",
@@ -47,7 +51,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Activity/fitness.jpg",
                                          "option2":  "../assets/images/questions/Activity/casual.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What are some activities that fit your preference that you do?"
                       },
                       {
                           "prompt":  "What motivates your activity choices?",
@@ -56,7 +61,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Activity/fitness.jpg",
                                          "option2":  "../assets/images/questions/Activity/indoor.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "With that motivation, what makes an activity more satisfying?"
                       }
                   ]
 }
