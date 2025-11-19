@@ -41,12 +41,6 @@
             </form>
 
             <div id="joinError" class="error-message hidden"></div>
-            
-            <!-- Dev Tools (only visible in dev environment) -->
-            <div id="devTools" class="dev-tools hidden">
-                <p>🛠️ Dev Mode</p>
-                <a href="/" target="_blank">Open Host Screen</a>
-            </div>
         </div>
     </div>
 
@@ -120,18 +114,6 @@
     <!-- Socket.io Client -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="../../src/transport/player-client.js" type="module"></script>
-    
-    <!-- Check environment and show dev tools if needed -->
-    <script>
-        fetch('/api/env')
-            .then(res => res.json())
-            .then(data => {
-                if (data.isDev) {
-                    document.getElementById('devTools').classList.remove('hidden');
-                }
-            })
-            .catch(err => console.log('Environment check failed:', err));
-    </script>
 </body>
 
 </html>

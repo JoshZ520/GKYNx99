@@ -96,6 +96,12 @@
 <button id="createRoomBtn" class="start-btn">Create Room</button>
 </div>
 
+<!-- Dev Tools (only visible in dev environment) -->
+<div id="devTools" class="dev-tools hidden">
+<p>🛠️ Dev Mode</p>
+<a href="/pages/player/index.html" target="_blank">Open Player Screen</a>
+</div>
+
 <!-- Multiplayer Room Info (hidden until room is created) -->
 <div id="multiplayerInfo" class="multiplayer-info hidden">
 <div class="room-display">
@@ -216,6 +222,9 @@
 </div>
 <!-- Image-based preference selection -->
 <div class="preference-container" id="preferenceContainer" class="hidden">
+    <p class="host-answer-hint" id="hostAnswerHint" style="display: none; text-align: center; color: var(--accent-light); font-size: 0.9rem; margin-bottom: 0.5rem;">
+        💡 Pick an option! If there's an odd number of players, you'll be paired with someone.
+    </p>
     <div class="preference-options" id="optionsContainer">
         <!-- Options will be rendered by JS -->
     </div>
@@ -308,6 +317,7 @@
 </footer>
 
 <!-- Conditionally load multiplayer scripts -->
+<script src="../src/ui/dev-tools.js" defer></script>
 
 </body>
 </html>
