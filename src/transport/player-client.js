@@ -147,6 +147,7 @@ function showYourAnswer(data) {
         
         if (data.followUpQuestion) {
             CONFIG_UTILS.setText('followUpQuestionText', data.followUpQuestion);
+            CONFIG_UTILS.setText('discussPartnerName', data.playerName);
             CONFIG_UTILS.show('followUpQuestionDisplay');
         } else {
             CONFIG_UTILS.hide('followUpQuestionDisplay');
