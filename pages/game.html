@@ -100,22 +100,70 @@
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
 <div id="multiplayerInfo" class="multiplayer-info hidden">
-<div class="room-display">
-<!-- QR Code Section -->
-<div class="qr-code-section">
-<p>Scan to join on your phone:</p>
-<img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page">
-</div>
-<div class="room-code-section">
-<span class="room-label">Room Code:</span>
-<span class="room-code" id="roomCodeDisplay">----</span>
-<button class="copy-code-btn" id="copyCodeBtn" title="Copy room code">Copy</button>
-</div>
-<div class="players-section">
-<span class="players-label">Connected Players (<span id="playerCount">0</span>):</span>
-<div class="players-list" id="connectedPlayersList"></div>
-</div>
-</div>
+    <div class="room-display">
+    <!-- QR Code Section -->
+        <div class="join">
+            <div class="room-code-section">
+                <span class="room-label">Room Code:</span>
+                <span class="room-code" id="roomCodeDisplay">----</span>
+                <button class="copy-code-btn" id="copyCodeBtn" title="Copy room code">Copy</button>
+            </div>
+            <div class="qr-code-section">
+                <p>Scan to join on your phone:</p>
+                <img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page">
+            </div>
+        </div>
+        <div class="setting">
+            <h2>Settings</h2>
+            <div>
+                <label for="question-number">Choose the number of questions:</label>
+                <select id="question-number" name="question-number">
+                    <option value="3">3</option>
+                    <option value="5" selected>5</option>
+                    <option value="10">10</option>
+                    <option value="Infinite">Infinite</option>
+                </select>
+            </div>
+            <div>
+                <label for="follow-up-option">Enable Follow-Up Questions:</label>
+                <input type="radio" id="follow-up-option" name="follow-up-option" value="true" checked  > Yes
+                <input type="radio" id="follow-up-option" name="follow-up-option" value="false" > No
+            </div>
+            <div>
+            <label for="follow-up-question">Follow-Up Setting:</label>
+            <input type="radio" id="follow-up-question" name="follow-up-question" value="random" checked  > Random
+            <input type="radio" id="follow-up-question" name="follow-up-question" value="related" > Related
+            </div>
+            <div>
+            <label for="need-timer">Set Answer Timer:</label>
+            <input type="radio" id="need-timer" name="need-timer" value="false" checked  > No Timer
+            <input type="radio" id="need-timer" name="need-timer" value="true" > Set Timer
+            </div>
+            <div>
+            <label for="timer-duration">Timer Duration:</label>
+            <select id="timer-duration" name="timer-duration">
+                <option value="1" selected>1 min</option>
+                <option value="3">3 min</option>
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+            </select>
+            </div>
+            <div>
+            <label for="color-theme" >Choose Color Theme:</label>
+            <select id="color-theme" name="color-theme">
+                <option value="light" selected>Light</option>
+                <option value="dark">Dark</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+            </select>
+            </div>
+        </div>
+
+        <div class="players-section">
+            <span class="players-label">Connected Players (<span id="playerCount">0</span>):</span>
+            <div class="players-list" id="connectedPlayersList"></div>
+        </div>
+    </div>
 </div>
 </header>
 <main>
