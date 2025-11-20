@@ -84,8 +84,6 @@
 </script>
 <header id="header">
 
-
-
 <!-- Offline Mode Notice -->
 <div id="offlineModeNotice" class="offline-notice hidden">
 <p><strong>Offline Mode:</strong> Pass this device between players for their turns. Everyone takes turns on the same screen.</p>
@@ -96,6 +94,12 @@
 <div id="createRoomSection" class="create-room-section hidden">
 <p>Ready to start your multiplayer game?</p>
 <button id="createRoomBtn" class="start-btn">Create Room</button>
+</div>
+
+<!-- Dev Tools (only visible in dev environment) -->
+<div id="devTools" class="dev-tools hidden">
+<p>🛠️ Dev Mode</p>
+<a href="/pages/player/index.html" target="_blank">Open Player Screen</a>
 </div>
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
@@ -358,6 +362,7 @@
 </footer>
 
 <!-- Conditionally load multiplayer scripts -->
+<script src="../src/ui/dev-tools.js" defer></script>
 
 </body>
 </html>

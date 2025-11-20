@@ -54,7 +54,7 @@ function displayQuestionOptions(question) {
     const preferenceContainer = CONFIG_UTILS.getElement('preferenceContainer');
     if (preferenceContainer) {
         CONFIG_UTILS.show(preferenceContainer);
-        preferenceContainer.classList.add('visible');
+        CONFIG_UTILS.addClass(preferenceContainer, 'VISIBLE');
     }
 
     // Render options visually in optionsContainer
@@ -143,6 +143,9 @@ function selectPreference(choice) {
         submitBtn.disabled = !actualAnswer || actualAnswer === 'option1' || actualAnswer === 'option2';
         CONFIG_UTILS.toggle(submitBtn, submitBtn.disabled);
     }
+    
+    // Host selection is stored but not automatically submitted
+    // It will only be used if needed for pairing (odd number of players)
 }
 
 // === IMAGE LOADING ===
@@ -233,7 +236,7 @@ function toggleTopicsPanel() {
     if (panel && toggle) {
         if (panel.classList.contains('hidden')) {
             CONFIG_UTILS.show(panel);
-            panel.classList.add('visible');
+            CONFIG_UTILS.addClass(panel, 'VISIBLE');
             toggle.textContent = 'Topics ▲';
         } else {
             closeTopicsPanel();
@@ -247,7 +250,7 @@ function closeTopicsPanel() {
     
     if (panel && toggle) {
         CONFIG_UTILS.hide(panel);
-        panel.classList.remove('visible');
+        CONFIG_UTILS.removeClass(panel, 'VISIBLE');
         toggle.textContent = 'Topics ▼';
     }
 }

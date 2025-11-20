@@ -195,12 +195,12 @@ export function createRoom(socket, gameState) {
         return;
     }
     
-    updateStatus('Creating room...', 'connecting');
+    updateStatus('Room created!', 'connected');
     
     const createBtn = CONFIG_UTILS.getElement('createRoomBtn');
     if (createBtn) {
         createBtn.disabled = true;
-        createBtn.textContent = 'Creating room...';
+        createBtn.textContent = 'Room Created!';
     }
     
     socket.emit('create-room', {

@@ -11,7 +11,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Books/book_type/fiction.jpg",
                                          "option2":  "../assets/images/questions/Books/book_type/nonfiction.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What attracts you most to that type of storytelling?"
                       },
                       {
                           "prompt":  "How do you prefer to consume stories?",
@@ -20,7 +21,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Books/Type_of_reading/reading.jpg",
                                          "option2":  "../assets/images/questions/Books/Type_of_reading/audio.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes that format more immersive for you?"
                       },
                       {
                           "prompt":  "What story length do you prefer?",
@@ -29,7 +31,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Books/Length/short.jpg",
                                          "option2":  "../assets/images/questions/Books/Length/long.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes that story length most enjoyable?"
                       },
                       {
                           "prompt":  "What type of narrative appeals to you?",
@@ -38,7 +41,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Books/character.jpg",
                                          "option2":  "../assets/images/questions/Books/story.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What draws you in to a story with that type of narrative?"
                       },
                       {
                           "prompt":  "How do you discover new stories?",
@@ -47,7 +51,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Books/recommend.jpg",
                                          "option2":  "../assets/images/questions/Books/explore.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "How often do try new genres or authors outside of your comfort zone?"
                       },
                       {
                           "prompt":  "What's your reading environment preference?",
@@ -56,7 +61,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Books/alone.jpg",
                                          "option2":  "../assets/images/questions/Books/share.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "Why does that environment speak to you the most?"
                       }
                   ]
 }

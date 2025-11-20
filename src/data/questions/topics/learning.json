@@ -11,7 +11,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Learning/class.webp",
                                          "option2":  "../assets/images/questions/Learning/self-study.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What helps you learn most effectively in that format?"
                       },
                       {
                           "prompt":  "What type of learning content interests you?",
@@ -20,7 +21,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Learning/Practical.jpg",
                                          "option2":  "../assets/images/questions/Learning/logics.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What makes that type of content more rewarding for you?"
                       },
                       {
                           "prompt":  "What's your preferred learning style?",
@@ -29,7 +31,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Learning/christin-hume-k2Kcwkandwg-unsplash.webp",
                                          "option2":  "../assets/images/questions/Learning/discuss.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What helps you stay engaged with that learning style?"
                       },
                       {
                           "prompt":  "What's your learning pace preference?",
@@ -38,7 +41,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Learning/books.jpg",
                                          "option2":  "../assets/images/questions/Learning/self-study.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What about that preference makes information stick?"
                       },
                       {
                           "prompt":  "How do you prefer educational content?",
@@ -47,7 +51,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Learning/discuss.jpg",
                                          "option2":  "../assets/images/questions/Learning/class.webp"
-                                     }
+                                     },
+                          "followUpQuestion":  "What do you find most helpful about learning in that way?"
                       },
                       {
                           "prompt":  "What motivates your learning?",
@@ -56,7 +61,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Learning/career.jpg",
                                          "option2":  "../assets/images/questions/Learning/Practical.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "How do you think that motivation shapes how you approach learning?"
                       }
                   ]
 }

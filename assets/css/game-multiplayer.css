@@ -35,6 +35,39 @@
 }
 
 /* === MULTIPLAYER ROOM INFO === */
+/* === DEV TOOLS === */
+.dev-tools {
+    background: rgba(255, 193, 7, 0.1);
+    border: 2px solid rgba(255, 193, 7, 0.4);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.dev-tools p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #FFC107;
+    font-weight: 600;
+}
+
+.dev-tools a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.dev-tools a:hover {
+    background: rgba(255, 193, 7, 0.3);
+    transform: translateY(-2px);
+}
+
 .multiplayer-info {
     background: linear-gradient(135deg, var(--accent-light), var(--background-light));
     border: 2px solid var(--accent-dark);
