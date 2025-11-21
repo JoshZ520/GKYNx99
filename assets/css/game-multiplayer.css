@@ -1,3 +1,134 @@
+/* game-multiplayer.css - Multiplayer and results features */
+/* Multiplayer room info, player tracking, results display, and game statistics */
+
+/* === PLAYER TURN INDICATOR === */
+.player-turn-indicator {
+    background: var(--accent-light);
+    color: white;
+    padding: 10px var(--space-lg);
+    border-radius: 10px;
+    margin: 0 auto var(--space-lg) auto;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.turn-text {
+    font-size: var(--font-base);
+    font-weight: 500;
+    opacity: 0.9;
+    margin-right: var(--space-sm);
+    white-space: nowrap;
+}
+
+.current-player-name {
+    font-size: var(--font-lg);
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* === MULTIPLAYER ROOM INFO === */
+/* === DEV TOOLS === */
+.dev-tools {
+    background: rgba(255, 193, 7, 0.1);
+    border: 2px solid rgba(255, 193, 7, 0.4);
+    border-radius: var(--border-radius-md);
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.dev-tools p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #FFC107;
+    font-weight: 600;
+}
+
+.dev-tools a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.dev-tools a:hover {
+    background: rgba(255, 193, 7, 0.3);
+    transform: translateY(-2px);
+}
+
+.multiplayer-info {
+    background: linear-gradient(135deg, var(--accent-light), var(--background-light));
+    border: 2px solid var(--accent-dark);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem;
+    margin-top: 1rem;
+    color: var(--text-dark);
+}
+
+.room-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.room-code-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.room-label,
+.players-label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.players-label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.room-code {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: var(--light);
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--accent-dark);
+    border-radius: var(--border-radius-md);
+    color: var(--accent-dark);
+    min-width: 80px;
+    text-align: center;
+}
+
+.copy-code-btn {
+    background: var(--accent-dark);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.copy-code-btn:hover {
+    transform: translateY(-1px);
+}
 
 .players-section {
     flex: 1;

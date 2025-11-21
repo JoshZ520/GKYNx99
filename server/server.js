@@ -327,15 +327,29 @@ io.on('connection', (socket) => {
         // Send matched answers to all participants
         playerIds.forEach((playerId) => {
             const pairedPlayerId = pairs.get(playerId);
-            const pairedPlayerData = pairedPlayerId ? room.answers.get(pairedPlayerId) : null;
             
-            io.to(playerId).emit('your-answer-revealed', {
-                answer: pairedPlayerData ? pairedPlayerData.answer : { text: "You're the odd one out this round - no match!" },
-                playerName: pairedPlayerData ? pairedPlayerData.playerName : 'System',
-                followUpQuestion: room.currentQuestion?.followUpQuestion || null,
-                question: room.currentQuestion,
-                isUnpaired: !pairedPlayerData
-            });
+            // If no pair (odd one out - shouldn't happen now), send a message
+            if (pairedPlayerId === null || pairedPlayerId === undefined) {
+                io.to(playerId).emit('your-answer-revealed', {
+                    answer: { text: "You're the odd one out this round - no match!" },
+                    playerName: 'System',
+                    followUpQuestion: room.currentQuestion?.followUpQuestion || null,
+                    question: room.currentQuestion,
+                    isUnpaired: true
+                });
+            } else {
+                // Normal pairing
+                const pairedPlayerData = room.answers.get(pairedPlayerId);
+                
+                if (pairedPlayerData) {
+                    io.to(playerId).emit('your-answer-revealed', {
+                        answer: pairedPlayerData.answer,
+                        playerName: pairedPlayerData.playerName,
+                        followUpQuestion: room.currentQuestion?.followUpQuestion || null,
+                        question: room.currentQuestion
+                    });
+                }
+            }
         });
     });
 
