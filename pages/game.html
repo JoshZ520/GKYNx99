@@ -12,8 +12,11 @@
 <link rel="stylesheet" href="../assets/css/shared/forms.css">
 <link rel="stylesheet" href="../assets/css/shared/animations.css">
 <link rel="stylesheet" href="../assets/css/shared/responsive.css">
+<!-- Game page styles -->
 <link rel="stylesheet" href="../assets/css/game-ui.css">
-<link rel="stylesheet" href="../assets/css/game-multiplayer.css">
+<link rel="stylesheet" href="../assets/css/game/game-topics.css">
+<link rel="stylesheet" href="../assets/css/game/game-multiplayer-core.css">
+<link rel="stylesheet" href="../assets/css/game/game-results.css">
 <link rel="stylesheet" href="../assets/css/components.css">
 <script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
@@ -129,19 +132,19 @@
                 </select>
             </div>
             <div>
-                <label for="follow-up-option">Enable Follow-Up Questions:</label>
-                <input type="radio" id="follow-up-option" name="follow-up-option" value="true" checked  > Yes
-                <input type="radio" id="follow-up-option" name="follow-up-option" value="false" > No
+                <div>Enable Follow-Up Questions:</div>
+                <label for="follow-up-option-yes"><input type="radio" id="follow-up-option-yes" name="follow-up-option" value="true" checked  > Yes</label>
+                <label for="follow-up-option-no"><input type="radio" id="follow-up-option-no" name="follow-up-option" value="false" > No</label>
             </div>
             <div>
-            <label for="follow-up-question">Follow-Up Setting:</label>
-            <input type="radio" id="follow-up-question" name="follow-up-question" value="random" checked  > Random
-            <input type="radio" id="follow-up-question" name="follow-up-question" value="related" > Related
+            <div>Follow-Up Setting:</div>
+            <label for="follow-up-question-random"><input type="radio" id="follow-up-question-random" name="follow-up-question" value="random" checked  > Random</label>
+            <label for="follow-up-question-related"><input type="radio" id="follow-up-question-related" name="follow-up-question" value="related" > Related</label>
             </div>
             <div>
-            <label for="need-timer">Set Answer Timer:</label>
-            <input type="radio" id="need-timer" name="need-timer" value="false" checked  > No Timer
-            <input type="radio" id="need-timer" name="need-timer" value="true" > Set Timer
+            <div>Set Answer Timer:</div>
+            <label for="need-timer-no"><input type="radio" id="need-timer-no" name="need-timer" value="false" checked  > No Timer</label>
+            <label for="need-timer-yes"><input type="radio" id="need-timer-yes" name="need-timer" value="true" > Set Timer</label>
             </div>
             <div>
             <label for="timer-duration">Timer Duration:</label>
