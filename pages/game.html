@@ -104,22 +104,70 @@
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
 <div id="multiplayerInfo" class="multiplayer-info hidden">
-<div class="room-display">
-<!-- QR Code Section -->
-<div class="qr-code-section">
-<p>Scan to join on your phone:</p>
-<img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page">
-</div>
-<div class="room-code-section">
-<span class="room-label">Room Code:</span>
-<span class="room-code" id="roomCodeDisplay">----</span>
-<button class="copy-code-btn" id="copyCodeBtn" title="Copy room code">Copy</button>
-</div>
-<div class="players-section">
-<span class="players-label">Connected Players (<span id="playerCount">0</span>):</span>
-<div class="players-list" id="connectedPlayersList"></div>
-</div>
-</div>
+    <div class="room-display">
+    <!-- QR Code Section -->
+        <div class="join">
+            <div class="room-code-section">
+                <span class="room-label">Room Code:</span>
+                <span class="room-code" id="roomCodeDisplay">----</span>
+                <button class="copy-code-btn" id="copyCodeBtn" title="Copy room code">Copy</button>
+            </div>
+            <div class="qr-code-section">
+                <p>Scan to join on your phone:</p>
+                <img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page">
+            </div>
+        </div>
+        <div class="setting">
+            <h2>Settings</h2>
+            <div>
+                <label for="question-number">Choose the number of questions:</label>
+                <select id="question-number" name="question-number">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="Infinity" selected>Infinity</option>
+                </select>
+            </div>
+            <div>
+                <label for="follow-up-option">Enable Follow-Up Questions:</label>
+                <input type="radio" id="follow-up-yes" name="follow-up-option" value="true" checked  > Yes
+                <input type="radio" id="follow-up-no" name="follow-up-option" value="false" > No
+            </div>
+            <div>
+            <label for="follow-up-question">Follow-Up Setting:</label>
+            <input type="radio" id="follow-up-random" name="follow-up-question" value="random" checked  > Random
+            <input type="radio" id="follow-up-related" name="follow-up-question" value="related" > Related
+            </div>
+            <div>
+            <label for="need-timer">Set Answer Timer:</label>
+            <input type="radio" id="need-timer-no" name="need-timer" value="false" checked  > No Timer
+            <input type="radio" id="need-timer-yes" name="need-timer" value="true" > Set Timer
+            </div>
+            <div>
+            <label for="timer-duration">Timer Duration:</label>
+            <select id="timer-duration" name="timer-duration">
+                <option value="1" selected>1 min</option>
+                <option value="3">3 min</option>
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+            </select>
+            </div>
+            <div>
+            <label for="color-theme" >Choose Color Theme:</label>
+            <select id="color-theme" name="color-theme">
+                <option value="light" selected>Light</option>
+                <option value="dark">Dark</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+            </select>
+            </div>
+        </div>
+
+        <div class="players-section">
+            <span class="players-label">Connected Players (<span id="playerCount">0</span>):</span>
+            <div class="players-list" id="connectedPlayersList"></div>
+        </div>
+    </div>
 </div>
 </header>
 <main>
@@ -167,6 +215,30 @@
     </div>
 
 <!-- Random Topic Button - Centered -->
+ <div class=direction-display>
+    <button id="directionDisplay" class="direction-button" type="button"><svg
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M11 10.9794C11 10.4271 11.4477 9.97937 12 9.97937C12.5523 9.97937 13 10.4271 13 10.9794V16.9794C13 17.5317 12.5523 17.9794 12 17.9794C11.4477 17.9794 11 17.5317 11 16.9794V10.9794Z"
+    fill="currentColor"
+  />
+  <path
+    d="M12 6.05115C11.4477 6.05115 11 6.49886 11 7.05115C11 7.60343 11.4477 8.05115 12 8.05115C12.5523 8.05115 13 7.60343 13 7.05115C13 6.49886 12.5523 6.05115 12 6.05115Z"
+    fill="currentColor"
+  />
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12Z"
+    fill="currentColor"
+  />
+</svg><p>Directions</p></button>
+ </div>
 <div class="random-topic-container">
     <button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
         <img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
