@@ -130,10 +130,6 @@
     transform: translateY(-1px);
 }
 
-.players-section {
-    flex: 1;
-}
-
 .players-list {
     background: var(--light);
     border: 1px solid var(--accent-light);

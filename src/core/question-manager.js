@@ -7,6 +7,8 @@ import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
 
 // === SHARED GAME STATE ===
 let appQuestions = [];
+let maxSubmissions = Infinity;
+let questionCounter = 0;
 
 // === QUESTION MANAGEMENT ===
 function applyQuestionsForTopic(topic) {
@@ -332,6 +334,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitBtn = CONFIG_UTILS.getElement('submitButton');
     const finalSubmitBtn = CONFIG_UTILS.getElement('final_submit');
     const endGameBtn = CONFIG_UTILS.getElement('end_game_btn');
+
+    // submit limitation
+    const updateMaxSubmissions = (selectElement) => {
+    const value = selectElement.value;
+    
+    if (value === 'Infinity') {
+        maxSubmissions = Infinity;
+    } else {
+        maxSubmissions = parseInt(value, 10) || Infinity;
+    }
+    if (window.gamePlayer && window.gamePlayer.updateSubmissionState) {
+        window.gamePlayer.updateSubmissionState();
+    }
+};
+
+const questionNumberSelect = CONFIG_UTILS.getElement('question-number');
+
+if (questionNumberSelect) {
+    updateMaxSubmissions(questionNumberSelect);
+    questionNumberSelect.addEventListener('change', (event) => {
+        updateMaxSubmissions(event.target);
+    });
+}
     
     if (submitBtn) {
         // Use addEventListener with { once: false } to ensure it only fires once per click
