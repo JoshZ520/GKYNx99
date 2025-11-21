@@ -89,13 +89,23 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
 }
 
 export function revealAnswers(socket, gameState) {
-    if (!gameState.isHost || !socket || !gameState.isConnected) {
-        return;
+    if (!gameState.isHost || !socket || !gameState.isConnected) return;
+    
+    const revealData = { roomCode: gameState.roomCode };
+    const selectedPref = document.getElementById('selectedPreference');
+    const hostAnswer = selectedPref?.value;
+    
+    if (hostAnswer) {
+        const option1Label = document.getElementById('option1Label');
+        const option2Label = document.getElementById('option2Label');
+        const index = option1Label?.textContent === hostAnswer ? 0 : (option2Label?.textContent === hostAnswer ? 1 : null);
+        
+        if (index !== null) {
+            revealData.hostAnswer = { text: hostAnswer, value: hostAnswer, index };
+        }
     }
     
-    socket.emit('reveal-answers', {
-        roomCode: gameState.roomCode
-    });
+    socket.emit('reveal-answers', revealData);
 }
 
 export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
@@ -109,12 +119,7 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
         }, 2000);
     }
     
-    // Auto-capture answers when all players have submitted
-    if (data.answeredCount === data.totalPlayers && data.totalPlayers > 0) {
-        setTimeout(() => {
-            revealAnswersCallback(); // This will capture results without displaying them
-        }, 500);
-    }
+    // Don't auto-reveal - wait for host to click "Reveal Answers" button
 }
 
 export function handleAnswersRevealed(data, gameState) {

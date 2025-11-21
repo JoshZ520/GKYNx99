@@ -1,43 +1,34 @@
-// server.js - Step 1: Basic Express + Socket.io server
-// This is our starting point - just connection testing
+// Load environment variables from .env file in development
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const path = require('path');
-// Create Express app
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: "*", // Allow all origins for development
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });
-// Serve static files (your current HTML/CSS/JS)
-// In production, serve from parent directory; in development, same behavior
+
 const staticPath = process.env.NODE_ENV === 'production' 
     ? path.join(__dirname, '..') 
     : path.join(__dirname, '..');
-
-// Configure proper MIME types for static files
 app.use(express.static(staticPath, {
     setHeaders: (res, filePath) => {
-        // Set proper MIME types for different file extensions
-        if (filePath.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        } else if (filePath.endsWith('.js')) {
-            res.setHeader('Content-Type', 'text/javascript');
-        } else if (filePath.endsWith('.json')) {
-            res.setHeader('Content-Type', 'application/json');
-        } else if (filePath.endsWith('.html')) {
-            res.setHeader('Content-Type', 'text/html');
-        }
-        // Add cache control for better performance
+        if (filePath.endsWith('.css')) res.setHeader('Content-Type', 'text/css');
+        else if (filePath.endsWith('.js')) res.setHeader('Content-Type', 'text/javascript');
+        else if (filePath.endsWith('.json')) res.setHeader('Content-Type', 'application/json');
+        else if (filePath.endsWith('.html')) res.setHeader('Content-Type', 'text/html');
         res.setHeader('Cache-Control', 'public, max-age=31536000');
     }
 }));
-
-// Add explicit static file serving for common paths with proper MIME types
 app.use('/stylesheets', express.static(path.join(__dirname, '../stylesheets'), {
     setHeaders: (res, filePath) => {
         if (filePath.endsWith('.css')) {
@@ -65,12 +56,10 @@ app.use('/assets', express.static(path.join(__dirname, '../assets'), {
     }
 }));
 
-// Game rooms storage - in production, you'd use a database
 const gameRooms = new Map();
 
-// Generate unique room codes
 function generateRoomCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Avoiding confusing chars like I, O, 1, 0
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     let result = '';
     for (let i = 0; i < 4; i++) {
         result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -78,25 +67,54 @@ function generateRoomCode() {
     return result;
 }
 
-// Basic route to test server is working
+function createPairs(playerIds) {
+    // Create mutual pairs where A gets B's answer and B gets A's answer
+    // playerIds should already include host if they answered
+    
+    if (playerIds.length === 0) return new Map();
+    if (playerIds.length === 1) {
+        // Single player - no pairing possible
+        return new Map();
+    }
+    
+    // Shuffle the player IDs for randomness
+    const shuffled = [...playerIds];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    const pairs = new Map();
+    
+    // Create pairs from shuffled list
+    for (let i = 0; i < shuffled.length - 1; i += 2) {
+        const player1 = shuffled[i];
+        const player2 = shuffled[i + 1];
+        pairs.set(player1, player2);
+        pairs.set(player2, player1);
+    }
+    
+    // If odd number, the last person doesn't get paired this round
+    if (shuffled.length % 2 === 1) {
+        const lastPlayer = shuffled[shuffled.length - 1];
+        pairs.set(lastPlayer, null); // Mark as unpaired
+    }
+    
+    return pairs;
+}
+
 app.get('/', (req, res) => {
     try {
-        const indexPath = path.join(__dirname, '../pages/index.html');
-        console.log('Serving index.html from:', indexPath);
-        res.sendFile(indexPath);
+        res.sendFile(path.join(__dirname, '../pages/index.html'));
     } catch (error) {
-        console.error('Error serving index.html:', error);
-        res.status(500).send('Server Error: Cannot serve index.html');
+        res.status(500).send('Server Error');
     }
 });
 
-// Route for phone players to join games
-// This redirects to the full path so relative URLs work correctly
 app.get('/player', (req, res) => {
     res.redirect('/pages/player/index.html');
 });
 
-// Health check endpoint for Render
 app.get('/health', (req, res) => {
     res.status(200).json({ 
         status: 'OK', 
@@ -105,18 +123,20 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Socket.io connection handling
+app.get('/api/env', (req, res) => {
+    res.json({ 
+        isDev: process.env.NODE_ENV !== 'production'
+    });
+});
+
 io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
     
-    // Send a welcome message to the newly connected client
     socket.emit('welcome', {
         message: 'Welcome to Table Talk!',
         socketId: socket.id,
         timestamp: new Date().toLocaleTimeString()
     });
-
-    // HOST EVENTS - Create and manage game rooms
     socket.on('create-room', (data) => {
         const roomCode = generateRoomCode();
         const room = {
@@ -133,15 +153,12 @@ io.on('connection', (socket) => {
         gameRooms.set(roomCode, room);
         socket.join(roomCode);
         
-        console.log(`Room ${roomCode} created by ${socket.id}`);
-        
         socket.emit('room-created', {
             roomCode: roomCode,
             success: true
         });
     });
 
-    // PLAYER EVENTS - Join existing rooms
     socket.on('join-room', (data) => {
         const { roomCode, playerName } = data;
         const room = gameRooms.get(roomCode);
@@ -151,14 +168,11 @@ io.on('connection', (socket) => {
             return;
         }
         
-        // Check if player already exists
         const existingPlayer = room.players.find(p => p.name === playerName);
         if (existingPlayer) {
             socket.emit('join-error', { message: 'Player name already taken' });
             return;
         }
-        
-        // Add player to room
         const player = {
             id: socket.id,
             name: playerName,
@@ -168,23 +182,18 @@ io.on('connection', (socket) => {
         room.players.push(player);
         socket.join(roomCode);
         
-        console.log(` ${playerName} joined room ${roomCode}`);
-        
-        // Notify player they joined successfully
         socket.emit('joined-room', {
             roomCode: roomCode,
             playerName: playerName,
             success: true
         });
         
-        // Notify host and other players (including host!)
         io.to(roomCode).emit('player-joined', {
             player: player,
             totalPlayers: room.players.length
         });
     });
 
-    // HOST EVENTS - Rejoin room after navigation
     socket.on('rejoin-room', (data) => {
         const { roomCode, isHost } = data;
         const room = gameRooms.get(roomCode);
@@ -195,55 +204,40 @@ io.on('connection', (socket) => {
         }
         
         if (isHost) {
-            // Cancel the cleanup timeout if it exists (host reconnecting after page navigation)
             if (room.hostDisconnectTimeout) {
                 clearTimeout(room.hostDisconnectTimeout);
                 room.hostDisconnectTimeout = null;
-                console.log(`Cancelled cleanup timeout for room ${roomCode}`);
             }
             
-            if (room.hostId === socket.id) {
-                // Host is already the owner, just rejoin the socket room
-                socket.join(roomCode);
-                console.log(`Host rejoined room ${roomCode}`);
-                socket.emit('rejoined-room', { roomCode: roomCode, success: true });
-            } else {
-                // Different socket ID - update host ID (happens on page reload)
-                const oldHostId = room.hostId;
+            if (room.hostId !== socket.id) {
                 room.hostId = socket.id;
-                socket.join(roomCode);
-                console.log(`Host reconnected to room ${roomCode} (old: ${oldHostId}, new: ${socket.id})`);
-                socket.emit('rejoined-room', { roomCode: roomCode, success: true });
             }
+            socket.join(roomCode);
+            socket.emit('rejoined-room', { roomCode: roomCode, success: true });
         }
     });
 
-    // GAME EVENTS - Start game notification
     socket.on('start-game', (data) => {
         const { roomCode } = data;
         const room = gameRooms.get(roomCode);
         
         if (!room || room.hostId !== socket.id) {
-            socket.emit('error', { message: 'Not authorized to start game' });
+            socket.emit('error', { message: 'Not authorized' });
             return;
         }
         
-        console.log(`Game starting in room ${roomCode}`);
-        
-        // Notify all players (except host) that game is starting
         socket.to(roomCode).emit('game-started', {
             roomCode: roomCode,
             timestamp: new Date().toISOString()
         });
     });
 
-    // GAME EVENTS - Question broadcasting and answers
     socket.on('broadcast-question', (data) => {
         const { roomCode, question } = data;
         const room = gameRooms.get(roomCode);
         
         if (!room || room.hostId !== socket.id) {
-            socket.emit('error', { message: 'Not authorized to broadcast questions' });
+            socket.emit('error', { message: 'Not authorized' });
             return;
         }
         
@@ -251,9 +245,6 @@ io.on('connection', (socket) => {
         room.questionInProgress = true;
         room.answers.clear();
         
-        console.log(`Question broadcasted to room ${roomCode}`);
-        
-        // Send question to all players in room
         io.to(roomCode).emit('new-question', {
             question: question,
             timestamp: new Date().toISOString()
@@ -265,18 +256,16 @@ io.on('connection', (socket) => {
         const room = gameRooms.get(roomCode);
         
         if (!room || !room.questionInProgress) {
-            socket.emit('error', { message: 'No active question to answer' });
+            socket.emit('error', { message: 'No active question' });
             return;
         }
         
-        // Find player in room
         const player = room.players.find(p => p.id === socket.id);
         if (!player) {
-            socket.emit('error', { message: 'Player not found in room' });
+            socket.emit('error', { message: 'Player not found' });
             return;
         }
         
-        // Store answer
         room.answers.set(socket.id, {
             playerId: socket.id,
             playerName: player.name,
@@ -284,9 +273,6 @@ io.on('connection', (socket) => {
             timestamp: new Date().toISOString()
         });
         
-        console.log(` ${player.name} answered in room ${roomCode}`);
-        
-        // Notify host of answer count
         const hostSocket = io.sockets.sockets.get(room.hostId);
         if (hostSocket) {
             hostSocket.emit('answer-received', {
@@ -296,7 +282,6 @@ io.on('connection', (socket) => {
             });
         }
         
-        // Notify player their answer was received
         socket.emit('answer-confirmed', {
             success: true,
             answer: answer
@@ -304,80 +289,92 @@ io.on('connection', (socket) => {
     });
 
     socket.on('reveal-answers', (data) => {
-        const { roomCode } = data;
+        const { roomCode, hostAnswer } = data;
         const room = gameRooms.get(roomCode);
         
         if (!room || room.hostId !== socket.id) {
-            socket.emit('error', { message: 'Not authorized to reveal answers' });
+            socket.emit('error', { message: 'Not authorized' });
             return;
         }
         
         room.questionInProgress = false;
         
-        // Compile results
+        // Get player IDs (excluding host initially)
+        const playerIds = Array.from(room.answers.keys()).filter(id => id !== room.hostId);
+        
+        // If odd number of players and host provided an answer, include host
+        if (playerIds.length % 2 === 1 && hostAnswer) {
+            // Add host's answer to the pool
+            room.answers.set(room.hostId, {
+                playerId: room.hostId,
+                playerName: room.hostName || 'Host',
+                answer: hostAnswer,
+                timestamp: new Date().toISOString(),
+                isHost: true
+            });
+            playerIds.push(room.hostId);
+        }
+        
         const results = Array.from(room.answers.values());
         
-        console.log(`Results recorded for room ${roomCode}`);
-        
-        // Send results only to host (not to players)
         socket.emit('answers-revealed', {
             results: results,
             question: room.currentQuestion
         });
+        
+        const pairs = createPairs(playerIds);
+        
+        // Send matched answers to all participants
+        playerIds.forEach((playerId) => {
+            const pairedPlayerId = pairs.get(playerId);
+            
+            // If no pair (odd one out - shouldn't happen now), send a message
+            if (pairedPlayerId === null || pairedPlayerId === undefined) {
+                io.to(playerId).emit('your-answer-revealed', {
+                    answer: { text: "You're the odd one out this round - no match!" },
+                    playerName: 'System',
+                    followUpQuestion: room.currentQuestion?.followUpQuestion || null,
+                    question: room.currentQuestion,
+                    isUnpaired: true
+                });
+            } else {
+                // Normal pairing
+                const pairedPlayerData = room.answers.get(pairedPlayerId);
+                
+                if (pairedPlayerData) {
+                    io.to(playerId).emit('your-answer-revealed', {
+                        answer: pairedPlayerData.answer,
+                        playerName: pairedPlayerData.playerName,
+                        followUpQuestion: room.currentQuestion?.followUpQuestion || null,
+                        question: room.currentQuestion
+                    });
+                }
+            }
+        });
     });
 
-    // LEGACY - Keep existing test message functionality
-    socket.on('test-message', (data) => {
-        console.log(' Test message received from', socket.id, ':', data.message);
-        socket.emit('test-response', {
-            message: `Server received: "${data.message}"`,
-            serverTime: new Date().toLocaleTimeString(),
-            yourId: socket.id
-        });
-        socket.broadcast.emit('someone-sent-message', {
-            from: socket.id,
-            message: data.message,
-            timestamp: new Date().toLocaleTimeString()
-        });
-    });
-
-    // Handle disconnection and cleanup
     socket.on('disconnect', (reason) => {
         console.log('Client disconnected:', socket.id, 'Reason:', reason);
         
-        // Clean up rooms where this socket was host or player
         for (const [roomCode, room] of gameRooms.entries()) {
             if (room.hostId === socket.id) {
-                // Host disconnected - give them 5 seconds to reconnect (page navigation)
-                console.log(`Host socket disconnected from room ${roomCode}, waiting for reconnection...`);
-                
-                // Set a timeout to delete the room if host doesn't reconnect
                 const cleanupTimeout = setTimeout(() => {
-                    // Check if the room still exists and host hasn't reconnected
                     const currentRoom = gameRooms.get(roomCode);
                     if (currentRoom && currentRoom.hostId === socket.id) {
-                        console.log(`Host didn't reconnect to room ${roomCode}, cleaning up`);
                         socket.to(roomCode).emit('host-disconnected', {
                             message: 'Host has left the game'
                         });
                         gameRooms.delete(roomCode);
                     }
-                }, 5000); // 5 second grace period
-                
-                // Store the timeout so we can cancel it if host rejoins
+                }, 5000);
                 room.hostDisconnectTimeout = cleanupTimeout;
-                
             } else {
-                // Remove player from room
                 const playerIndex = room.players.findIndex(p => p.id === socket.id);
                 if (playerIndex > -1) {
                     const player = room.players[playerIndex];
                     room.players.splice(playerIndex, 1);
                     room.answers.delete(socket.id);
                     
-                    console.log(`${player.name} left room ${roomCode}`);
-                    
-                    // Notify remaining players (including host!)
                     io.to(roomCode).emit('player-left', {
                         player: player,
                         totalPlayers: room.players.length
@@ -387,7 +384,6 @@ io.on('connection', (socket) => {
         }
     });
 });
-// Start server
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, '0.0.0.0', () => {

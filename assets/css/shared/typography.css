@@ -1,0 +1,45 @@
+/* typography.css - Text styling and font-related styles */
+
+/* === GLOBAL STYLES === */
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light) !important;
+    line-height: 1.3; /* Slightly reduced line height for compact layout */
+}
+
+/* Game and display pages get a different background to highlight the main container */
+.game-page,
+.display-page {
+    background-color: var(--accent-light);
+    padding: var(--space-sm); /* Small padding around the bordered container */
+}
+
+/* === TYPOGRAPHY === */
+h1, h2 {
+    text-align: center;
+    color: var(--dark);
+}
+
+p, #header p {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: var(--font-base); /* Reduced from var(--font-lg) */
+    color: var(--text-dark);
+    margin: 5px 0; /* Added reduced margins */
+}
+
+#header p {
+    font-size: var(--font-lg); /* Reduced from var(--font-xl) */
+}
+
+label, .topic label {
+    font-size: 18px;
+    margin-right: 8px;
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+
+.topic label {
+    margin-right: 10px;
+}
