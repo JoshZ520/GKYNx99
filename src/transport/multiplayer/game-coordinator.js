@@ -89,41 +89,19 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
 }
 
 export function revealAnswers(socket, gameState) {
-    if (!gameState.isHost || !socket || !gameState.isConnected) {
-        return;
-    }
+    if (!gameState.isHost || !socket || !gameState.isConnected) return;
     
-    // Get host's selected answer if they chose one
+    const revealData = { roomCode: gameState.roomCode };
     const selectedPref = document.getElementById('selectedPreference');
-    const hostAnswer = selectedPref ? selectedPref.value : null;
-    
-    // Only send host answer if it exists (they selected something)
-    const revealData = {
-        roomCode: gameState.roomCode
-    };
+    const hostAnswer = selectedPref?.value;
     
     if (hostAnswer) {
-        // Find which option was selected
         const option1Label = document.getElementById('option1Label');
         const option2Label = document.getElementById('option2Label');
+        const index = option1Label?.textContent === hostAnswer ? 0 : (option2Label?.textContent === hostAnswer ? 1 : null);
         
-        let answerData = null;
-        if (option1Label && option1Label.textContent === hostAnswer) {
-            answerData = {
-                text: hostAnswer,
-                value: hostAnswer,
-                index: 0
-            };
-        } else if (option2Label && option2Label.textContent === hostAnswer) {
-            answerData = {
-                text: hostAnswer,
-                value: hostAnswer,
-                index: 1
-            };
-        }
-        
-        if (answerData) {
-            revealData.hostAnswer = answerData;
+        if (index !== null) {
+            revealData.hostAnswer = { text: hostAnswer, value: hostAnswer, index };
         }
     }
     
