@@ -43,17 +43,9 @@
             transition: all 0.3s ease;
         `;
         
-        button.addEventListener('mouseover', () => {
-            button.style.background = 'rgba(76, 175, 80, 0.3)';
-        });
-        
-        button.addEventListener('mouseout', () => {
-            button.style.background = 'rgba(76, 175, 80, 0.2)';
-        });
-        
-        button.addEventListener('click', () => {
-            addFakePlayers(3);
-        });
+        button.onmouseover = () => button.style.background = 'rgba(76, 175, 80, 0.3)';
+        button.onmouseout = () => button.style.background = 'rgba(76, 175, 80, 0.2)';
+        button.onclick = () => addFakePlayers(3);
         
         devToolsElement.appendChild(button);
     }
@@ -111,30 +103,25 @@
         
         // Auto-answer questions
         fakeSocket.on('new-question', (data) => {
-            console.log(`[DEV] Fake player ${playerName} received question`, data.question);
+            console.log(`[DEV] Fake player ${playerName} received question`);
             
-            // Wait 1-3 seconds to simulate thinking time
-            const delay = 1000 + Math.random() * 2000;
             setTimeout(() => {
-                if (data.question.options && data.question.options.length > 0) {
-                    // Pick a random option
+                if (data.question.options?.length > 0) {
                     const randomIndex = Math.floor(Math.random() * data.question.options.length);
                     const selectedOption = data.question.options[randomIndex];
                     
-                    const answer = {
-                        text: selectedOption.text || selectedOption,
-                        value: selectedOption.value || selectedOption.text || selectedOption,
-                        index: randomIndex
-                    };
-                    
                     fakeSocket.emit('submit-answer', {
-                        roomCode: roomCode,
-                        answer: answer
+                        roomCode,
+                        answer: {
+                            text: selectedOption.text || selectedOption,
+                            value: selectedOption.value || selectedOption.text || selectedOption,
+                            index: randomIndex
+                        }
                     });
                     
-                    console.log(`[DEV] Fake player ${playerName} submitted answer:`, answer);
+                    console.log(`[DEV] Fake player ${playerName} submitted answer`);
                 }
-            }, delay);
+            }, 1000 + Math.random() * 2000);
         });
         
         fakeSocket.on('your-answer-revealed', (data) => {
@@ -144,9 +131,7 @@
         fakeSocket.on('disconnect', () => {
             console.log(`[DEV] Fake player ${playerName} disconnected`);
             const index = fakePlayerSockets.indexOf(fakeSocket);
-            if (index > -1) {
-                fakePlayerSockets.splice(index, 1);
-            }
+            if (index > -1) fakePlayerSockets.splice(index, 1);
         });
         
         fakePlayerSockets.push(fakeSocket);
