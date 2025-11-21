@@ -1,3 +1,36 @@
+.setting input[type="radio"] {
+    margin-right: 4px !important;
+    margin-left: 0 !important;
+    vertical-align: middle;
+}
+.setting label {
+    margin-right: 10px !important;
+    margin-left: 0 !important;
+    vertical-align: middle;
+    display: inline-block;
+}
+.setting div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.setting > div {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: unset !important;
+}
+.setting label,
+.setting select,
+.setting input[type="radio"] {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+.setting h2 {
+    margin-bottom: 8px !important;
+    margin-top: 0 !important;
+}
 /* game-multiplayer.css - Multiplayer and results features */
 /* Multiplayer room info, player tracking, results display, and game statistics */
 
