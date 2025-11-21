@@ -146,6 +146,10 @@ button#close svg {
 
 .setting{
     display: flex;
+    flex-direction: column;
+}
+.setting div {
+    
 }
 /* === GAME NAVIGATION STYLES === */
 .game-navigation {
