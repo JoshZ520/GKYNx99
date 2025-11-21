@@ -144,6 +144,13 @@ button#close svg {
     transform: rotate(0deg);
 }
 
+.setting{
+    display: flex;
+    flex-direction: column;
+}
+.setting div {
+    
+}
 /* === GAME NAVIGATION STYLES === */
 .game-navigation {
     display: flex;

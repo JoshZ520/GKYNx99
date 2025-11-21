@@ -75,7 +75,7 @@
                 <div class="room-info">
                     Room: <strong id="questionRoomCode"></strong>
                     &nbsp;|&nbsp;
-                    Player: <strong id="currentPlayerName"></strong>
+                    Player: <strong id="questionPlayerName"></strong>
                 </div>
             </div>
 
@@ -92,6 +92,15 @@
                 <h3>Answer Submitted!</h3>
                 <p>Great choice! Waiting for other players to answer...</p>
                 <p class="small-text">The host will move to the next question when everyone is ready.</p>
+            </div>
+
+            <div id="yourAnswerDisplay" class="your-answer-display hidden">
+                <h3><span id="matchedPlayerName"></span> answered:</h3>
+                <p id="yourAnswerText" class="your-answer-text"></p>
+                <div id="followUpQuestionDisplay" class="follow-up-question">
+                    <p class="discussion-prompt">Now go discuss this with <strong id="discussPartnerName"></strong>:</p>
+                    <p id="followUpQuestionText" class="follow-up-text"></p>
+                </div>
             </div>
         </div>
     </div>

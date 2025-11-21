@@ -1,5 +1,14 @@
-/* player.css - Consolidated player page styles */
-/* Combines: player-layout, player-features, player-responsive, player-utilities */
+/* player.css - Player page specific styles */
+/* 
+   SHARED RESOURCES (imported in index.html):
+   - assets/css/shared.css          → Variables, utilities (.hidden, .disabled, etc.)
+   - assets/css/shared/buttons.css  → Button styles
+   - assets/css/shared/forms.css    → Form input styles
+   - assets/css/shared/animations.css → Keyframes (fadeIn, pulse, blink, etc.)
+   - assets/css/shared/responsive.css → Global responsive utilities
+   
+   This file contains ONLY player-page-specific styles.
+*/
 
 /* ============================================================================
    PLAYER PAGE LAYOUT
@@ -78,6 +87,12 @@
     font-size: 0.8rem;
     z-index: 1000;
     color: var(--light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.connection-status:hover {
+    background: rgba(0, 0, 0, 0.85);
 }
 
 .status-indicator {
@@ -86,7 +101,7 @@
 
 .status-indicator.connecting {
     color: #FF9800;
-    animation: blink 1s infinite;
+    animation: blink 1s infinite; /* Uses animation from shared/animations.css */
 }
 
 .status-indicator.connected {
@@ -95,6 +110,30 @@
 
 .status-indicator.disconnected {
     color: #F44336;
+}
+
+/* Hide status text on mobile by default */
+@media (max-width: 768px) {
+    #statusText {
+        display: none;
+    }
+    
+    /* Show status text when the status has the 'expanded' class */
+    .connection-status.expanded #statusText {
+        display: inline;
+    }
+    
+    /* Make the connection status smaller when collapsed */
+    .connection-status {
+        padding: 0.5rem;
+        border-radius: 50%;
+    }
+    
+    /* Expand to full size when showing text */
+    .connection-status.expanded {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+    }
 }
 
 
@@ -202,7 +241,7 @@
 .waiting-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
-    animation: pulse 2s infinite;
+    animation: pulse 2s infinite; /* Uses animation from shared/animations.css */
 }
 
 .waiting-content h3 {
@@ -252,8 +291,8 @@
 }
 
 .answer-btn {
-    padding: 1.5rem 1rem;
-    background: rgba(255, 255, 255, 0.8);
+    padding: 0;
+    background: rgba(255, 255, 255, 0.9);
     border: 2px solid var(--accent-light);
     border-radius: 12px;
     color: var(--dark);
@@ -262,6 +301,10 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 120px;
 }
 
 .answer-btn:hover {
@@ -278,20 +321,55 @@
     background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
     border-color: var(--accent-dark);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.answer-btn.selected .answer-btn-text {
     color: var(--light);
+}
+
+/* Answer button text styling - appears ABOVE image like host screen */
+.answer-btn-text {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 2px solid var(--accent-light);
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--text-dark);
+}
+
+/* Answer button image styling - appears BELOW text */
+.answer-btn-image {
+    width: 100%;
+    max-height: 200px;
+    min-height: 150px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    flex-grow: 1;
+    background: var(--accent-light);
 }
 
 .answer-status {
     text-align: center;
     padding: 2rem 1rem;
-    animation: fadeIn 0.5s ease;
+    animation: fadeIn 0.5s ease; /* Uses animation from shared/animations.css */
 }
 
 .status-icon {
     font-size: 4rem;
     margin-bottom: 1rem;
     color: #4CAF50;
+}
+
+.status-icon {
     animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
 }
 
 .answer-status h3 {
@@ -310,24 +388,6 @@
     font-size: 0.9rem;
     opacity: 0.7;
     color: var(--text-dark);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes scaleIn {
-    from {
-        transform: scale(0);
-    }
-    to {
-        transform: scale(1);
-    }
 }
 
 /* === RESULTS SECTION === */
@@ -385,6 +445,56 @@
     color: var(--text-dark);
 }
 
+/* === FOLLOW-UP QUESTION === */
+.follow-up-question {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--accent-light);
+    border-radius: 12px;
+    animation: fadeIn 0.5s ease;
+}
+
+.follow-up-question .discussion-prompt {
+    margin: 0 0 1rem 0;
+    color: var(--accent-light);
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.follow-up-question .discussion-prompt strong {
+    color: var(--light);
+    font-weight: 700;
+}
+
+.follow-up-question .follow-up-text {
+    margin: 0;
+    color: var(--light);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    font-style: italic;
+    text-align: center;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.follow-up-question h4 {
+    margin: 0 0 0.75rem 0;
+    color: var(--accent-light);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.follow-up-question p {
+    margin: 0;
+    color: var(--light);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-style: italic;
+}
+
 /* === ERROR MESSAGES === */
 .error-message {
     background: rgba(244, 67, 54, 0.2);
@@ -396,62 +506,38 @@
     text-align: center;
 }
 
-.error-message.hidden {
-    display: none;
+/* === DEV TOOLS === */
+.dev-tools {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 8px;
+    text-align: center;
 }
 
+.dev-tools p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #FFC107;
+    font-weight: 600;
+}
 
-/* ============================================================================
-   UTILITY CLASSES
-   ============================================================================ */
-
-/* Common transitions */
-.smooth-transition {
+.dev-tools a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
 }
 
-.hover-transition {
-    transition: all 0.2s ease;
+.dev-tools a:hover {
+    background: rgba(255, 193, 7, 0.3);
+    transform: translateY(-2px);
 }
-
-/* Common flex layouts */
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Display utilities */
-.hidden {
-    display: none !important;
-}
-
-/* State utilities */
-.disabled {
-    opacity: 0.5 !important;
-    pointer-events: none !important;
-}
-
-.enabled {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-}
-
-/* Opacity utilities */
-.fade-out {
-    opacity: 0;
-}
-
-.fade-in {
-    opacity: 1;
-}
-
-/* Success state */
-.success-state {
-    background-color: #28a745 !important;
-    color: white !important;
-}
-
 
 /* ============================================================================
    RESPONSIVE MEDIA QUERIES
@@ -499,8 +585,17 @@
     }
     
     .answer-btn {
-        padding: 1.2rem 0.8rem;
-        font-size: 0.9rem;
+        min-height: 100px;
+    }
+    
+    .answer-btn-image {
+        max-height: 120px;
+        min-height: 100px;
+    }
+    
+    .answer-btn-text {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.95rem;
     }
 }
 

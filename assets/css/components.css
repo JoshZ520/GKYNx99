@@ -266,6 +266,17 @@
     box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
 }
 
+/* Image sizing within preference options */
+.preference-option img {
+    width: 100%;
+    max-height: 240px;
+    object-fit: contain;
+    object-position: center;
+    flex-grow: 1;
+    display: block;
+    background: var(--accent-light);
+}
+
 /* === IMAGE STYLES === */
 .preference-image {
     width: 100%;

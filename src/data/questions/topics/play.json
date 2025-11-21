@@ -11,7 +11,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Play/Types_of_games/video.jpg",
                                          "option2":  "../assets/images/questions/Play/Types_of_games/board.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What aspects of that type of game do you find most fun?"
                       },
                       {
                           "prompt":  "How do you prefer to play games?",
@@ -20,7 +21,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Play/Preference/comp.jpg",
                                          "option2":  "../assets/images/questions/Play/Type_of_play/creative.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What is it about that preference that draws you to it?"
                       },
                       {
                           "prompt":  "What's your gaming social preference?",
@@ -29,7 +31,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Play/Motivation/brain.jpg",
                                          "option2":  "../assets/images/questions/Play/Preference/coop.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What do you enjoy about that style of playing?"
                       },
                       {
                           "prompt":  "What type of game experience appeals to you?",
@@ -38,7 +41,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Play/Motivation/brain.jpg",
                                          "option2":  "../assets/images/questions/Play/Motivation/social.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What about that type of challenge or pace appeals to you?"
                       },
                       {
                           "prompt":  "How much time do you prefer for gaming sessions?",
@@ -47,7 +51,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Play/Complexity/simple.jpg",
                                          "option2":  "../assets/images/questions/Play/Complexity/complex.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What determines the ideal session length for you when gaming?"
                       },
                       {
                           "prompt":  "What motivates your game choices?",
@@ -56,7 +61,8 @@
                           "images":  {
                                          "option1":  "../assets/images/questions/Play/achieve.jpg",
                                          "option2":  "../assets/images/questions/Play/Type_of_play/creative.jpg"
-                                     }
+                                     },
+                          "followUpQuestion":  "What about that do you find the most satisfying or enjoyable?"
                       }
                   ]
 }

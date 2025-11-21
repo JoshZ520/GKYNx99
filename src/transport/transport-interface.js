@@ -6,9 +6,9 @@ let isInitialized = false;
 function initialize() {
     if (isInitialized) return;
 
-    const gameMode = sessionStorage.getItem('gameMode');
+    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
     const isOffline = gameMode === 'offline' || 
-                     sessionStorage.getItem('offlineMode') === 'true';
+                     CONFIG_UTILS.getStorageItem('OFFLINE_MODE') === 'true';
 
     isInitialized = true;
 }
@@ -60,8 +60,8 @@ function initializeModeUI() {
     let mode = getMode();
     
     if (mode === 'unknown') {
-        const multiplayerRoom = sessionStorage.getItem('multiplayerRoom');
-        const gameMode = sessionStorage.getItem('gameMode');
+        const multiplayerRoom = CONFIG_UTILS.getStorageItem('multiplayerRoom'); // Note: not in CONFIG yet
+        const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
         
         if (multiplayerRoom) {
             mode = 'multiplayer';
@@ -107,7 +107,7 @@ function initializeModeUI() {
 function showResults(resultsData) {
     CONFIG_UTILS.hideDisplay('gameContainer');
     
-    const resultsSection = document.getElementById('gameResults');
+    const resultsSection = CONFIG_UTILS.getElement('gameResults');
     if (!resultsSection) {
         console.error('Results section not found');
         return;
