@@ -15,6 +15,41 @@
     --dark: #89ab84;
     --light: #ffffff;
     
+    /*REDS*/
+    --darkest-red: #421010;
+    --dark-red: #8a2424;
+    --mid-red: #c94444;
+    --light-red: #e88e8e;
+    --lightest-red: #fab9b9;
+
+    /*ORANGES*/
+    --darkest-orange: #422410;
+    --dark-orange: #8a4324;
+    --mid-orange: #c97b44;
+    --light-orange: #e8ab8e;
+    --lightest-orange: #fad1b9;
+
+    /*YELLOWS*/
+    --darkest-yellow: #424010;
+    --dark-yellow: #8a8124;
+    --mid-yellow: #c9c944;
+    --light-yellow: #e8e88e;
+    --lightest-yellow: #faf9b9;
+
+    /*BLUES*/
+    --darkest-blue: #102742;
+    --dark-blue: #24528a;
+    --mid-blue: #4482c9;
+    --light-blue: #8eafe8;
+    --lightest-blue: #b9ddfa;
+
+    /*PURPLES*/
+    --darkest-purple: #371042;
+    --dark-purple: #76248a;
+    --mid-purple: #ac44c9;
+    --light-purple: #c98ee8;
+    --lightest-purple: #e4b9fa;
+
     /* Additional Page Colors */
     --primary: #667eea;
     --primary-dark: #5a67d8;
