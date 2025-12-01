@@ -98,8 +98,10 @@ export function updateSubmissionState(playerNames, getCurrentPlayerName) {
  * @param {Function} getCurrentPlayerName - Function to get current player name
  * @param {Function} advanceToNextPlayer - Function to advance to next player
  * @param {string[]} playerNames - Array of player names
+ * @param {Function} recordAnsweredQuestionCallback - Function to count the question
+ * @param {Function} switchToNextQuestionCallback - Function to switch the UI question
  */
-export function submitAnswer(getCurrentPlayerName, advanceToNextPlayer, playerNames) {
+export function submitAnswer(getCurrentPlayerName, advanceToNextPlayer, playerNames, recordAnsweredQuestionCallback, switchToNextQuestionCallback) {
     // In offline mode, try to get answer from offline.js function first
     let selectedPreference = '';
     if (window.getSelectedAnswerOffline) {
@@ -133,6 +135,25 @@ export function submitAnswer(getCurrentPlayerName, advanceToNextPlayer, playerNa
     
     // Update UI
     updateSubmissionState(playerNames, getCurrentPlayerName);
+
+    const currentQuestionData = submissionsByQuestion[currentQuestionText];
+    const answersReceived = currentQuestionData ? Object.keys(currentQuestionData.answers).length : 0;
+    const totalPlayers = playerNames.length;
+
+    if (answersReceived >= totalPlayers && totalPlayers > 0) {
+        console.log("All players answered. Counting question and switching.");
+        
+        // recordAnsweredQuestion
+        if (recordAnsweredQuestionCallback) {
+            recordAnsweredQuestionCallback();
+        }
+        
+        // switchToNextQuestion
+        if (switchToNextQuestionCallback) {
+            switchToNextQuestionCallback();
+        }
+    }
+    return true;
 }
 
 /**

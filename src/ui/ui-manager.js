@@ -4,10 +4,17 @@
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
 
 // popup
+const popup = document.querySelector('#popup');
 const closePopupBtn = document.querySelector('#close');
 closePopupBtn.addEventListener('click', () => {
     popup.style.display = 'none';
 });
+
+const openPopupBtn = document.querySelector('#directionDisplay');
+openPopupBtn.addEventListener('click', () => {
+    console.log('open popup');
+    popup.style.display = 'block';
+}); 
 
 // === SHARED STATE ===
 let availableTopics = [];
