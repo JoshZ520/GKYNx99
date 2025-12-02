@@ -35,7 +35,13 @@ function updateSubmissionState() {
 
 function submitAnswer() {
     const playerNames = getPlayerNames();
-    submitAnswerModule(getCurrentPlayerName, advanceToNextPlayer, playerNames);
+    const success = submitAnswerModule(
+        getCurrentPlayerName, 
+        advanceToNextPlayer, 
+        playerNames, 
+        window.gameCore.recordAnsweredQuestion, 
+        window.gameCore.switchToNextQuestion
+    );
 }
 
 function handleFinalSubmit() {

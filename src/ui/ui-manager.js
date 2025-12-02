@@ -4,10 +4,17 @@
 import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
 
 // popup
+const popup = document.querySelector('#popup');
 const closePopupBtn = document.querySelector('#close');
 closePopupBtn.addEventListener('click', () => {
     popup.style.display = 'none';
 });
+
+const openPopupBtn = document.querySelector('#directionDisplay');
+openPopupBtn.addEventListener('click', () => {
+    console.log('open popup');
+    popup.style.display = 'block';
+}); 
 
 // === SHARED STATE ===
 let availableTopics = [];
@@ -289,12 +296,50 @@ window.gameUI = {
     getAvailableTopics: () => availableTopics
 };
 
+// === CONDITIONAL SETTINGS DISPLAY ===
+function initializeConditionalSettings() {
+    // Timer duration only shows when timer is enabled
+    const timerRadios = document.querySelectorAll('input[name="need-timer"]');
+    const timerDurationSetting = document.getElementById('timer-duration-setting');
+    
+    if (timerRadios && timerDurationSetting) {
+        timerRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                console.log('Timer radio changed:', e.target.value, e.target.id);
+                timerDurationSetting.style.display = e.target.value === 'true' ? 'block' : 'none';
+            });
+        });
+    }
+    
+    // Follow-up type only shows when follow-ups are enabled
+    const followUpRadios = document.querySelectorAll('input[name="follow-up-option"]');
+    const followUpTypeSetting = document.getElementById('follow-up-type-setting');
+    
+    if (followUpRadios && followUpTypeSetting) {
+        // Set initial state based on checked radio
+        const checkedFollowUp = document.querySelector('input[name="follow-up-option"]:checked');
+        if (checkedFollowUp) {
+            followUpTypeSetting.style.display = checkedFollowUp.value === 'true' ? 'block' : 'none';
+        }
+        
+        followUpRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                console.log('Follow-up radio changed:', e.target.value, e.target.id);
+                followUpTypeSetting.style.display = e.target.value === 'true' ? 'block' : 'none';
+            });
+        });
+    }
+}
+
 // === AUTO-INITIALIZATION ===
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     if (window.gameUI) {
         window.gameUI.initializeTopicSelection();
     }
+    // Initialize conditional settings display
+    initializeConditionalSettings();
+    
     // Enable clicking on preference images only in offline mode
     const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
     if (gameMode === GAME_CONFIG.MODES.OFFLINE) {

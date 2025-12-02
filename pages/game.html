@@ -117,49 +117,96 @@
                 <img src="/assets/images/table-talk-qr.png" alt="QR Code for Player Page">
             </div>
         </div>
-        <div class="setting">
-            <h2>Settings</h2>
-            <div>
-                <label for="question-number">Choose the number of questions:</label>
-                <select id="question-number" name="question-number">
-                    <option value="3">3</option>
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="Infinity" selected>Infinity</option>
-                </select>
-            </div>
-            <div>
-                <label for="follow-up-option">Enable Follow-Up Questions:</label>
-                <input type="radio" id="follow-up-yes" name="follow-up-option" value="true" checked  > Yes
-                <input type="radio" id="follow-up-no" name="follow-up-option" value="false" > No
-            </div>
-            <div>
-            <label for="follow-up-question">Follow-Up Setting:</label>
-            <input type="radio" id="follow-up-random" name="follow-up-question" value="random" checked  > Random
-            <input type="radio" id="follow-up-related" name="follow-up-question" value="related" > Related
-            </div>
-            <div>
-            <label for="need-timer">Set Answer Timer:</label>
-            <input type="radio" id="need-timer-no" name="need-timer" value="false" checked  > No Timer
-            <input type="radio" id="need-timer-yes" name="need-timer" value="true" > Set Timer
-            </div>
-            <div>
-            <label for="timer-duration">Timer Duration:</label>
-            <select id="timer-duration" name="timer-duration">
-                <option value="1" selected>1 min</option>
-                <option value="3">3 min</option>
-                <option value="5">5 min</option>
-                <option value="10">10 min</option>
-            </select>
-            </div>
-            <div>
-            <label for="color-theme" >Choose Color Theme:</label>
-            <select id="color-theme" name="color-theme">
-                <option value="light" selected>Light</option>
-                <option value="dark">Dark</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
-            </select>
+        <div class="settings-container">
+            <h2 class="settings-title">⚙️ Game Settings</h2>
+            
+            <div class="settings-grid">
+                <!-- Game Settings -->
+                <div class="setting-group">
+                    <h3 class="setting-group-title">Game Options</h3>
+                    
+                    <div class="setting-item">
+                        <label for="question-number" class="setting-label">Number of Questions:</label>
+                        <select id="question-number" name="question-number" class="setting-select">
+                            <option value="3">3 Questions</option>
+                            <option value="5">5 Questions</option>
+                            <option value="10">10 Questions</option>
+                            <option value="Infinity" selected>Unlimited</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">Answer Timer:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" id="need-timer-no" name="need-timer" value="false" checked>
+                                <span>No Timer</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" id="need-timer-yes" name="need-timer" value="true">
+                                <span>Enable Timer</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item" id="timer-duration-setting" style="display: none;">
+                        <label for="timer-duration" class="setting-label">Timer Duration:</label>
+                        <select id="timer-duration" name="timer-duration" class="setting-select">
+                            <option value="1" selected>1 minute</option>
+                            <option value="3">3 minutes</option>
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Follow-Up Questions -->
+                <div class="setting-group">
+                    <h3 class="setting-group-title">Follow-Up Questions</h3>
+                    
+                    <div class="setting-item">
+                        <label class="setting-label">Enable Follow-Ups:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" id="follow-up-yes" name="follow-up-option" value="true" checked>
+                                <span>Yes</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" id="follow-up-no" name="follow-up-option" value="false">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item" id="follow-up-type-setting">
+                        <label class="setting-label">Follow-Up Type:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" id="follow-up-random" name="follow-up-question" value="random" checked>
+                                <span>Random</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" id="follow-up-related" name="follow-up-question" value="related">
+                                <span>Related</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appearance -->
+                <div class="setting-group">
+                    <h3 class="setting-group-title">Appearance</h3>
+                    
+                    <div class="setting-item">
+                        <label for="color-theme" class="setting-label">Color Theme:</label>
+                        <select id="color-theme" name="color-theme" class="setting-select">
+                            <option value="light" selected>Light</option>
+                            <option value="dark">Dark</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -215,7 +262,6 @@
     </div>
 
 <!-- Random Topic Button - Centered -->
- <div class=direction-display>
     <button id="directionDisplay" class="direction-button" type="button"><svg
   width="24"
   height="24"
@@ -238,7 +284,7 @@
     fill="currentColor"
   />
 </svg><p>Directions</p></button>
- </div>
+
 <div class="random-topic-container">
     <button class="remote-btn smooth-transition" id="randomTopicBtn" type="button" title="Random Topic">
         <img src="../assets/images/icons/random-dice.svg" alt="Random Topic" width="20" height="20">
