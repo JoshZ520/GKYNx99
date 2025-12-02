@@ -8,7 +8,7 @@
 /* === TAGLINE === */
 .tagline {
     font-size: var(--font-lg);
-    color: #31a71d;
+    color: var(--text-dark);
     text-align: center;
     font-weight: 600;
     margin: var(--space-sm) 0 var(--space-lg) 0;
