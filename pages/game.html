@@ -119,7 +119,7 @@
         </div>
         <div class="setting">
             <h2>Settings</h2>
-            <div>
+            <div class="flex">
                 <label for="question-number">Choose the number of questions:</label>
                 <select id="question-number" name="question-number">
                     <option value="3">3</option>
@@ -128,22 +128,22 @@
                     <option value="Infinity" selected>Infinity</option>
                 </select>
             </div>
-            <div>
+            <div class="flex">
                 <label for="follow-up-option">Enable Follow-Up Questions:</label>
                 <input type="radio" id="follow-up-yes" name="follow-up-option" value="true" checked  > Yes
                 <input type="radio" id="follow-up-no" name="follow-up-option" value="false" > No
             </div>
-            <div>
+            <div class="flex">
             <label for="follow-up-question">Follow-Up Setting:</label>
             <input type="radio" id="follow-up-random" name="follow-up-question" value="random" checked  > Random
             <input type="radio" id="follow-up-related" name="follow-up-question" value="related" > Related
             </div>
-            <div>
+            <div class="flex">
             <label for="need-timer">Set Answer Timer:</label>
             <input type="radio" id="need-timer-no" name="need-timer" value="false" checked  > No Timer
             <input type="radio" id="need-timer-yes" name="need-timer" value="true" > Set Timer
             </div>
-            <div>
+            <div class="flex">
             <label for="timer-duration">Timer Duration:</label>
             <select id="timer-duration" name="timer-duration">
                 <option value="1" selected>1 min</option>
@@ -152,7 +152,7 @@
                 <option value="10">10 min</option>
             </select>
             </div>
-            <div>
+            <div class="flex">
             <label for="color-theme" >Choose Color Theme:</label>
             <select id="color-theme" name="color-theme">
                 <option value="light" selected>Light</option>
@@ -199,6 +199,14 @@
                 </button>
                 <p class="setup-link"><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
             </div>
+        </div>
+    </div>
+    <!-- <div class="popup"> -->
+        <div class="number_reached">
+            <h3>The questions ended.</h3>
+            <p>Do you want to continue, or end it?</p>
+            <button class="continue" id="continueGameBtn" type="button">Continue</button>
+            <button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button>
         </div>
     </div>
     <div id="gameContainer">
