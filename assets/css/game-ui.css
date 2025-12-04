@@ -86,6 +86,20 @@ button#close svg {
     color: var(--text-dark);
 }
 
+.number_reached{
+    background-color: #ffffff;
+    padding: 1% 2%;
+    border-radius: 10px;
+}
+
+.number_reached h3{
+    margin: 5px 0 7px 0;
+}
+
+.number_reached button{
+    margin: 10px 0;
+}
+
 .header-controls {
     display: flex;
     align-items: center;
@@ -142,11 +156,6 @@ button#close svg {
 
 #open_page.collapsed img {
     transform: rotate(0deg);
-}
-
-.setting{
-    display: flex;
-    flex-direction: column;
 }
 /* === GAME NAVIGATION STYLES === */
 .game-navigation {
