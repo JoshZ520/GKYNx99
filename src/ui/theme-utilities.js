@@ -85,65 +85,62 @@ window.addEventListener('DOMContentLoaded', function () {
 window.loadQuestions = loadQuestions;
 window.getTopics = () => topics;
 
-document.getElementById("whiteButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "rgb(0 0 0)");
-    document.documentElement.style.setProperty("--dark", "rgb(0 0 0)");
-    document.documentElement.style.setProperty("--accent-dark", "rgb(64 64 64)");
-    document.documentElement.style.setProperty("--accent-light", "rgb(128 128 128)");
-    /*document.documentElement.style.setProperty("", "rgb(192 192 192)");*/
-    document.documentElement.style.setProperty("--background-light", "rgb(255 255 255)");
-});
+document.getElementById("colorSelection").addEventListener("change", (e) => {
+    const choice = e.target.value;
 
-document.getElementById("redButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#421010");
-    document.documentElement.style.setProperty("--dark", "#421010");
-    document.documentElement.style.setProperty("--accent-dark", "#8a2424");
-    document.documentElement.style.setProperty("--accent-light", "#c94444");
-    /*document.documentElement.style.setProperty("", "#e88e8e");*/
-    document.documentElement.style.setProperty("--background-light", "#fab9b9");
-});
+    if (choice === "white") {
+        document.documentElement.style.setProperty("--text-dark", "rgb(0 0 0)");
+        document.documentElement.style.setProperty("--dark", "rgb(0 0 0)");
+        document.documentElement.style.setProperty("--accent-dark", "rgb(64 64 64)");
+        document.documentElement.style.setProperty("--accent-light", "rgb(128 128 128)");
+        document.documentElement.style.setProperty("--background-light", "rgb(255 255 255)");
+    }
 
-document.getElementById("orangeButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#422410");
-    document.documentElement.style.setProperty("--dark", "#422410");
-    document.documentElement.style.setProperty("--accent-dark", "#8a4324");
-    document.documentElement.style.setProperty("--accent-light", "#c97b44");
-    /*document.documentElement.style.setProperty("", "#e8ab8e");*/
-    document.documentElement.style.setProperty("--background-light", "#fad1b9");
-});
+    if(choice === "red") {
+        document.documentElement.style.setProperty("--text-dark", "#421010");
+        document.documentElement.style.setProperty("--dark", "#421010");
+        document.documentElement.style.setProperty("--accent-dark", "#8a2424");
+        document.documentElement.style.setProperty("--accent-light", "#c94444");
+        document.documentElement.style.setProperty("--background-light", "#fab9b9");
+    }
 
-document.getElementById("yellowButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#424010");
-    document.documentElement.style.setProperty("--dark", "#424010");
-    document.documentElement.style.setProperty("--accent-dark", "#8a8124");
-    document.documentElement.style.setProperty("--accent-light", "#c9c944");
-    /*document.documentElement.style.setProperty("", "#e8e88e");*/
-    document.documentElement.style.setProperty("--background-light", "#faf9b9");
-});
+    if(choice === "orange") {
+        document.documentElement.style.setProperty("--text-dark", "#422410");
+        document.documentElement.style.setProperty("--dark", "#422410");
+        document.documentElement.style.setProperty("--accent-dark", "#8a4324");
+        document.documentElement.style.setProperty("--accent-light", "#c97b44");
+        document.documentElement.style.setProperty("--background-light", "#fad1b9");
+    }
 
-document.getElementById("greenButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#0b2d0c");
-    document.documentElement.style.setProperty("--dark", "#0b2d0c");
-    document.documentElement.style.setProperty("--accent-dark", "#248a2e");
-    document.documentElement.style.setProperty("--accent-light", "#44c95a");
-    /*document.documentElement.style.setProperty("", "");*/
-    document.documentElement.style.setProperty("--background-light", "#b9fac3");
-});
+    if(choice === "yellow") {
+        document.documentElement.style.setProperty("--text-dark", "#424010");
+        document.documentElement.style.setProperty("--dark", "#424010");
+        document.documentElement.style.setProperty("--accent-dark", "#8a8124");
+        document.documentElement.style.setProperty("--accent-light", "#c9c944");
+        document.documentElement.style.setProperty("--background-light", "#faf9b9");
+    }
 
-document.getElementById("blueButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#102742");
-    document.documentElement.style.setProperty("--dark", "#102742");
-    document.documentElement.style.setProperty("--accent-dark", "#24528a");
-    document.documentElement.style.setProperty("--accent-light", "#4482c9");
-    /*document.documentElement.style.setProperty("", "#8eafe8");*/
-    document.documentElement.style.setProperty("--background-light", "#b9ddfa");
-});
+    if(choice === "green") {
+        document.documentElement.style.setProperty("--text-dark", "#0b2d0c");
+        document.documentElement.style.setProperty("--dark", "#0b2d0c");
+        document.documentElement.style.setProperty("--accent-dark", "#248a2e");
+        document.documentElement.style.setProperty("--accent-light", "#44c95a");
+        document.documentElement.style.setProperty("--background-light", "#b9fac3");
+    }
 
-document.getElementById("purpleButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#371042");
-    document.documentElement.style.setProperty("--dark", "#371042");
-    document.documentElement.style.setProperty("--accent-dark", "#76248a");
-    document.documentElement.style.setProperty("--accent-light", "#ac44c9");
-    /*document.documentElement.style.setProperty("", "#c98ee8");*/
-    document.documentElement.style.setProperty("--background-light", "#e4b9fa");
+    if(choice === "blue") {
+        document.documentElement.style.setProperty("--text-dark", "#102742");
+        document.documentElement.style.setProperty("--dark", "#102742");
+        document.documentElement.style.setProperty("--accent-dark", "#24528a");
+        document.documentElement.style.setProperty("--accent-light", "#4482c9");
+        document.documentElement.style.setProperty("--background-light", "#b9ddfa");
+    }
+
+    if(choice === "purple") {
+        document.documentElement.style.setProperty("--text-dark", "#371042");
+        document.documentElement.style.setProperty("--dark", "#371042");
+        document.documentElement.style.setProperty("--accent-dark", "#76248a");
+        document.documentElement.style.setProperty("--accent-light", "#ac44c9");
+        document.documentElement.style.setProperty("--background-light", "#e4b9fa");
+    }
 });

@@ -556,6 +556,12 @@
     display: none;
 }
 
+/* Logo */
+#main_logo {
+    width: 15em;
+    height: auto;
+}
+
 /* ============================================================================
    RESPONSIVE MEDIA QUERIES
    ============================================================================ */
@@ -626,10 +632,4 @@
     .room-code-container {
         padding: 0.75rem;
     }
-}
-
-/* Logo */
-#main_logo {
-    width: 15em;
-    height: auto;
 }
