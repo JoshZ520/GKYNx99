@@ -7,48 +7,62 @@
 
 :root {
     /* Color Variables */
-    --background-light: #c2f7cd;
-    --accent-light: #1eb817;
-    --accent-dark: #31a71d;
-    --text-dark: #5F3A48;
+    --background-light: #b9fac3;
+    --accent-light: #44c95a;
+    --accent-dark: #248a2e;
+    --text-dark: #0b2d0c;
     --text-muted: #6b7280;
-    --dark: #89ab84;
+    --dark: #248a2e;
     --light: #ffffff;
     
-    /*REDS*/
+    /*WHITES
+    --darkest-white: rgb(0 0 0);
+    --dark-white: rgb(64 64 64);
+    --mid-white: rgb(128 128 128);
+    --light-white: rgb(192 192 192);
+    --lightest-white: rgb(255 255 255);
+
+    REDS
     --darkest-red: #421010;
     --dark-red: #8a2424;
     --mid-red: #c94444;
     --light-red: #e88e8e;
     --lightest-red: #fab9b9;
 
-    /*ORANGES*/
+    ORANGES
     --darkest-orange: #422410;
     --dark-orange: #8a4324;
     --mid-orange: #c97b44;
     --light-orange: #e8ab8e;
     --lightest-orange: #fad1b9;
 
-    /*YELLOWS*/
+    YELLOWS
     --darkest-yellow: #424010;
     --dark-yellow: #8a8124;
     --mid-yellow: #c9c944;
     --light-yellow: #e8e88e;
     --lightest-yellow: #faf9b9;
 
-    /*BLUES*/
+    GREENS
+    --darkest-green: #0b2d0c;
+    --dark-green: #248a2e;
+    --mid-green: #44c95a;
+    --light-green: #8ee89f;
+    --lightest-green: #b9fac3;
+
+    BLUES
     --darkest-blue: #102742;
     --dark-blue: #24528a;
     --mid-blue: #4482c9;
     --light-blue: #8eafe8;
     --lightest-blue: #b9ddfa;
 
-    /*PURPLES*/
+    PURPLES
     --darkest-purple: #371042;
     --dark-purple: #76248a;
     --mid-purple: #ac44c9;
     --light-purple: #c98ee8;
-    --lightest-purple: #e4b9fa;
+    --lightest-purple: #e4b9fa;*/
 
     /* Additional Page Colors */
     --primary: #667eea;
