@@ -15,9 +15,7 @@ function initializePlayerSocket() {
         socket.on('disconnect', () => updateConnectionStatus('disconnected', 'Disconnected'));
         socket.on('connect_error', () => updateConnectionStatus('disconnected', 'Connection Error'));
         setupGameEventListeners();
-    } catch (error) {
-        updateConnectionStatus('disconnected', 'Connection Failed');
-    }
+    } catch (error) { updateConnectionStatus('disconnected', 'Connection Failed'); }
 }
 
 function setupGameEventListeners() {
@@ -85,45 +83,27 @@ function setupGameEventListeners() {
 function updateConnectionStatus(status, text) {
     const indicator = CONFIG_UTILS.getElement('statusIndicator');
     const statusText = CONFIG_UTILS.getElement('statusText');
-    if (indicator && statusText) {
-        indicator.className = `status-indicator ${status}`;
-        statusText.textContent = text;
-    }
+    if (indicator && statusText) { indicator.className = `status-indicator ${status}`; statusText.textContent = text; }
 }
-
 function showPlayerError(message) {
     const errorDiv = CONFIG_UTILS.setText('joinError', message);
-    if (errorDiv) {
-        CONFIG_UTILS.show(errorDiv);
-        setTimeout(() => CONFIG_UTILS.hide('joinError'), 5000);
-    }
+    if (errorDiv) { CONFIG_UTILS.show(errorDiv); setTimeout(() => CONFIG_UTILS.hide('joinError'), 5000); }
 }
 function resetJoinForm() {
     const joinBtn = CONFIG_UTILS.getElement('joinBtn');
-    if (joinBtn) {
-        joinBtn.disabled = false;
-        joinBtn.innerHTML = '<span>Join Game</span>';
-    }
+    if (joinBtn) { joinBtn.disabled = false; joinBtn.innerHTML = '<span>Join Game</span>'; }
 }
 
 function showSection(sectionId) {
     const sections = document.querySelectorAll('.section');
-    sections.forEach(section => {
-        CONFIG_UTILS.removeClass(section, 'VISIBLE');
-        CONFIG_UTILS.hide(section);
-    });
+    sections.forEach(section => { CONFIG_UTILS.removeClass(section, 'VISIBLE'); CONFIG_UTILS.hide(section); });
     const targetSection = CONFIG_UTILS.getElement(sectionId);
-    if (targetSection) {
-        CONFIG_UTILS.show(targetSection);
-        CONFIG_UTILS.addClass(targetSection, 'VISIBLE');
-    }
+    if (targetSection) { CONFIG_UTILS.show(targetSection); CONFIG_UTILS.addClass(targetSection, 'VISIBLE'); }
 }
-
 function showJoinSection() {
     showSection('joinSection');
     playerState = { name: null, roomCode: null, currentQuestion: null, hasAnswered: false };
 }
-
 function showWaitingSection() {
     showSection('waitingSection');
     CONFIG_UTILS.setText('currentRoomCode', playerState.roomCode);
@@ -148,28 +128,43 @@ function showAnswerStatus() {
     CONFIG_UTILS.hideDisplay('answerOptions');
     CONFIG_UTILS.show('answerStatus');
 }
-
+let timerInterval = null;
 function showYourAnswer(data) {
     CONFIG_UTILS.hide('answerStatus');
-    const answer = data.answer;
-    const answerText = answer.text || answer.value || answer;
     const yourAnswerDiv = CONFIG_UTILS.getElement('yourAnswerDisplay');
-    
     if (yourAnswerDiv) {
-        CONFIG_UTILS.setText('matchedPlayerName', data.playerName);
-        CONFIG_UTILS.setText('yourAnswerText', answerText);
-        
         if (data.followUpQuestion) {
             CONFIG_UTILS.setText('followUpQuestionText', data.followUpQuestion);
             CONFIG_UTILS.setText('discussPartnerName', data.playerName);
             CONFIG_UTILS.show('followUpQuestionDisplay');
-        } else {
-            CONFIG_UTILS.hide('followUpQuestionDisplay');
-        }
+        } else { CONFIG_UTILS.hide('followUpQuestionDisplay'); }
+        if (data.timerDuration && data.timerDuration > 0) { startDiscussionTimer(data.timerDuration); }
         CONFIG_UTILS.show('yourAnswerDisplay');
     }
 }
-
+function startDiscussionTimer(durationInSeconds) {
+    if (timerInterval) clearInterval(timerInterval);
+    const timerDisplay = CONFIG_UTILS.getElement('discussionTimer');
+    if (!timerDisplay) return;
+    CONFIG_UTILS.show('discussionTimerContainer');
+    let remainingSeconds = durationInSeconds;
+    updateTimerDisplay(remainingSeconds);
+    timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateTimerDisplay(remainingSeconds);
+        if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            CONFIG_UTILS.setText('discussionTimer', "Time's up!");
+        }
+    }, 1000);
+}
+function updateTimerDisplay(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    const timeString = `${minutes}:${secs.toString().padStart(2, '0')}`;
+    CONFIG_UTILS.setText('discussionTimer', timeString);
+}
 function showResults(data) {
     showSection('resultsSection');
     CONFIG_UTILS.setText('resultsQuestion', data.question.text);
@@ -225,31 +220,18 @@ function submitAnswer(selectedOption, index) {
 function displayResults(results) {
     const container = CONFIG_UTILS.getElement('resultsContent');
     if (!container) return;
-    
     container.innerHTML = '';
-    
-    if (results.length === 0) {
-        container.innerHTML = '<p>No answers received</p>';
-        return;
-    }
-    
+    if (results.length === 0) { container.innerHTML = '<p>No answers received</p>'; return; }
     results.forEach(result => {
         const item = document.createElement('div');
         item.className = 'result-item';
-        item.innerHTML = `
-            <span class="result-player">${result.playerName}</span>
-            <span class="result-answer">${result.answer.text}</span>
-        `;
+        item.innerHTML = `<span class="result-player">${result.playerName}</span><span class="result-answer">${result.answer.text}</span>`;
         container.appendChild(item);
     });
 }
-
 function updatePlayersList() {
     const container = CONFIG_UTILS.getElement('playersList');
-    if (container) {
-        // Display current player (server would populate full list in multiplayer)
-        container.innerHTML = `<div>${playerState.name} (you)</div>`;
-    }
+    if (container) container.innerHTML = `<div>${playerState.name} (you)</div>`;
 }
 
 // Join form handling

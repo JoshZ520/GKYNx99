@@ -1,21 +1,11 @@
-// src/transport/offline/player-setup.js - Player setup and game initialization
 import { generatePlayerInputs as sharedGeneratePlayerInputs, updateStartButtonState as sharedUpdateStartButtonState } from '../../player/player-setup-utils.js';
 import { CONFIG_UTILS } from '../../config/game-config.js';
 
-/**
- * Generate player input fields based on selected player count
- * @param {string|number} selectedValue - The number of players
- */
 export function generatePlayerInputs(selectedValue) {
     const count = typeof selectedValue === 'string' ? parseInt(selectedValue, 10) : Number(selectedValue);
     const playerNamesStep = document.getElementById('playerNamesStep');
     const playerNamesContainer = document.getElementById('playerNamesContainer');
-    
-    if (isNaN(count) || count < 2 || count > 20) {
-        if (playerNamesStep) playerNamesStep.classList.add('hidden');
-        return;
-    }
-    
+    if (isNaN(count) || count < 2 || count > 20) { if (playerNamesStep) playerNamesStep.classList.add('hidden'); return; }
     if (playerNamesStep) playerNamesStep.classList.remove('hidden');
     
     if (playerNamesContainer) {

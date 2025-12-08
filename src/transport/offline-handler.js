@@ -1,24 +1,7 @@
-// Offline mode coordinator
 import { CONFIG_UTILS } from '../config/game-config.js';
-
-import {
-    generatePlayerInputs,
-    updateOfflineStartButton,
-    startOfflineGame,
-    setupOfflineEventListeners
-} from './offline/player-setup.js';
-
-import {
-    displayQuestionOptionsOffline,
-    selectAnswerOffline,
-    updateSubmitButtonOffline,
-    getSelectedAnswerOffline,
-    submitOfflineAnswer
-} from './offline/game-handler.js';
-
-import {
-    populateResults
-} from './offline/results.js';
+import { generatePlayerInputs, updateOfflineStartButton, startOfflineGame, setupOfflineEventListeners } from './offline/player-setup.js';
+import { displayQuestionOptionsOffline, selectAnswerOffline, updateSubmitButtonOffline, getSelectedAnswerOffline, submitOfflineAnswer } from './offline/game-handler.js';
+import { populateResults } from './offline/results.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('offlineSetupSection') || document.getElementById('playerCountStep')) {
@@ -28,30 +11,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function attachToWindow() {
     if (typeof window === 'undefined') return;
-    
-    // Player setup functions
     window.generatePlayerInputs = generatePlayerInputs;
     window.updateOfflineStartButton = updateOfflineStartButton;
     window.startOfflineGame = startOfflineGame;
-    
-    // Game handler functions
     window.displayQuestionOptionsOffline = displayQuestionOptionsOffline;
     window.selectAnswerOffline = selectAnswerOffline;
     window.updateSubmitButtonOffline = updateSubmitButtonOffline;
     window.getSelectedAnswerOffline = getSelectedAnswerOffline;
     window.submitOfflineAnswer = submitOfflineAnswer;
-    
     wireOfflineFunctions();
 }
-
 function wireOfflineFunctions() {
     if (CONFIG_UTILS.getStorageItem('GAME_MODE') !== 'offline') return;
-    
-    if (!window.displayQuestionOptionsOffline) {
-        setTimeout(wireOfflineFunctions, 50);
-        return;
-    }
-    
+    if (!window.displayQuestionOptionsOffline) { setTimeout(wireOfflineFunctions, 50); return; }
     window.displayQuestionOptions = window.displayQuestionOptionsOffline;
     window.selectPreference = window.selectAnswerOffline;
     window.updateSubmitButton = window.updateSubmitButtonOffline;
@@ -60,32 +32,18 @@ function wireOfflineFunctions() {
 function wireIndexStartButton() {
     try {
         const btn = CONFIG_UTILS.getElement('startGame');
-        if (btn && !btn._offlineWired) {
-            btn.addEventListener('click', startOfflineGame);
-            btn._offlineWired = true;
-        }
-    } catch (e) {
-        console.error('Failed to wire offline start button:', e);
-    }
+        if (btn && !btn._offlineWired) { btn.addEventListener('click', startOfflineGame); btn._offlineWired = true; }
+    } catch (e) { console.error('Failed to wire offline start button:', e); }
 }
-
 if (typeof document !== 'undefined') {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', wireIndexStartButton);
-    } else {
-        wireIndexStartButton();
-    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wireIndexStartButton);
+    else wireIndexStartButton();
 }
-
 window.checkOfflineMode = function checkOfflineMode() {
     try {
         const isOffline = CONFIG_UTILS.getStorageItem('GAME_MODE') === 'offline';
         if (!isOffline) return;
-        
-        if (window.transport && window.transport.initializeModeUI) {
-            window.transport.initializeModeUI();
-        }
-        
+        if (window.transport && window.transport.initializeModeUI) window.transport.initializeModeUI();
         if (window.gameUI) {
             window.gameUI.displayQuestionOptions = displayQuestionOptionsOffline;
             window.gameUI.selectPreference = function(choice) {
@@ -97,57 +55,26 @@ window.checkOfflineMode = function checkOfflineMode() {
                 return selectAnswerOffline(choice, null);
             };
         }
-    } catch (e) {
-        console.error('checkOfflineMode failed:', e);
-    }
+    } catch (e) { console.error('checkOfflineMode failed:', e); }
 };
 
 const offlineTransportHandler = {
-    isActive() {
-        const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
-        return gameMode === 'offline';
-    },
-
-    getMode() {
-        return 'offline';
-    },
-
-    broadcastQuestion(question) {
-    },
-
-    submitAnswer(answer, playerName) {
-    },
-
-    revealAnswers() {
-    },
-
-    populateResults(resultsData) {
-        populateResults(resultsData);
-    }
+    isActive() { return CONFIG_UTILS.getStorageItem('GAME_MODE') === 'offline'; },
+    getMode() { return 'offline'; },
+    broadcastQuestion(question) {},
+    submitAnswer(answer, playerName) {},
+    revealAnswers() {},
+    populateResults(resultsData) { populateResults(resultsData); }
 };
-
-// Make handler available globally for registration
 window.offlineTransportHandler = offlineTransportHandler;
-
-// Register with transport interface when available
 function registerOfflineHandler() {
     if (window.transport) {
         window.transport.registerHandler(offlineTransportHandler);
-        // Initialize UI for the current mode - force it after a short delay to ensure DOM is ready
-        setTimeout(() => {
-            if (window.transport.initializeModeUI) {
-                window.transport.initializeModeUI();
-            }
-        }, 100);
+        setTimeout(() => { if (window.transport.initializeModeUI) window.transport.initializeModeUI(); }, 100);
     }
 }
-
-if (window.transport) {
-    registerOfflineHandler();
-} else {
-    document.addEventListener('DOMContentLoaded', registerOfflineHandler);
-    setTimeout(registerOfflineHandler, 200);
-}
+if (window.transport) registerOfflineHandler();
+else { document.addEventListener('DOMContentLoaded', registerOfflineHandler); setTimeout(registerOfflineHandler, 200); }
 
 attachToWindow();
 
