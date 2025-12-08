@@ -18,6 +18,9 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
     try {
         const socket = io();
         
+        // Make socket globally accessible for theme buttons
+        window.socket = socket;
+        
         socket.on('connect', () => {
             gameState.isConnected = true;
             updateStatus('Connected to server', 'connected');
@@ -80,6 +83,9 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             if (gameState.currentPage === 'game') {
                 CONFIG_UTILS.show('multiplayerInfo');
                 CONFIG_UTILS.hide('createRoomSection');
+                
+                // Initialize theme manager for host
+                initializeThemeManager(socket, data.roomCode, true);
             }
             
             // For index page (old flow, still supported)

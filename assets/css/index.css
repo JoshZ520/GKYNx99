@@ -2,6 +2,27 @@
 /* Combines: index-layout, index-features, index-responsive */
 
 /* ============================================================================
+   THEME SELECTOR
+   ============================================================================ */
+
+.theme-selector-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-md);
+}
+
+.theme-label {
+    font-size: var(--font-sm);
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* ============================================================================
    INDEX PAGE LAYOUT
    ============================================================================ */
 
