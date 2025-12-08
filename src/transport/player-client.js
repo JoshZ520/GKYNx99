@@ -25,6 +25,20 @@ function setupGameEventListeners() {
         playerState.name = data.playerName;
         playerState.roomCode = data.roomCode;
         showWaitingSection();
+        
+        // Initialize theme manager for player (not host, so read-only theme changes)
+        // Pass the current theme from the server
+        if (typeof initializeThemeManager === 'function') {
+            initializeThemeManager(socket, data.roomCode, false, data.currentTheme);
+        } else {
+            console.warn('initializeThemeManager not available yet');
+            // Retry after a short delay
+            setTimeout(() => {
+                if (typeof initializeThemeManager === 'function') {
+                    initializeThemeManager(socket, data.roomCode, false, data.currentTheme);
+                }
+            }, 100);
+        }
     });
     
     socket.on('join-error', (data) => {

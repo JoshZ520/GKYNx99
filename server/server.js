@@ -147,6 +147,7 @@ io.on('connection', (socket) => {
             currentQuestion: null,
             questionInProgress: false,
             answers: new Map(),
+            currentTheme: 'green',
             createdAt: new Date().toISOString()
         };
         
@@ -185,6 +186,7 @@ io.on('connection', (socket) => {
         socket.emit('joined-room', {
             roomCode: roomCode,
             playerName: playerName,
+            currentTheme: room.currentTheme,
             success: true
         });
         
@@ -350,6 +352,22 @@ io.on('connection', (socket) => {
                     });
                 }
             }
+        });
+    });
+
+    socket.on('change-room-theme', (data) => {
+        const { roomCode, theme } = data;
+        const room = gameRooms.get(roomCode);
+        
+        if (!room || room.hostId !== socket.id) {
+            socket.emit('error', { message: 'Not authorized to change theme' });
+            return;
+        }
+        room.currentTheme = theme;
+        
+        io.to(roomCode).emit('theme-changed', {
+            theme: theme,
+            timestamp: new Date().toISOString()
         });
     });
 

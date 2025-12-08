@@ -85,65 +85,190 @@ window.addEventListener('DOMContentLoaded', function () {
 window.loadQuestions = loadQuestions;
 window.getTopics = () => topics;
 
-document.getElementById("whiteButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "rgb(0 0 0)");
-    document.documentElement.style.setProperty("--dark", "rgb(0 0 0)");
-    document.documentElement.style.setProperty("--accent-dark", "rgb(64 64 64)");
-    document.documentElement.style.setProperty("--accent-light", "rgb(128 128 128)");
-    /*document.documentElement.style.setProperty("", "rgb(192 192 192)");*/
-    document.documentElement.style.setProperty("--background-light", "rgb(255 255 255)");
-});
+// Theme management
+const themeColorMap = {
+    white: {
+        'text-dark': 'rgb(0 0 0)',
+        'dark': 'rgb(0 0 0)',
+        'accent-dark': 'rgb(64 64 64)',
+        'accent-light': 'rgb(128 128 128)',
+        'background-light': 'rgb(255 255 255)'
+    },
+    red: {
+        'text-dark': '#421010',
+        'dark': '#421010',
+        'accent-dark': '#8a2424',
+        'accent-light': '#c94444',
+        'background-light': '#fab9b9'
+    },
+    orange: {
+        'text-dark': '#422410',
+        'dark': '#422410',
+        'accent-dark': '#8a4324',
+        'accent-light': '#c97b44',
+        'background-light': '#fad1b9'
+    },
+    yellow: {
+        'text-dark': '#424010',
+        'dark': '#424010',
+        'accent-dark': '#8a8124',
+        'accent-light': '#c9c944',
+        'background-light': '#faf9b9'
+    },
+    green: {
+        'text-dark': '#0b2d0c',
+        'dark': '#0b2d0c',
+        'accent-dark': '#248a2e',
+        'accent-light': '#44c95a',
+        'background-light': '#b9fac3'
+    },
+    blue: {
+        'text-dark': '#102742',
+        'dark': '#102742',
+        'accent-dark': '#24528a',
+        'accent-light': '#4482c9',
+        'background-light': '#b9ddfa'
+    },
+    purple: {
+        'text-dark': '#371042',
+        'dark': '#371042',
+        'accent-dark': '#76248a',
+        'accent-light': '#ac44c9',
+        'background-light': '#e4b9fa'
+    }
+};
 
-document.getElementById("redButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#421010");
-    document.documentElement.style.setProperty("--dark", "#421010");
-    document.documentElement.style.setProperty("--accent-dark", "#8a2424");
-    document.documentElement.style.setProperty("--accent-light", "#c94444");
-    /*document.documentElement.style.setProperty("", "#e88e8e");*/
-    document.documentElement.style.setProperty("--background-light", "#fab9b9");
-});
+/**
+ * Apply a theme by setting CSS variables
+ * @param {string} theme - The theme name (white, red, orange, yellow, green, blue, purple)
+ */
+function applyTheme(theme) {
+    const colors = themeColorMap[theme];
+    if (!colors) {
+        console.warn(`Unknown theme: ${theme}`);
+        return;
+    }
 
-document.getElementById("orangeButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#422410");
-    document.documentElement.style.setProperty("--dark", "#422410");
-    document.documentElement.style.setProperty("--accent-dark", "#8a4324");
-    document.documentElement.style.setProperty("--accent-light", "#c97b44");
-    /*document.documentElement.style.setProperty("", "#e8ab8e");*/
-    document.documentElement.style.setProperty("--background-light", "#fad1b9");
-});
+    Object.entries(colors).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(`--${key}`, value);
+    });
+}
 
-document.getElementById("yellowButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#424010");
-    document.documentElement.style.setProperty("--dark", "#424010");
-    document.documentElement.style.setProperty("--accent-dark", "#8a8124");
-    document.documentElement.style.setProperty("--accent-light", "#c9c944");
-    /*document.documentElement.style.setProperty("", "#e8e88e");*/
-    document.documentElement.style.setProperty("--background-light", "#faf9b9");
-});
+/**
+ * Initialize theme manager on a page
+ * @param {object} socket - Socket.io connection (optional, for multiplayer)
+ * @param {string} roomCode - Current room code (optional, for multiplayer)
+ * @param {boolean} isHost - Whether this is the host (optional, for multiplayer)
+ * @param {string} initialTheme - Initial theme from server (optional, for joining players)
+ */
+function initializeThemeManager(socket = null, roomCode = null, isHost = false, initialTheme = null) {
+    const themeDropdown = document.getElementById('color-theme');
 
-document.getElementById("greenButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#0b2d0c");
-    document.documentElement.style.setProperty("--dark", "#0b2d0c");
-    document.documentElement.style.setProperty("--accent-dark", "#248a2e");
-    document.documentElement.style.setProperty("--accent-light", "#44c95a");
-    /*document.documentElement.style.setProperty("", "");*/
-    document.documentElement.style.setProperty("--background-light", "#b9fac3");
-});
+    // Determine which theme to use:
+    // 1. If initialTheme is provided (from server for players), use that
+    // 2. Otherwise use saved theme from sessionStorage, default to green
+    const savedTheme = initialTheme || sessionStorage.getItem('selectedTheme') || 'green';
+    
+    // Apply initial theme (works even if dropdown doesn't exist)
+    applyTheme(savedTheme);
+    
+    // Update dropdown value if it exists
+    if (themeDropdown) {
+        themeDropdown.value = savedTheme;
+    }
 
-document.getElementById("blueButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#102742");
-    document.documentElement.style.setProperty("--dark", "#102742");
-    document.documentElement.style.setProperty("--accent-dark", "#24528a");
-    document.documentElement.style.setProperty("--accent-light", "#4482c9");
-    /*document.documentElement.style.setProperty("", "#8eafe8");*/
-    document.documentElement.style.setProperty("--background-light", "#b9ddfa");
-});
+    // If host and has socket, listen to dropdown changes for multiplayer
+    if (isHost && socket && roomCode && themeDropdown) {
+        themeDropdown.addEventListener('change', (e) => {
+            const selectedTheme = e.target.value;
+            
+            // Save to sessionStorage
+            sessionStorage.setItem('selectedTheme', selectedTheme);
+            
+            // Apply theme locally
+            applyTheme(selectedTheme);
+            
+            // Send to server
+            socket.emit('change-room-theme', {
+                roomCode: roomCode,
+                theme: selectedTheme
+            });
+        });
+    } else if (!socket && themeDropdown) {
+        // Single-player mode (index page) - just apply theme locally
+        themeDropdown.addEventListener('change', (e) => {
+            const selectedTheme = e.target.value;
+            
+            // Save to sessionStorage
+            sessionStorage.setItem('selectedTheme', selectedTheme);
+            
+            applyTheme(selectedTheme);
+        });
+    }
 
-document.getElementById("purpleButton").addEventListener("click", () => {
-    document.documentElement.style.setProperty("--text-dark", "#371042");
-    document.documentElement.style.setProperty("--dark", "#371042");
-    document.documentElement.style.setProperty("--accent-dark", "#76248a");
-    document.documentElement.style.setProperty("--accent-light", "#ac44c9");
-    /*document.documentElement.style.setProperty("", "#c98ee8");*/
-    document.documentElement.style.setProperty("--background-light", "#e4b9fa");
-});
+    // Listen for theme changes from server (for multiplayer players)
+    if (socket) {
+        socket.on('theme-changed', (data) => {
+            // Save to sessionStorage (for host/same-session players)
+            sessionStorage.setItem('selectedTheme', data.theme);
+            
+            // Apply the theme
+            applyTheme(data.theme);
+            
+            // Update dropdown if it exists and this is the host
+            if (isHost && themeDropdown && themeDropdown.value !== data.theme) {
+                themeDropdown.value = data.theme;
+            }
+        });
+    }
+}
+/**
+ * Set up event listeners for color buttons
+ */
+function setupColorButtons() {
+    const themeDropdown = document.getElementById('color-theme');
+    const colors = ['white', 'red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+    
+    colors.forEach(color => {
+        const button = document.getElementById(`${color}Button`);
+        if (button) {
+            button.addEventListener('click', () => {
+                // Save to sessionStorage
+                sessionStorage.setItem('selectedTheme', color);
+                
+                // Apply theme
+                applyTheme(color);
+                
+                // Update dropdown to match
+                if (themeDropdown) {
+                    themeDropdown.value = color;
+                }
+                
+                // If multiplayer host, broadcast the change
+                const roomCode = new URLSearchParams(window.location.search).get('roomCode');
+                if (window.socket && roomCode) {
+                    window.socket.emit('change-room-theme', {
+                        roomCode: roomCode,
+                        theme: color
+                    });
+                }
+            });
+        }
+    });
+}
+
+// Initialize theme manager on index page when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof initializeThemeManager === 'function') {
+            initializeThemeManager();
+        }
+        setupColorButtons();
+    });
+} else {
+    // DOM already loaded
+    if (typeof initializeThemeManager === 'function') {
+        initializeThemeManager();
+    }
+    setupColorButtons();
+}
