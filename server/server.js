@@ -159,9 +159,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('reveal-answers', (data) => {
-        const { roomCode, hostAnswer } = data;
+        const { roomCode, hostAnswer, timerDuration } = data;
         const room = gameRooms.get(roomCode);
         if (!room || room.hostId !== socket.id) { socket.emit('error', { message: 'Not authorized' }); return; }
+        if (timerDuration) room.timerDuration = timerDuration;
         room.questionInProgress = false;
         const playerIds = Array.from(room.answers.keys()).filter(id => id !== room.hostId);
         if (playerIds.length % 2 === 1 && hostAnswer) {
@@ -169,7 +170,8 @@ io.on('connection', (socket) => {
             playerIds.push(room.hostId);
         }
         const results = Array.from(room.answers.values());
-        socket.emit('answers-revealed', { results, question: room.currentQuestion });
+        const timerDurationToSend = room.timerDuration || 60;
+        socket.emit('answers-revealed', { results, question: room.currentQuestion, timerDuration: timerDurationToSend });
         const pairs = createPairs(playerIds);
         playerIds.forEach((playerId) => {
             const pairedPlayerId = pairs.get(playerId);
@@ -177,14 +179,15 @@ io.on('connection', (socket) => {
                 io.to(playerId).emit('your-answer-revealed', {
                     answer: { text: "You're the odd one out this round - no match!" },
                     playerName: 'System', followUpQuestion: room.currentQuestion?.followUpQuestion || null,
-                    question: room.currentQuestion, isUnpaired: true
+                    question: room.currentQuestion, isUnpaired: true, timerDuration: room.timerDuration || 60
                 });
             } else {
                 const pairedPlayerData = room.answers.get(pairedPlayerId);
                 if (pairedPlayerData) {
                     io.to(playerId).emit('your-answer-revealed', {
                         answer: pairedPlayerData.answer, playerName: pairedPlayerData.playerName,
-                        followUpQuestion: room.currentQuestion?.followUpQuestion || null, question: room.currentQuestion
+                        followUpQuestion: room.currentQuestion?.followUpQuestion || null, question: room.currentQuestion,
+                        timerDuration: room.timerDuration || 60
                     });
                 }
             }

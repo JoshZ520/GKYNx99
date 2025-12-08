@@ -128,21 +128,42 @@ function showAnswerStatus() {
     CONFIG_UTILS.hideDisplay('answerOptions');
     CONFIG_UTILS.show('answerStatus');
 }
+let timerInterval = null;
 function showYourAnswer(data) {
     CONFIG_UTILS.hide('answerStatus');
-    const answer = data.answer;
-    const answerText = answer.text || answer.value || answer;
     const yourAnswerDiv = CONFIG_UTILS.getElement('yourAnswerDisplay');
     if (yourAnswerDiv) {
-        CONFIG_UTILS.setText('matchedPlayerName', data.playerName);
-        CONFIG_UTILS.setText('yourAnswerText', answerText);
         if (data.followUpQuestion) {
             CONFIG_UTILS.setText('followUpQuestionText', data.followUpQuestion);
             CONFIG_UTILS.setText('discussPartnerName', data.playerName);
             CONFIG_UTILS.show('followUpQuestionDisplay');
-        } else CONFIG_UTILS.hide('followUpQuestionDisplay');
+        } else { CONFIG_UTILS.hide('followUpQuestionDisplay'); }
+        if (data.timerDuration && data.timerDuration > 0) { startDiscussionTimer(data.timerDuration); }
         CONFIG_UTILS.show('yourAnswerDisplay');
     }
+}
+function startDiscussionTimer(durationInSeconds) {
+    if (timerInterval) clearInterval(timerInterval);
+    const timerDisplay = CONFIG_UTILS.getElement('discussionTimer');
+    if (!timerDisplay) return;
+    CONFIG_UTILS.show('discussionTimerContainer');
+    let remainingSeconds = durationInSeconds;
+    updateTimerDisplay(remainingSeconds);
+    timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateTimerDisplay(remainingSeconds);
+        if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            CONFIG_UTILS.setText('discussionTimer', "Time's up!");
+        }
+    }, 1000);
+}
+function updateTimerDisplay(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    const timeString = `${minutes}:${secs.toString().padStart(2, '0')}`;
+    CONFIG_UTILS.setText('discussionTimer', timeString);
 }
 function showResults(data) {
     showSection('resultsSection');

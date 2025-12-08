@@ -57,7 +57,8 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
 
 export function revealAnswers(socket, gameState) {
     if (!gameState.isHost || !socket || !gameState.isConnected) return;
-    const revealData = { roomCode: gameState.roomCode };
+    const timerDuration = document.getElementById('timer-duration')?.value || 1;
+    const revealData = { roomCode: gameState.roomCode, timerDuration: parseInt(timerDuration) * 60 };
     const selectedPref = document.getElementById('selectedPreference');
     const hostAnswer = selectedPref?.value;
     if (hostAnswer) {
@@ -75,11 +76,36 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
     if (notification) { CONFIG_UTILS.setDisplay(notification, 'block'); setTimeout(() => CONFIG_UTILS.hideDisplay(notification), 2000); }
 }
 
+let hostTimerInterval = null;
 export function handleAnswersRevealed(data, gameState) {
     gameState.allQuestionResults.push({ question: data.question, results: data.results, timestamp: Date.now() });
     CONFIG_UTILS.hideDisplay('revealAnswersBtn');
     CONFIG_UTILS.setDisplay('end_game_btn', 'block');
     updateAnswerProgress(0, gameState.playerNames?.length || 0);
+    if (data.timerDuration && data.timerDuration > 0) { startHostTimer(data.timerDuration); }
+}
+function startHostTimer(durationInSeconds) {
+    if (hostTimerInterval) clearInterval(hostTimerInterval);
+    const timerContainer = CONFIG_UTILS.getElement('hostTimerContainer');
+    const timerDisplay = CONFIG_UTILS.getElement('hostTimer');
+    if (!timerDisplay || !timerContainer) return;
+    CONFIG_UTILS.show('hostTimerContainer');
+    let remainingSeconds = durationInSeconds;
+    updateHostTimer(remainingSeconds);
+    hostTimerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateHostTimer(remainingSeconds);
+        if (remainingSeconds <= 0) {
+            clearInterval(hostTimerInterval);
+            hostTimerInterval = null;
+            CONFIG_UTILS.setText('hostTimer', "Time's up!");
+        }
+    }, 1000);
+}
+function updateHostTimer(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    CONFIG_UTILS.setText('hostTimer', `${minutes}:${secs.toString().padStart(2, '0')}`);
 }
 
 export function getCurrentQuestionOptions() {

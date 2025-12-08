@@ -136,7 +136,6 @@
     }
 }
 
-
 /* ============================================================================
    PLAYER PAGE FEATURES
    ============================================================================ */
@@ -445,6 +444,50 @@
     color: var(--text-dark);
 }
 
+/* === DISCUSSION TIMER === */
+.discussion-timer-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--accent-light);
+    border-radius: 8px;
+    text-align: center;
+}
+.timer-label {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+.timer-display {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+    font-family: 'Courier New', monospace;
+}
+/* === DISCUSSION TIMER === */
+.discussion-timer-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid var(--accent-light);
+    border-radius: 8px;
+    text-align: center;
+}
+.timer-label {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+.timer-display {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+    font-family: 'Courier New', monospace;
+}
 /* === FOLLOW-UP QUESTION === */
 .follow-up-question {
     margin-top: 1.5rem;
@@ -504,39 +547,6 @@
     border-radius: 8px;
     margin-top: 1rem;
     text-align: center;
-}
-
-/* === DEV TOOLS === */
-.dev-tools {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: rgba(255, 193, 7, 0.1);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    border-radius: 8px;
-    text-align: center;
-}
-
-.dev-tools p {
-    margin: 0 0 0.5rem 0;
-    font-size: 0.9rem;
-    color: #FFC107;
-    font-weight: 600;
-}
-
-.dev-tools a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: rgba(255, 193, 7, 0.2);
-    color: #FFC107;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-}
-
-.dev-tools a:hover {
-    background: rgba(255, 193, 7, 0.3);
-    transform: translateY(-2px);
 }
 
 /* ============================================================================

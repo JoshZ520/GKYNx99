@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="../assets/css/shared/responsive.css">
 <link rel="stylesheet" href="../assets/css/game-ui.css">
 <link rel="stylesheet" href="../assets/css/game-multiplayer.css">
+<link rel="stylesheet" href="../dev-tools/dev-tools.css">
 <link rel="stylesheet" href="../assets/css/components.css">
 <script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
@@ -364,6 +365,11 @@
     <button class="fin" id="revealAnswersBtn" type="button">Reveal All Answers</button>
 </div>
 
+<!-- Discussion Timer Display (Host) -->
+<div id="hostTimerContainer" class="answer-progress-container hidden">
+    <p>Discussion time remaining: <strong id="hostTimer">0:00</strong></p>
+</div>
+
 <!-- Submit Answer Button (Offline Mode Only) -->
 <div class="buttons" id="offlineSubmitContainer">
     <button class="submit" id="submitButton" type="button">Submit Answer</button>
@@ -443,7 +449,7 @@
 </footer>
 
 <!-- Conditionally load multiplayer scripts -->
-<script src="../src/ui/dev-tools.js" defer></script>
+<script src="../dev-tools/dev-tools.js" defer></script>
 
 </body>
 </html>
