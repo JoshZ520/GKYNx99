@@ -13,54 +13,19 @@ const INDEX_DOM_IDS = {
 };
 
 function showOfflineSetup() {
-    const elementsToHide = [
-        INDEX_DOM_IDS.NEW_GAME_SECTION,
-        INDEX_DOM_IDS.RESUME_SECTION,
-        INDEX_DOM_IDS.CONNECTION_SECTION,
-        INDEX_DOM_IDS.OFFLINE_FALLBACK
-    ];
-    
-    elementsToHide.forEach(id => {
-        const element = document.getElementById(id);
-        CONFIG_UTILS.addClass(element, 'HIDDEN');
-    });
-    
-    // Show offline setup section
+    const elementsToHide = [INDEX_DOM_IDS.NEW_GAME_SECTION, INDEX_DOM_IDS.RESUME_SECTION, INDEX_DOM_IDS.CONNECTION_SECTION, INDEX_DOM_IDS.OFFLINE_FALLBACK];
+    elementsToHide.forEach(id => { const element = document.getElementById(id); CONFIG_UTILS.addClass(element, 'HIDDEN'); });
     const offlineSection = document.getElementById(INDEX_DOM_IDS.OFFLINE_SETUP_SECTION);
     CONFIG_UTILS.removeClass(offlineSection, 'HIDDEN');
-    
-    // Update header for offline mode
     updateHeaderForMode(GAME_CONFIG.MODES.OFFLINE);
 }
 
 function showMultiplayerSetup() {
-    // Hide offline sections
-    const elementsToHide = [
-        INDEX_DOM_IDS.OFFLINE_SETUP_SECTION,
-        INDEX_DOM_IDS.PLAYER_NAMES_STEP
-    ];
-    
-    elementsToHide.forEach(id => {
-        const element = document.getElementById(id);
-        CONFIG_UTILS.addClass(element, 'HIDDEN');
-    });
-    
-    // Show multiplayer sections
-    const elementsToShow = [
-        INDEX_DOM_IDS.NEW_GAME_SECTION,
-        INDEX_DOM_IDS.RESUME_SECTION,
-        INDEX_DOM_IDS.CONNECTION_SECTION
-    ];
-    
-    elementsToShow.forEach(id => {
-        const element = document.getElementById(id);
-        CONFIG_UTILS.removeClass(element, 'HIDDEN');
-    });
-    
-    // Update header for multiplayer mode
+    const elementsToHide = [INDEX_DOM_IDS.OFFLINE_SETUP_SECTION, INDEX_DOM_IDS.PLAYER_NAMES_STEP];
+    elementsToHide.forEach(id => { const element = document.getElementById(id); CONFIG_UTILS.addClass(element, 'HIDDEN'); });
+    const elementsToShow = [INDEX_DOM_IDS.NEW_GAME_SECTION, INDEX_DOM_IDS.RESUME_SECTION, INDEX_DOM_IDS.CONNECTION_SECTION];
+    elementsToShow.forEach(id => { const element = document.getElementById(id); CONFIG_UTILS.removeClass(element, 'HIDDEN'); });
     updateHeaderForMode(GAME_CONFIG.MODES.MULTIPLAYER);
-    
-    // Reset to step 1
     const createRoomStep = document.getElementById(INDEX_DOM_IDS.CREATE_ROOM_STEP);
     const roomCreatedStep = document.getElementById(INDEX_DOM_IDS.ROOM_CREATED_STEP);
     CONFIG_UTILS.removeClass(createRoomStep, 'HIDDEN');
@@ -70,7 +35,6 @@ function showMultiplayerSetup() {
 function updateHeaderForMode(mode) {
     const tagline = document.querySelector('.tagline');
     const instruction = document.getElementById(INDEX_DOM_IDS.FRONT_INSTRUCTION);
-    
     if (mode === GAME_CONFIG.MODES.OFFLINE) {
         if (tagline) tagline.textContent = 'Offline Mode - Single Device Game';
         if (instruction) instruction.textContent = 'Everyone takes turns on this device - pass it around after each turn!';
@@ -79,13 +43,7 @@ function updateHeaderForMode(mode) {
         if (instruction) instruction.textContent = 'Host creates the game, everyone joins with their phones using the room code!';
     }
 }
-
 window.showOfflineSetup = showOfflineSetup;
 window.showMultiplayerSetup = showMultiplayerSetup;
 window.updateHeaderForMode = updateHeaderForMode;
-
-window.uiModeSwitcher = {
-    showOfflineSetup,
-    showMultiplayerSetup,
-    updateHeaderForMode
-};
+window.uiModeSwitcher = { showOfflineSetup, showMultiplayerSetup, updateHeaderForMode };
