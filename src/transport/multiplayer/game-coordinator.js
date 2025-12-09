@@ -1,11 +1,22 @@
 import { CONFIG_UTILS } from '../../config/game-config.js';
 
+let hostTimerInterval = null;
+
 export function updateAnswerProgress(answeredCount, totalPlayers) {
     CONFIG_UTILS.setText('answerProgress', `${answeredCount}/${totalPlayers} players answered`);
 }
 
 export function broadcastQuestionToPlayers(question, socket, gameState) {
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) return;
+    
+    // Clear any running timer from previous question
+    if (hostTimerInterval) {
+        clearInterval(hostTimerInterval);
+        hostTimerInterval = null;
+    }
+    CONFIG_UTILS.hide('hostTimerContainer');
+    CONFIG_UTILS.hideDisplay('end_game_btn');
+    
     gameState.currentQuestion = question;
     gameState.waitingForAnswers = true;
     gameState.collectedAnswers = new Map();
@@ -88,7 +99,6 @@ export function handleAnswerReceived(data, gameState, revealAnswersCallback) {
     if (notification) { CONFIG_UTILS.setDisplay(notification, 'block'); setTimeout(() => CONFIG_UTILS.hideDisplay(notification), 2000); }
 }
 
-let hostTimerInterval = null;
 export function handleAnswersRevealed(data, gameState) {
     gameState.allQuestionResults.push({ question: data.question, results: data.results, timestamp: Date.now() });
     CONFIG_UTILS.hideDisplay('revealAnswersBtn');
