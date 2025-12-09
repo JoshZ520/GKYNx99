@@ -1,12 +1,10 @@
 /* shared.css - Consolidated shared styles and global settings */
 /* Combines: variables, typography, utilities */
 
-/* ============================================================================
-   CSS VARIABLES & DESIGN TOKENS
-   ============================================================================ */
+/* CSS VARIABLES & DESIGN TOKENS*/
 
 :root {
-    /* Color Variables */
+    /* Core Color Variables */
     --background-light: #b9fac3;
     --accent-light: #44c95a;
     --accent-dark: #248a2e;
@@ -15,55 +13,6 @@
     --dark: #248a2e;
     --light: #ffffff;
     
-    /*WHITES
-    --darkest-white: rgb(0 0 0);
-    --dark-white: rgb(64 64 64);
-    --mid-white: rgb(128 128 128);
-    --light-white: rgb(192 192 192);
-    --lightest-white: rgb(255 255 255);
-
-    REDS
-    --darkest-red: #421010;
-    --dark-red: #8a2424;
-    --mid-red: #c94444;
-    --light-red: #e88e8e;
-    --lightest-red: #fab9b9;
-
-    ORANGES
-    --darkest-orange: #422410;
-    --dark-orange: #8a4324;
-    --mid-orange: #c97b44;
-    --light-orange: #e8ab8e;
-    --lightest-orange: #fad1b9;
-
-    YELLOWS
-    --darkest-yellow: #424010;
-    --dark-yellow: #8a8124;
-    --mid-yellow: #c9c944;
-    --light-yellow: #e8e88e;
-    --lightest-yellow: #faf9b9;
-
-    GREENS
-    --darkest-green: #0b2d0c;
-    --dark-green: #248a2e;
-    --mid-green: #44c95a;
-    --light-green: #8ee89f;
-    --lightest-green: #b9fac3;
-
-    BLUES
-    --darkest-blue: #102742;
-    --dark-blue: #24528a;
-    --mid-blue: #4482c9;
-    --light-blue: #8eafe8;
-    --lightest-blue: #b9ddfa;
-
-    PURPLES
-    --darkest-purple: #371042;
-    --dark-purple: #76248a;
-    --mid-purple: #ac44c9;
-    --light-purple: #c98ee8;
-    --lightest-purple: #e4b9fa;*/
-
     /* Additional Page Colors */
     --primary: #667eea;
     --primary-dark: #5a67d8;
@@ -73,15 +22,13 @@
     /* Status Colors */
     --success-color: #28a745;
     
-    /* Game UI Colors */
+    /* Button Colors */
     --button-purple: #a855f7;
     --button-purple-dark: #7c3aed;
     --button-blue: #3b82f6;
     --button-blue-dark: #2563eb;
     --button-green: #10b981;
     --button-green-dark: #059669;
-    --button-red: #ef4444;
-    --button-red-dark: #dc2626;
     
     /* Border & Background Colors */
     --border-dark: #2d3748;
@@ -109,32 +56,18 @@
     --border-radius-lg: 12px;
     --border-radius-xl: 15px;
     
-    /* Additional Colors for consolidation */
+    /* Green scale (used in submit buttons) */
     --green-600: #10b981;
     --green-700: #059669;
     --green-800: #047857;
     --green-900: #065f46;
+    
+    /* Red scale (used in submit buttons) */
     --red-500: #ef4444;
     --red-600: #dc2626;
-    --red-700: #dc3545;
-    --blue-600: #3b82f6;
-    --blue-700: #1d4ed8;
-    --blue-800: #1e40af;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-300: #d1d5db;
-    --gray-400: #9ca3af;
-    --gray-500: #6b7280;
-    --gray-600: #4b5563;
-    --gray-700: #374151;
-    --gray-800: #1f2937;
-    --gray-900: #111827;
-    --white: #ffffff;
 }
 
-/* ============================================================================
-   GLOBAL TYPOGRAPHY & TEXT STYLING
-   ============================================================================ */
+/* GLOBAL TYPOGRAPHY & TEXT STYLING*/
 
 body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -251,25 +184,3 @@ label, .topic label {
 .rounded-md { border-radius: var(--border-radius-md); }
 .rounded-lg { border-radius: var(--border-radius-lg); }
 .rounded-xl { border-radius: var(--border-radius-xl); }
-
-/* === COMMON CARD STYLES === */
-.card-base {
-    background: var(--white);
-    border-radius: var(--border-radius-md);
-    padding: var(--space-xl);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* === COMMON HOVER EFFECTS === */
-.hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.hover-brighten:hover {
-    filter: brightness(1.1);
-}
-
-.hover-scale:hover {
-    transform: scale(1.05);
-}
