@@ -48,64 +48,148 @@ window.getTopics = () => topics;
 // Theme management
 const themeColorMap = {
     white: {
-        'text-dark': 'rgb(0 0 0)',
-        'dark': 'rgb(0 0 0)',
-        'accent-dark': 'rgb(64 64 64)',
-        'accent-light': 'rgb(128 128 128)',
-        'background-light': 'rgb(255 255 255)'
+        light: {
+            'text-dark': 'rgb(0 0 0)',
+            'dark': 'rgb(0 0 0)',
+            'accent-dark': 'rgb(64 64 64)',
+            'accent-light': 'rgb(128 128 128)',
+            'background-light': 'rgb(255 255 255)',
+            'light': 'rgb(245 245 245)'
+        },
+        dark: {
+            'text-dark': 'rgb(220 220 220)',
+            'dark': 'rgb(200 200 200)',
+            'accent-dark': 'rgb(160 160 160)',
+            'accent-light': 'rgb(100 100 100)',
+            'background-light': 'rgb(30 30 30)',
+            'light': 'rgb(40 40 40)'
+        }
     },
     red: {
-        'text-dark': '#421010',
-        'dark': '#421010',
-        'accent-dark': '#8a2424',
-        'accent-light': '#c94444',
-        'background-light': '#fab9b9'
+        light: {
+            'text-dark': '#421010',
+            'dark': '#421010',
+            'accent-dark': '#8a2424',
+            'accent-light': '#c94444',
+            'background-light': '#fab9b9',
+            'light': '#ffe5e5'
+        },
+        dark: {
+            'text-dark': '#ffc9c9',
+            'dark': '#ff9999',
+            'accent-dark': '#ff6b6b',
+            'accent-light': '#c94444',
+            'background-light': '#2d0a0a',
+            'light': '#3d1414'
+        }
     },
     orange: {
-        'text-dark': '#422410',
-        'dark': '#422410',
-        'accent-dark': '#8a4324',
-        'accent-light': '#c97b44',
-        'background-light': '#fad1b9'
+        light: {
+            'text-dark': '#422410',
+            'dark': '#422410',
+            'accent-dark': '#8a4324',
+            'accent-light': '#c97b44',
+            'background-light': '#fad1b9',
+            'light': '#ffe9db'
+        },
+        dark: {
+            'text-dark': '#ffd4b9',
+            'dark': '#ffb380',
+            'accent-dark': '#ff9447',
+            'accent-light': '#c97b44',
+            'background-light': '#2d1a0a',
+            'light': '#3d2414'
+        }
     },
     yellow: {
-        'text-dark': '#424010',
-        'dark': '#424010',
-        'accent-dark': '#8a8124',
-        'accent-light': '#c9c944',
-        'background-light': '#faf9b9'
+        light: {
+            'text-dark': '#424010',
+            'dark': '#424010',
+            'accent-dark': '#8a8124',
+            'accent-light': '#c9c944',
+            'background-light': '#faf9b9',
+            'light': '#feffdb'
+        },
+        dark: {
+            'text-dark': '#f9f7b9',
+            'dark': '#e8e380',
+            'accent-dark': '#d4d047',
+            'accent-light': '#c9c944',
+            'background-light': '#2d2b0a',
+            'light': '#3d3914'
+        }
     },
     green: {
-        'text-dark': '#0b2d0c',
-        'dark': '#0b2d0c',
-        'accent-dark': '#248a2e',
-        'accent-light': '#44c95a',
-        'background-light': '#b9fac3'
+        light: {
+            'text-dark': '#0b2d0c',
+            'dark': '#0b2d0c',
+            'accent-dark': '#248a2e',
+            'accent-light': '#44c95a',
+            'background-light': '#b9fac3',
+            'light': '#dbffe5'
+        },
+        dark: {
+            'text-dark': '#b9fac3',
+            'dark': '#80ff99',
+            'accent-dark': '#47d65a',
+            'accent-light': '#44c95a',
+            'background-light': '#0a2d0f',
+            'light': '#143d19'
+        }
     },
     blue: {
-        'text-dark': '#102742',
-        'dark': '#102742',
-        'accent-dark': '#24528a',
-        'accent-light': '#4482c9',
-        'background-light': '#b9ddfa'
+        light: {
+            'text-dark': '#102742',
+            'dark': '#102742',
+            'accent-dark': '#24528a',
+            'accent-light': '#4482c9',
+            'background-light': '#b9ddfa',
+            'light': '#dbeeff'
+        },
+        dark: {
+            'text-dark': '#b9ddfa',
+            'dark': '#80b3ff',
+            'accent-dark': '#4782d6',
+            'accent-light': '#4482c9',
+            'background-light': '#0a1a2d',
+            'light': '#14243d'
+        }
     },
     purple: {
-        'text-dark': '#371042',
-        'dark': '#371042',
-        'accent-dark': '#76248a',
-        'accent-light': '#ac44c9',
-        'background-light': '#e4b9fa'
+        light: {
+            'text-dark': '#371042',
+            'dark': '#371042',
+            'accent-dark': '#76248a',
+            'accent-light': '#ac44c9',
+            'background-light': '#e4b9fa',
+            'light': '#f5dbff'
+        },
+        dark: {
+            'text-dark': '#e4b9fa',
+            'dark': '#d080ff',
+            'accent-dark': '#b647d6',
+            'accent-light': '#ac44c9',
+            'background-light': '#1f0a2d',
+            'light': '#2d143d'
+        }
     }
 };
 
 /**
  * Apply a theme by setting CSS variables
  * @param {string} theme - The theme name (white, red, orange, yellow, green, blue, purple)
+ * @param {string} mode - The theme mode (light or dark)
  */
-function applyTheme(theme) {
-    const colors = themeColorMap[theme];
-    if (!colors) {
+function applyTheme(theme, mode = 'light') {
+    const themeColors = themeColorMap[theme];
+    if (!themeColors) {
         console.warn(`Unknown theme: ${theme}`);
+        return;
+    }
+
+    const colors = themeColors[mode];
+    if (!colors) {
+        console.warn(`Unknown mode: ${mode} for theme: ${theme}`);
         return;
     }
 
@@ -120,64 +204,95 @@ function applyTheme(theme) {
  * @param {string} roomCode - Current room code (optional, for multiplayer)
  * @param {boolean} isHost - Whether this is the host (optional, for multiplayer)
  * @param {string} initialTheme - Initial theme from server (optional, for joining players)
+ * @param {string} initialMode - Initial mode from server (optional, for joining players)
  */
-function initializeThemeManager(socket = null, roomCode = null, isHost = false, initialTheme = null) {
+function initializeThemeManager(socket = null, roomCode = null, isHost = false, initialTheme = null, initialMode = null) {
     const themeDropdown = document.getElementById('color-theme');
+    const modeRadios = document.querySelectorAll('input[name="theme-mode"]');
 
-    // Determine which theme to use:
-    // 1. If initialTheme is provided (from server for players), use that
-    // 2. Otherwise use saved theme from sessionStorage, default to green
+    // Determine which theme and mode to use
     const savedTheme = initialTheme || sessionStorage.getItem('selectedTheme') || 'green';
+    const savedMode = initialMode || sessionStorage.getItem('themeMode') || 'light';
     
-    // Apply initial theme (works even if dropdown doesn't exist)
-    applyTheme(savedTheme);
+    // Apply initial theme and mode
+    applyTheme(savedTheme, savedMode);
     
-    // Update dropdown value if it exists
+    // Update dropdown and radio values if they exist
     if (themeDropdown) {
         themeDropdown.value = savedTheme;
     }
+    if (modeRadios.length > 0) {
+        modeRadios.forEach(radio => {
+            if (radio.value === savedMode) {
+                radio.checked = true;
+            }
+        });
+    }
 
-    // If host and has socket, listen to dropdown changes for multiplayer
+    // Handle theme dropdown changes
     if (isHost && socket && roomCode && themeDropdown) {
         themeDropdown.addEventListener('change', (e) => {
             const selectedTheme = e.target.value;
+            const currentMode = document.querySelector('input[name="theme-mode"]:checked')?.value || 'light';
             
-            // Save to sessionStorage
             sessionStorage.setItem('selectedTheme', selectedTheme);
+            applyTheme(selectedTheme, currentMode);
             
-            // Apply theme locally
-            applyTheme(selectedTheme);
-            
-            // Send to server
             socket.emit('change-room-theme', {
                 roomCode: roomCode,
-                theme: selectedTheme
+                theme: selectedTheme,
+                mode: currentMode
             });
         });
     } else if (!socket && themeDropdown) {
-        // Single-player mode (index page) - just apply theme locally
         themeDropdown.addEventListener('change', (e) => {
             const selectedTheme = e.target.value;
+            const currentMode = document.querySelector('input[name="theme-mode"]:checked')?.value || 'light';
             
-            // Save to sessionStorage
             sessionStorage.setItem('selectedTheme', selectedTheme);
-            
-            applyTheme(selectedTheme);
+            applyTheme(selectedTheme, currentMode);
+        });
+    }
+
+    // Handle mode radio changes
+    if (modeRadios.length > 0) {
+        modeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const selectedMode = e.target.value;
+                const currentTheme = themeDropdown?.value || sessionStorage.getItem('selectedTheme') || 'green';
+                
+                sessionStorage.setItem('themeMode', selectedMode);
+                applyTheme(currentTheme, selectedMode);
+                
+                if (isHost && socket && roomCode) {
+                    socket.emit('change-room-theme', {
+                        roomCode: roomCode,
+                        theme: currentTheme,
+                        mode: selectedMode
+                    });
+                }
+            });
         });
     }
 
     // Listen for theme changes from server (for multiplayer players)
     if (socket) {
         socket.on('theme-changed', (data) => {
-            // Save to sessionStorage (for host/same-session players)
             sessionStorage.setItem('selectedTheme', data.theme);
+            if (data.mode) sessionStorage.setItem('themeMode', data.mode);
             
-            // Apply the theme
-            applyTheme(data.theme);
+            const mode = data.mode || 'light';
+            applyTheme(data.theme, mode);
             
-            // Update dropdown if it exists and this is the host
             if (isHost && themeDropdown && themeDropdown.value !== data.theme) {
                 themeDropdown.value = data.theme;
+            }
+            if (modeRadios.length > 0 && data.mode) {
+                modeRadios.forEach(radio => {
+                    if (radio.value === data.mode) {
+                        radio.checked = true;
+                    }
+                });
             }
         });
     }

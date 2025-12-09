@@ -41,20 +41,18 @@
 
 .room-display {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
     gap: 2rem;
     margin-bottom: 1rem;
 }
 .room-code-section {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
 }
 .room-label,
 .players-label {
     font-weight: 600;
     color: var(--text-dark);
+    text-align: center;
 }
 .players-label {
     display: block;
@@ -73,17 +71,7 @@
     text-align: center;
 }
 
-.copy-code-btn {
-    background: var(--accent-dark);
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.2s ease;
-}
-.copy-code-btn:hover { transform: translateY(-1px); }
+
 .players-section {
     height: 350px;
     display: flex;
@@ -740,7 +728,8 @@
     border-radius: 12px;
     padding: 0.75rem;
     margin-top: 1rem;
-    height: 350px;
+    min-width: 825px;
+    max-height: 500px;
     overflow-y: auto;
     backdrop-filter: blur(10px);
 }
@@ -838,10 +827,18 @@
 
 .radio-option input[type="radio"]:checked + span { color: var(--accent-dark); font-weight: 700; }
 
+@media (max-width: 1024px) {
+    .settings-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 768px) {
     .settings-grid { grid-template-columns: 1fr; }
-    .settings-container { padding: 0.5rem; height: 350px; }
+    .settings-container { padding: 0.5rem; max-height: none; }
     .setting-group { padding: 0.5rem; }
-    .players-section { height: 350px; }
-    .qr-code-section { height: 350px; }
+    .players-section { height: auto; min-height: 250px; }
+    .qr-code-section { height: auto; }
+    .room-code-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

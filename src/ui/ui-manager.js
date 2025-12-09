@@ -2,9 +2,17 @@ import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
 
 const popup = document.querySelector('#popup');
 const closePopupBtn = document.querySelector('#close');
-closePopupBtn.addEventListener('click', () => { popup.style.display = 'none'; });
+if (closePopupBtn) {
+    closePopupBtn.addEventListener('click', () => { 
+        if (popup) popup.style.display = 'none'; 
+    });
+}
 const openPopupBtn = document.querySelector('#directionDisplay');
-openPopupBtn.addEventListener('click', () => { console.log('open popup'); popup.style.display = 'block'; });
+if (openPopupBtn) {
+    openPopupBtn.addEventListener('click', () => { 
+        if (popup) popup.style.display = 'block'; 
+    });
+}
 
 let availableTopics = [];
 let currentTopicPage = 1;
@@ -146,20 +154,25 @@ function initializeConditionalSettings() {
     if (timerRadios && timerDurationSetting) {
         timerRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
-                console.log('Timer radio changed:', e.target.value, e.target.id);
                 timerDurationSetting.style.display = e.target.value === 'true' ? 'block' : 'none';
             });
         });
     }
     const followUpRadios = document.querySelectorAll('input[name="follow-up-option"]');
     const followUpTypeSetting = document.getElementById('follow-up-type-setting');
+    const timerRadioContainer = document.querySelector('input[name="need-timer"]')?.closest('.setting-item');
     if (followUpRadios && followUpTypeSetting) {
         const checkedFollowUp = document.querySelector('input[name="follow-up-option"]:checked');
-        if (checkedFollowUp) followUpTypeSetting.style.display = checkedFollowUp.value === 'true' ? 'block' : 'none';
+        const isFollowUpEnabled = checkedFollowUp?.value === 'true';
+        followUpTypeSetting.style.display = isFollowUpEnabled ? 'block' : 'none';
+        if (timerRadioContainer) timerRadioContainer.style.display = isFollowUpEnabled ? 'block' : 'none';
+        if (timerDurationSetting) timerDurationSetting.style.display = 'none';
         followUpRadios.forEach(radio => {
             radio.addEventListener('change', (e) => {
-                console.log('Follow-up radio changed:', e.target.value, e.target.id);
-                followUpTypeSetting.style.display = e.target.value === 'true' ? 'block' : 'none';
+                const isEnabled = e.target.value === 'true';
+                followUpTypeSetting.style.display = isEnabled ? 'block' : 'none';
+                if (timerRadioContainer) timerRadioContainer.style.display = isEnabled ? 'block' : 'none';
+                if (timerDurationSetting && !isEnabled) timerDurationSetting.style.display = 'none';
             });
         });
     }
