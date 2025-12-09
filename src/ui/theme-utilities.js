@@ -53,16 +53,10 @@ const themeColorMap = {
             'dark': 'rgb(0 0 0)',
             'accent-dark': 'rgb(64 64 64)',
             'accent-light': 'rgb(128 128 128)',
-            'background-light': 'rgb(255 255 255)',
-            'light': 'rgb(245 245 245)'
+            'background-light': 'rgb(255 255 255)'
         },
         dark: {
-            'text-dark': 'rgb(220 220 220)',
-            'dark': 'rgb(200 200 200)',
-            'accent-dark': 'rgb(160 160 160)',
-            'accent-light': 'rgb(100 100 100)',
-            'background-light': 'rgb(30 30 30)',
-            'light': 'rgb(40 40 40)'
+            'background-light': 'rgb(40 40 40)'
         }
     },
     red: {
@@ -71,16 +65,10 @@ const themeColorMap = {
             'dark': '#421010',
             'accent-dark': '#8a2424',
             'accent-light': '#c94444',
-            'background-light': '#fab9b9',
-            'light': '#ffe5e5'
+            'background-light': '#fab9b9'
         },
         dark: {
-            'text-dark': '#ffc9c9',
-            'dark': '#ff9999',
-            'accent-dark': '#ff6b6b',
-            'accent-light': '#c94444',
-            'background-light': '#2d0a0a',
-            'light': '#3d1414'
+            'background-light': '#421010'
         }
     },
     orange: {
@@ -89,16 +77,10 @@ const themeColorMap = {
             'dark': '#422410',
             'accent-dark': '#8a4324',
             'accent-light': '#c97b44',
-            'background-light': '#fad1b9',
-            'light': '#ffe9db'
+            'background-light': '#fad1b9'
         },
         dark: {
-            'text-dark': '#ffd4b9',
-            'dark': '#ffb380',
-            'accent-dark': '#ff9447',
-            'accent-light': '#c97b44',
-            'background-light': '#2d1a0a',
-            'light': '#3d2414'
+            'background-light': '#422410'
         }
     },
     yellow: {
@@ -107,16 +89,10 @@ const themeColorMap = {
             'dark': '#424010',
             'accent-dark': '#8a8124',
             'accent-light': '#c9c944',
-            'background-light': '#faf9b9',
-            'light': '#feffdb'
+            'background-light': '#faf9b9'
         },
         dark: {
-            'text-dark': '#f9f7b9',
-            'dark': '#e8e380',
-            'accent-dark': '#d4d047',
-            'accent-light': '#c9c944',
-            'background-light': '#2d2b0a',
-            'light': '#3d3914'
+            'background-light': '#424010'
         }
     },
     green: {
@@ -125,16 +101,10 @@ const themeColorMap = {
             'dark': '#0b2d0c',
             'accent-dark': '#248a2e',
             'accent-light': '#44c95a',
-            'background-light': '#b9fac3',
-            'light': '#dbffe5'
+            'background-light': '#b9fac3'
         },
         dark: {
-            'text-dark': '#b9fac3',
-            'dark': '#80ff99',
-            'accent-dark': '#47d65a',
-            'accent-light': '#44c95a',
-            'background-light': '#0a2d0f',
-            'light': '#143d19'
+            'background-light': '#0b2d0c'
         }
     },
     blue: {
@@ -143,16 +113,10 @@ const themeColorMap = {
             'dark': '#102742',
             'accent-dark': '#24528a',
             'accent-light': '#4482c9',
-            'background-light': '#b9ddfa',
-            'light': '#dbeeff'
+            'background-light': '#b9ddfa'
         },
         dark: {
-            'text-dark': '#b9ddfa',
-            'dark': '#80b3ff',
-            'accent-dark': '#4782d6',
-            'accent-light': '#4482c9',
-            'background-light': '#0a1a2d',
-            'light': '#14243d'
+            'background-light': '#102742'
         }
     },
     purple: {
@@ -161,16 +125,10 @@ const themeColorMap = {
             'dark': '#371042',
             'accent-dark': '#76248a',
             'accent-light': '#ac44c9',
-            'background-light': '#e4b9fa',
-            'light': '#f5dbff'
+            'background-light': '#e4b9fa'
         },
         dark: {
-            'text-dark': '#e4b9fa',
-            'dark': '#d080ff',
-            'accent-dark': '#b647d6',
-            'accent-light': '#ac44c9',
-            'background-light': '#1f0a2d',
-            'light': '#2d143d'
+            'background-light': '#371042'
         }
     }
 };
@@ -187,11 +145,12 @@ function applyTheme(theme, mode = 'light') {
         return;
     }
 
-    const colors = themeColors[mode];
-    if (!colors) {
-        console.warn(`Unknown mode: ${mode} for theme: ${theme}`);
-        return;
-    }
+    // Start with light theme colors as base
+    const lightColors = themeColors.light || {};
+    const modeColors = themeColors[mode] || {};
+    
+    // Merge: dark mode overrides only specific properties
+    const colors = { ...lightColors, ...modeColors };
 
     Object.entries(colors).forEach(([key, value]) => {
         document.documentElement.style.setProperty(`--${key}`, value);

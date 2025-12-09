@@ -25,15 +25,15 @@ function setupGameEventListeners() {
         showWaitingSection();
         
         // Initialize theme manager for player (not host, so read-only theme changes)
-        // Pass the current theme from the server
+        // Pass the current theme and mode from the server
         if (typeof initializeThemeManager === 'function') {
-            initializeThemeManager(socket, data.roomCode, false, data.currentTheme);
+            initializeThemeManager(socket, data.roomCode, false, data.currentTheme, data.currentThemeMode);
         } else {
             console.warn('initializeThemeManager not available yet');
             // Retry after a short delay
             setTimeout(() => {
                 if (typeof initializeThemeManager === 'function') {
-                    initializeThemeManager(socket, data.roomCode, false, data.currentTheme);
+                    initializeThemeManager(socket, data.roomCode, false, data.currentTheme, data.currentThemeMode);
                 }
             }, 100);
         }

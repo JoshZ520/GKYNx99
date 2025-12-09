@@ -270,7 +270,7 @@
             <h3>The questions ended.</h3>
             <p>Do you want to continue, or end it?</p>
             <button class="continue" id="continueGameBtn" type="button">Continue</button>
-            <button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button>
+            <!-- <button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button> -->
         </div>
     </div>
     <div id="gameContainer">
@@ -281,7 +281,7 @@
 
     <!-- Waiting for Players (Multiplayer Mode Only) -->
     <div id="waitingForPlayers" class="waiting-message hidden">
-        <h3>⏳ Waiting for Players...</h3>
+        <h3> Waiting for Players...</h3>
         <p>Need at least 2 players to start the game.</p>
         <p>Share the room code with your friends!</p>
     </div>
@@ -376,8 +376,9 @@
 <div id="answerProgressContainer" class="answer-progress-container hidden">
     <p id="answerProgress">0/0 players answered</p>
     <button class="fin" id="revealAnswersBtn" type="button">Reveal All Answers</button>
+    
 </div>
-
+<button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button>
 <!-- Discussion Timer Display (Host) -->
 <div id="hostTimerContainer" class="answer-progress-container hidden">
     <p>Discussion time remaining: <strong id="hostTimer">0:00</strong></p>
@@ -391,13 +392,8 @@
 
 <!-- Question Results Bar (Multiplayer - shows after revealing answers) -->
 <div id="questionResultsBar" class="question-results-bar">
-    <h4>📊 Results:</h4>
+    <h4> Results:</h4>
     <div id="resultsBarContent"></div>
-</div>
-
-<!-- Host controls -->
-<div class="buttons">
-<button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button>
 </div>
 
 <!-- All Results Display (shows all questions at end of game) -->

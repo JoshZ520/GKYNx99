@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
         const room = {
             code: roomCode, hostId: socket.id, hostName: data.hostName || 'Host',
             players: [], currentQuestion: null, questionInProgress: false,
-            answers: new Map(), currentTheme: 'green', createdAt: new Date().toISOString()
+            answers: new Map(), currentTheme: 'green', currentThemeMode: 'light', createdAt: new Date().toISOString()
         };
         gameRooms.set(roomCode, room);
         socket.join(roomCode);
@@ -113,7 +113,7 @@ io.on('connection', (socket) => {
         const player = { id: socket.id, name: playerName, joinedAt: new Date().toISOString() };
         room.players.push(player);
         socket.join(roomCode);
-        socket.emit('joined-room', { roomCode, playerName, currentTheme: room.currentTheme, success: true });
+        socket.emit('joined-room', { roomCode, playerName, currentTheme: room.currentTheme, currentThemeMode: room.currentThemeMode || 'light', success: true });
         io.to(roomCode).emit('player-joined', { player, totalPlayers: room.players.length });
     });
 
@@ -209,11 +209,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('change-room-theme', (data) => {
-        const { roomCode, theme } = data;
+        const { roomCode, theme, mode } = data;
         const room = gameRooms.get(roomCode);
         if (!room || room.hostId !== socket.id) { socket.emit('error', { message: 'Not authorized to change theme' }); return; }
         room.currentTheme = theme;
-        io.to(roomCode).emit('theme-changed', { theme, timestamp: new Date().toISOString() });
+        room.currentThemeMode = mode || 'light';
+        io.to(roomCode).emit('theme-changed', { theme, mode: room.currentThemeMode, timestamp: new Date().toISOString() });
     });
 
     socket.on('disconnect', (reason) => {
