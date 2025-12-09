@@ -193,27 +193,22 @@ function initializeThemeManager(socket = null, roomCode = null, isHost = false, 
     }
 
     // Handle theme dropdown changes
-    if (isHost && socket && roomCode && themeDropdown) {
+    if (themeDropdown) {
         themeDropdown.addEventListener('change', (e) => {
             const selectedTheme = e.target.value;
-            const currentMode = document.querySelector('input[name="theme-mode"]:checked')?.value || 'light';
+            const currentMode = document.querySelector(`input[name="${isOffline ? 'offline-theme-mode' : 'theme-mode'}"]:checked`)?.value || savedMode;
             
             sessionStorage.setItem('selectedTheme', selectedTheme);
             applyTheme(selectedTheme, currentMode);
             
-            socket.emit('change-room-theme', {
-                roomCode: roomCode,
-                theme: selectedTheme,
-                mode: currentMode
-            });
-        });
-    } else if (!socket && themeDropdown) {
-        themeDropdown.addEventListener('change', (e) => {
-            const selectedTheme = e.target.value;
-            const currentMode = document.querySelector('input[name="theme-mode"]:checked')?.value || 'light';
-            
-            sessionStorage.setItem('selectedTheme', selectedTheme);
-            applyTheme(selectedTheme, currentMode);
+            // Broadcast theme change if host in multiplayer
+            if (isHost && socket && roomCode) {
+                socket.emit('change-room-theme', {
+                    roomCode: roomCode,
+                    theme: selectedTheme,
+                    mode: currentMode
+                });
+            }
         });
     }
 
