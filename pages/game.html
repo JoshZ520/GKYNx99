@@ -12,10 +12,15 @@
 <link rel="stylesheet" href="../assets/css/shared/forms.css">
 <link rel="stylesheet" href="../assets/css/shared/animations.css">
 <link rel="stylesheet" href="../assets/css/shared/responsive.css">
+<link rel="stylesheet" href="../assets/css/game/game-layout.css">
+<link rel="stylesheet" href="../assets/css/game/game-topics.css">
+<link rel="stylesheet" href="../assets/css/game/game-settings.css">
+<link rel="stylesheet" href="../assets/css/game/game-results.css">
 <link rel="stylesheet" href="../assets/css/game-ui.css">
 <link rel="stylesheet" href="../assets/css/game-multiplayer.css">
 <link rel="stylesheet" href="../dev-tools/dev-tools.css">
 <link rel="stylesheet" href="../assets/css/components.css">
+<script src="../src/ui/settings-builder.js" defer></script>
 <script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
@@ -103,6 +108,14 @@
 <a href="/pages/player/index.html" target="_blank">Open Player Screen</a>
 </div>
 
+<!-- Offline Settings Panel -->
+<div id="offlineSettings" class="multiplayer-info hidden">
+    <div class="settings-container">
+        <h2 class="settings-title">Game Settings</h2>
+        <div id="offlineSettingsContainer"></div>
+    </div>
+</div>
+
 <!-- Multiplayer Room Info (hidden until room is created) -->
 <div id="multiplayerInfo" class="multiplayer-info hidden">
     <div class="room-display">
@@ -118,113 +131,8 @@
             </div>
         </div>
         <div class="settings-container">
-            <h2 class="settings-title"> Game Settings</h2>
-            
-            <div class="settings-grid">
-                <!-- Game Settings -->
-                <div class="setting-group">
-                    <h3 class="setting-group-title">Game Options</h3>
-                    
-                    <div class="setting-item">
-                        <label for="question-number" class="setting-label">Number of Questions:</label>
-                        <select id="question-number" name="question-number" class="setting-select">
-                            <option value="3">3 Questions</option>
-                            <option value="5">5 Questions</option>
-                            <option value="10">10 Questions</option>
-                            <option value="Infinity" selected>Unlimited</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Follow-Up Questions -->
-                <div class="setting-group">
-                    <h3 class="setting-group-title">Follow-Up Questions</h3>
-                    
-                    <div class="setting-item">
-                        <label class="setting-label">Enable Follow-Ups:</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" id="follow-up-yes" name="follow-up-option" value="true" checked>
-                                <span>Yes</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" id="follow-up-no" name="follow-up-option" value="false">
-                                <span>No</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-item" id="follow-up-type-setting">
-                        <label class="setting-label">Discussion Mode:</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" id="follow-up-oneonone" name="follow-up-question" value="one-on-one" checked>
-                                <span>One-on-One</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" id="follow-up-group" name="follow-up-question" value="group">
-                                <span>Group</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-item">
-                        <label class="setting-label">Answer Timer:</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" id="need-timer-no" name="need-timer" value="false" checked>
-                                <span>No Timer</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" id="need-timer-yes" name="need-timer" value="true">
-                                <span>Enable Timer</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-item" id="timer-duration-setting" style="display: none;">
-                        <label for="timer-duration" class="setting-label">Timer Duration:</label>
-                        <select id="timer-duration" name="timer-duration" class="setting-select">
-                            <option value="1" selected>1 minute</option>
-                            <option value="3">3 minutes</option>
-                            <option value="5">5 minutes</option>
-                            <option value="10">10 minutes</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Appearance -->
-                <div class="setting-group">
-                    <h3 class="setting-group-title">Appearance</h3>
-                    
-                    <div class="setting-item">
-                        <label for="color-theme" class="setting-label">Color Theme:</label>
-                        <select id="color-theme" name="color-theme" class="setting-select">
-                            <option value="white">White</option>
-                            <option value="red">Red</option>
-                            <option value="orange">Orange</option>
-                            <option value="yellow">Yellow</option>
-                            <option value="green" selected>Green</option>
-                            <option value="blue">Blue</option>
-                            <option value="purple">Purple</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-item">
-                        <label class="setting-label">Theme Mode:</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" id="theme-mode-light" name="theme-mode" value="light" checked>
-                                <span>Light</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" id="theme-mode-dark" name="theme-mode" value="dark">
-                                <span>Dark</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2 class="settings-title">Game Settings</h2>
+            <div id="multiplayerSettingsContainer"></div>
         </div>
 
         <div class="players-section">
@@ -318,7 +226,7 @@
 </div>
 <h1 class="question" id="question">Please select a topic to begin</h1>
 <div class="topic-selection">
-<button class="smooth-transition" id="topicsToggle">Topics ▼</button>
+<button class="smooth-transition" id="topicsToggle" disabled>Topics ▼</button>
 <!-- Collapsible topic grid with pagination -->
 <div class="topics-panel hidden" id="topicsPanel">
 <div class="topics-pagination-header">

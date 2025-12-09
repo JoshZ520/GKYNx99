@@ -40,7 +40,7 @@ function initializeModeUI() {
         if (multiplayerRoom) mode = 'multiplayer';
         else if (gameMode === 'offline') mode = 'offline';
     }
-    const offlineOnlyElements = ['offlineSubmitContainer', 'offlinePlayerIndicator'];
+    const offlineOnlyElements = ['offlineSubmitContainer', 'offlinePlayerIndicator', 'offlineSettings'];
     const multiplayerOnlyElements = ['answerProgressContainer', 'multiplayerInfo', 'createRoomSection'];
     if (mode === 'multiplayer') {
         offlineOnlyElements.forEach(id => { CONFIG_UTILS.hideDisplay(id); CONFIG_UTILS.hide(id); });

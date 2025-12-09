@@ -349,7 +349,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 };
 
-const questionNumberSelect = CONFIG_UTILS.getElement('question-number');
+// Support both multiplayer and offline settings
+const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
+const questionNumberSelect = CONFIG_UTILS.getElement(
+    gameMode === 'offline' ? 'offline-question-number' : 'question-number'
+);
 
 if (questionNumberSelect) {
     updateMaxSubmissions(questionNumberSelect);

@@ -1,0 +1,163 @@
+/* game-settings.css - Game settings interface */
+
+/* === SETTINGS SECTION === */
+.settings-container {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    min-width: 825px;
+    max-height: 500px;
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+}
+
+.settings-title {
+    margin: 0 0 0.75rem 0;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.setting-group {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 0.75rem;
+}
+
+.setting-group-title {
+    margin: 0 0 0.5rem 0;
+    color: var(--accent-dark);
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent-light);
+    padding-bottom: 0.25rem;
+}
+
+.setting-item {
+    margin-bottom: 0.5rem;
+}
+
+.setting-item:last-child {
+    margin-bottom: 0;
+}
+
+.setting-label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.setting-select {
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.setting-select:hover { border-color: var(--accent-light); background: white; }
+.setting-select:focus { outline: none; border-color: var(--accent-dark); }
+
+.radio-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.6rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+}
+
+.radio-option:hover { background: white; border-color: var(--accent-light); }
+
+.radio-option input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--accent-dark);
+}
+
+.radio-option input[type="radio"]:checked + span { color: var(--accent-dark); font-weight: 700; }
+
+/* Settings Confirmation */
+.settings-confirmation {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.confirmation-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.confirmation-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--accent-dark);
+}
+
+.confirmation-label span {
+    user-select: none;
+}
+
+/* Topics button disabled state */
+#topicsToggle:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+#topicsToggle:disabled::after {
+    content: " (Confirm settings first)";
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+/* === RESPONSIVE ADJUSTMENTS === */
+@media (max-width: 1024px) {
+    .settings-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .settings-grid { grid-template-columns: 1fr; }
+    .settings-container { padding: 0.5rem; max-height: none; }
+    .setting-group { padding: 0.5rem; }
+}
