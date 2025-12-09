@@ -166,8 +166,12 @@ function applyTheme(theme, mode = 'light') {
  * @param {string} initialMode - Initial mode from server (optional, for joining players)
  */
 function initializeThemeManager(socket = null, roomCode = null, isHost = false, initialTheme = null, initialMode = null) {
-    const themeDropdown = document.getElementById('color-theme');
-    const modeRadios = document.querySelectorAll('input[name="theme-mode"]');
+    // Support both offline and multiplayer theme controls
+    const gameMode = sessionStorage.getItem('GAME_MODE');
+    const isOffline = gameMode === 'offline';
+    
+    const themeDropdown = document.getElementById(isOffline ? 'offline-color-theme' : 'color-theme');
+    const modeRadios = document.querySelectorAll(`input[name="${isOffline ? 'offline-theme-mode' : 'theme-mode'}"]`);
 
     // Determine which theme and mode to use
     const savedTheme = initialTheme || sessionStorage.getItem('selectedTheme') || 'green';
@@ -260,7 +264,9 @@ function initializeThemeManager(socket = null, roomCode = null, isHost = false, 
  * Set up event listeners for color buttons
  */
 function setupColorButtons() {
-    const themeDropdown = document.getElementById('color-theme');
+    const gameMode = sessionStorage.getItem('GAME_MODE');
+    const isOffline = gameMode === 'offline';
+    const themeDropdown = document.getElementById(isOffline ? 'offline-color-theme' : 'color-theme');
     const colors = ['white', 'red', 'orange', 'yellow', 'green', 'blue', 'purple'];
     
     colors.forEach(color => {

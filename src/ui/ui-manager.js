@@ -178,11 +178,48 @@ function initializeConditionalSettings() {
     }
 }
 
+function initializeSettingsConfirmation(isOffline = false) {
+    const confirmCheckbox = document.getElementById(isOffline ? 'offlineConfirmSettings' : 'confirmSettings');
+    const topicsButton = document.getElementById('topicsToggle');
+    
+    if (confirmCheckbox && topicsButton) {
+        confirmCheckbox.addEventListener('change', (e) => {
+            if (e.target.checked) {
+                topicsButton.disabled = false;
+            } else {
+                topicsButton.disabled = true;
+            }
+        });
+    }
+}
+
+function initializeOfflineConditionalSettings() {
+    const timerRadios = document.querySelectorAll('input[name="offline-need-timer"]');
+    if (timerRadios.length > 0) {
+        timerRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const isEnabled = e.target.value === 'true';
+                const timerDurationSetting = document.getElementById('offline-timer-duration-setting');
+                if (timerDurationSetting) {
+                    timerDurationSetting.style.display = isEnabled ? 'block' : 'none';
+                }
+            });
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     if (window.gameUI) window.gameUI.initializeTopicSelection();
-    initializeConditionalSettings();
+    
     const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
-    if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
+    
+    if (gameMode === GAME_CONFIG.MODES.MULTIPLAYER) {
+        initializeConditionalSettings();
+        initializeSettingsConfirmation(false);
+    } else if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
+        initializeOfflineConditionalSettings();
+        initializeSettingsConfirmation(true);
+        
         const option1 = CONFIG_UTILS.getElement('option1');
         const option2 = CONFIG_UTILS.getElement('option2');
         if (option1) option1.onclick = () => window.gameUI.selectPreference('option1');
