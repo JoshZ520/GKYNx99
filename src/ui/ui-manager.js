@@ -181,13 +181,16 @@ function initializeConditionalSettings() {
 function initializeSettingsConfirmation(isOffline = false) {
     const confirmCheckbox = document.getElementById(isOffline ? 'offlineConfirmSettings' : 'confirmSettings');
     const topicsButton = document.getElementById('topicsToggle');
+    const randomTopicButton = document.getElementById('randomTopicBtn');
     
-    if (confirmCheckbox && topicsButton) {
+    if (confirmCheckbox && topicsButton && randomTopicButton) {
         confirmCheckbox.addEventListener('change', (e) => {
             if (e.target.checked) {
                 topicsButton.disabled = false;
+                randomTopicButton.disabled = false;
             } else {
                 topicsButton.disabled = true;
+                randomTopicButton.disabled = true;
             }
         });
     }

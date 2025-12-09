@@ -30,21 +30,7 @@ function initializeGameScripts() {
 
 // === AUTO-INITIALIZATION ===
 // Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    initializeGameScripts();
-    
-    // Initialize theme manager for game page (offline or before room creation)
-    if (typeof window.initializeThemeManager === 'function') {
-        window.initializeThemeManager();
-    } else {
-        // Theme utilities might not be loaded yet, try again after a short delay
-        setTimeout(() => {
-            if (typeof window.initializeThemeManager === 'function') {
-                window.initializeThemeManager();
-            }
-        }, 100);
-    }
-});
+document.addEventListener('DOMContentLoaded', initializeGameScripts);
 
 // Make available globally if needed
 window.gameLoader = {
