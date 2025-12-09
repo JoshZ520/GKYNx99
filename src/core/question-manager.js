@@ -45,6 +45,33 @@ function applyQuestionsForTopic(topic) {
     showQuestionArea();
 }
 
+const questionLimitReachedElement = CONFIG_UTILS.getElement('askCon');
+
+function showQuestionLimitReachedPanel() {
+    if (questionLimitReachedElement) {
+        CONFIG_UTILS.show(questionLimitReachedElement);
+        hideQuestionArea(); 
+    }
+}
+
+function hideQuestionLimitReachedPanel() {
+    if (questionLimitReachedElement) {
+        CONFIG_UTILS.hide(questionLimitReachedElement);
+    }
+}
+
+export function recordAnsweredQuestion() {
+    questionCounter++; 
+
+    if (maxSubmissions !== Infinity && questionCounter >= maxSubmissions) {
+        console.log("Maximum submission limit reached. Showing end-of-question prompt.");
+
+        showQuestionLimitReachedPanel(); 
+        return true; 
+    }
+    return false;
+}
+
 function showQuestionArea() {
     const questionElem = CONFIG_UTILS.getElementById('QUESTION');
     const preferenceContainer = CONFIG_UTILS.getElementById('PREFERENCE_CONTAINER');
