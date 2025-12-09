@@ -131,13 +131,25 @@ function showAnswerStatus() {
 let timerInterval = null;
 function showYourAnswer(data) {
     CONFIG_UTILS.hide('answerStatus');
+    console.log('showYourAnswer data:', data);
     const yourAnswerDiv = CONFIG_UTILS.getElement('yourAnswerDisplay');
     if (yourAnswerDiv) {
         if (data.followUpQuestion) {
             CONFIG_UTILS.setText('followUpQuestionText', data.followUpQuestion);
-            CONFIG_UTILS.setText('discussPartnerName', data.playerName);
+            const discussionPromptEl = CONFIG_UTILS.getElement('discussionPrompt');
+            if (discussionPromptEl) {
+                console.log('Setting discussion mode:', data.discussionMode);
+                if (data.discussionMode === 'group') {
+                    discussionPromptEl.innerHTML = 'Now discuss this as a group:';
+                } else {
+                    discussionPromptEl.innerHTML = `Now go discuss this with <strong>${data.playerName}</strong>:`;
+                }
+            }
             CONFIG_UTILS.show('followUpQuestionDisplay');
-        } else { CONFIG_UTILS.hide('followUpQuestionDisplay'); }
+        } else { 
+            CONFIG_UTILS.hide('followUpQuestionDisplay');
+            CONFIG_UTILS.setText('followUpQuestionText', 'Waiting for the host to continue...');
+        }
         if (data.timerDuration && data.timerDuration > 0) { startDiscussionTimer(data.timerDuration); }
         CONFIG_UTILS.show('yourAnswerDisplay');
     }

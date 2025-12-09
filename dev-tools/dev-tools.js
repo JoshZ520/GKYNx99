@@ -28,7 +28,7 @@
     
     function addFakePlayersButton(devToolsElement) {
         const button = document.createElement('button');
-        button.textContent = '+ Add 3 Fake Players';
+        button.textContent = '+ Add 1 Fake Player';
         button.className = 'dev-btn';
         button.style.cssText = `
             display: block;
@@ -45,7 +45,7 @@
         
         button.onmouseover = () => button.style.background = 'rgba(76, 175, 80, 0.3)';
         button.onmouseout = () => button.style.background = 'rgba(76, 175, 80, 0.2)';
-        button.onclick = () => addFakePlayers(3);
+        button.onclick = () => addFakePlayers(1);
         
         devToolsElement.appendChild(button);
     }

@@ -12,7 +12,8 @@
                                          "option1":  "../assets/images/questions/Tech/Consumer-Electronics.jpeg",
                                          "option2":  "../assets/images/questions/Tech/apps.webp"
                                      },
-                          "followUpQuestion":  "What kind of impact does that interest have in your day-to-day life?"
+                          "followUpQuestion":  "What kind of impact does that interest have in your day-to-day life?",
+                          "groupFollowUpQuestion":  "Hardware gadgets or software tools?"
                       },
                       {
                           "prompt":  "How do you approach new technology?",
@@ -22,7 +23,8 @@
                                          "option1":  "../assets/images/questions/Tech/early.jpg",
                                          "option2":  "../assets/images/questions/Tech/wait_see.jpg"
                                      },
-                          "followUpQuestion":  "What factors influence your decision?"
+                          "followUpQuestion":  "What factors influence your decision?",
+                          "groupFollowUpQuestion":  "Early adopters or wait and see?"
                       },
                       {
                           "prompt":  "What's your tech usage preference?",
@@ -32,7 +34,8 @@
                                          "option1":  "../assets/images/questions/Tech/professional.jpg",
                                          "option2":  "../assets/images/questions/Tech/entertainment.jpg"
                                      },
-                          "followUpQuestion":  "What do you look for most when using tech for that purpose?"
+                          "followUpQuestion":  "What do you look for most when using tech for that purpose?",
+                          "groupFollowUpQuestion":  "Tech for work or entertainment?"
                       },
                       {
                           "prompt":  "How do you prefer tech complexity?",
@@ -42,7 +45,8 @@
                                          "option1":  "../assets/images/questions/Tech/simple.jpg",
                                          "option2":  "../assets/images/questions/Tech/complex.jpg"
                                      },
-                          "followUpQuestion":  "How does that level of complexity affect your enjoyment or productivity?"
+                          "followUpQuestion":  "How does that level of complexity affect your enjoyment or productivity?",
+                          "groupFollowUpQuestion":  "Simple apps or advanced customizable tech?"
                       },
                       {
                           "prompt":  "What tech platform do you prefer?",
@@ -52,7 +56,8 @@
                                          "option1":  "../assets/images/questions/Tech/phones.webp",
                                          "option2":  "../assets/images/questions/Tech/desktop.webp"
                                      },
-                          "followUpQuestion":  "What makes that platform feel most convenient for you?"
+                          "followUpQuestion":  "What makes that platform feel most convenient for you?",
+                          "groupFollowUpQuestion":  "Mobile or desktop communication?"
                       },
                       {
                           "prompt":  "How do you stay updated with tech?",
@@ -62,7 +67,8 @@
                                          "option1":  "../assets/images/questions/Tech/review.jpg",
                                          "option2":  "../assets/images/questions/Tech/use.jpg"
                                      },
-                          "followUpQuestion":  "How often do you update yourself on new tech?"
+                          "followUpQuestion":  "How often do you update yourself on new tech?",
+                          "groupFollowUpQuestion":  "Updates from one or discover together?"
                       }
                   ]
 }

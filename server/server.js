@@ -159,35 +159,49 @@ io.on('connection', (socket) => {
     });
 
     socket.on('reveal-answers', (data) => {
-        const { roomCode, hostAnswer, timerDuration } = data;
+        const { roomCode, hostAnswer, timerDuration, followUpEnabled, discussionMode } = data;
         const room = gameRooms.get(roomCode);
         if (!room || room.hostId !== socket.id) { socket.emit('error', { message: 'Not authorized' }); return; }
-        if (timerDuration) room.timerDuration = timerDuration;
+        console.log('Reveal answers - discussionMode:', discussionMode, 'followUpEnabled:', followUpEnabled);
+        if (timerDuration !== undefined && timerDuration !== null) room.timerDuration = timerDuration;
         room.questionInProgress = false;
         const playerIds = Array.from(room.answers.keys()).filter(id => id !== room.hostId);
         if (playerIds.length % 2 === 1 && hostAnswer) {
             room.answers.set(room.hostId, { playerId: room.hostId, playerName: room.hostName || 'Host', answer: hostAnswer, timestamp: new Date().toISOString(), isHost: true });
             playerIds.push(room.hostId);
         }
+        // Shuffle playerIds to ensure random pairing each round
+        for (let i = playerIds.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [playerIds[i], playerIds[j]] = [playerIds[j], playerIds[i]];
+        }
         const results = Array.from(room.answers.values());
-        const timerDurationToSend = room.timerDuration || 60;
+        const timerDurationToSend = room.timerDuration;
         socket.emit('answers-revealed', { results, question: room.currentQuestion, timerDuration: timerDurationToSend });
         const pairs = createPairs(playerIds);
         playerIds.forEach((playerId) => {
             const pairedPlayerId = pairs.get(playerId);
+            let followUpQuestion = null;
+            if (followUpEnabled && room.currentQuestion) {
+                if (discussionMode === 'group' && room.currentQuestion.groupFollowUpQuestion) {
+                    followUpQuestion = room.currentQuestion.groupFollowUpQuestion;
+                } else if (discussionMode !== 'group' && room.currentQuestion.followUpQuestion) {
+                    followUpQuestion = room.currentQuestion.followUpQuestion;
+                }
+            }
             if (pairedPlayerId === null || pairedPlayerId === undefined) {
                 io.to(playerId).emit('your-answer-revealed', {
                     answer: { text: "You're the odd one out this round - no match!" },
-                    playerName: 'System', followUpQuestion: room.currentQuestion?.followUpQuestion || null,
-                    question: room.currentQuestion, isUnpaired: true, timerDuration: room.timerDuration || 60
+                    playerName: 'System', followUpQuestion: followUpQuestion, discussionMode: discussionMode || 'one-on-one',
+                    question: room.currentQuestion, isUnpaired: true, timerDuration: room.timerDuration
                 });
             } else {
                 const pairedPlayerData = room.answers.get(pairedPlayerId);
                 if (pairedPlayerData) {
                     io.to(playerId).emit('your-answer-revealed', {
                         answer: pairedPlayerData.answer, playerName: pairedPlayerData.playerName,
-                        followUpQuestion: room.currentQuestion?.followUpQuestion || null, question: room.currentQuestion,
-                        timerDuration: room.timerDuration || 60
+                        followUpQuestion: followUpQuestion, discussionMode: discussionMode || 'one-on-one', question: room.currentQuestion,
+                        timerDuration: room.timerDuration
                     });
                 }
             }

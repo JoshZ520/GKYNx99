@@ -46,7 +46,8 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
     const multiplayerQuestion = {
         text: questionText,
         options: options,
-        followUpQuestion: question.followUpQuestion || question.followUp || null
+        followUpQuestion: question.followUpQuestion || question.followUp || null,
+        groupFollowUpQuestion: question.groupFollowUpQuestion || null
     };
     
     socket.emit('broadcast-question', {
@@ -57,8 +58,19 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
 
 export function revealAnswers(socket, gameState) {
     if (!gameState.isHost || !socket || !gameState.isConnected) return;
-    const timerDuration = document.getElementById('timer-duration')?.value || 1;
-    const revealData = { roomCode: gameState.roomCode, timerDuration: parseInt(timerDuration) * 60 };
+    
+    // Check if timer is enabled
+    const timerEnabled = document.querySelector('input[name="need-timer"]:checked')?.value === 'true';
+    const timerDuration = timerEnabled ? (document.getElementById('timer-duration')?.value || 1) : 0;
+    
+    // Check if follow-up questions are enabled
+    const followUpEnabled = document.querySelector('input[name="follow-up-option"]:checked')?.value === 'true';
+    
+    // Get discussion mode (one-on-one or group)
+    const discussionMode = document.querySelector('input[name="follow-up-question"]:checked')?.value || 'one-on-one';
+    console.log('Sending discussionMode:', discussionMode, 'followUpEnabled:', followUpEnabled);
+    
+    const revealData = { roomCode: gameState.roomCode, timerDuration: parseInt(timerDuration) * 60, followUpEnabled, discussionMode };
     const selectedPref = document.getElementById('selectedPreference');
     const hostAnswer = selectedPref?.value;
     if (hostAnswer) {

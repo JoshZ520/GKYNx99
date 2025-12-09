@@ -12,7 +12,8 @@
         "option1": "../assets/images/questions/Travel/explore.jpg",
         "option2": "../assets/images/questions/Travel/relax.jpg"
       },
-      "followUpQuestion": "What is it you like most about that type of travel?"
+      "followUpQuestion": "What is it you like most about that type of travel?",
+      "groupFollowUpQuestion": "Adventure or relaxation trips?"
     },
     {
       "prompt": "How do you prefer to travel?",
@@ -22,7 +23,8 @@
         "option1": "../assets/images/questions/Travel/plan.jpg",
         "option2": "../assets/images/questions/Travel/no-plan.jpg"
       },
-      "followUpQuestion": "What makes that style of travel feel more comfortable or exciting for you?"
+      "followUpQuestion": "What makes that style of travel feel more comfortable or exciting for you?",
+      "groupFollowUpQuestion": "Planned or spontaneous travel?"
     },
     {
       "prompt": "What's your ideal travel destination?",
@@ -32,7 +34,8 @@
         "option1": "../assets/images/questions/Travel/nature.jpg",
         "option2": "../assets/images/questions/Travel/culture.jpg"
       },
-      "followUpQuestion": "What atmosphere draws you most when choosing a destination?"
+      "followUpQuestion": "What atmosphere draws you most when choosing a destination?",
+      "groupFollowUpQuestion": "Nature or city exploration?"
     },
     {
       "prompt": "What's your preferred accommodation style when traveling?",
@@ -42,7 +45,8 @@
         "option1": "../assets/images/questions/Travel/hotel.jpg",
         "option2": "../assets/images/questions/Travel/local.jpg"
       },
-      "followUpQuestion": "What do you appreciate most about that type of accommodation?"
+      "followUpQuestion": "What do you appreciate most about that type of accommodation?",
+      "groupFollowUpQuestion": "Hotels or authentic local experiences?"
     },
     {
       "prompt": "What's your travel group preference?",
@@ -52,7 +56,8 @@
         "option1": "../assets/images/questions/Travel/solo.jpg",
         "option2": "../assets/images/questions/Travel/group.jpg"
       },
-      "followUpQuestion": "What do you enjoy about traveling with that dynamic?"
+      "followUpQuestion": "What do you enjoy about traveling with that dynamic?",
+      "groupFollowUpQuestion": "Solo then meet or group trips?"
     },
     {
       "prompt": "How do you approach travel budgeting?",
@@ -62,7 +67,8 @@
         "option1": "../assets/images/questions/Travel/budget.jpg",
         "option2": "../assets/images/questions/Travel/no-budget.jpg"
       },
-      "followUpQuestion": "What helps you decide how to prioritize spending when traveling?"
+      "followUpQuestion": "What helps you decide how to prioritize spending when traveling?",
+      "groupFollowUpQuestion": "Budget-friendly or splurge for comfort?"
     }
   ]
 }
