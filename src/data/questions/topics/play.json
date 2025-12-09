@@ -12,7 +12,8 @@
                                          "option1":  "../assets/images/questions/Play/Types_of_games/video.jpg",
                                          "option2":  "../assets/images/questions/Play/Types_of_games/board.jpg"
                                      },
-                          "followUpQuestion":  "What aspects of that type of game do you find most fun?"
+                          "followUpQuestion":  "What aspects of that type of game do you find most fun?",
+                          "groupFollowUpQuestion":  "Video games or board games?"
                       },
                       {
                           "prompt":  "How do you prefer to play games?",
@@ -22,7 +23,8 @@
                                          "option1":  "../assets/images/questions/Play/Preference/comp.jpg",
                                          "option2":  "../assets/images/questions/Play/Type_of_play/creative.jpg"
                                      },
-                          "followUpQuestion":  "What is it about that preference that draws you to it?"
+                          "followUpQuestion":  "What is it about that preference that draws you to it?",
+                          "groupFollowUpQuestion":  "Intense competitions or casual fun?"
                       },
                       {
                           "prompt":  "What's your gaming social preference?",
@@ -32,7 +34,8 @@
                                          "option1":  "../assets/images/questions/Play/Motivation/brain.jpg",
                                          "option2":  "../assets/images/questions/Play/Preference/coop.jpg"
                                      },
-                          "followUpQuestion":  "What do you enjoy about that style of playing?"
+                          "followUpQuestion":  "What do you enjoy about that style of playing?",
+                          "groupFollowUpQuestion":  "Solo or multiplayer games?"
                       },
                       {
                           "prompt":  "What type of game experience appeals to you?",
@@ -42,7 +45,8 @@
                                          "option1":  "../assets/images/questions/Play/Motivation/brain.jpg",
                                          "option2":  "../assets/images/questions/Play/Motivation/social.jpg"
                                      },
-                          "followUpQuestion":  "What about that type of challenge or pace appeals to you?"
+                          "followUpQuestion":  "What about that type of challenge or pace appeals to you?",
+                          "groupFollowUpQuestion":  "Strategy or quick reactions?"
                       },
                       {
                           "prompt":  "How much time do you prefer for gaming sessions?",
@@ -52,7 +56,8 @@
                                          "option1":  "../assets/images/questions/Play/Complexity/simple.jpg",
                                          "option2":  "../assets/images/questions/Play/Complexity/complex.jpg"
                                      },
-                          "followUpQuestion":  "What determines the ideal session length for you when gaming?"
+                          "followUpQuestion":  "What determines the ideal session length for you when gaming?",
+                          "groupFollowUpQuestion":  "Quick sessions or play for hours?"
                       },
                       {
                           "prompt":  "What motivates your game choices?",
@@ -62,7 +67,8 @@
                                          "option1":  "../assets/images/questions/Play/achieve.jpg",
                                          "option2":  "../assets/images/questions/Play/Type_of_play/creative.jpg"
                                      },
-                          "followUpQuestion":  "What about that do you find the most satisfying or enjoyable?"
+                          "followUpQuestion":  "What about that do you find the most satisfying or enjoyable?",
+                          "groupFollowUpQuestion":  "Play to win or just for fun?"
                       }
                   ]
 }

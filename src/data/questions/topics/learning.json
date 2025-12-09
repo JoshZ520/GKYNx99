@@ -12,7 +12,8 @@
                                          "option1":  "../assets/images/questions/Learning/class.webp",
                                          "option2":  "../assets/images/questions/Learning/self-study.jpg"
                                      },
-                          "followUpQuestion":  "What helps you learn most effectively in that format?"
+                          "followUpQuestion":  "What helps you learn most effectively in that format?",
+                          "groupFollowUpQuestion":  "Structured or self-directed group learning?"
                       },
                       {
                           "prompt":  "What type of learning content interests you?",
@@ -22,7 +23,8 @@
                                          "option1":  "../assets/images/questions/Learning/Practical.jpg",
                                          "option2":  "../assets/images/questions/Learning/logics.jpg"
                                      },
-                          "followUpQuestion":  "What makes that type of content more rewarding for you?"
+                          "followUpQuestion":  "What makes that type of content more rewarding for you?",
+                          "groupFollowUpQuestion":  "Practical skills or theoretical knowledge?"
                       },
                       {
                           "prompt":  "What's your preferred learning style?",
@@ -32,7 +34,8 @@
                                          "option1":  "../assets/images/questions/Learning/christin-hume-k2Kcwkandwg-unsplash.webp",
                                          "option2":  "../assets/images/questions/Learning/discuss.jpg"
                                      },
-                          "followUpQuestion":  "What helps you stay engaged with that learning style?"
+                          "followUpQuestion":  "What helps you stay engaged with that learning style?",
+                          "groupFollowUpQuestion":  "Visual or discussion-based learning?"
                       },
                       {
                           "prompt":  "What's your learning pace preference?",
@@ -42,7 +45,8 @@
                                          "option1":  "../assets/images/questions/Learning/books.jpg",
                                          "option2":  "../assets/images/questions/Learning/self-study.jpg"
                                      },
-                          "followUpQuestion":  "What about that preference makes information stick?"
+                          "followUpQuestion":  "What about that preference makes information stick?",
+                          "groupFollowUpQuestion":  "Quick intensive or slow steady learning?"
                       },
                       {
                           "prompt":  "How do you prefer educational content?",
@@ -52,7 +56,8 @@
                                          "option1":  "../assets/images/questions/Learning/discuss.jpg",
                                          "option2":  "../assets/images/questions/Learning/class.webp"
                                      },
-                          "followUpQuestion":  "What do you find most helpful about learning in that way?"
+                          "followUpQuestion":  "What do you find most helpful about learning in that way?",
+                          "groupFollowUpQuestion":  "Hands-on activities or lectures?"
                       },
                       {
                           "prompt":  "What motivates your learning?",
@@ -62,7 +67,8 @@
                                          "option1":  "../assets/images/questions/Learning/career.jpg",
                                          "option2":  "../assets/images/questions/Learning/Practical.jpg"
                                      },
-                          "followUpQuestion":  "How do you think that motivation shapes how you approach learning?"
+                          "followUpQuestion":  "How do you think that motivation shapes how you approach learning?",
+                          "groupFollowUpQuestion":  "Balance professional and personal interests?"
                       }
                   ]
 }

@@ -11,7 +11,8 @@
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
-      }
+      },
+      "groupFollowUpQuestion": "Quick rounds or deep dives?"
     },
     {
       "prompt": "What type of questions do you prefer?",
@@ -20,7 +21,8 @@
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
-      }
+      },
+      "groupFollowUpQuestion": "Fun or meaningful conversations?"
     },
     {
       "prompt": "How do you want to explore topics?",
@@ -29,7 +31,8 @@
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
-      }
+      },
+      "groupFollowUpQuestion": "Random topics or vote on discussions?"
     },
     {
       "prompt": "What's your preferred game pace?",
@@ -38,7 +41,8 @@
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
-      }
+      },
+      "groupFollowUpQuestion": "Answer quickly or take time to think?"
     },
     {
       "prompt": "How do you want to see results?",
@@ -47,7 +51,8 @@
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
-      }
+      },
+      "groupFollowUpQuestion": "Review results after each topic or at the end?"
     },
     {
       "prompt": "What kind of game experience are you looking for?",
@@ -56,7 +61,8 @@
       "images": {
         "option1": "PASTE_URL_HERE",
         "option2": "PASTE_URL_HERE"
-      }
+      },
+      "groupFollowUpQuestion": "Personal reflection or group ice-breaker?"
     }
   ]
 }

@@ -12,7 +12,8 @@
                                          "option1":  "../assets/images/questions/Fantasy/Development.png",
                                          "option2":  "../assets/images/questions/Fantasy/adventure.jpg"
                                      },
-                          "followUpQuestion":  "What makes that element stand out to you in a good fantasy story?"
+                          "followUpQuestion":  "What makes that element stand out to you in a good fantasy story?",
+                          "groupFollowUpQuestion":  "Characters or epic adventures?"
                       },
                       {
                           "prompt":  "What type of fantasy character do you prefer?",
@@ -22,7 +23,8 @@
                                          "option1":  "../assets/images/questions/Fantasy/Magic.png",
                                          "option2":  "../assets/images/questions/Fantasy/Fighter.png"
                                      },
-                          "followUpQuestion":  "What about that type of character appeals to you?"
+                          "followUpQuestion":  "What about that type of character appeals to you?",
+                          "groupFollowUpQuestion":  "Magic users or physical heroes?"
                       },
                       {
                           "prompt":  "What fantasy time period appeals to you?",
@@ -32,7 +34,8 @@
                                          "option1":  "../assets/images/questions/Fantasy/High_fantasy.png",
                                          "option2":  "../assets/images/questions/Fantasy/Contemp_Magic.png"
                                      },
-                          "followUpQuestion":  "What aspects of that time setting help immerse you most in a fantasy world?"
+                          "followUpQuestion":  "What aspects of that time setting help immerse you most in a fantasy world?",
+                          "groupFollowUpQuestion":  "Medieval fantasy or modern-day magic?"
                       },
                       {
                           "prompt":  "What fantasy world scope appeals to you?",
@@ -42,7 +45,8 @@
                                          "option1":  "../assets/images/questions/Fantasy/epic.jpg",
                                          "option2":  "../assets/images/questions/Fantasy/personal.jpg"
                                      },
-                          "followUpQuestion":  "How do you feel the story scale affects your connection to the characters or events?"
+                          "followUpQuestion":  "How do you feel the story scale affects your connection to the characters or events?",
+                          "groupFollowUpQuestion":  "Epic worlds or intimate stories?"
                       },
                       {
                           "prompt":  "How do you prefer to engage with fantasy?",
@@ -52,7 +56,8 @@
                                          "option1":  "../assets/images/questions/Fantasy/creating-stories.jpg",
                                          "option2":  "../assets/images/questions/Fantasy/consuming-stories.jpg"
                                      },
-                          "followUpQuestion":  "What is it about that type of engagement that you prefer?"
+                          "followUpQuestion":  "What is it about that type of engagement that you prefer?",
+                          "groupFollowUpQuestion":  "Create stories or discuss existing worlds?"
                       },
                       {
                           "prompt":  "What draws you to fantasy content?",
@@ -62,7 +67,8 @@
                                          "option1":  "../assets/images/questions/Fantasy/escapism.jpg",
                                          "option2":  "../assets/images/questions/Fantasy/excite.jpg"
                                      },
-                          "followUpQuestion":  "What do you look for in a story that meets that criteria?"
+                          "followUpQuestion":  "What do you look for in a story that meets that criteria?",
+                          "groupFollowUpQuestion":  "Relaxing escapes or exciting adventures?"
                       }
                   ]
 }

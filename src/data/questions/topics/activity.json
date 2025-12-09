@@ -12,7 +12,8 @@
                                          "option1":  "../assets/images/questions/Activity/team.jpg",
                                          "option2":  "../assets/images/questions/Activity/solo.jpg"
                                      },
-                          "followUpQuestion":  "What about that style of activity motivates you most?"
+                          "followUpQuestion":  "What about that style of activity motivates you most?",
+                          "groupFollowUpQuestion":  "Team or individual activities for our group?"
                       },
                       {
                           "prompt":  "How do you prefer to engage with activities?",
@@ -22,7 +23,8 @@
                                          "option1":  "../assets/images/questions/Activity/playing.jpg",
                                          "option2":  "../assets/images/questions/Activity/watching.jpg"
                                      },
-                          "followUpQuestion":  "What do you enjoy most about engaging with activities in that way?"
+                          "followUpQuestion":  "What do you enjoy most about engaging with activities in that way?",
+                          "groupFollowUpQuestion":  "How do players and watchers balance activities together?"
                       },
                       {
                           "prompt":  "What's your activity environment preference?",
@@ -32,7 +34,8 @@
                                          "option1":  "../assets/images/questions/Activity/team.jpg",
                                          "option2":  "../assets/images/questions/Activity/indoor.jpg"
                                      },
-                          "followUpQuestion":  "What makes that environment feel better for the activity you enjoy?"
+                          "followUpQuestion":  "What makes that environment feel better for the activity you enjoy?",
+                          "groupFollowUpQuestion":  "What indoor or outdoor spaces does our group prefer?"
                       },
                       {
                           "prompt":  "What type of physical activity appeals to you?",
@@ -42,7 +45,8 @@
                                          "option1":  "../assets/images/questions/Activity/fitness.jpg",
                                          "option2":  "../assets/images/questions/Activity/playing.jpg"
                                      },
-                          "followUpQuestion":  "What do you look for in that type of physical experience?"
+                          "followUpQuestion":  "What do you look for in that type of physical experience?",
+                          "groupFollowUpQuestion":  "Fitness or competition for group activities?"
                       },
                       {
                           "prompt":  "How do you prefer to stay active?",
@@ -52,7 +56,8 @@
                                          "option1":  "../assets/images/questions/Activity/fitness.jpg",
                                          "option2":  "../assets/images/questions/Activity/casual.jpg"
                                      },
-                          "followUpQuestion":  "What are some activities that fit your preference that you do?"
+                          "followUpQuestion":  "What are some activities that fit your preference that you do?",
+                          "groupFollowUpQuestion":  "Structured or casual group activities?"
                       },
                       {
                           "prompt":  "What motivates your activity choices?",
@@ -62,7 +67,8 @@
                                          "option1":  "../assets/images/questions/Activity/fitness.jpg",
                                          "option2":  "../assets/images/questions/Activity/indoor.jpg"
                                      },
-                          "followUpQuestion":  "With that motivation, what makes an activity more satisfying?"
+                          "followUpQuestion":  "With that motivation, what makes an activity more satisfying?",
+                          "groupFollowUpQuestion":  "How do we balance health goals with fun?"
                       }
                   ]
 }

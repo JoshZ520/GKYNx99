@@ -12,7 +12,8 @@
                                          "option1":  "../assets/images/questions/Books/book_type/fiction.jpg",
                                          "option2":  "../assets/images/questions/Books/book_type/nonfiction.jpg"
                                      },
-                          "followUpQuestion":  "What attracts you most to that type of storytelling?"
+                          "followUpQuestion":  "What attracts you most to that type of storytelling?",
+                          "groupFollowUpQuestion":  "Fiction or non-fiction stories?"
                       },
                       {
                           "prompt":  "How do you prefer to consume stories?",
@@ -22,7 +23,8 @@
                                          "option1":  "../assets/images/questions/Books/Type_of_reading/reading.jpg",
                                          "option2":  "../assets/images/questions/Books/Type_of_reading/audio.jpg"
                                      },
-                          "followUpQuestion":  "What makes that format more immersive for you?"
+                          "followUpQuestion":  "What makes that format more immersive for you?",
+                          "groupFollowUpQuestion":  "Read books or listen to podcasts?"
                       },
                       {
                           "prompt":  "What story length do you prefer?",
@@ -32,7 +34,8 @@
                                          "option1":  "../assets/images/questions/Books/Length/short.jpg",
                                          "option2":  "../assets/images/questions/Books/Length/long.jpg"
                                      },
-                          "followUpQuestion":  "What makes that story length most enjoyable?"
+                          "followUpQuestion":  "What makes that story length most enjoyable?",
+                          "groupFollowUpQuestion":  "Long series or short quick stories?"
                       },
                       {
                           "prompt":  "What type of narrative appeals to you?",
@@ -42,7 +45,8 @@
                                          "option1":  "../assets/images/questions/Books/character.jpg",
                                          "option2":  "../assets/images/questions/Books/story.jpg"
                                      },
-                          "followUpQuestion":  "What draws you in to a story with that type of narrative?"
+                          "followUpQuestion":  "What draws you in to a story with that type of narrative?",
+                          "groupFollowUpQuestion":  "Character-driven or plot-driven stories?"
                       },
                       {
                           "prompt":  "How do you discover new stories?",
@@ -52,7 +56,8 @@
                                          "option1":  "../assets/images/questions/Books/recommend.jpg",
                                          "option2":  "../assets/images/questions/Books/explore.jpg"
                                      },
-                          "followUpQuestion":  "How often do try new genres or authors outside of your comfort zone?"
+                          "followUpQuestion":  "How often do try new genres or authors outside of your comfort zone?",
+                          "groupFollowUpQuestion":  "Who recommends and explores new genres?"
                       },
                       {
                           "prompt":  "What's your reading environment preference?",
@@ -62,7 +67,8 @@
                                          "option1":  "../assets/images/questions/Books/alone.jpg",
                                          "option2":  "../assets/images/questions/Books/share.jpg"
                                      },
-                          "followUpQuestion":  "Why does that environment speak to you the most?"
+                          "followUpQuestion":  "Why does that environment speak to you the most?",
+                          "groupFollowUpQuestion":  "Individual reading or social discussions?"
                       }
                   ]
 }

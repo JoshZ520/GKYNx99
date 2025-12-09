@@ -12,7 +12,8 @@
                                          "option1":  "../assets/images/questions/Music/mainstream.jpg",
                                          "option2":  "../assets/images/questions/Music/alternative.jpg"
                                      },
-                          "followUpQuestion":  "What draws you toward that style of music?"
+                          "followUpQuestion":  "What draws you toward that style of music?",
+                          "groupFollowUpQuestion":  "What genres should we all enjoy together?"
                       },
                       {
                           "prompt":  "How do you prefer to experience music?",
@@ -22,7 +23,8 @@
                                          "option1":  "../assets/images/questions/Music/live.jpg",
                                          "option2":  "../assets/images/questions/Music/recorded.jpg"
                                      },
-                          "followUpQuestion":  "What do you value most about experiencing music in that format?"
+                          "followUpQuestion":  "What do you value most about experiencing music in that format?",
+                          "groupFollowUpQuestion":  "Live concerts or home listening parties?"
                       },
                       {
                           "prompt":  "What's your musical era preference?",
@@ -32,7 +34,8 @@
                                          "option1":  "../assets/images/questions/Music/classic.jpg",
                                          "option2":  "../assets/images/questions/Music/modern.jpg"
                                      },
-                          "followUpQuestion":  "What do you think characterizes your favorite music from that era?"
+                          "followUpQuestion":  "What do you think characterizes your favorite music from that era?",
+                          "groupFollowUpQuestion":  "Classic or modern trending music?"
                       },
                       {
                           "prompt":  "How do you discover new music?",
@@ -42,7 +45,8 @@
                                          "option1":  "../assets/images/questions/Music/recommend.jpg",
                                          "option2":  "../assets/images/questions/Music/explore.jpg"
                                      },
-                          "followUpQuestion":  "What decides whether you trust a recommendation or what you explore?"
+                          "followUpQuestion":  "What decides whether you trust a recommendation or what you explore?",
+                          "groupFollowUpQuestion":  "Who recommends vs. discovers music?"
                       },
                       {
                           "prompt":  "What type of musical energy do you prefer?",
@@ -52,7 +56,8 @@
                                          "option1":  "../assets/images/questions/Music/upbeat.jpg",
                                          "option2":  "../assets/images/questions/Music/calm.jpg"
                                      },
-                          "followUpQuestion":  "What qualities stand out the most to you about that type of energy?"
+                          "followUpQuestion":  "What qualities stand out the most to you about that type of energy?",
+                          "groupFollowUpQuestion":  "Upbeat to energize or calm to relax?"
                       },
                       {
                           "prompt":  "How do you prefer to enjoy music?",
@@ -62,7 +67,8 @@
                                          "option1":  "../assets/images/questions/Music/work.jpg",
                                          "option2":  "../assets/images/questions/Music/recorded.jpg"
                                      },
-                          "followUpQuestion":  "What role does music typically play in your daily routine?"
+                          "followUpQuestion":  "What role does music typically play in your daily routine?",
+                          "groupFollowUpQuestion":  "Background music or active listening?"
                       }
                   ]
 }
