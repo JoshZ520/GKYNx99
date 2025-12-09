@@ -99,7 +99,7 @@
 
 <!-- Dev Tools (only visible in dev environment) -->
 <div id="devTools" class="dev-tools hidden">
-<p>🛠️ Dev Mode</p>
+<p>Dev Mode</p>
 <a href="/pages/player/index.html" target="_blank">Open Player Screen</a>
 </div>
 
@@ -111,7 +111,6 @@
             <div class="room-code-section">
                 <span class="room-label">Room Code:</span>
                 <span class="room-code" id="roomCodeDisplay">----</span>
-                <button class="copy-code-btn" id="copyCodeBtn" title="Copy room code">Copy</button>
             </div>
             <div class="qr-code-section">
                 <p>Scan to join on your phone:</p>
@@ -133,30 +132,6 @@
                             <option value="5">5 Questions</option>
                             <option value="10">10 Questions</option>
                             <option value="Infinity" selected>Unlimited</option>
-                        </select>
-                    </div>
-
-                    <div class="setting-item">
-                        <label class="setting-label">Answer Timer:</label>
-                        <div class="radio-group">
-                            <label class="radio-option">
-                                <input type="radio" id="need-timer-no" name="need-timer" value="false" checked>
-                                <span>No Timer</span>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" id="need-timer-yes" name="need-timer" value="true">
-                                <span>Enable Timer</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="setting-item" id="timer-duration-setting" style="display: none;">
-                        <label for="timer-duration" class="setting-label">Timer Duration:</label>
-                        <select id="timer-duration" name="timer-duration" class="setting-select">
-                            <option value="1" selected>1 minute</option>
-                            <option value="3">3 minutes</option>
-                            <option value="5">5 minutes</option>
-                            <option value="10">10 minutes</option>
                         </select>
                     </div>
                 </div>
@@ -192,6 +167,30 @@
                             </label>
                         </div>
                     </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">Answer Timer:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" id="need-timer-no" name="need-timer" value="false" checked>
+                                <span>No Timer</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" id="need-timer-yes" name="need-timer" value="true">
+                                <span>Enable Timer</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-item" id="timer-duration-setting" style="display: none;">
+                        <label for="timer-duration" class="setting-label">Timer Duration:</label>
+                        <select id="timer-duration" name="timer-duration" class="setting-select">
+                            <option value="1" selected>1 minute</option>
+                            <option value="3">3 minutes</option>
+                            <option value="5">5 minutes</option>
+                            <option value="10">10 minutes</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Appearance -->
@@ -209,6 +208,20 @@
                             <option value="blue">Blue</option>
                             <option value="purple">Purple</option>
                         </select>
+                    </div>
+
+                    <div class="setting-item">
+                        <label class="setting-label">Theme Mode:</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" id="theme-mode-light" name="theme-mode" value="light" checked>
+                                <span>Light</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" id="theme-mode-dark" name="theme-mode" value="dark">
+                                <span>Dark</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
