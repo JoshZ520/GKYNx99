@@ -178,8 +178,8 @@ function initializeConditionalSettings() {
     }
 }
 
-function initializeSettingsConfirmation(isOffline = false) {
-    const confirmCheckbox = document.getElementById(isOffline ? 'offlineConfirmSettings' : 'confirmSettings');
+function initializeSettingsConfirmation() {
+    const confirmCheckbox = document.getElementById('confirmSettings');
     const topicsButton = document.getElementById('topicsToggle');
     const randomTopicButton = document.getElementById('randomTopicBtn');
     
@@ -196,35 +196,12 @@ function initializeSettingsConfirmation(isOffline = false) {
     }
 }
 
-function initializeOfflineConditionalSettings() {
-    const timerRadios = document.querySelectorAll('input[name="offline-need-timer"]');
-    if (timerRadios.length > 0) {
-        timerRadios.forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                const isEnabled = e.target.value === 'true';
-                const timerDurationSetting = document.getElementById('offline-timer-duration-setting');
-                if (timerDurationSetting) {
-                    timerDurationSetting.style.display = isEnabled ? 'block' : 'none';
-                }
-            });
-        });
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     if (window.gameUI) window.gameUI.initializeTopicSelection();
     
-    const gameMode = CONFIG_UTILS.getGameMode();
-    if (gameMode === GAME_CONFIG.MODES.MULTIPLAYER) {
+    // Wait for settings to be populated before initializing them
+    setTimeout(() => {
         initializeConditionalSettings();
-        initializeSettingsConfirmation(false);
-    } else if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
-        initializeOfflineConditionalSettings();
-        initializeSettingsConfirmation(true);
-        
-        const option1 = CONFIG_UTILS.getElement('option1');
-        const option2 = CONFIG_UTILS.getElement('option2');
-        if (option1) option1.onclick = () => window.gameUI.selectPreference('option1');
-        if (option2) option2.onclick = () => window.gameUI.selectPreference('option2');
-    }
+        initializeSettingsConfirmation();
+    }, 100);
 });

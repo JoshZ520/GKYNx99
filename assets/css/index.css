@@ -466,21 +466,6 @@
     font-style: italic;
 }
 
-/* === OFFLINE MODE FEATURES === */
-
-/* Offline Container */
-.offline-container {
-    text-align: center;
-    margin: var(--space-xl) 0;
-}
-
-.offline-note {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    color: var(--text-dark);
-    font-style: italic;
-}
-
 /* Player Count Selector */
 .player-count-selector {
     display: flex;
@@ -568,15 +553,6 @@
     margin: var(--space-lg) 0;
 }
 
-/* Offline Setup Section */
-#offlineSetupSection {
-    margin: var(--space-xl) 0;
-}
-
-#offlineSetupSection.hidden {
-    display: none;
-}
-
 /* ============================================================================
    RESPONSIVE MEDIA QUERIES
    ============================================================================ */
@@ -609,7 +585,7 @@
         font-size: 0.9rem;
     }
     
-    /* Offline Mode */
+    /* Player input responsiveness */
     .player-count-selector {
         padding: var(--space-md);
     }

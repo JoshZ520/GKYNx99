@@ -3,90 +3,6 @@
  */
 
 const SETTINGS_CONFIG = {
-    offline: {
-        groups: [
-            {
-                title: 'Game Options',
-                items: [
-                    {
-                        type: 'select',
-                        id: 'question-number',
-                        label: 'Number of Questions:',
-                        options: [
-                            { value: '3', label: '3 Questions' },
-                            { value: '5', label: '5 Questions' },
-                            { value: '10', label: '10 Questions' },
-                            { value: 'Infinity', label: 'Unlimited', selected: true }
-                        ]
-                    },
-                    {
-                        type: 'radio',
-                        label: 'Enable Follow-Ups:',
-                        name: 'follow-up-option',
-                        options: [
-                            { id: 'follow-up-yes', value: 'true', label: 'Yes', checked: true },
-                            { id: 'follow-up-no', value: 'false', label: 'No' }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: 'Timer Settings',
-                items: [
-                    {
-                        type: 'radio',
-                        label: 'Answer Timer:',
-                        name: 'need-timer',
-                        options: [
-                            { id: 'timer-no', value: 'false', label: 'No Timer', checked: true },
-                            { id: 'timer-yes', value: 'true', label: 'Enable Timer' }
-                        ]
-                    },
-                    {
-                        type: 'select',
-                        id: 'timer-duration',
-                        label: 'Timer Duration:',
-                        conditional: 'timer-duration-setting',
-                        hidden: true,
-                        options: [
-                            { value: '1', label: '1 minute', selected: true },
-                            { value: '3', label: '3 minutes' },
-                            { value: '5', label: '5 minutes' },
-                            { value: '10', label: '10 minutes' }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: 'Appearance',
-                items: [
-                    {
-                        type: 'select',
-                        id: 'color-theme',
-                        label: 'Color Theme:',
-                        options: [
-                            { value: 'white', label: 'White' },
-                            { value: 'red', label: 'Red' },
-                            { value: 'orange', label: 'Orange' },
-                            { value: 'yellow', label: 'Yellow' },
-                            { value: 'green', label: 'Green', selected: true },
-                            { value: 'blue', label: 'Blue' },
-                            { value: 'purple', label: 'Purple' }
-                        ]
-                    },
-                    {
-                        type: 'radio',
-                        label: 'Theme Mode:',
-                        name: 'theme-mode',
-                        options: [
-                            { id: 'theme-mode-light', value: 'light', label: 'Light', checked: true },
-                            { id: 'theme-mode-dark', value: 'dark', label: 'Dark' }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
     multiplayer: {
         groups: [
             {
@@ -223,13 +139,11 @@ function generateSettingItem(item, prefix = '') {
     return '';
 }
 
-function generateSettingsPanel(mode = 'offline') {
-    const config = SETTINGS_CONFIG[mode];
-    const prefix = mode === 'offline' ? 'offline' : '';
-    const confirmId = mode === 'offline' ? 'offlineConfirmSettings' : 'confirmSettings';
+function generateSettingsPanel() {
+    const config = SETTINGS_CONFIG.multiplayer;
     
     const groupsHTML = config.groups.map(group => {
-        const itemsHTML = group.items.map(item => generateSettingItem(item, prefix)).join('');
+        const itemsHTML = group.items.map(item => generateSettingItem(item, '')).join('');
         return `
                 <div class="setting-group">
                     <h3 class="setting-group-title">${group.title}</h3>
@@ -244,7 +158,7 @@ function generateSettingsPanel(mode = 'offline') {
             <!-- Settings Confirmation -->
             <div class="settings-confirmation">
                 <label class="confirmation-label">
-                    <input type="checkbox" id="${confirmId}" name="${prefix ? prefix + '-' : ''}confirm-settings">
+                    <input type="checkbox" id="confirmSettings" name="confirm-settings">
                     <span>I have reviewed and confirmed the game settings</span>
                 </label>
             </div>`;
@@ -252,30 +166,18 @@ function generateSettingsPanel(mode = 'offline') {
 
 // Function to populate settings containers
 function populateSettings() {
-    console.log('populateSettings called, DOM ready:', document.readyState);
-    console.log('multiplayerContainer exists:', !!document.getElementById('multiplayerSettingsContainer'));
-    console.log('multiplayerContainer has children:', document.getElementById('multiplayerSettingsContainer')?.hasChildNodes());
-    
-    const offlineContainer = document.getElementById('offlineSettingsContainer');
     const multiplayerContainer = document.getElementById('multiplayerSettingsContainer');
     
-    if (offlineContainer && !offlineContainer.hasChildNodes()) {
-        offlineContainer.innerHTML = generateSettingsPanel('offline');
-        console.log('Offline settings populated');
-    }
-    
     if (multiplayerContainer && !multiplayerContainer.hasChildNodes()) {
-        multiplayerContainer.innerHTML = generateSettingsPanel('multiplayer');
+        multiplayerContainer.innerHTML = generateSettingsPanel();
         console.log('Multiplayer settings populated');
     }
 }
 
 // Initialize settings on page load
 if (document.readyState === 'loading') {
-    console.log('DOM still loading, waiting for DOMContentLoaded');
     document.addEventListener('DOMContentLoaded', populateSettings);
 } else {
-    console.log('DOM already loaded, populating immediately');
     populateSettings();
 }
 
@@ -283,7 +185,7 @@ if (document.readyState === 'loading') {
 window.regenerateMultiplayerSettings = function() {
     const multiplayerContainer = document.getElementById('multiplayerSettingsContainer');
     if (multiplayerContainer) {
-        multiplayerContainer.innerHTML = generateSettingsPanel('multiplayer');
+        multiplayerContainer.innerHTML = generateSettingsPanel();
     }
 };
 

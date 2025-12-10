@@ -75,14 +75,6 @@ export function updateSubmissionState(playerNames, getCurrentPlayerName) {
         if (window.transport && window.transport.isMultiplayer()) {
             finBtn.style.display = 'block';
             finBtn.textContent = `Record Answers (${answersReceived}/${totalPlayers} answered)`;
-        } else {
-            // Offline mode: only show when all players answered
-            if (answersReceived >= totalPlayers && totalPlayers > 0) {
-                finBtn.style.display = 'block';
-                finBtn.textContent = `All ${totalPlayers} Players Answered - Show Results`;
-            } else {
-                finBtn.style.display = 'none';
-            }
         }
     }
     
@@ -102,14 +94,9 @@ export function updateSubmissionState(playerNames, getCurrentPlayerName) {
  * @param {Function} switchToNextQuestionCallback - Function to switch the UI question
  */
 export function submitAnswer(getCurrentPlayerName, advanceToNextPlayer, playerNames, recordAnsweredQuestionCallback, switchToNextQuestionCallback) {
-    // In offline mode, try to get answer from offline.js function first
-    let selectedPreference = '';
-    if (window.getSelectedAnswerOffline) {
-        selectedPreference = window.getSelectedAnswerOffline();
-    } else {
-        const input = document.getElementById('selectedPreference');
-        selectedPreference = input ? input.value : '';
-    }
+    // Get selected answer
+    const input = document.getElementById('selectedPreference');
+    const selectedPreference = input ? input.value : '';
     
     if (!selectedPreference) {
         alert('Please select an option before submitting.');
@@ -123,15 +110,8 @@ export function submitAnswer(getCurrentPlayerName, advanceToNextPlayer, playerNa
     // Record this answer
     recordPlayerAnswer(currentPlayerName, currentQuestionText, selectedPreference);
     
-    // MULTIPLAYER INTEGRATION: Advance to next player if in multiplayer mode
-    if (window.transport && window.transport.isMultiplayer()) {
-        // Let multiplayer manager handle player advancement
-        // This will be handled by the multiplayer system
-    } else {
-        // Offline mode - show flying shapes and advance to next player
-        spawnFlyingShapes();
-        advanceToNextPlayer();
-    }
+    // Multiplayer mode - let multiplayer manager handle player advancement
+    // This will be handled by the multiplayer system
     
     // Update UI
     updateSubmissionState(playerNames, getCurrentPlayerName);
@@ -157,31 +137,6 @@ export function submitAnswer(getCurrentPlayerName, advanceToNextPlayer, playerNa
 }
 
 /**
- * Spawn flying shapes animation for offline mode
- */
-function spawnFlyingShapes() {
-    const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#ef4444', '#f59e0b'];
-    const numShapes = 3;
-    
-    for (let i = 0; i < numShapes; i++) {
-        setTimeout(() => {
-            const shape = document.createElement('div');
-            shape.className = 'flying-shape star';
-            shape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            shape.style.top = `${20 + Math.random() * 60}%`;
-            shape.style.animationDelay = `${i * 0.1}s`;
-            
-            document.body.appendChild(shape);
-            
-            // Remove shape after animation completes
-            setTimeout(() => {
-                shape.remove();
-            }, 2000);
-        }, i * 200);
-    }
-}
-
-/**
  * Handle final submission of all answers
  * @param {string[]} playerNames - Array of player names
  */
@@ -197,12 +152,7 @@ export function handleFinalSubmit(playerNames) {
     CONFIG_UTILS.setStorageItem('QUESTIONS_ORDER', JSON.stringify(questionOrder));
     CONFIG_UTILS.setStorageItem('SUBMISSIONS', JSON.stringify(submissionsByQuestion));
     
-    // Save final session state before finishing (offline mode only)
-    if (window.gameSessionManager && !window.transport.isMultiplayer()) {
-        gameSessionManager.saveCurrentSession();
-    }
-    
-    // Use transport interface to show results (works for both offline and multiplayer)
+    // Use transport interface to show results
     if (window.transport && window.transport.showResults) {
         // Prepare results data
         const resultsData = {

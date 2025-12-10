@@ -136,30 +136,6 @@ function initializePlayerSystem() {
     if (!CONFIG_UTILS.getStorageItem('GAME_START_TIME')) {
         CONFIG_UTILS.setStorageItem('GAME_START_TIME', Date.now().toString());
     }
-    // Load player data from session storage (for offline mode)
-    const gameMode = CONFIG_UTILS.getGameMode();
-    if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
-        const storedNames = CONFIG_UTILS.getStorageItem('PLAYER_NAMES');
-        // Show submit button for offline mode
-    const offlineSubmitContainer = CONFIG_UTILS.getElement('offlineSubmitContainer');
-    if (offlineSubmitContainer) CONFIG_UTILS.show(offlineSubmitContainer);
-    // Show current player indicator for offline mode
-    const offlinePlayerIndicator = CONFIG_UTILS.getElement('offlinePlayerIndicator');
-    if (offlinePlayerIndicator) CONFIG_UTILS.show(offlinePlayerIndicator);
-        // Submit button handler is set by question-manager.js using addEventListener
-        if (storedNames) {
-            try {
-                const names = JSON.parse(storedNames);
-                setPlayerNames(names);
-                // Initialize the first player's turn
-                setCurrentPlayerIndex(0);
-                updatePlayerTurnIndicator();
-            } catch (error) {
-                // Keep error handling for debugging issues
-                console.error('Error loading player names:', error);
-            }
-        }
-    }
 }
 
 // === EXPORTS ===

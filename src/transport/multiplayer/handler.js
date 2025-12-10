@@ -86,7 +86,7 @@ function setupEventListeners() {
         });
     }
     
-    // Back to mode button (same as offline mode)
+    // Back to mode button
     const backToModeBtn = document.getElementById('backToModeBtn');
     if (backToModeBtn && gameState.currentPage === 'game') {
         backToModeBtn.addEventListener('click', () => {
@@ -186,9 +186,7 @@ if (document.readyState === 'loading') {
 
 const multiplayerTransportHandler = {
     isActive() {
-        const gameMode = sessionStorage.getItem('gameMode');
-        const isOffline = gameMode === 'offline';
-        return gameState.currentPage === 'game' && !isOffline;
+        return gameState.currentPage === 'game';
     },
 
     getMode() {
