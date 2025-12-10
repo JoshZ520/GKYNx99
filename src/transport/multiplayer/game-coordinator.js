@@ -73,9 +73,7 @@ export function revealAnswers(socket, gameState) {
     // Count this reveal for question limit tracking
     if (window.gameCore && window.gameCore.recordAnsweredQuestion) {
         const limitReached = window.gameCore.recordAnsweredQuestion();
-        if (limitReached) {
-            return;
-        }
+        // Note: Continue even if limit reached to show final discussion question
     }
     
     // Check if timer is enabled

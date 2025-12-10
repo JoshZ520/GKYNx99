@@ -79,10 +79,19 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             // Update UI
             CONFIG_UTILS.setText('roomCodeDisplay', data.roomCode);
             
-            // Show multiplayer info panel and hide create button on game page
+            // Show multiplayer info panel on game page
             if (gameState.currentPage === 'game') {
                 CONFIG_UTILS.show('multiplayerInfo');
-                CONFIG_UTILS.hide('createRoomSection');
+                
+                console.log('Room created, calling regenerateMultiplayerSettings');
+                console.log('Function exists:', typeof window.regenerateMultiplayerSettings);
+                
+                // Regenerate settings to ensure they're visible
+                if (typeof window.regenerateMultiplayerSettings === 'function') {
+                    window.regenerateMultiplayerSettings();
+                } else {
+                    console.error('regenerateMultiplayerSettings function not found!');
+                }
                 
                 // Initialize theme manager for host
                 initializeThemeManager(socket, data.roomCode, true);

@@ -433,11 +433,16 @@ if (questionNumberSelect) {
     
     if (endGameFromLimitBtn) {
         endGameFromLimitBtn.addEventListener('click', () => {
-            hideQuestionLimitReachedPanel();
-            // Show results or end game screen
-            if (window.transport && window.transport.showResults) {
-                window.transport.showResults();
+            // Clear session data
+            sessionStorage.clear();
+            
+            // If multiplayer, emit end-game event to kick players
+            if (window.socket && window.socket.connected) {
+                window.socket.emit('end-game');
             }
+            
+            // Redirect host to index page
+            window.location.href = '/pages/index.html';
         });
     }
     

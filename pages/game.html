@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="../assets/css/game-multiplayer.css">
 <link rel="stylesheet" href="../dev-tools/dev-tools.css">
 <link rel="stylesheet" href="../assets/css/components.css">
-<script src="../src/ui/settings-builder.js" defer></script>
+<script src="../src/ui/settings-builder.js"></script>
 <script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
 <script src="../src/config/game-config.js" type="module" defer></script>
@@ -77,17 +77,20 @@
             /* Hide offline-only elements */
             #offlineSubmitContainer,
             #offlinePlayerIndicator,
+            #offlineSettings,
             #offlineModeNotice {
                 display: none !important;
             }
-            /* Override .hidden class for multiplayer elements */
-            #createRoomSection.hidden,
-            #multiplayerInfo.hidden,
-            #answerProgressContainer.hidden {
-                display: block !important;
-            }
         `;
         document.head.appendChild(style);
+        
+        // Show multiplayer settings section when DOM is ready
+        window.addEventListener('DOMContentLoaded', function() {
+            const multiplayerSettingsSection = document.getElementById('multiplayerSettingsSection');
+            if (multiplayerSettingsSection) {
+                multiplayerSettingsSection.classList.remove('hidden');
+            }
+        });
     }
 })();
 </script>
@@ -340,7 +343,7 @@
 <section id="gameResults" class="game-results hidden">
     <div class="results-container">
         <header class="results-header">
-            <h2>🎉 Game Complete!</h2>
+            <h2> Game Complete!</h2>
             <p class="results-subtitle">Here's a summary of your Table Talk session</p>
         </header>
         
