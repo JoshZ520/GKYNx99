@@ -172,8 +172,6 @@ function initializeMultiplayerHandler() {
             
             CONFIG_UTILS.show('createRoomSection');
             CONFIG_UTILS.showDisplay('createRoomSection');
-            CONFIG_UTILS.hide('multiplayerInfo');
-            CONFIG_UTILS.hideDisplay('multiplayerInfo');
         }
     }
 }

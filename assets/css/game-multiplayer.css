@@ -258,20 +258,3 @@
 #revealAnswersBtn {
     margin-top: 10px;
 }
-
-/* === RESPONSIVE ADJUSTMENTS === */
-@media (max-width: 768px) {
-    .players-section { 
-        height: auto; 
-        min-height: 250px; 
-    }
-    
-    .qr-code-section { 
-        height: auto; 
-    }
-    
-    .room-code-section {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
