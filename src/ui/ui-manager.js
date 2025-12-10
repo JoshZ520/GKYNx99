@@ -1,4 +1,4 @@
-import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
+import { GAME_CONFIG, CONFIG_UTILS } from '../core/game-config.js';
 
 const popup = document.querySelector('#popup');
 const closePopupBtn = document.querySelector('#close');

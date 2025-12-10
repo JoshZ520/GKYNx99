@@ -1,4 +1,4 @@
-import { CONFIG_UTILS } from '../../config/game-config.js';
+import { CONFIG_UTILS } from '../core/game-config.js';
 
 function updateStatus(message, type = 'info') {
     const statusText = CONFIG_UTILS.setText('statusText', message);

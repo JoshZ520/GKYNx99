@@ -1,4 +1,4 @@
-import { CONFIG_UTILS } from '../../config/game-config.js';
+import { CONFIG_UTILS } from '../core/game-config.js';
 
 export function displayResultsBar(results, question) {
     const resultsBar = document.getElementById('questionResultsBar');

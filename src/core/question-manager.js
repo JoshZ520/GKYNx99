@@ -3,7 +3,7 @@
 //
 // LOGGING POLICY: Only keep essential logs (initialization, connections, errors)
 
-import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
+import { GAME_CONFIG, CONFIG_UTILS } from './game-config.js';
 
 // === SHARED GAME STATE ===
 let appQuestions = [];

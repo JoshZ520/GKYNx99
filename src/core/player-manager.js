@@ -1,7 +1,7 @@
 // src/core/player-manager.js - Player management coordinator
 // Main coordinator that imports and orchestrates all player modules
 
-import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
+import { GAME_CONFIG, CONFIG_UTILS } from './game-config.js';
 
 import {
     getCurrentPlayerName,

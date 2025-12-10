@@ -23,15 +23,15 @@
 <script src="../src/ui/settings-builder.js"></script>
 <script src="../src/ui/theme-utilities.js" defer></script>
 <!-- Core game modules -->
-<script src="../src/config/game-config.js" type="module" defer></script>
+<script src="../src/core/game-config.js" type="module" defer></script>
 <script src="../src/core/question-manager.js" type="module" defer></script>
 <script src="../src/core/player-manager.js" type="module" defer></script>
 <script src="../src/ui/ui-manager.js" type="module" defer></script>
 <!-- Transport layer - interface loads first, then handlers register -->
-<script src="../src/transport/transport-interface.js" type="module"></script>
+<script src="../src/multiplayer/transport-interface.js" type="module"></script>
 <!-- Multiplayer scripts - always loaded -->
 <script src="/socket.io/socket.io.js"></script>
-<script src="../src/transport/multiplayer/handler.js" type="module"></script>
+<script src="../src/multiplayer/handler.js" type="module"></script>
 
 </head>
 <body class="game-page" id="root">

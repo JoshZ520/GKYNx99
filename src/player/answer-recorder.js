@@ -1,6 +1,6 @@
 // src/player/answer-recorder.js - Answer recording and submission handling
 
-import { CONFIG_UTILS } from '../config/game-config.js';
+import { CONFIG_UTILS } from '../core/game-config.js';
 
 // Shared state for submissions
 let submissionsByQuestion = {};

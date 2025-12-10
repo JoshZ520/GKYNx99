@@ -1,4 +1,4 @@
-import { CONFIG_UTILS } from '../../config/game-config.js';
+import { CONFIG_UTILS } from '../core/game-config.js';
 import {
     initializeSocket,
     createRoom as roomManagerCreateRoom,
@@ -91,8 +91,7 @@ function setupEventListeners() {
     if (backToModeBtn && gameState.currentPage === 'game') {
         backToModeBtn.addEventListener('click', () => {
             // Clear multiplayer session data
-            sessionStorage.removeItem('gameMode');
-            sessionStorage.removeItem('multiplayerRoom');
+            sessionStorage.removeItem('multiplayerRoomData');
             sessionStorage.removeItem('isHost');
             sessionStorage.removeItem('hostName');
             // Navigate back to index
@@ -138,7 +137,6 @@ function initializeMultiplayerHandler() {
     if (gameState.currentPage === 'game') {
         const multiplayerRoom = sessionStorage.getItem('multiplayerRoom');
         const isHost = sessionStorage.getItem('isHost') === 'true';
-        const gameMode = sessionStorage.getItem('gameMode');
         
         if (multiplayerRoom) {
             try {
@@ -165,7 +163,7 @@ function initializeMultiplayerHandler() {
             } catch (error) {
                 console.error('Failed to parse multiplayer room data:', error);
             }
-        } else if (isHost && gameMode === 'multiplayer') {
+        } else if (isHost) {
             if (window.transport && window.transport.initializeModeUI) {
                 window.transport.initializeModeUI();
             }
@@ -185,10 +183,6 @@ if (document.readyState === 'loading') {
 const multiplayerTransportHandler = {
     isActive() {
         return gameState.currentPage === 'game';
-    },
-
-    getMode() {
-        return 'multiplayer';
     },
 
     broadcastQuestion(question) {

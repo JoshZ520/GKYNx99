@@ -1,4 +1,4 @@
-import { CONFIG_UTILS } from '../config/game-config.js';
+import { CONFIG_UTILS } from '../core/game-config.js';
 
 let currentHandler = null;
 let isInitialized = false;
@@ -24,9 +24,7 @@ function submitAnswer(answer, playerName) {
 function revealAnswers() {
     if (currentHandler && currentHandler.revealAnswers) currentHandler.revealAnswers();
 }
-function getMode() {
-    return currentHandler && currentHandler.getMode ? currentHandler.getMode() : 'multiplayer';
-}
+
 function isMultiplayer() { return true; } // Always multiplayer now
 
 function initializeModeUI() {
@@ -62,5 +60,5 @@ function hideResults() {
     CONFIG_UTILS.show('gameContainer');
 }
 
-window.transport = { initialize, registerHandler, isActive, broadcastQuestion, submitAnswer, revealAnswers, getMode, isMultiplayer, initializeModeUI, showResults, hideResults };
+window.transport = { initialize, registerHandler, isActive, broadcastQuestion, submitAnswer, revealAnswers, isMultiplayer, initializeModeUI, showResults, hideResults };
 document.addEventListener('DOMContentLoaded', initialize);

@@ -12,7 +12,6 @@ export const GAME_CONFIG = {
 
     // === SESSION STORAGE KEYS ===
     STORAGE_KEYS: {
-        GAME_MODE: 'gameMode',
         PLAYER_NAMES: 'playerNames',
         PLAYER_DATA: 'playerData',
         PLAYER_COUNT: 'playerCount',
@@ -54,11 +53,6 @@ export const GAME_CONFIG = {
         FADE_OUT: 'fade-out',
         ACTIVE: 'active',
         SELECTED: 'selected'
-    },
-
-    // === GAME MODES ===
-    MODES: {
-        MULTIPLAYER: 'multiplayer'
     },
 
     // === NAVIGATION DIRECTIONS ===
@@ -162,7 +156,6 @@ export const CONFIG_UTILS = {
     
     // Check game mode easily
     isMultiplayerMode: () => true, // Always multiplayer now
-    getGameMode: () => GAME_CONFIG.MODES.MULTIPLAYER,
     
     // Validation helpers
     isValidPlayerCount: (count) => count >= GAME_CONFIG.PLAYERS.MIN_COUNT && 
@@ -243,7 +236,7 @@ export const CONFIG_UTILS = {
 
         socketScript.onload = function() {
             const multiplayerScript = document.createElement('script');
-            multiplayerScript.src = '../src/transport/multiplayer/handler.js';
+            multiplayerScript.src = '../src/multiplayer/handler.js';
             multiplayerScript.type = 'module';
             document.head.appendChild(multiplayerScript);
         };
