@@ -5,8 +5,6 @@ let isInitialized = false;
 
 function initialize() {
     if (isInitialized) return;
-    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
-    const isOffline = gameMode === 'offline' || CONFIG_UTILS.getStorageItem('OFFLINE_MODE') === 'true';
     isInitialized = true;
 }
 
@@ -36,32 +34,44 @@ function initializeModeUI() {
     let mode = getMode();
     if (mode === 'unknown') {
         const multiplayerRoom = CONFIG_UTILS.getStorageItem('multiplayerRoom');
-        const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
         if (multiplayerRoom) mode = 'multiplayer';
-        else if (gameMode === 'offline') mode = 'offline';
+        else if (CONFIG_UTILS.isOfflineMode()) mode = 'offline';
     }
     const offlineOnlyElements = ['offlineSubmitContainer', 'offlinePlayerIndicator', 'offlineSettings'];
     const multiplayerOnlyElements = ['answerProgressContainer', 'multiplayerInfo', 'createRoomSection'];
     if (mode === 'multiplayer') {
-        offlineOnlyElements.forEach(id => { CONFIG_UTILS.hideDisplay(id); CONFIG_UTILS.hide(id); });
-        multiplayerOnlyElements.forEach(id => { CONFIG_UTILS.showDisplay(id); CONFIG_UTILS.show(id); });
+        offlineOnlyElements.forEach(id => CONFIG_UTILS.hide(id));
+        multiplayerOnlyElements.forEach(id => CONFIG_UTILS.show(id));
     } else if (mode === 'offline') {
-        offlineOnlyElements.forEach(id => { CONFIG_UTILS.showDisplay(id); CONFIG_UTILS.show(id); });
-        multiplayerOnlyElements.forEach(id => { CONFIG_UTILS.hideDisplay(id); CONFIG_UTILS.hide(id); });
+        offlineOnlyElements.forEach(id => CONFIG_UTILS.show(id));
+        multiplayerOnlyElements.forEach(id => CONFIG_UTILS.hide(id));
     }
 }
 
 function showResults(resultsData) {
-    CONFIG_UTILS.hideDisplay('gameContainer');
+    if (!currentHandler) {
+        console.error('No handler registered for results display');
+        return;
+    }
+    
+    CONFIG_UTILS.hide('gameContainer');
     const resultsSection = CONFIG_UTILS.getElement('gameResults');
-    if (!resultsSection) { console.error('Results section not found'); return; }
+    if (!resultsSection) { 
+        console.error('Results section not found'); 
+        return; 
+    }
+    
     CONFIG_UTILS.show(resultsSection);
-    if (currentHandler && currentHandler.populateResults) currentHandler.populateResults(resultsData);
-    else console.warn('Current handler does not implement populateResults()');
+    
+    if (currentHandler.populateResults) {
+        currentHandler.populateResults(resultsData);
+    } else {
+        console.warn('Current handler does not implement populateResults()');
+    }
 }
 function hideResults() {
     CONFIG_UTILS.hide('gameResults');
-    CONFIG_UTILS.showDisplay('gameContainer');
+    CONFIG_UTILS.show('gameContainer');
 }
 
 window.transport = { initialize, registerHandler, isActive, broadcastQuestion, submitAnswer, revealAnswers, getMode, isMultiplayer, isOffline, initializeModeUI, showResults, hideResults };

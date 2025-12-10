@@ -20,7 +20,6 @@ This directory contains the modularized source code for the GKYNx99 game applica
 **Purpose:** Essential game logic and coordination
 
 **Files:**
-- `game-loader.js` - Dynamic script loading for game page based on mode (offline/multiplayer)
 - `question-manager.js` - Question loading, display, navigation, and topic management
 - `player-manager.js` - Player management coordinator (orchestrates turn, answer, resume modules)
 
@@ -28,7 +27,6 @@ This directory contains the modularized source code for the GKYNx99 game applica
 - Question lifecycle management
 - Player turn coordination
 - Game state management
-- Mode-specific script loading
 
 ---
 
@@ -36,7 +34,6 @@ This directory contains the modularized source code for the GKYNx99 game applica
 **Purpose:** Player-related functionality consolidated in one location
 
 **Files:**
-- `player-setup.js` - Player setup UI and initialization for fallback system
 - `player-setup-utils.js` - Shared utilities for player input generation and validation
 - `player-turn-manager.js` - Turn management and player indicator updates
 - `answer-recorder.js` - Answer recording, submission state, and final submission
@@ -57,7 +54,6 @@ This directory contains the modularized source code for the GKYNx99 game applica
 - `ui-manager.js` - UI interactions for topics, preferences, and question display
 - `ui-mode-switcher.js` - Game mode selection (offline/multiplayer) on index page
 - `theme-utilities.js` - Theme switching (light/dark mode) functionality
-- `customize.js` - Customization features and settings
 
 **Key Features:**
 - Topic selection and preference handling
@@ -79,10 +75,10 @@ This directory contains the modularized source code for the GKYNx99 game applica
 **Offline mode implementation**
 
 **Files:**
-- `player-setup.js` - Player setup specific to offline mode
+- `player-setup.js` - Player setup and validation for offline mode (consolidated from multiple files)
 - `game-handler.js` - Answer selection and submission logic for offline
 - `results.js` - Results display for offline mode
-- `html-loader.js` - HTML injection for offline mode
+
 
 #### `/transport/multiplayer`
 **Multiplayer mode implementation**

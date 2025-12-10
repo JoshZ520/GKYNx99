@@ -167,8 +167,7 @@ function applyTheme(theme, mode = 'light') {
  */
 function initializeThemeManager(socket = null, roomCode = null, isHost = false, initialTheme = null, initialMode = null) {
     // Support both offline and multiplayer theme controls
-    const gameMode = sessionStorage.getItem('GAME_MODE');
-    const isOffline = gameMode === 'offline';
+    const isOffline = CONFIG_UTILS.isOfflineMode();
     
     const themeDropdown = document.getElementById(isOffline ? 'offline-color-theme' : 'color-theme');
     const modeRadios = document.querySelectorAll(`input[name="${isOffline ? 'offline-theme-mode' : 'theme-mode'}"]`);

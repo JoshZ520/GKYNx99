@@ -165,8 +165,10 @@ export const CONFIG_UTILS = {
         : GAME_CONFIG.PATHS.TOPICS_INDEX.FROM_ROOT,
     
     // Check game mode easily
-    isOfflineMode: () => CONFIG_UTILS.getStorageItem('OFFLINE_MODE') === 'true' || 
-                        CONFIG_UTILS.getStorageItem('GAME_MODE') === GAME_CONFIG.MODES.OFFLINE,
+    isOfflineMode: () => CONFIG_UTILS.getStorageItem('GAME_MODE') === GAME_CONFIG.MODES.OFFLINE || 
+                        CONFIG_UTILS.getStorageItem('OFFLINE_MODE') === 'true',
+    isMultiplayerMode: () => CONFIG_UTILS.getStorageItem('GAME_MODE') === GAME_CONFIG.MODES.MULTIPLAYER,
+    getGameMode: () => CONFIG_UTILS.getStorageItem('GAME_MODE'),
     
     // Validation helpers
     isValidPlayerCount: (count) => count >= GAME_CONFIG.PLAYERS.MIN_COUNT && 

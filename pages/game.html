@@ -30,8 +30,11 @@
 <!-- Transport layer - interface loads first, then handlers register -->
 <script src="../src/transport/transport-interface.js" type="module"></script>
 <script type="module" src="../src/transport/offline-handler.js"></script>
-<!-- Game loader conditionally loads socket.io and multiplayer-handler based on mode -->
-<script src="../src/core/game-loader.js" type="module" defer></script>
+<!-- Game loader (now in game-config.js) conditionally loads multiplayer scripts -->
+<script type="module">
+    import { CONFIG_UTILS } from '../src/config/game-config.js';
+    document.addEventListener('DOMContentLoaded', () => CONFIG_UTILS.initializeGameScripts());
+</script>
 
 </head>
 <body class="game-page" id="root">
@@ -175,10 +178,23 @@
     </div>
     <div class="popup hidden" id="askCon">
         <div class="number_reached">
-            <h3>The questions ended.</h3>
-            <p>Do you want to continue, or end it?</p>
-            <button class="continue" id="continueGameBtn" type="button">Continue</button>
-            <!-- <button class="fin" id="end_game_btn" type="button">End Game & Show All Results</button> -->
+            <h3>Question Limit Reached!</h3>
+            <p>You've answered <strong id="questionsAnsweredCount">0</strong> questions.</p>
+            <p>Would you like to continue playing?</p>
+            <div class="add-questions-group">
+                <label for="addQuestionsSelect">Add more questions:</label>
+                <select id="addQuestionsSelect" class="setting-select">
+                    <option value="3">3 Questions</option>
+                    <option value="5" selected>5 Questions</option>
+                    <option value="10">10 Questions</option>
+                    <option value="20">20 Questions</option>
+                    <option value="Infinity">Remove Limit</option>
+                </select>
+            </div>
+            <div class="popup-actions">
+                <button class="continue" id="continueGameBtn" type="button">Continue Playing</button>
+                <button class="fin" id="endGameFromLimitBtn" type="button">End Game</button>
+            </div>
         </div>
     </div>
     <div id="gameContainer">

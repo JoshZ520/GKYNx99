@@ -61,16 +61,70 @@ button#close svg {
 
 .number_reached{
     background-color: #ffffff;
-    padding: 1% 2%;
-    border-radius: 10px;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 400px;
 }
 
 .number_reached h3{
-    margin: 5px 0 7px 0;
+    margin: 0 0 12px 0;
+    color: var(--text-dark);
+}
+
+.number_reached p {
+    margin: 8px 0;
+    color: var(--text-gray);
+}
+
+.add-questions-group {
+    margin: 20px 0;
+    padding: 16px;
+    background-color: var(--bg-light-gray);
+    border-radius: 8px;
+}
+
+.add-questions-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.popup-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
 }
 
 .number_reached button{
-    margin: 10px 0;
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.number_reached button.continue {
+    background: var(--button-green);
+    color: white;
+}
+
+.number_reached button.continue:hover {
+    background: var(--button-green-dark);
+    transform: translateY(-2px);
+}
+
+.number_reached button.fin {
+    background: var(--bg-gray);
+    color: var(--text-dark);
+}
+
+.number_reached button.fin:hover {
+    background: var(--border-dark);
+    color: white;
 }
 
 /* ============================================================================

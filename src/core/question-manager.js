@@ -49,6 +49,12 @@ const questionLimitReachedElement = CONFIG_UTILS.getElement('askCon');
 
 function showQuestionLimitReachedPanel() {
     if (questionLimitReachedElement) {
+        // Update the count display
+        const countElement = document.getElementById('questionsAnsweredCount');
+        if (countElement) {
+            countElement.textContent = questionCounter;
+        }
+        
         CONFIG_UTILS.show(questionLimitReachedElement);
         hideQuestionArea(); 
     }
@@ -60,16 +66,46 @@ function hideQuestionLimitReachedPanel() {
     }
 }
 
+function addMoreQuestions(additionalQuestions) {
+    if (additionalQuestions === 'Infinity') {
+        maxSubmissions = Infinity;
+    } else {
+        const questionsToAdd = parseInt(additionalQuestions, 10) || 0;
+        maxSubmissions = questionCounter + questionsToAdd;
+    }
+    
+    hideQuestionLimitReachedPanel();
+    showQuestionArea();
+}
+
+function handleEndGame() {
+    if (CONFIG_UTILS.isOfflineMode()) {
+        if (window.gamePlayer && window.gamePlayer.getSubmissionsByQuestion) {
+            const submissionsByQuestion = window.gamePlayer.getSubmissionsByQuestion();
+            const playerNames = JSON.parse(CONFIG_UTILS.getStorageItem('PLAYER_NAMES') || '[]');
+            const questionsOrder = Object.keys(submissionsByQuestion).map(q => ({ question: q }));
+            
+            window.transport?.showResults({ submissionsByQuestion, playerNames, questionsOrder });
+        } else {
+            console.error('Unable to retrieve offline submission data');
+        }
+    } else {
+        window.showAllResults?.() || console.error('Multiplayer results display not available');
+    }
+}
+
 export function recordAnsweredQuestion() {
-    questionCounter++; 
+    questionCounter++;
 
     if (maxSubmissions !== Infinity && questionCounter >= maxSubmissions) {
-        console.log("Maximum submission limit reached. Showing end-of-question prompt.");
-
         showQuestionLimitReachedPanel(); 
         return true; 
     }
     return false;
+}
+
+export function isQuestionLimitReached() {
+    return maxSubmissions !== Infinity && questionCounter >= maxSubmissions;
 }
 
 function showQuestionArea() {
@@ -101,25 +137,25 @@ function hideQuestionArea() {
     if (topicNameElement) CONFIG_UTILS.setText(topicNameElement, 'No topic selected');
 }
 
-function switchToNextQuestion() {
+function switchQuestion(direction) {
     if (appQuestions.length === 0) return;
     
     const questionElem = CONFIG_UTILS.getElementById('QUESTION');
     if (!questionElem) return;
     
     const currentIndex = parseInt(questionElem.getAttribute('data-index')) || GAME_CONFIG.DEFAULTS.QUESTION_INDEX;
-    const nextIndex = (currentIndex + 1) % appQuestions.length;
-    const nextQuestion = appQuestions[nextIndex];
+    const nextIndex = direction === 1 
+        ? (currentIndex + 1) % appQuestions.length 
+        : currentIndex === 0 ? appQuestions.length - 1 : currentIndex - 1;
+    const question = appQuestions[nextIndex];
     
     // Update the question display
-    if (typeof nextQuestion === 'string') {
-        questionElem.textContent = nextQuestion;
+    if (typeof question === 'string') {
+        questionElem.textContent = question;
         hidePreferenceContainer();
-    } else if (nextQuestion && nextQuestion.prompt) {
-        questionElem.textContent = nextQuestion.prompt;
-        if (window.gameUI) {
-            window.gameUI.displayQuestionOptions(nextQuestion);
-        }
+    } else if (question && question.prompt) {
+        questionElem.textContent = question.prompt;
+        if (window.gameUI) window.gameUI.displayQuestionOptions(question);
     } else {
         questionElem.textContent = GAME_CONFIG.DEFAULTS.NO_QUESTION_TEXT;
         hidePreferenceContainer();
@@ -127,66 +163,26 @@ function switchToNextQuestion() {
     
     questionElem.setAttribute('data-index', nextIndex);
     
-    // Broadcast new question to players if in multiplayer mode
+    // Broadcast question to players if in multiplayer mode
     if (window.transport && window.transport.isMultiplayer()) {
-        window.transport.broadcastQuestion(nextQuestion);
+        window.transport.broadcastQuestion(question);
     }
     
     // Ensure submit button is visible for the new question
     const submitBtn = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
-    if (submitBtn) {
-        CONFIG_UTILS.setDisplay(submitBtn, GAME_CONFIG.DISPLAY.BLOCK);
-    }
+    if (submitBtn) CONFIG_UTILS.setDisplay(submitBtn, GAME_CONFIG.DISPLAY.BLOCK);
     
     // Clear any previous submissions/answers
     clearPreviousAnswers();
-    if (window.gamePlayer) {
-        window.gamePlayer.updateSubmissionState();
-    }
+    if (window.gamePlayer) window.gamePlayer.updateSubmissionState();
+}
+
+function switchToNextQuestion() {
+    switchQuestion(1);
 }
 
 function switchToPreviousQuestion() {
-    if (appQuestions.length === 0) return;
-    
-    const questionElem = CONFIG_UTILS.getElementById('QUESTION');
-    if (!questionElem) return;
-    
-    const currentIndex = parseInt(questionElem.getAttribute('data-index')) || 0;
-    const prevIndex = currentIndex === 0 ? appQuestions.length - 1 : currentIndex - 1;
-    const prevQuestion = appQuestions[prevIndex];
-    
-    // Update the question display
-    if (typeof prevQuestion === 'string') {
-        questionElem.textContent = prevQuestion;
-        hidePreferenceContainer();
-    } else if (prevQuestion && prevQuestion.prompt) {
-        questionElem.textContent = prevQuestion.prompt;
-        if (window.gameUI) {
-            window.gameUI.displayQuestionOptions(prevQuestion);
-        }
-    } else {
-        questionElem.textContent = GAME_CONFIG.DEFAULTS.NO_QUESTION_TEXT;
-        hidePreferenceContainer();
-    }
-    
-    questionElem.setAttribute('data-index', prevIndex);
-    
-    // Broadcast previous question to players if in multiplayer mode
-    if (window.transport && window.transport.isMultiplayer()) {
-        window.transport.broadcastQuestion(prevQuestion);
-    }
-    
-    // Ensure submit button is visible for the new question
-    const submitBtn = CONFIG_UTILS.getElementById('SUBMIT_BUTTON');
-    if (submitBtn) {
-        CONFIG_UTILS.setDisplay(submitBtn, GAME_CONFIG.DISPLAY.BLOCK);
-    }
-    
-    // Clear any previous submissions/answers
-    clearPreviousAnswers();
-    if (window.gamePlayer) {
-        window.gamePlayer.updateSubmissionState();
-    }
+    switchQuestion(-1);
 }
 
 function setTopic(topic) {
@@ -256,6 +252,8 @@ window.gameCore = {
     clearCurrentSelection,
     clearPreviousAnswers,
     hidePreferenceContainer,
+    recordAnsweredQuestion,
+    isQuestionLimitReached,
     refreshCurrentQuestion: () => {
         // Refresh the current question display and update UI state
         if (window.gamePlayer && window.gamePlayer.updateSubmissionState) {
@@ -286,13 +284,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const randomTopicBtn = CONFIG_UTILS.getElement('randomTopicBtn');
     const prevQuestionBtn = CONFIG_UTILS.getElement('prevQuestionBtn');
     const nextQuestionBtn = CONFIG_UTILS.getElement('nextQuestionBtn');
-    const skipQuestionBtn = CONFIG_UTILS.getElement('skipQuestionBtn');
     
     if (switchBtn) {
         switchBtn.addEventListener('click', () => {
-            window.gameCore.switchToNextQuestion();
+            if (!window.gameCore.isQuestionLimitReached()) {
+                window.gameCore.switchToNextQuestion();
+            }
         });
-
     }
     
     if (randomTopicBtn) {
@@ -301,28 +299,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.gameUI.pickRandomTopic();
             }
         });
-
     }
     
     if (prevQuestionBtn) {
         prevQuestionBtn.addEventListener('click', () => {
-            window.gameCore.switchToPreviousQuestion();
+            if (!window.gameCore.isQuestionLimitReached()) {
+                window.gameCore.switchToPreviousQuestion();
+            }
         });
-
     }
     
     if (nextQuestionBtn) {
         nextQuestionBtn.addEventListener('click', () => {
-            window.gameCore.switchToNextQuestion();
+            if (!window.gameCore.isQuestionLimitReached()) {
+                window.gameCore.switchToNextQuestion();
+            }
         });
-
-    }
-    
-    if (skipQuestionBtn) {
-        skipQuestionBtn.addEventListener('click', () => {
-            window.gameCore.switchToNextQuestion();
-        });
-
     }
     
     // Topics and UI controls
@@ -377,17 +369,48 @@ document.addEventListener('DOMContentLoaded', function() {
 };
 
 // Support both multiplayer and offline settings
-const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
 const questionNumberSelect = CONFIG_UTILS.getElement(
-    gameMode === 'offline' ? 'offline-question-number' : 'question-number'
+    CONFIG_UTILS.isOfflineMode() ? 'offline-question-number' : 'question-number'
 );
 
 if (questionNumberSelect) {
     updateMaxSubmissions(questionNumberSelect);
     questionNumberSelect.addEventListener('change', (event) => {
         updateMaxSubmissions(event.target);
+        
+        // Show end game button if unlimited is selected
+        if (event.target.value === 'Infinity' && endGameBtn) {
+            CONFIG_UTILS.setDisplay('end_game_btn', 'block');
+        }
     });
+    
+    // Show end game button initially if unlimited is already selected
+    if (questionNumberSelect.value === 'Infinity' && endGameBtn) {
+        CONFIG_UTILS.setDisplay('end_game_btn', 'block');
+    }
 }
+
+    // Handle continue game button (add more questions)
+    const continueGameBtn = CONFIG_UTILS.getElement('continueGameBtn');
+    const endGameFromLimitBtn = CONFIG_UTILS.getElement('endGameFromLimitBtn');
+    const addQuestionsSelect = document.getElementById('addQuestionsSelect');
+    
+    if (continueGameBtn) {
+        continueGameBtn.addEventListener('click', () => {
+            const additionalQuestions = addQuestionsSelect ? addQuestionsSelect.value : '5';
+            addMoreQuestions(additionalQuestions);
+        });
+    }
+    
+    if (endGameFromLimitBtn) {
+        endGameFromLimitBtn.addEventListener('click', () => {
+            hideQuestionLimitReachedPanel();
+            // Show results or end game screen
+            if (window.transport && window.transport.showResults) {
+                window.transport.showResults();
+            }
+        });
+    }
     
     if (submitBtn) {
         // Use addEventListener with { once: false } to ensure it only fires once per click
@@ -411,11 +434,7 @@ if (questionNumberSelect) {
     }
     
     if (endGameBtn) {
-        endGameBtn.addEventListener('click', () => {
-            if (window.showAllResults) {
-                window.showAllResults();
-            }
-        });
+        endGameBtn.addEventListener('click', handleEndGame);
     }
     
     // Topics pagination
