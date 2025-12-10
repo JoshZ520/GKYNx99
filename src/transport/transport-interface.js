@@ -25,27 +25,15 @@ function revealAnswers() {
     if (currentHandler && currentHandler.revealAnswers) currentHandler.revealAnswers();
 }
 function getMode() {
-    return currentHandler && currentHandler.getMode ? currentHandler.getMode() : 'unknown';
+    return currentHandler && currentHandler.getMode ? currentHandler.getMode() : 'multiplayer';
 }
-function isMultiplayer() { return getMode() === 'multiplayer' && isActive(); }
-function isOffline() { return getMode() === 'offline'; }
+function isMultiplayer() { return true; } // Always multiplayer now
 
 function initializeModeUI() {
-    let mode = getMode();
-    if (mode === 'unknown') {
-        const multiplayerRoom = CONFIG_UTILS.getStorageItem('multiplayerRoom');
-        if (multiplayerRoom) mode = 'multiplayer';
-        else if (CONFIG_UTILS.isOfflineMode()) mode = 'offline';
-    }
-    const offlineOnlyElements = ['offlineSubmitContainer', 'offlinePlayerIndicator', 'offlineSettings'];
-    const multiplayerOnlyElements = ['answerProgressContainer', 'multiplayerInfo', 'createRoomSection'];
-    if (mode === 'multiplayer') {
-        offlineOnlyElements.forEach(id => CONFIG_UTILS.hide(id));
-        multiplayerOnlyElements.forEach(id => CONFIG_UTILS.show(id));
-    } else if (mode === 'offline') {
-        offlineOnlyElements.forEach(id => CONFIG_UTILS.show(id));
-        multiplayerOnlyElements.forEach(id => CONFIG_UTILS.hide(id));
-    }
+    // Always multiplayer mode - show only multiplayer elements
+    CONFIG_UTILS.show('answerProgressContainer');
+    CONFIG_UTILS.show('multiplayerInfo');
+    CONFIG_UTILS.show('createRoomSection');
 }
 
 function showResults(resultsData) {
@@ -74,5 +62,5 @@ function hideResults() {
     CONFIG_UTILS.show('gameContainer');
 }
 
-window.transport = { initialize, registerHandler, isActive, broadcastQuestion, submitAnswer, revealAnswers, getMode, isMultiplayer, isOffline, initializeModeUI, showResults, hideResults };
+window.transport = { initialize, registerHandler, isActive, broadcastQuestion, submitAnswer, revealAnswers, getMode, isMultiplayer, initializeModeUI, showResults, hideResults };
 document.addEventListener('DOMContentLoaded', initialize);

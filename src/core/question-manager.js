@@ -79,24 +79,13 @@ function addMoreQuestions(additionalQuestions) {
 }
 
 function handleEndGame() {
-    if (CONFIG_UTILS.isOfflineMode()) {
-        if (window.gamePlayer && window.gamePlayer.getSubmissionsByQuestion) {
-            const submissionsByQuestion = window.gamePlayer.getSubmissionsByQuestion();
-            const playerNames = JSON.parse(CONFIG_UTILS.getStorageItem('PLAYER_NAMES') || '[]');
-            const questionsOrder = Object.keys(submissionsByQuestion).map(q => ({ question: q }));
-            
-            window.transport?.showResults({ submissionsByQuestion, playerNames, questionsOrder });
-        } else {
-            console.error('Unable to retrieve offline submission data');
-        }
-    } else {
-        // Multiplayer mode - convert allQuestionResults to offline format
-        if (window.gameState && window.gameState.allQuestionResults && window.gameState.allQuestionResults.length > 0) {
-            const submissionsByQuestion = {};
-            const playerNames = window.gameState.playerNames || [];
-            const questionsOrder = [];
-            
-            // Convert multiplayer results to offline format
+    // Multiplayer mode - convert allQuestionResults to format for display
+    if (window.gameState && window.gameState.allQuestionResults && window.gameState.allQuestionResults.length > 0) {
+        const submissionsByQuestion = {};
+        const playerNames = window.gameState.playerNames || [];
+        const questionsOrder = [];
+        
+        // Convert multiplayer results to display format
             window.gameState.allQuestionResults.forEach(questionResult => {
                 const questionText = questionResult.question.text || questionResult.question.prompt || questionResult.question;
                 const questionObj = { question: questionText };
@@ -121,7 +110,7 @@ function handleEndGame() {
             console.error('No multiplayer results available to display');
         }
     }
-}
+
 
 export function recordAnsweredQuestion() {
     questionCounter++;
@@ -397,10 +386,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 };
 
-// Support both multiplayer and offline settings
-const questionNumberSelect = CONFIG_UTILS.getElement(
-    CONFIG_UTILS.isOfflineMode() ? 'offline-question-number' : 'question-number'
-);
+// Get multiplayer settings
+const questionNumberSelect = CONFIG_UTILS.getElement('question-number');
 
 if (questionNumberSelect) {
     updateMaxSubmissions(questionNumberSelect);
@@ -493,11 +480,6 @@ if (questionNumberSelect) {
     
     // Perform final initialization after all modules are set up
     setTimeout(() => {
-        // Check and apply offline mode
-        if (window.checkOfflineMode) {
-            window.checkOfflineMode();
-        }
-        
         // No topic selected on load - hide question area and prompt user to select
         hideQuestionArea();
         

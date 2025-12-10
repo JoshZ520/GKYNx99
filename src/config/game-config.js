@@ -14,7 +14,6 @@ export const GAME_CONFIG = {
     STORAGE_KEYS: {
         GAME_MODE: 'gameMode',
         PLAYER_NAMES: 'playerNames',
-        OFFLINE_MODE: 'offlineMode',
         PLAYER_DATA: 'playerData',
         PLAYER_COUNT: 'playerCount',
         SUBMISSIONS: 'submissionsByQuestion',
@@ -59,7 +58,6 @@ export const GAME_CONFIG = {
 
     // === GAME MODES ===
     MODES: {
-        OFFLINE: 'offline',
         MULTIPLAYER: 'multiplayer'
     },
 
@@ -107,8 +105,6 @@ export const GAME_CONFIG = {
     MESSAGES: {
         GAME_COMPLETE: 'Game Complete! Thanks for playing Table Talk!',
         GAME_RESUMED: ' Game resumed! Continue where you left off.',
-        CONNECTION_FAILED: 'Socket.io failed to load - falling back to offline mode',
-        NO_PLAYERS: 'No player names found in sessionStorage for offline mode',
         LOADED_TOPICS: 'Loaded topics index:',
         AVAILABLE_TOPICS: 'Available topics:',
         FAILED_LOAD_TOPICS: 'Failed to load topics:'
@@ -165,10 +161,8 @@ export const CONFIG_UTILS = {
         : GAME_CONFIG.PATHS.TOPICS_INDEX.FROM_ROOT,
     
     // Check game mode easily
-    isOfflineMode: () => CONFIG_UTILS.getStorageItem('GAME_MODE') === GAME_CONFIG.MODES.OFFLINE || 
-                        CONFIG_UTILS.getStorageItem('OFFLINE_MODE') === 'true',
-    isMultiplayerMode: () => CONFIG_UTILS.getStorageItem('GAME_MODE') === GAME_CONFIG.MODES.MULTIPLAYER,
-    getGameMode: () => CONFIG_UTILS.getStorageItem('GAME_MODE'),
+    isMultiplayerMode: () => true, // Always multiplayer now
+    getGameMode: () => GAME_CONFIG.MODES.MULTIPLAYER,
     
     // Validation helpers
     isValidPlayerCount: (count) => count >= GAME_CONFIG.PLAYERS.MIN_COUNT && 
@@ -243,22 +237,19 @@ export const CONFIG_UTILS = {
     
     // Dynamic script loading for multiplayer mode
     initializeGameScripts: () => {
-        if (CONFIG_UTILS.isMultiplayerMode()) {
-            const socketScript = document.createElement('script');
-            socketScript.src = '/socket.io/socket.io.js';
-            document.head.appendChild(socketScript);
+        const socketScript = document.createElement('script');
+        socketScript.src = '/socket.io/socket.io.js';
+        document.head.appendChild(socketScript);
 
-            socketScript.onload = function() {
-                const multiplayerScript = document.createElement('script');
-                multiplayerScript.src = '../src/transport/multiplayer/handler.js';
-                multiplayerScript.type = 'module';
-                document.head.appendChild(multiplayerScript);
-            };
+        socketScript.onload = function() {
+            const multiplayerScript = document.createElement('script');
+            multiplayerScript.src = '../src/transport/multiplayer/handler.js';
+            multiplayerScript.type = 'module';
+            document.head.appendChild(multiplayerScript);
+        };
 
-            socketScript.onerror = function() {
-                CONFIG_UTILS.setStorageItem('GAME_MODE', GAME_CONFIG.MODES.OFFLINE);
-                window.location.reload();
-            };
-        }
+        socketScript.onerror = function() {
+            console.error('Failed to load socket.io - multiplayer required');
+        };
     }
 };

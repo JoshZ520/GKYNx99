@@ -64,33 +64,9 @@
 
             <!-- New Game Section -->
             <div class="new-game-section" id="newGameSection">
-                <!-- Step 1: Choose Game Mode -->
-                <div class="step-section" id="createRoomStep">
-                    <h3>Step 1: Choose Game Mode</h3>
-                    <p class="step-instruction">Select how you want to play:</p>
-
-                    <div class="create-room-container">
-                        <button class="start-btn" id="createRoomBtn" type="button">
-                            <span>Host Multiplayer Game</span>
-                        </button>
-                        <p class="game-mode-description">Everyone joins with their phones - you'll get a room code on the next screen</p>
-                    </div>
-
-                    <div class="create-room-container margin-top-20">
-                        <button class="secondary-btn" id="offlineDirectBtn" type="button" onclick="showOfflineSetup()">
-                            <span>Start Offline Mode</span>
-                        </button>
-                        <p class="game-mode-description">Single device - everyone takes turns</p>
-                    </div>
-                </div>
-
-                <!-- Step 2: Enter Host Name -->
-                <div class="step-section hidden" id="hostNameStep">
-                    <button class="back-to-mode-btn smooth-transition" id="backFromHostNameBtn" type="button" onclick="window.location.href='index.html'">
-                        <img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
-                        Back to Game Mode
-                    </button>
-                    <h3>Step 2: Enter Your Name</h3>
+                <!-- Step 1: Enter Host Name -->
+                <div class="step-section" id="hostNameStep">
+                    <h3>Step 1: Enter Your Name</h3>
                     <p class="step-instruction">What should we call you as the host?</p>
 
                     <div class="create-room-container">
@@ -108,67 +84,6 @@
                         <p class="min-players-note">Room will be created on the next screen</p>
                     </div>
                 </div>
-
-                <!-- Offline Mode Fallback -->
-                <div class="step-section hidden" id="offlineFallback">
-                    <h3>Server Connection Issue</h3>
-                    <p class="step-instruction">Can't connect to multiplayer server. Switch to offline mode:</p>
-                    <div class="offline-container">
-                        <button class="start-btn" id="offlineGameBtn" type="button" onclick="showOfflineSetup()">
-                            <span>Switch to Offline Mode</span>
-                        </button>
-                        <p class="offline-note">Single-device gameplay with manual player turns</p>
-                        <p class="offline-note"><small>Tip: Try refreshing this page first - server might be starting
-                                up</small></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Offline Game Setup Section (Enhanced) -->
-            <div class="new-game-section hidden" id="offlineSetupSection">
-                <!-- Step 1: Player Count -->
-                <div class="step-section" id="playerCountStep">
-                    <h3>Step 1: Choose Players</h3>
-                    <p class="step-instruction">Select how many players will be taking turns:</p>
-                    <div class="create-room-container">
-                        <div class="player-count-selector">
-                            <label for="player_count">Number of Players:</label>
-                            <input type="number" id="player_count" min="2" max="20" placeholder="Enter number (2-20)"
-                                required>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 2: Player Names -->
-                <div class="step-section hidden" id="playerNamesStep">
-                    <h3>Step 2: Enter Player Names</h3>
-                    <p class="step-instruction">Add names for each player who will be participating:</p>
-
-                    <div class="players-joining">
-                        <h4>Player Names:</h4>
-                        <div id="playerNamesContainer" class="players-list">
-                            <!-- Player name inputs will be generated here -->
-                        </div>
-                    </div>
-
-                    <!-- Start Game Button -->
-                    <div class="start-game-container">
-                        <button class="start-btn disabled" id="startGame" type="button" disabled>
-                            <span id="startGameText">Fill all player names to start</span>
-                        </button>
-                        <p class="min-players-note">All players need names to begin</p>
-                    </div>
-                </div>
-
-                <!-- Navigation -->
-                <div class="step-section">
-                    <div class="offline-container">
-                        <button class="secondary-btn" id="backToMultiplayerBtn" type="button"
-                            onclick="showMultiplayerSetup()">
-                            ← Back to Multiplayer
-                        </button>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
@@ -179,14 +94,8 @@
     <script src="../src/ui/ui-mode-switcher.js" type="module"></script>
     <!-- Transport layer - interface loads first, then handlers register -->
     <script src="../src/transport/transport-interface.js" type="module"></script>
-    <script type="module" src="../src/transport/offline-handler.js"></script>
     <!-- Multiplayer transport and setup -->
     <script src="../src/transport/multiplayer/handler.js" type="module"></script>
-    <script src="../src/transport/offline/player-setup.js" type="module"></script>
-
-    <!-- UI Switching Functions now in separate JS file -->
-
-    <!-- UI Mode Switching -->
 
 </body>
 

@@ -166,12 +166,9 @@ function applyTheme(theme, mode = 'light') {
  * @param {string} initialMode - Initial mode from server (optional, for joining players)
  */
 function initializeThemeManager(socket = null, roomCode = null, isHost = false, initialTheme = null, initialMode = null) {
-    // Support both offline and multiplayer theme controls
-    const gameMode = sessionStorage.getItem('gameMode');
-    const isOffline = gameMode === 'offline';
-    
-    const themeDropdown = document.getElementById(isOffline ? 'offline-color-theme' : 'color-theme');
-    const modeRadios = document.querySelectorAll(`input[name="${isOffline ? 'offline-theme-mode' : 'theme-mode'}"]`);
+    // Multiplayer theme controls
+    const themeDropdown = document.getElementById('color-theme');
+    const modeRadios = document.querySelectorAll('input[name="theme-mode"]');
 
     // Determine which theme and mode to use
     const savedTheme = initialTheme || sessionStorage.getItem('selectedTheme') || 'green';
@@ -196,7 +193,7 @@ function initializeThemeManager(socket = null, roomCode = null, isHost = false, 
     if (themeDropdown) {
         themeDropdown.addEventListener('change', (e) => {
             const selectedTheme = e.target.value;
-            const currentMode = document.querySelector(`input[name="${isOffline ? 'offline-theme-mode' : 'theme-mode'}"]:checked`)?.value || savedMode;
+            const currentMode = document.querySelector('input[name="theme-mode"]:checked')?.value || savedMode;
             
             sessionStorage.setItem('selectedTheme', selectedTheme);
             applyTheme(selectedTheme, currentMode);
@@ -259,9 +256,7 @@ function initializeThemeManager(socket = null, roomCode = null, isHost = false, 
  * Set up event listeners for color buttons
  */
 function setupColorButtons() {
-    const gameMode = sessionStorage.getItem('GAME_MODE');
-    const isOffline = gameMode === 'offline';
-    const themeDropdown = document.getElementById(isOffline ? 'offline-color-theme' : 'color-theme');
+    const themeDropdown = document.getElementById('color-theme');
     const colors = ['white', 'red', 'orange', 'yellow', 'green', 'blue', 'purple'];
     
     colors.forEach(color => {

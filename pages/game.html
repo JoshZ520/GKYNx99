@@ -29,78 +29,13 @@
 <script src="../src/ui/ui-manager.js" type="module" defer></script>
 <!-- Transport layer - interface loads first, then handlers register -->
 <script src="../src/transport/transport-interface.js" type="module"></script>
-<script type="module" src="../src/transport/offline-handler.js"></script>
-<!-- Game loader (now in game-config.js) conditionally loads multiplayer scripts -->
-<script type="module">
-    import { CONFIG_UTILS } from '../src/config/game-config.js';
-    document.addEventListener('DOMContentLoaded', () => CONFIG_UTILS.initializeGameScripts());
-</script>
+<!-- Multiplayer scripts - always loaded -->
+<script src="/socket.io/socket.io.js"></script>
+<script src="../src/transport/multiplayer/handler.js" type="module"></script>
 
 </head>
 <body class="game-page" id="root">
-<script>
-// Immediately hide/show elements based on game mode (before page renders)
-(function() {
-    const gameMode = sessionStorage.getItem('gameMode');
-    const isOffline = gameMode === 'offline';
-    
-    if (isOffline) {
-        // OFFLINE MODE: Hide multiplayer, show offline
-        const style = document.createElement('style');
-        style.textContent = `
-            #multiplayerInfo,
-            #createRoomSection,
-            #waitingForPlayers,
-            #answerProgressContainer {
-                display: none !important;
-            }
-            #offlineSubmitContainer,
-            #offlinePlayerIndicator,
-            #offlineModeNotice {
-                display: block !important;
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Initialize player indicator when DOM is ready
-        window.addEventListener('DOMContentLoaded', function() {
-            const playerNames = JSON.parse(sessionStorage.getItem('playerNames') || '[]');
-            const currentPlayerName = document.getElementById('currentPlayerName');
-            if (currentPlayerName && playerNames.length > 0) {
-                currentPlayerName.textContent = playerNames[0];
-            }
-        });
-    } else {
-        // ONLINE/MULTIPLAYER MODE (default): Show multiplayer, hide offline
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Hide offline-only elements */
-            #offlineSubmitContainer,
-            #offlinePlayerIndicator,
-            #offlineSettings,
-            #offlineModeNotice {
-                display: none !important;
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Show multiplayer settings section when DOM is ready
-        window.addEventListener('DOMContentLoaded', function() {
-            const multiplayerSettingsSection = document.getElementById('multiplayerSettingsSection');
-            if (multiplayerSettingsSection) {
-                multiplayerSettingsSection.classList.remove('hidden');
-            }
-        });
-    }
-})();
-</script>
 <header id="header">
-
-<!-- Offline Mode Notice -->
-<div id="offlineModeNotice" class="offline-notice hidden">
-<p><strong>Offline Mode:</strong> Pass this device between players for their turns. Everyone takes turns on the same screen.</p>
-</div>
-</div>
 
 <!-- Create Room Button (shown before room is created) -->
 <div id="createRoomSection" class="create-room-section hidden">
@@ -112,14 +47,6 @@
 <div id="devTools" class="dev-tools hidden">
 <p>Dev Mode</p>
 <a href="/pages/player/index.html" target="_blank">Open Player Screen</a>
-</div>
-
-<!-- Offline Settings Panel -->
-<div id="offlineSettings" class="multiplayer-info hidden">
-    <div class="settings-container">
-        <h2 class="settings-title">Game Settings</h2>
-        <div id="offlineSettingsContainer"></div>
-    </div>
 </div>
 
 <!-- Multiplayer Room Info (hidden until room is created) -->
@@ -201,11 +128,6 @@
         </div>
     </div>
     <div id="gameContainer">
-    <!-- Current Player Indicator (Offline Mode Only) -->
-    <div id="offlinePlayerIndicator" class="player-indicator">
-        <span>Current Player: <strong id="currentPlayerName">Player</strong></span>
-    </div>
-
     <!-- Waiting for Players (Multiplayer Mode Only) -->
     <div id="waitingForPlayers" class="waiting-message hidden">
         <h3> Waiting for Players...</h3>
@@ -311,12 +233,6 @@
     <p>Discussion time remaining: <strong id="hostTimer">0:00</strong></p>
 </div>
 
-<!-- Submit Answer Button (Offline Mode Only) -->
-<div class="buttons" id="offlineSubmitContainer">
-    <button class="submit" id="submitButton" type="button">Submit Answer</button>
-    <button class="fin" id="final_submit" type="button">Show Results</button>
-</div>
-
 <!-- Question Results Bar (Multiplayer - shows after revealing answers) -->
 <div id="questionResultsBar" class="question-results-bar">
     <h4> Results:</h4>
@@ -375,8 +291,6 @@
     </div>
 </section>
 </main>
-
-
 
 <footer>
 <h2>About: </h2>

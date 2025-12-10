@@ -66,17 +66,6 @@ export function advanceToNextPlayer() {
  * Update the player turn indicator UI
  */
 export function updatePlayerTurnIndicator() {
-    // Use offlinePlayerIndicator for offline mode
-    const offlineIndicator = document.getElementById('offlinePlayerIndicator');
-    const playerNameElement = document.getElementById('currentPlayerName');
-    if (offlineIndicator && playerNameElement && playerNames.length > 0) {
-        const currentPlayer = getCurrentPlayerName();
-        playerNameElement.textContent = currentPlayer;
-        offlineIndicator.style.display = '';
-        // Add animation class for new turn
-        offlineIndicator.classList.add('new-turn');
-        setTimeout(() => offlineIndicator.classList.remove('new-turn'), GAME_CONFIG.ANIMATIONS.TURN_INDICATOR_DURATION);
-    } else if (offlineIndicator) {
-        offlineIndicator.style.display = 'none';
-    }
+    // Multiplayer mode - player turn handled by server
+    // This function is kept for compatibility but doesn't display anything
 }

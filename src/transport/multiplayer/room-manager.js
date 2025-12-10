@@ -11,7 +11,7 @@ function updateStatus(message, type = 'info') {
 
 export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed) {
     if (typeof io === 'undefined') {
-        updateStatus('Server unavailable - Offline mode only', 'offline');
+        updateStatus('Server unavailable - Please refresh', 'error');
         return { success: false, socket: null };
     }
 
@@ -37,7 +37,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             
             if (gameState.currentPage === 'index') {
                 CONFIG_UTILS.show('createRoomStep');
-                CONFIG_UTILS.hide('offlineFallback');
             }
             
             // If on game page with existing room, rejoin
@@ -130,7 +129,7 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
         
         return { success: true, socket };
     } catch (error) {
-        updateStatus('Connection failed - Offline mode only', 'offline');
+        updateStatus('Connection failed - Please refresh', 'error');
         return { success: false, socket: null };
     }
 }
@@ -264,17 +263,4 @@ export function copyRoomCode(gameState) {
         console.error('Failed to copy room code:', err);
         updateStatus('Failed to copy room code', 'error');
     });
-}
-
-export function startOfflineMode() {
-    // Clear any multiplayer data
-    sessionStorage.removeItem('multiplayerRoom');
-    sessionStorage.setItem('gameMode', 'offline');
-    
-    // Navigate to offline setup
-    if (window.showOfflineSetup) {
-        window.showOfflineSetup();
-    } else {
-        window.location.href = '../../pages/index.html';
-    }
 }
