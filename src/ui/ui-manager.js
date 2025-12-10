@@ -199,6 +199,9 @@ function initializeSettingsConfirmation() {
 document.addEventListener('DOMContentLoaded', function() {
     if (window.gameUI) window.gameUI.initializeTopicSelection();
     
-    initializeConditionalSettings();
-    initializeSettingsConfirmation();
+    // Wait for settings to be populated before initializing them
+    setTimeout(() => {
+        initializeConditionalSettings();
+        initializeSettingsConfirmation();
+    }, 100);
 });

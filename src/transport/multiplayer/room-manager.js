@@ -82,16 +82,6 @@ export function initializeSocket(gameState, onAnswerReceived, onAnswersRevealed)
             if (gameState.currentPage === 'game') {
                 CONFIG_UTILS.show('multiplayerInfo');
                 
-                console.log('Room created, calling regenerateMultiplayerSettings');
-                console.log('Function exists:', typeof window.regenerateMultiplayerSettings);
-                
-                // Regenerate settings to ensure they're visible
-                if (typeof window.regenerateMultiplayerSettings === 'function') {
-                    window.regenerateMultiplayerSettings();
-                } else {
-                    console.error('regenerateMultiplayerSettings function not found!');
-                }
-                
                 // Initialize theme manager for host
                 initializeThemeManager(socket, data.roomCode, true);
             }
