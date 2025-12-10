@@ -7,7 +7,6 @@
     border-radius: 12px;
     padding: 0.75rem;
     margin-top: 1rem;
-    min-width: 825px;
     max-height: 500px;
     overflow-y: auto;
     backdrop-filter: blur(10px);
@@ -149,15 +148,4 @@
     content: " (Confirm settings first)";
     font-size: 0.85em;
     font-style: italic;
-}
-
-/* === RESPONSIVE ADJUSTMENTS === */
-@media (max-width: 1024px) {
-    .settings-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 768px) {
-    .settings-grid { grid-template-columns: 1fr; }
-    .settings-container { padding: 0.5rem; max-height: none; }
-    .setting-group { padding: 0.5rem; }
 }
