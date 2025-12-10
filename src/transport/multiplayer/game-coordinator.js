@@ -70,6 +70,12 @@ export function broadcastQuestionToPlayers(question, socket, gameState) {
 export function revealAnswers(socket, gameState) {
     if (!gameState.isHost || !socket || !gameState.isConnected) return;
     
+    // Count this reveal for question limit tracking
+    if (window.gameCore && window.gameCore.recordAnsweredQuestion) {
+        const limitReached = window.gameCore.recordAnsweredQuestion();
+        // Note: Continue even if limit reached to show final discussion question
+    }
+    
     // Check if timer is enabled
     const timerEnabled = document.querySelector('input[name="need-timer"]:checked')?.value === 'true';
     const timerDuration = timerEnabled ? (document.getElementById('timer-duration')?.value || 1) : 0;

@@ -217,6 +217,21 @@ io.on('connection', (socket) => {
         io.to(roomCode).emit('theme-changed', { theme, mode: room.currentThemeMode, timestamp: new Date().toISOString() });
     });
 
+    socket.on('end-game', () => {
+        // Find the room this host is in
+        for (const [roomCode, room] of gameRooms.entries()) {
+            if (room.hostId === socket.id) {
+                // Notify all players in the room that game has ended
+                io.to(roomCode).emit('game-ended', { message: 'Host has ended the game' });
+                
+                // Delete the room
+                gameRooms.delete(roomCode);
+                console.log(`Room ${roomCode} ended by host`);
+                break;
+            }
+        }
+    });
+
     socket.on('disconnect', (reason) => {
         console.log('Client disconnected:', socket.id, 'Reason:', reason);
         for (const [roomCode, room] of gameRooms.entries()) {

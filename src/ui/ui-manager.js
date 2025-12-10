@@ -214,8 +214,7 @@ function initializeOfflineConditionalSettings() {
 document.addEventListener('DOMContentLoaded', function() {
     if (window.gameUI) window.gameUI.initializeTopicSelection();
     
-    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
-    
+    const gameMode = CONFIG_UTILS.getGameMode();
     if (gameMode === GAME_CONFIG.MODES.MULTIPLAYER) {
         initializeConditionalSettings();
         initializeSettingsConfirmation(false);

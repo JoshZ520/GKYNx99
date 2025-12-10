@@ -250,19 +250,42 @@ function generateSettingsPanel(mode = 'offline') {
             </div>`;
 }
 
-// Initialize settings on page load
-document.addEventListener('DOMContentLoaded', () => {
+// Function to populate settings containers
+function populateSettings() {
+    console.log('populateSettings called, DOM ready:', document.readyState);
+    console.log('multiplayerContainer exists:', !!document.getElementById('multiplayerSettingsContainer'));
+    console.log('multiplayerContainer has children:', document.getElementById('multiplayerSettingsContainer')?.hasChildNodes());
+    
     const offlineContainer = document.getElementById('offlineSettingsContainer');
     const multiplayerContainer = document.getElementById('multiplayerSettingsContainer');
     
-    if (offlineContainer) {
+    if (offlineContainer && !offlineContainer.hasChildNodes()) {
         offlineContainer.innerHTML = generateSettingsPanel('offline');
+        console.log('Offline settings populated');
     }
     
+    if (multiplayerContainer && !multiplayerContainer.hasChildNodes()) {
+        multiplayerContainer.innerHTML = generateSettingsPanel('multiplayer');
+        console.log('Multiplayer settings populated');
+    }
+}
+
+// Initialize settings on page load
+if (document.readyState === 'loading') {
+    console.log('DOM still loading, waiting for DOMContentLoaded');
+    document.addEventListener('DOMContentLoaded', populateSettings);
+} else {
+    console.log('DOM already loaded, populating immediately');
+    populateSettings();
+}
+
+// Also make settings available globally so they can be regenerated when needed
+window.regenerateMultiplayerSettings = function() {
+    const multiplayerContainer = document.getElementById('multiplayerSettingsContainer');
     if (multiplayerContainer) {
         multiplayerContainer.innerHTML = generateSettingsPanel('multiplayer');
     }
-});
+};
 
 // Export for use in other modules if needed
 if (typeof module !== 'undefined' && module.exports) {

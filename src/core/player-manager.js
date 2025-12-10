@@ -137,7 +137,7 @@ function initializePlayerSystem() {
         CONFIG_UTILS.setStorageItem('GAME_START_TIME', Date.now().toString());
     }
     // Load player data from session storage (for offline mode)
-    const gameMode = CONFIG_UTILS.getStorageItem('GAME_MODE');
+    const gameMode = CONFIG_UTILS.getGameMode();
     if (gameMode === GAME_CONFIG.MODES.OFFLINE) {
         const storedNames = CONFIG_UTILS.getStorageItem('PLAYER_NAMES');
         // Show submit button for offline mode

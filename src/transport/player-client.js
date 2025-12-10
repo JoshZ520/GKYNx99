@@ -75,6 +75,14 @@ function setupGameEventListeners() {
         setTimeout(() => showJoinSection(), 3000);
     });
     
+    socket.on('game-ended', (data) => {
+        alert(data.message || 'The game has ended.');
+        // Clear player session
+        sessionStorage.clear();
+        // Redirect to join page or show join section
+        window.location.href = '/pages/player/index.html';
+    });
+    
     socket.on('error', (data) => {
         showPlayerError(data.message);
     });
