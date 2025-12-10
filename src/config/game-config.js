@@ -239,5 +239,26 @@ export const CONFIG_UTILS = {
             : elementOrId;
         if (el) el.innerHTML = html;
         return el;
+    },
+    
+    // Dynamic script loading for multiplayer mode
+    initializeGameScripts: () => {
+        if (CONFIG_UTILS.isMultiplayerMode()) {
+            const socketScript = document.createElement('script');
+            socketScript.src = '/socket.io/socket.io.js';
+            document.head.appendChild(socketScript);
+
+            socketScript.onload = function() {
+                const multiplayerScript = document.createElement('script');
+                multiplayerScript.src = '../src/transport/multiplayer/handler.js';
+                multiplayerScript.type = 'module';
+                document.head.appendChild(multiplayerScript);
+            };
+
+            socketScript.onerror = function() {
+                CONFIG_UTILS.setStorageItem('GAME_MODE', GAME_CONFIG.MODES.OFFLINE);
+                window.location.reload();
+            };
+        }
     }
 };

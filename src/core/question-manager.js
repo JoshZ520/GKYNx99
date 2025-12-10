@@ -90,7 +90,36 @@ function handleEndGame() {
             console.error('Unable to retrieve offline submission data');
         }
     } else {
-        window.showAllResults?.() || console.error('Multiplayer results display not available');
+        // Multiplayer mode - convert allQuestionResults to offline format
+        if (window.gameState && window.gameState.allQuestionResults && window.gameState.allQuestionResults.length > 0) {
+            const submissionsByQuestion = {};
+            const playerNames = window.gameState.playerNames || [];
+            const questionsOrder = [];
+            
+            // Convert multiplayer results to offline format
+            window.gameState.allQuestionResults.forEach(questionResult => {
+                const questionText = questionResult.question.text || questionResult.question.prompt || questionResult.question;
+                const questionObj = { question: questionText };
+                questionsOrder.push(questionObj);
+                
+                // Create submissions object with answers by player
+                submissionsByQuestion[questionText] = {
+                    answers: {},
+                    timestamp: questionResult.timestamp || Date.now()
+                };
+                
+                // Map results to player answers
+                questionResult.results.forEach(result => {
+                    const playerName = result.playerName || result.name;
+                    const answer = result.answer.text || result.answer.value || result.answer;
+                    submissionsByQuestion[questionText].answers[playerName] = answer;
+                });
+            });
+            
+            window.transport?.showResults({ submissionsByQuestion, playerNames, questionsOrder });
+        } else {
+            console.error('No multiplayer results available to display');
+        }
     }
 }
 
