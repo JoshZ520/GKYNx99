@@ -1,18 +1,4 @@
-/* player.css - Player page specific styles */
-/* 
-   SHARED RESOURCES (imported in index.html):
-   - assets/css/shared.css          → Variables, utilities (.hidden, .disabled, etc.)
-   - assets/css/shared/buttons.css  → Button styles
-   - assets/css/shared/forms.css    → Form input styles
-   - assets/css/shared/animations.css → Keyframes (fadeIn, pulse, blink, etc.)
-   - assets/css/shared/responsive.css → Global responsive utilities
-   
-   This file contains ONLY player-page-specific styles.
-*/
-
-/* ============================================================================
-   PLAYER PAGE LAYOUT
-   ============================================================================ */
+/* PLAYER PAGE LAYOUT */
 
 /* === PAGE BACKGROUND === */
 .player-page {
