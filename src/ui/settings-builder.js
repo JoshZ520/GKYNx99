@@ -9,15 +9,13 @@ const SETTINGS_CONFIG = {
                 title: 'Game Options',
                 items: [
                     {
-                        type: 'select',
+                        type: 'number-input',
                         id: 'question-number',
                         label: 'Number of Questions:',
-                        options: [
-                            { value: '3', label: '3 Questions' },
-                            { value: '5', label: '5 Questions' },
-                            { value: '10', label: '10 Questions' },
-                            { value: 'Infinity', label: 'Unlimited', selected: true }
-                        ]
+                        min: 1,
+                        max: 100,
+                        defaultValue: 10,
+                        unlimitedCheckbox: true
                     }
                 ]
             },
@@ -115,6 +113,25 @@ function generateSettingItem(item, prefix = '') {
                         <select id="${prefixedId}" name="${prefixedId}" class="setting-select">
                             ${optionsHTML}
                         </select>
+                    </div>`;
+    }
+    
+    if (item.type === 'number-input') {
+        const hasUnlimited = item.unlimitedCheckbox;
+        return `
+                    <div class="setting-item"${conditionalId ? ` id="${conditionalId}"` : ''}>
+                        <label for="${prefixedId}" class="setting-label">${item.label}</label>
+                        <div class="number-input-group">
+                            <input type="number" id="${prefixedId}" name="${prefixedId}" class="setting-number" 
+                                min="${item.min || 1}" max="${item.max || 100}" value="${item.defaultValue || 10}" 
+                                inputmode="numeric">
+                            <button type="button" class="number-pad-toggle" data-input-id="${prefixedId}" title="Open number pad">🔢</button>
+                            ${hasUnlimited ? `
+                            <label class="checkbox-option">
+                                <input type="checkbox" id="${prefixedId}-unlimited">
+                                <span>Unlimited</span>
+                            </label>` : ''}
+                        </div>
                     </div>`;
     }
     

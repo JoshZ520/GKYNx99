@@ -1,6 +1,11 @@
 /* shared.css - Consolidated shared styles and global settings */
 /* Combines: variables, typography, utilities */
 
+/* === IMPORTS === */
+@import url('./shared/interactive.css');
+@import url('./shared/forms.css');
+@import url('./shared/responsive.css');
+
 /* CSS VARIABLES & DESIGN TOKENS*/
 
 :root {

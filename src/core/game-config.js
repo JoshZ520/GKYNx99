@@ -48,7 +48,6 @@ export const GAME_CONFIG = {
     CSS_CLASSES: {
         HIDDEN: 'hidden',
         VISIBLE: 'visible',
-        NEW_TURN: 'new-turn',
         FADE_IN: 'fade-in',
         FADE_OUT: 'fade-out',
         ACTIVE: 'active',

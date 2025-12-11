@@ -20,7 +20,7 @@
         animation: fadeIn 0.5s forwards ease-out;
 }
 
-.direction {
+.popup .direction {
     max-width: 750px;
     width: 80%;
     padding: 3% 4%;

@@ -1,0 +1,144 @@
+/* game-number-pad.css - Number pad component for game settings */
+
+/* === NUMBER INPUT GROUPS === */
+/* Number Input Groups (for settings with unlimited checkbox) */
+.number-input-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.number-input-group input[type="number"] {
+    padding: var(--space-sm) var(--space-md);
+    border: 2px solid var(--accent-light);
+    border-radius: var(--border-radius-md);
+    font-size: var(--font-base);
+    background-color: white;
+    color: var(--text-dark);
+    min-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.number-input-group input[type="number"]:focus {
+    outline: none;
+    border-color: var(--accent-dark);
+    box-shadow: 0 0 0 3px rgba(49, 167, 29, 0.2);
+}
+
+.number-input-group input[type="number"]:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+    border-color: #ddd;
+}
+
+.number-input-group .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.number-input-group .checkbox-option input[type="checkbox"] {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-dark);
+}
+
+.number-input-group .checkbox-option span {
+    font-size: var(--font-base);
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+/* === NUMBER PAD === */
+.number-pad-toggle {
+    background: var(--accent-light);
+    border: 2px solid var(--accent-dark);
+    border-radius: var(--border-radius-sm);
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    color: var(--accent-dark);
+}
+
+.number-pad-toggle:hover {
+    background: var(--accent-dark);
+    color: white;
+}
+
+.number-pad {
+    position: absolute;
+    background: white;
+    border: 2px solid var(--accent-dark);
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: var(--space-md);
+    margin-top: var(--space-sm);
+    z-index: 1000;
+    width: 250px;
+}
+
+.number-pad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.number-pad-btn {
+    background: var(--light);
+    border: 2px solid var(--accent-light);
+    border-radius: var(--border-radius-sm);
+    padding: var(--space-md);
+    font-size: var(--font-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-dark);
+    min-height: 50px;
+}
+
+.number-pad-btn:hover {
+    background: var(--accent-light);
+    transform: translateY(-1px);
+}
+
+.number-pad-btn:active {
+    transform: translateY(0);
+}
+
+.number-pad-clear {
+    background: #ffc107;
+    color: white;
+    border-color: #ff9800;
+}
+
+.number-pad-clear:hover {
+    background: #ff9800;
+}
+
+.number-pad-backspace {
+    background: #f44336;
+    color: white;
+    border-color: #d32f2f;
+}
+
+.number-pad-backspace:hover {
+    background: #d32f2f;
+}
+
+.number-pad-confirm {
+    grid-column: span 3;
+    background: var(--accent-dark);
+    color: white;
+    border-color: var(--accent-dark);
+    font-size: var(--font-xl);
+}
+
+.number-pad-confirm:hover {
+    background: var(--accent-light);
+}
