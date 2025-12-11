@@ -9,10 +9,6 @@
     <link rel="icon" href="/images/logo/logo_transparent.png">
     <!-- Consolidated styles -->
     <link rel="stylesheet" href="../assets/css/shared.css">
-    <link rel="stylesheet" href="../assets/css/shared/buttons.css">
-    <link rel="stylesheet" href="../assets/css/shared/forms.css">
-    <link rel="stylesheet" href="../assets/css/shared/animations.css">
-    <link rel="stylesheet" href="../assets/css/shared/responsive.css">
     <link rel="stylesheet" href="../assets/css/index.css">
     <!-- Clean script architecture -->
     <script src="../src/ui/theme-utilities.js" defer></script>
@@ -89,13 +85,12 @@
     </div>
     <!-- Socket.io for multiplayer -->
     <script src="/socket.io/socket.io.js"></script>
-    <!-- Configuration and UI modules -->
-    <script src="../src/config/game-config.js" type="module"></script>
-    <script src="../src/ui/ui-mode-switcher.js" type="module"></script>
+    <!-- Configuration module -->
+    <script src="../src/core/game-config.js" type="module"></script>
     <!-- Transport layer - interface loads first, then handlers register -->
-    <script src="../src/transport/transport-interface.js" type="module"></script>
+    <script src="../src/multiplayer/transport-interface.js" type="module"></script>
     <!-- Multiplayer transport and setup -->
-    <script src="../src/transport/multiplayer/handler.js" type="module"></script>
+    <script src="../src/multiplayer/handler.js" type="module"></script>
 
 </body>
 

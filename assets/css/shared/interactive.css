@@ -1,6 +1,50 @@
-/* buttons.css - Button styles used across pages */
+/* interactive.css - Animations and button styles for interactive elements */
 
-/* === GENERAL BUTTON STYLES === */
+/* === KEYFRAME ANIMATIONS === */
+
+/* Pulse animation for waiting states */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Blink animation for status indicators */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Slide in animation for list items */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade in for UI elements */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* === BUTTON STYLES === */
+
+/* General button styles */
 button {
     font-size: 16px;
     padding: 8px 12px;
@@ -9,7 +53,7 @@ button {
     transition: opacity 0.3s ease;
 }
 
-/* === COMMON BUTTON STYLES === */
+/* Primary button style */
 .start-btn {
     display: inline-block;
     background-color: var(--accent-dark);

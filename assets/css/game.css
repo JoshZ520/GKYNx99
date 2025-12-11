@@ -1,0 +1,10 @@
+/* game.css - Main game page styles */
+/* Imports all game page CSS modules */
+
+@import url('./game/game-layout.css');
+@import url('./game/game-topics.css');
+@import url('./game/game-settings.css');
+@import url('./game/game-results.css');
+@import url('./game/game-ui.css');
+@import url('./game/game-multiplayer.css');
+@import url('./game/game-number-pad.css');

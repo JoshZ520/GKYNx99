@@ -1,4 +1,5 @@
-import { GAME_CONFIG, CONFIG_UTILS } from '../config/game-config.js';
+import { GAME_CONFIG, CONFIG_UTILS } from '../core/game-config.js';
+import { initializeNumberPad } from './number-pad.js';
 
 const popup = document.querySelector('#popup');
 const closePopupBtn = document.querySelector('#close');
@@ -203,5 +204,34 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         initializeConditionalSettings();
         initializeSettingsConfirmation();
+        
+        // Initialize question number input with unlimited checkbox
+        const questionNumberInput = document.getElementById('question-number');
+        const unlimitedCheckbox = document.getElementById('question-number-unlimited');
+        
+        if (questionNumberInput && unlimitedCheckbox) {
+            questionNumberInput.disabled = unlimitedCheckbox.checked;
+            
+            unlimitedCheckbox.addEventListener('change', (e) => {
+                questionNumberInput.disabled = e.target.checked;
+                if (e.target.checked) {
+                    questionNumberInput.dataset.previousValue = questionNumberInput.value;
+                } else {
+                    questionNumberInput.value = questionNumberInput.dataset.previousValue || 10;
+                }
+            });
+        }
+        
+        // Initialize number pad
+        const numberPad = initializeNumberPad('question-number');
+        
+        // Add toggle button event listener
+        const toggleBtn = document.querySelector('.number-pad-toggle');
+        if (toggleBtn && numberPad) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                numberPad.toggle();
+            });
+        }
     }, 100);
 });
