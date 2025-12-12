@@ -14,10 +14,13 @@
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        /* opacity: 0; */
         left: 0;
         top: 0;
         animation: fadeIn 0.5s forwards ease-out;
+}
+
+.popup.hidden {
+    display: none;
 }
 
 .popup .direction {

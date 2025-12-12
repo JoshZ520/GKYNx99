@@ -5,13 +5,13 @@ const popup = document.querySelector('#popup');
 const closePopupBtn = document.querySelector('#close');
 if (closePopupBtn) {
     closePopupBtn.addEventListener('click', () => { 
-        if (popup) popup.style.display = 'none'; 
+        if (popup) popup.classList.add('hidden'); 
     });
 }
 const openPopupBtn = document.querySelector('#directionDisplay');
 if (openPopupBtn) {
     openPopupBtn.addEventListener('click', () => { 
-        if (popup) popup.style.display = 'block'; 
+        if (popup) popup.classList.remove('hidden'); 
     });
 }
 
@@ -218,6 +218,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     questionNumberInput.dataset.previousValue = questionNumberInput.value;
                 } else {
                     questionNumberInput.value = questionNumberInput.dataset.previousValue || 10;
+                    // Trigger change event when re-enabling
+                    questionNumberInput.dispatchEvent(new Event('change', { bubbles: true }));
                 }
             });
         }

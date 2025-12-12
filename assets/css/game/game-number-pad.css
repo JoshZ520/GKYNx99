@@ -72,15 +72,18 @@
 }
 
 .number-pad {
-    position: absolute;
     background: white;
     border: 2px solid var(--accent-dark);
     border-radius: var(--border-radius-md);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     padding: var(--space-md);
     margin-top: var(--space-sm);
-    z-index: 1000;
     width: 250px;
+    transition: all 0.3s ease;
+}
+
+.number-pad.hidden {
+    display: none;
 }
 
 .number-pad-grid {

@@ -21,7 +21,7 @@ export class NumberPad {
     
     createPadHTML() {
         const padHTML = `
-            <div class="number-pad" id="number-pad-${this.input.id}" style="display: none;">
+            <div class="number-pad hidden" id="number-pad-${this.input.id}">
                 <div class="number-pad-grid">
                     <button type="button" class="number-pad-btn" data-value="1">1</button>
                     <button type="button" class="number-pad-btn" data-value="2">2</button>
@@ -35,7 +35,6 @@ export class NumberPad {
                     <button type="button" class="number-pad-btn number-pad-clear" data-action="clear">Clear</button>
                     <button type="button" class="number-pad-btn" data-value="0">0</button>
                     <button type="button" class="number-pad-btn number-pad-backspace" data-action="backspace">⌫</button>
-                    <button type="button" class="number-pad-btn number-pad-confirm" data-action="confirm">✓ Confirm</button>
                 </div>
             </div>
         `;
@@ -67,9 +66,10 @@ export class NumberPad {
                     this.backspace();
                 } else if (action === 'clear') {
                     this.clear();
-                } else if (action === 'confirm') {
-                    this.confirm();
                 }
+                
+                // Update input display after each action
+                this.updateInput();
             });
         });
         
@@ -77,12 +77,12 @@ export class NumberPad {
         document.addEventListener('click', (e) => {
             if (this.isVisible && 
                 !this.padElement.contains(e.target) && 
-                !e.target.classList.contains('number-pad-toggle')) {
+                !e.target.classList.contains('number-pad-toggle') &&
+                e.target !== this.input) {
                 this.hide();
             }
         });
     }
-    
     addDigit(digit) {
         // Limit to 3 digits (max 100)
         if (this.currentValue.length < 3) {
@@ -98,31 +98,39 @@ export class NumberPad {
         this.currentValue = '';
     }
     
-    confirm() {
+    updateInput() {
+        // Update the input field in real-time
+        if (this.currentValue === '') {
+            this.input.value = '';
+            this.input.dispatchEvent(new Event('change', { bubbles: true }));
+            return;
+        }
+        
         const value = parseInt(this.currentValue, 10);
         const min = parseInt(this.input.min, 10) || 1;
         const max = parseInt(this.input.max, 10) || 100;
         
-        if (value >= min && value <= max) {
+        // Always update to show what's being typed, even if invalid
+        if (!isNaN(value)) {
             this.input.value = value;
-            // Trigger change event
-            this.input.dispatchEvent(new Event('change', { bubbles: true }));
-            this.hide();
+            // Trigger change event for valid values
+            if (value >= min && value <= max) {
+                this.input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
         }
-        // Ignore invalid values - just don't apply them
     }
     
     show() {
         if (this.padElement) {
             this.currentValue = this.input.value || '';
-            this.padElement.style.display = 'block';
+            this.padElement.classList.remove('hidden');
             this.isVisible = true;
         }
     }
     
     hide() {
         if (this.padElement) {
-            this.padElement.style.display = 'none';
+            this.padElement.classList.add('hidden');
             this.isVisible = false;
         }
     }
