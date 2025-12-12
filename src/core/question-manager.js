@@ -51,6 +51,7 @@ window.gameCore = {
     hidePreferenceContainer,
     recordAnsweredQuestion,
     isQuestionLimitReached,
+    showQuestionLimitReachedPanel,
     refreshCurrentQuestion,
     // Getters for shared state
     getAppQuestions: () => appQuestions,
