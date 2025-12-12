@@ -7,6 +7,7 @@ export class NumberPad {
         this.isVisible = false;
         this.padElement = null;
         this.currentValue = '';
+        this.shouldClearOnNextDigit = false; // Flag to clear on next number
         
         this.init();
     }
@@ -84,6 +85,12 @@ export class NumberPad {
         });
     }
     addDigit(digit) {
+        // Clear current value if flag is set (happens when pad is first opened or after update)
+        if (this.shouldClearOnNextDigit) {
+            this.currentValue = '';
+            this.shouldClearOnNextDigit = false;
+        }
+        
         // Limit to 3 digits (max 100)
         if (this.currentValue.length < 3) {
             this.currentValue += digit;
@@ -123,6 +130,7 @@ export class NumberPad {
     show() {
         if (this.padElement) {
             this.currentValue = this.input.value || '';
+            this.shouldClearOnNextDigit = true; // Set flag to clear on first number click
             this.padElement.classList.remove('hidden');
             this.isVisible = true;
         }
@@ -130,6 +138,13 @@ export class NumberPad {
     
     hide() {
         if (this.padElement) {
+            // If input is blank when closing, set to default of 3
+            if (this.input.value === '' || this.input.value === null) {
+                this.input.value = 1;
+                this.currentValue = '1';
+                this.input.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            
             this.padElement.classList.add('hidden');
             this.isVisible = false;
         }

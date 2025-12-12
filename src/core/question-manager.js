@@ -61,11 +61,6 @@ window.gameCore = {
 // === EVENT LISTENERS SETUP ===
 // Set up game control event listeners when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize player system
-    if (window.gamePlayer && window.gamePlayer.initializePlayerSystem) {
-        window.gamePlayer.initializePlayerSystem();
-    }
-    
     // Initialize max submissions from settings
     initializeMaxSubmissions();
     
@@ -158,39 +153,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (endGameFromLimitBtn) {
         endGameFromLimitBtn.addEventListener('click', () => {
-            // Clear session data
-            sessionStorage.clear();
+            // Hide the question limit popup
+            hideQuestionLimitReachedPanel();
             
-            // If multiplayer, emit end-game event to kick players
-            if (window.socket && window.socket.connected) {
-                window.socket.emit('end-game');
-            }
-            
-            // Redirect host to index page
-            window.location.href = '/pages/index.html';
-        });
-    }
-    
-    if (submitBtn) {
-        // Use addEventListener with { once: false } to ensure it only fires once per click
-        // Remove any existing listeners first by cloning the button
-        const newSubmitBtn = submitBtn.cloneNode(true);
-        submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
-        
-        newSubmitBtn.addEventListener('click', () => {
-            if (window.gamePlayer && window.gamePlayer.submitAnswer) {
-                window.gamePlayer.submitAnswer();
+            // Show game summary
+            if (window.showGameSummary) {
+                window.showGameSummary();
             }
         });
     }
     
-    if (finalSubmitBtn) {
-        finalSubmitBtn.addEventListener('click', () => {
-            if (window.gamePlayer && window.gamePlayer.handleFinalSubmit) {
-                window.gamePlayer.handleFinalSubmit();
-            }
-        });
-    }
+    // Note: submitBtn and finalSubmitBtn are offline-only buttons
+    // Multiplayer mode handles answers through socket events
     
     if (endGameBtn) {
         endGameBtn.addEventListener('click', handleEndGame);

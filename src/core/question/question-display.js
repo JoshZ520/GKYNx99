@@ -5,6 +5,9 @@ import { GAME_CONFIG, CONFIG_UTILS } from '../game-config.js';
 import { setAppQuestions, appQuestions, questionCounter, maxSubmissions } from './question-state.js';
 import { clearPreviousAnswers, hidePreferenceContainer } from './question-navigation.js';
 
+// Track asked question indices to prevent repeats within a topic
+let askedQuestionIndices = [];
+
 // === QUESTION DISPLAY ===
 export function showQuestionArea() {
     const questionElem = CONFIG_UTILS.getElementById('QUESTION');
@@ -67,9 +70,27 @@ export function applyQuestionsForTopic(topic) {
     
     const questionElem = CONFIG_UTILS.getElementById('QUESTION');
     if (questionElem) {
-        questionElem.setAttribute('data-index', GAME_CONFIG.DEFAULTS.QUESTION_INDEX);
+        // Get indices of questions not yet asked
+        const availableIndices = [];
+        for (let i = 0; i < appQuestions.length; i++) {
+            if (!askedQuestionIndices.includes(i)) {
+                availableIndices.push(i);
+            }
+        }
+        
+        // If all questions asked, show message to switch topics
+        if (availableIndices.length === 0) {
+            alert('You\'ve asked all questions in this topic! Please select a different topic to continue.');
+            return;
+        }
+        
+        // Select random from available questions
+        const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+        askedQuestionIndices.push(randomIndex);
+        questionElem.setAttribute('data-index', randomIndex);
+        
         // Handle both old string format and new object format
-        const currentQuestion = appQuestions[0];
+        const currentQuestion = appQuestions[randomIndex];
         if (typeof currentQuestion === 'string') {
             questionElem.textContent = currentQuestion;
         } else if (currentQuestion && currentQuestion.prompt) {
@@ -82,7 +103,7 @@ export function applyQuestionsForTopic(topic) {
             questionElem.textContent = '';
         }
         
-        // Broadcast first question to players if in multiplayer mode
+        // Broadcast random question to players if in multiplayer mode
         if (currentQuestion && window.transport && window.transport.isMultiplayer()) {
             window.transport.broadcastQuestion(currentQuestion);
         }
@@ -92,8 +113,25 @@ export function applyQuestionsForTopic(topic) {
     showQuestionArea();
 }
 
+// === TRACKER HELPER FUNCTIONS ===
+export function getAskedQuestionIndices() {
+    return askedQuestionIndices;
+}
+
+export function addAskedQuestionIndex(index) {
+    if (!askedQuestionIndices.includes(index)) {
+        askedQuestionIndices.push(index);
+    }
+}
+
+export function clearAskedQuestions() {
+    askedQuestionIndices = [];
+}
+
 export function setTopic(topic) {
     window.currentTopic = topic;
+    // Clear tracker when changing topics
+    clearAskedQuestions();
     applyQuestionsForTopic(topic);
     // Topic is stored in memory only - no localStorage needed
     
@@ -130,36 +168,41 @@ export function setTopic(topic) {
 
 // === GAME END HANDLER ===
 export function handleEndGame() {
-    // Multiplayer mode - convert allQuestionResults to format for display
-    if (window.gameState && window.gameState.allQuestionResults && window.gameState.allQuestionResults.length > 0) {
-        const submissionsByQuestion = {};
-        const playerNames = window.gameState.playerNames || [];
-        const questionsOrder = [];
-        
-        // Convert multiplayer results to display format
-            window.gameState.allQuestionResults.forEach(questionResult => {
-                const questionText = questionResult.question.text || questionResult.question.prompt || questionResult.question;
-                const questionObj = { question: questionText };
-                questionsOrder.push(questionObj);
-                
-                // Create submissions object with answers by player
-                submissionsByQuestion[questionText] = {
-                    answers: {},
-                    timestamp: questionResult.timestamp || Date.now()
-                };
-                
-                // Map results to player answers
-                questionResult.results.forEach(result => {
-                    const playerName = result.playerName || result.name;
-                    const answer = result.answer.text || result.answer.value || result.answer;
-                    submissionsByQuestion[questionText].answers[playerName] = answer;
-                });
-            });
+    // Show game summary popup instead of going directly to results
+    if (window.showGameSummary) {
+        window.showGameSummary();
+    } else {
+        // Fallback: show full results if summary not available
+        if (window.gameState && window.gameState.allQuestionResults && window.gameState.allQuestionResults.length > 0) {
+            const submissionsByQuestion = {};
+            const playerNames = window.gameState.playerNames || [];
+            const questionsOrder = [];
             
-            window.transport?.showResults({ submissionsByQuestion, playerNames, questionsOrder });
-        } else {
-            console.error('No multiplayer results available to display');
-        }
+            // Convert multiplayer results to display format
+                window.gameState.allQuestionResults.forEach(questionResult => {
+                    const questionText = questionResult.question.text || questionResult.question.prompt || questionResult.question;
+                    const questionObj = { question: questionText };
+                    questionsOrder.push(questionObj);
+                    
+                    // Create submissions object with answers by player
+                    submissionsByQuestion[questionText] = {
+                        answers: {},
+                        timestamp: questionResult.timestamp || Date.now()
+                    };
+                    
+                    // Map results to player answers
+                    questionResult.results.forEach(result => {
+                        const playerName = result.playerName || result.name;
+                        const answer = result.answer.text || result.answer.value || result.answer;
+                        submissionsByQuestion[questionText].answers[playerName] = answer;
+                    });
+                });
+                
+                window.transport?.showResults({ submissionsByQuestion, playerNames, questionsOrder });
+            } else {
+                console.error('No multiplayer results available to display');
+            }
+    }
 }
 
 // === UI REFRESH ===

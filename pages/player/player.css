@@ -145,6 +145,13 @@
     color: var(--dark);
 }
 
+.input-instruction {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    margin: -0.25rem 0 0.25rem 0;
+    font-style: italic;
+}
+
 .input-group input {
     padding: 1rem;
     border: 2px solid var(--accent-dark);
