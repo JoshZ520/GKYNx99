@@ -153,21 +153,4 @@ h1.question {
     color: var(--dark);
 }
 
-/* === GAME PAGE FOOTER === */
-.game-page footer {
-    background-color: var(--accent-dark);
-    padding: 8px 20px;
-    color: var(--text-light);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 16px;
-    text-align: center;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-}
 
-.game-page footer h2 {
-    text-align: center;
-    color: var(--text-light);
-    font-size: var(--font-lg);
-    margin: 5px 0;
-}
