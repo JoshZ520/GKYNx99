@@ -143,11 +143,7 @@ export function setTopic(topic) {
         CONFIG_UTILS.setText(topicNameElement, displayName);
     }
     
-    // Broadcast first question to players if in multiplayer mode
-    if (window.transport && window.transport.isMultiplayer() && appQuestions.length > 0) {
-        const firstQuestion = appQuestions[0];
-        window.transport.broadcastQuestion(firstQuestion);
-    }
+    // Note: Question is already broadcast in applyQuestionsForTopic, no need to broadcast again
     
     // Update UI state after topic change (with small delay to ensure DOM is updated)
     setTimeout(() => {
