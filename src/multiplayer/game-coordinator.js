@@ -9,6 +9,11 @@ export function updateAnswerProgress(answeredCount, totalPlayers) {
 export function broadcastQuestionToPlayers(question, socket, gameState) {
     if (gameState.currentPage !== 'game' || !gameState.isHost || !socket || !gameState.isConnected) return;
     
+    // Set start time on first question
+    if (!gameState.startTime) {
+        gameState.startTime = Date.now();
+    }
+    
     // Clear any running timer from previous question
     if (hostTimerInterval) {
         clearInterval(hostTimerInterval);

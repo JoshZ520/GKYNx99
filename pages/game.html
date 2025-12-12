@@ -17,7 +17,6 @@
 <!-- Core game modules -->
 <script src="../src/core/game-config.js" type="module" defer></script>
 <script src="../src/core/question-manager.js" type="module" defer></script>
-<script src="../src/core/player-manager.js" type="module" defer></script>
 <script src="../src/ui/ui-manager.js" type="module" defer></script>
 <!-- Transport layer - interface loads first, then handlers register -->
 <script src="../src/multiplayer/transport-interface.js" type="module"></script>
@@ -83,7 +82,7 @@
   />
 </svg></button>
             <h1>Directions: </h1>
-            <ol>
+            <ol class="directions-list">
                 <li>Choose a topic to start.</li>
                 <li>Answer to the question you choose.</li>
                 <li>You can finish the game by pressing "All Answers Finished", but you can still continue it by changing a question.</li>
@@ -94,7 +93,6 @@
                 <img src="../assets/images/icons/previous.svg" alt="Back" width="16" height="16">
                 Back to Game Mode
                 </button>
-                <p class="setup-link"><strong>Need to change players?</strong> <a href="index.html">← Back to Setup</a></p>
             </div>
         </div>
     </div>
@@ -116,6 +114,29 @@
             <div class="popup-actions">
                 <button class="continue" id="continueGameBtn" type="button">Continue Playing</button>
                 <button class="fin" id="endGameFromLimitBtn" type="button">End Game</button>
+            </div>
+        </div>
+    </div>
+    <div class="popup hidden" id="gameSummary">
+        <div class="number_reached">
+            <h3>🎉 Game Complete!</h3>
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Questions Answered:</span>
+                    <span class="stat-value" id="summaryQuestionsCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Players:</span>
+                    <span class="stat-value" id="summaryPlayersCount">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Duration:</span>
+                    <span class="stat-value" id="summaryDuration">0 min</span>
+                </div>
+            </div>
+            <div class="popup-actions">
+                <button class="continue" id="playAgainBtn" type="button">Play Again</button>
+                <button class="fin" id="closeSummaryBtn" type="button">Close</button>
             </div>
         </div>
     </div>

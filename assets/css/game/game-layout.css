@@ -106,8 +106,6 @@
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid var(--accent-light);
 }
 
 .back-to-mode-btn {
@@ -132,18 +130,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.setup-link {
-    margin: 0;
-    font-size: 14px;
-}
-
-.setup-link a {
-    color: var(--accent-dark);
-    text-decoration: none;
-}
-
-.setup-link a:hover {
-    text-decoration: underline;
+.directions-list {
+    margin: 0 20px 15px 40px;
+    padding: 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--accent-light);
 }
 
 /* === QUESTION STYLES === */

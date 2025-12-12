@@ -26,7 +26,9 @@ var gameState = gameState || {
     players: [],
     currentPage: getCurrentPage(),
     allQuestionResults: [],
-    lastViewedQuestionIndex: 0
+    lastViewedQuestionIndex: 0,
+    startTime: null,
+    endTime: null
 };
 
 function getCurrentPage() {
@@ -65,6 +67,29 @@ function revealAnswers() {
 
 function showAllResults() {
     resultsShowAll(gameState);
+}
+
+function showGameSummary() {
+    // Set end time
+    gameState.endTime = Date.now();
+    
+    // Calculate stats
+    const questionsCount = gameState.allQuestionResults?.length || 0;
+    const playersCount = gameState.players?.length || 0;
+    const duration = gameState.startTime && gameState.endTime 
+        ? Math.round((gameState.endTime - gameState.startTime) / 60000) 
+        : 0;
+    
+    // Populate the summary
+    CONFIG_UTILS.setText('summaryQuestionsCount', questionsCount);
+    CONFIG_UTILS.setText('summaryPlayersCount', playersCount);
+    CONFIG_UTILS.setText('summaryDuration', duration > 0 ? `${duration} min` : '< 1 min');
+    
+    // Show the popup
+    const summaryPopup = document.getElementById('gameSummary');
+    if (summaryPopup) {
+        summaryPopup.classList.remove('hidden');
+    }
 }
 
 function setupEventListeners() {
@@ -123,6 +148,35 @@ function setupEventListeners() {
     if (copyRoomCodeBtn) {
         copyRoomCodeBtn.addEventListener('click', () => copyRoomCode(gameState));
     }
+    
+    // End game button
+    const endGameBtn = document.getElementById('end_game_btn');
+    if (endGameBtn) {
+        endGameBtn.addEventListener('click', () => {
+            showGameSummary();
+        });
+    }
+    
+    // Game summary popup buttons
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    if (playAgainBtn) {
+        playAgainBtn.addEventListener('click', () => {
+            // Reset game state
+            sessionStorage.clear();
+            // Redirect to index
+            window.location.href = '../pages/index.html';
+        });
+    }
+    
+    const closeSummaryBtn = document.getElementById('closeSummaryBtn');
+    if (closeSummaryBtn) {
+        closeSummaryBtn.addEventListener('click', () => {
+            const summaryPopup = document.getElementById('gameSummary');
+            if (summaryPopup) {
+                summaryPopup.classList.add('hidden');
+            }
+        });
+    }
 }
 
 function broadcastQuestion(question) {
@@ -152,13 +206,6 @@ function initializeMultiplayerHandler() {
                 if (window.transport && window.transport.initializeModeUI) {
                     window.transport.initializeModeUI();
                 }
-                
-                setTimeout(() => {
-                    if (window.gamePlayer && gameState.players.length > 0) {
-                        const playerNames = gameState.players.map(p => p.name);
-                        window.gamePlayer.setPlayerNames(playerNames);
-                    }
-                }, 500);
                 
             } catch (error) {
                 console.error('Failed to parse multiplayer room data:', error);
@@ -201,6 +248,9 @@ window.multiplayerTransportHandler = multiplayerTransportHandler;
 
 // Expose showAllResults to global scope for end game button
 window.showAllResults = showAllResults;
+
+// Expose showGameSummary to global scope
+window.showGameSummary = showGameSummary;
 
 if (window.transport) {
     window.transport.registerHandler(multiplayerTransportHandler);

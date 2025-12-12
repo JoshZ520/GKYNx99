@@ -3,6 +3,7 @@
 
 import { GAME_CONFIG, CONFIG_UTILS } from '../game-config.js';
 import { appQuestions } from './question-state.js';
+import { getAskedQuestionIndices, addAskedQuestionIndex } from './question-display.js';
 
 // === QUESTION NAVIGATION ===
 export function switchQuestion(direction) {
@@ -12,10 +13,26 @@ export function switchQuestion(direction) {
     if (!questionElem) return;
     
     const currentIndex = parseInt(questionElem.getAttribute('data-index')) || GAME_CONFIG.DEFAULTS.QUESTION_INDEX;
-    const nextIndex = direction === 1 
-        ? (currentIndex + 1) % appQuestions.length 
-        : currentIndex === 0 ? appQuestions.length - 1 : currentIndex - 1;
+    const askedIndices = getAskedQuestionIndices();
+    
+    // Check if all questions have been asked
+    if (askedIndices.length >= appQuestions.length) {
+        alert('You\'ve asked all questions in this topic! Please select a different topic to continue.');
+        return;
+    }
+    
+    // Find next unasked question in the direction
+    let nextIndex = currentIndex;
+    let attempts = 0;
+    do {
+        nextIndex = direction === 1 
+            ? (nextIndex + 1) % appQuestions.length 
+            : nextIndex === 0 ? appQuestions.length - 1 : nextIndex - 1;
+        attempts++;
+    } while (askedIndices.includes(nextIndex) && attempts < appQuestions.length);
+    
     const question = appQuestions[nextIndex];
+    addAskedQuestionIndex(nextIndex);
     
     // Update the question display
     if (typeof question === 'string') {
