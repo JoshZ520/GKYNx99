@@ -111,6 +111,14 @@ export function handleAnswersRevealed(data, gameState) {
     CONFIG_UTILS.setDisplay('end_game_btn', 'block');
     updateAnswerProgress(0, gameState.playerNames?.length || 0);
     if (data.timerDuration && data.timerDuration > 0) { startHostTimer(data.timerDuration); }
+    
+    // Check if question limit has been reached
+    if (window.gameCore && window.gameCore.isQuestionLimitReached && window.gameCore.isQuestionLimitReached()) {
+        // Show the "add more questions" popup
+        if (window.gameCore.showQuestionLimitReachedPanel) {
+            window.gameCore.showQuestionLimitReachedPanel();
+        }
+    }
 }
 function startHostTimer(durationInSeconds) {
     if (hostTimerInterval) clearInterval(hostTimerInterval);
